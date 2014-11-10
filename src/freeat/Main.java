@@ -5,12 +5,16 @@
  */
 package freeat;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -50,6 +54,9 @@ import static org.newdawn.slick.opengl.renderer.SGL.GL_COLOR_BUFFER_BIT;
 public class Main {
 
     private static final String MAP_FILE = "mapsquare";
+    public static final String LOCATIONS_FILE = "src\\res\\coordinates\\coordinates.txt";
+    public static final String CONNECTIONS_FILE = "src\\res\\coordinates\\connections.txt";
+    
 
     static int vboHandle;
     static int texHandle;
@@ -59,10 +66,20 @@ public class Main {
     static boolean left = true;
     public static final int WINDOW_WIDTH = 1368;
     public static final int WINDOW_HEIGHT = 1000;
+    static int id = 101;
+    static PrintWriter writer = null;
+    private static Game game;
 
     public static Texture map;
 
     public static void main(String[] args) {
+        initDisplay();
+        initTextures();
+        game = new Game();
+        gameLoop();
+    }
+
+    private static void initDisplay() {
         try {
             Display.setDisplayMode(new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT));
             Display.setTitle("FreeAT");
@@ -72,8 +89,11 @@ public class Main {
             Display.destroy();
             System.exit(1);
         }
-        initTextures();
-        gameLoop();
+//        try {
+//            writer = new PrintWriter("src\\res\\coordinates\\test.txt", "UTF-8");
+//        } catch (FileNotFoundException | UnsupportedEncodingException ex) {
+//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     private static void gameLoop() {
@@ -102,11 +122,11 @@ public class Main {
                 total = 0;
             }
         }
+        //writer.close();
     }
 
     private static void render() {
         map.bind();
-        //GL11.glScalef(1*1.4f, 1*1.4f, 1);
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0);
         glVertex2f(0, 0);
@@ -120,13 +140,19 @@ public class Main {
         glTexCoord2f(0, 1);
         glVertex2f(0, WINDOW_HEIGHT);
         glEnd();
-        //GL11.glScalef(11.4f, 1/1.4f, 1);
+        
+        game.renderTreasures();
     }
 
     private static void checkUserInput() {
-        while (Keyboard.next()) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
+        while (Mouse.next() && Mouse.isButtonDown(0)) {
+            if (Mouse.isButtonDown(0)) {
+                if (Mouse.isButtonDown(0)) {
+                System.out.println("Wrote id: "+id);
+                writer.println(id+" "+Mouse.getX()+" "+-Mouse.getY());
+                id++;
             }
+        }
         }
     }
 
@@ -157,4 +183,6 @@ public class Main {
 
         return null;
     }
+
 }
+
