@@ -23,14 +23,16 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 public class Node {
 
     public static int CITY_COUNT = 0;
-    //public final int TYPE;
+    private static int width = 30;
+    public int TYPE;
     public final int x;
     public final int y;
     public final int ID;
     private int treasure;
+    private boolean hasTreasure;
     private ArrayList<Integer> connections;
+    private ArrayList<Integer> planeConnections;
     private HashMap<Integer, Node> locations;
-    private int width = 30;
 
     public Node(int id, int x, int y, HashMap<Integer, Node> locations) {
         this.ID = id;
@@ -38,8 +40,32 @@ public class Node {
         this.y = Main.WINDOW_HEIGHT - y;
         this.locations = locations;
         connections = new ArrayList<>();
+        if(ID == 1)
+            TYPE = NodeType.CAIRO;
+        if(ID == 2)
+            TYPE = NodeType.TANGIR;
         if (ID > 100 && ID < 200) {
+            TYPE = NodeType.CITY;
             CITY_COUNT++;
+        }
+        if (ID > 200 && ID < 400) {
+            TYPE = NodeType.ROUTE;
+        }
+        if (ID == 400) {
+            TYPE = NodeType.SAHARA;
+        }
+        if (ID > 500 && ID < 600) {
+            TYPE = NodeType.SEA_ROUTE;
+        }
+        
+        if (ID == 123) {
+            TYPE = NodeType.SLAVE_COAST;
+        }
+        if (ID == 125) {
+            TYPE = NodeType.GOLD_COAST;
+        }
+        if (ID == 120) {
+            TYPE = NodeType.CAPE_TOWN;
         }
     }
 
@@ -48,22 +74,45 @@ public class Node {
             connections.add(connection);
         }
     }
+    
+    public void addPlaneConnection(Integer connection) {
+        if (locations.containsKey(connection)) {
+            planeConnections.add(connection);
+        }
+    }
 
     public int getTreasure() {
         return treasure;
     }
 
-    public void setTreasure(int treasure) {
-        this.treasure = treasure;
+    public void setTreasure(int type){
+        treasure = type;
+        hasTreasure = false;
+    }
+    
+    public void removeTreasure(){
+        treasure = TreasureType.OPENED;
+        hasTreasure = false;
     }
 
     public void print() {
-        if (treasure == TreasureType.EMPTY) {
-            //System.out.println("Id: " + ID + " x: " + x + " y: " + y + " connections: " + connectionsToString());
-        } else {
-            System.out.println("Id: " + ID + " x: " + x + " y: " + y + " connections: " + connectionsToString() + " treasure: " + treasure);
-        }
+            System.out.println("Id: " + ID + " x: " + x + " y: " + y + " connections: " + connectionsToString());
+    }
 
+    public boolean hasTreasure() {
+        return hasTreasure;
+    }
+
+    public int getTYPE() {
+        return TYPE;
+    }
+
+    public boolean hasConnection(Integer connection) {
+        return connections.contains(connection);
+    }
+    
+    public boolean hasPlaneConnection(Integer connection) {
+        return planeConnections.contains(connection);
     }
 
     private String connectionsToString() {
@@ -109,7 +158,7 @@ public class Node {
                 g = 0.0f;
                 b = 0.0f;
             }
-
+            System.out.println("OPENED TREASYRE");
             glBegin(GL_QUADS);
             GL11.glColor3f(r, g, b);
             glVertex2f(-width / 2f + x, -width / 2f + y);
@@ -120,4 +169,9 @@ public class Node {
         }
         glEnable(GL_TEXTURE_2D);
     }
+
+    public ArrayList<Integer> getConnections() {
+        return connections;
+    }
+    
 }

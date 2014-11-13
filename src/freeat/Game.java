@@ -15,6 +15,15 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex2f;
 
 /**
  *
@@ -29,13 +38,16 @@ public class Game {
     private static final int ROBBER_COUNT = 3;
     private static final int HORSESHOE_COUNT = 5;
 
-    private HashMap<Integer, Node> locations;
+    public static HashMap<Integer, Node> locations;
+    private ArrayList<Player> players;
 
     public Game() {
         locations = new HashMap<>();
+        players = new ArrayList();
         getLocations();
         getConnections();
         setTreasures();
+        setPlayers();
         for (Node node : locations.values()) {
             node.print();
         }
@@ -107,6 +119,36 @@ public class Game {
         }
     }
 
+    public void renderPlayers() {
+        for (Player player : players) {
+            int x;
+            int y;
+            int size = 25;
+            Node temp = locations.get(player.getLocation());
+            x = temp.x;
+            y = temp.y;
+            glDisable(GL_TEXTURE_2D);
+            glBegin(GL_TRIANGLES);
+            glColor3f(1, 1, 1);
+            glVertex2f(x - size / 2f, y + size / 2f);
+            glVertex2f(x + size / 2f, y + size / 2f);
+            glVertex2f(x, y - size / 2f);
+            glEnd();
+            glColor3f(0, 0, 0);
+            glBegin(GL_LINES);
+            glVertex2f(x - size / 2f, y + size / 2f);
+            glVertex2f(x + size / 2f, y + size / 2f);
+            
+            glVertex2f(x + size / 2f, y + size / 2f);
+            glVertex2f(x, y - size / 2f);
+            
+            glVertex2f(x, y - size / 2f);
+            glVertex2f(x - size / 2f, y + size / 2f);
+            glEnd();
+            glEnable(GL_TEXTURE_2D);
+        }
+    }
+
     private void setTreasures() {
 
         int[] treasures = new int[Node.CITY_COUNT];
@@ -127,7 +169,7 @@ public class Game {
             treasures[current] = TreasureType.TOPAZ;
             current++;
         }
-        for (int i = 0; i< ROBBER_COUNT; i++) {
+        for (int i = 0; i < ROBBER_COUNT; i++) {
             treasures[current] = TreasureType.ROBBER;
             current++;
         }
@@ -135,10 +177,10 @@ public class Game {
             treasures[current] = TreasureType.HORSESHOE;
             current++;
         }
-        
+
         treasures = ShuffleArray(treasures);
-        for(int i = 0; i< treasures.length; i++){
-            Node temp = locations.get(i+101);
+        for (int i = 0; i < treasures.length; i++) {
+            Node temp = locations.get(i + 101);
             temp.setTreasure(treasures[i]);
         }
     }
@@ -156,4 +198,23 @@ public class Game {
         }
         return array;
     }
+
+    private void setPlayers() {
+        for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
+                players.add(new Player(locations));
+        }
+        PublicInformation.updateInformation(players);
+    }
+
+    public void processTurn() {
+        for (Player player : players) {
+            player.act();
+        }
+        PublicInformation.updateInformation(players);
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
 }

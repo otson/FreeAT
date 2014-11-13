@@ -5,11 +5,29 @@
  */
 package freeat.ai;
 
+import freeat.Node;
+import freeat.Player;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author otso
  */
 public abstract class AI {
     
-    public abstract void act();
+    public final int START;
+    protected HashMap<Integer, Node> locations;
+    
+    public AI(int start){
+        START = start;
+    }
+
+    public void setLocations(HashMap<Integer, Node> locations) {
+        this.locations = locations;
+    }
+    
+    
+    
+    public abstract void act(Player player);
 }

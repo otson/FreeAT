@@ -110,6 +110,8 @@ public class Main {
             start = System.nanoTime();
             glClear(GL_COLOR_BUFFER_BIT);
             checkUserInput();
+            if(fps%10 == 0)
+                game.processTurn();
             render();
             Display.update();
             Display.sync(60);
@@ -142,15 +144,16 @@ public class Main {
         glEnd();
         
         game.renderTreasures();
+        game.renderPlayers();
     }
 
     private static void checkUserInput() {
         while (Mouse.next() && Mouse.isButtonDown(0)) {
             if (Mouse.isButtonDown(0)) {
                 if (Mouse.isButtonDown(0)) {
-                System.out.println("Wrote id: "+id);
-                writer.println(id+" "+Mouse.getX()+" "+-Mouse.getY());
-                id++;
+//                System.out.println("Wrote id: "+id);
+//                writer.println(id+" "+Mouse.getX()+" "+-Mouse.getY());
+//                id++;
             }
         }
         }
