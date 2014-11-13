@@ -87,7 +87,7 @@ public class Node {
 
     public void setTreasure(int type){
         treasure = type;
-        hasTreasure = false;
+        hasTreasure = true;
     }
     
     public void removeTreasure(){
@@ -158,7 +158,11 @@ public class Node {
                 g = 0.0f;
                 b = 0.0f;
             }
-            System.out.println("OPENED TREASYRE");
+            else if (treasure == TreasureType.OPENED) {
+                glEnable(GL_TEXTURE_2D);
+                return;
+            }
+
             glBegin(GL_QUADS);
             GL11.glColor3f(r, g, b);
             glVertex2f(-width / 2f + x, -width / 2f + y);

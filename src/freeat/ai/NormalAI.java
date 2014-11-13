@@ -25,8 +25,12 @@ public class NormalAI extends AI {
     public void act(Player player) {
         int dice = 1;//(int) (Math.random() * 6 + 1);
         for (int i = 0; i < dice; i++) {
-            System.out.println("balance: "+player.getCashBalance());
+            System.out.println("balance: " + player.getCashBalance());
             Node current = player.getCurrentNode();
+            if (player.isStayInCity()) {
+                player.tryToWinToken();
+                return;
+            }
             int targetID = (int) (Math.random() * current.getConnections().size());
             int target = current.getConnections().get(targetID);
             Node targetNode = locations.get(target);
@@ -35,10 +39,14 @@ public class NormalAI extends AI {
                 if (targetNode.hasTreasure()) {
                     if (player.getCashBalance() >= 100) {
                         player.buyToken();
+                        System.out.println("here");
                     } else {
-                        player.tryToWinToken();
+                        player.stayInCity();
+                        return;
                     }
+                    System.out.println("here");
                 }
+
             }
         }
     }

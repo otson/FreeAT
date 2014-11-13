@@ -120,11 +120,13 @@ public class Player {
         if (stayInCity) {
             if ((int) (Math.random() * 6 + 1) > 3) {
                 openToken();
+                stayInCity = false;
             }
         }
     }
 
     public void flyTo(int location) {
+        stayInCity = false;
         Node current = locations.get(this.location);
         if (current.hasPlaneConnection(location)) {
             if (cashBalance >= 300) {
@@ -163,6 +165,7 @@ public class Player {
     }
 
     public void moveTo(int location) {
+        stayInCity = false;
         Node current = locations.get(this.location);
         if (current.hasConnection(location)) {
             Node target = locations.get(location);
@@ -199,20 +202,22 @@ public class Player {
                 this.location = location;
             }
             if (target.TYPE == NodeType.SEA_ROUTE) {
-                if (current.TYPE != NodeType.SEA_ROUTE || current.TYPE != NodeType.PIRATES) {
+                if (current.TYPE == NodeType.SEA_ROUTE || current.TYPE == NodeType.PIRATES) {
+                    this.location = location;
+                } else {
                     if (cashBalance >= 100) {
                         cashBalance -= 100;
                         this.location = location;
                     }
-                } else {
-                    this.location = location;
                 }
             }
             if (target.TYPE == NodeType.SAHARA) {
                 inSahara = true;
+                this.location = location;
             }
             if (target.TYPE == NodeType.PIRATES) {
                 inPirates = true;
+                this.location = location;
             }
         } else {
             System.out.println("Illegal move: no connection");
@@ -251,4 +256,9 @@ public class Player {
         return isWinner;
     }
 
+    public boolean isStayInCity() {
+        return stayInCity;
+    }
+
+    
 }
