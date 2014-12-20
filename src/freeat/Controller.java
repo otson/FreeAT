@@ -120,6 +120,14 @@ public class Controller {
         return PublicInformation.getHorseShoesLeft();
     }
     
+    public int emptyLeft(){
+        return PublicInformation.getEmptyLeft();
+    }
+    
+    public int unopenedLeft(){
+        return PublicInformation.getUnOpenedLeft();
+    }
+    
     public boolean canFly(){
         return !player.isHasFlown();
     }

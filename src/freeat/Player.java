@@ -110,33 +110,41 @@ public class Player {
                 temp.removeTreasure();
                 if (type == TreasureType.EMERALD) {
                     PublicInformation.removeEmerald();
+                    PublicInformation.removeUnopened();
                     cashBalance += 500;
                     if (temp.TYPE == NodeType.GOLD_COAST) {
                         cashBalance += 500;
                     }
                 } else if (type == TreasureType.RUBY) {
                     PublicInformation.removeRuby();
+                    PublicInformation.removeUnopened();
                     cashBalance += 1000;
                     if (temp.TYPE == NodeType.GOLD_COAST) {
                         cashBalance += 1000;
                     }
                 } else if (type == TreasureType.TOPAZ) {
                     PublicInformation.removeTopaz();
+                    PublicInformation.removeUnopened();
                     cashBalance += 300;
                     if (temp.TYPE == NodeType.GOLD_COAST) {
                         cashBalance += 300;
                     }
                 } else if (type == TreasureType.ROBBER) {
                     PublicInformation.removeRobber();
+                    PublicInformation.removeUnopened();
                     cashBalance = 0;
                 } else if (type == TreasureType.HORSESHOE) {
                     PublicInformation.removeHorseShoe();
+                    PublicInformation.removeUnopened();
                     if (PublicInformation.isStarFound()) {
                         hasHorseshoeAfterStar = true;
                     }
                 } else if (type == TreasureType.STAR_OF_AFRICA) {
+                    PublicInformation.removeUnopened();
                     hasStar = true;
                 } else if (type == TreasureType.EMPTY) {
+                    PublicInformation.removeEmpty();
+                    PublicInformation.removeUnopened();
                     if (temp.TYPE == NodeType.SLAVE_COAST) {
                         skipTurns = 3;
                     }

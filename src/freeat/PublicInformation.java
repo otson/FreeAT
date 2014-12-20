@@ -34,6 +34,10 @@ public class PublicInformation {
     private static int emeraldsLeft;
     private static int robberTotal;
     private static int robberLeft;
+    private static int emptyLeft;
+    private static int emptyTotal;
+    
+    private static int unOpenedLeft;
     
     private static int treasureTotal;
     private static int treasuresLeft;
@@ -217,6 +221,39 @@ public class PublicInformation {
 
     public static int getTreasureTotal() {
         return treasureTotal;
+    }
+
+    public static int getEmptyLeft() {
+        return emptyLeft;
+    }
+
+    public static int getEmptyTotal() {
+        return emptyTotal;
+    }
+
+    public static int getUnOpenedLeft() {
+        return unOpenedLeft;
+    }
+    
+    public static void removeUnopened(){
+        unOpenedLeft--;
+    }
+    
+    public static void removeEmpty(){
+        emptyLeft--;
+    }
+
+    public static void setEmptyLeft(int emptyLeft) {
+        PublicInformation.emptyLeft = emptyLeft;
+    }
+
+    public static void setEmptyTotal(int emptyTotal) {
+        PublicInformation.emptyTotal = emptyTotal;
+        emptyLeft = emptyTotal;
+    }
+
+    public static void setUnOpenedLeft(int unOpenedLeft) {
+        PublicInformation.unOpenedLeft = unOpenedLeft;
     }
     
     
