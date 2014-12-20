@@ -33,6 +33,14 @@ public class Node {
     private ArrayList<Integer> connections;
     private ArrayList<Integer> planeConnections;
     private HashMap<Integer, Node> locations;
+    
+    private ArrayList<Node> oneDistance;
+    private ArrayList<Node> twoDistance;
+    private ArrayList<Node> threeDistance;
+    private ArrayList<Node> fourDistance;
+    private ArrayList<Node> fiveDistance;
+    private ArrayList<Node> sixDistance;
+    
 
     public Node(int id, int x, int y, HashMap<Integer, Node> locations) {
         this.ID = id;
