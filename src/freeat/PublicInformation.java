@@ -69,7 +69,7 @@ public class PublicInformation {
         }
         return false;
     }
-    
+
     public static boolean isCapeTownBonus() {
         for (int i = 0; i < foundCapeTown.length; i++) {
             if (foundCapeTown[i]) {
@@ -78,7 +78,34 @@ public class PublicInformation {
         }
         return true;
     }
-    
-    
 
+    public static boolean isWinner() {
+        for (int i = 0; i < isWinner.length; i++) {
+            if (isWinner[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getWinner() {
+        for (int i = 0; i < isWinner.length; i++) {
+            if (isWinner[i]) {
+                return i;
+            }
+        }
+        System.out.println("No winner! false");
+        return -1;
+    }
+
+    public static void reset() {
+        cashBalance = new int[PLAYER_COUNT];
+        location = new int[PLAYER_COUNT];
+        hasStar = new boolean[PLAYER_COUNT];
+        foundCapeTown = new boolean[PLAYER_COUNT];
+        hasHorseshoeAfterStar = new boolean[PLAYER_COUNT];
+        inSahara = new boolean[PLAYER_COUNT];
+        inPirates = new boolean[PLAYER_COUNT];
+        isWinner = new boolean[PLAYER_COUNT];
+    }
 }

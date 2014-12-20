@@ -5,6 +5,7 @@
  */
 package freeat.ai;
 
+import freeat.Controller;
 import freeat.Node;
 import freeat.Player;
 import java.util.ArrayList;
@@ -30,4 +31,8 @@ public abstract class AI {
     
     
     public abstract void act(Player player);
+
+    public void act(Controller controller) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

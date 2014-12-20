@@ -40,6 +40,9 @@ public class Game {
 
     public static HashMap<Integer, Node> locations;
     private ArrayList<Player> players;
+    private boolean running = true;
+    private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
+    private int turnCount = 0;
 
     public Game() {
         locations = new HashMap<>();
@@ -48,9 +51,9 @@ public class Game {
         getConnections();
         setTreasures();
         setPlayers();
-        for (Node node : locations.values()) {
-            node.print();
-        }
+//        for (Node node : locations.values()) {
+//            node.print();
+//        }
     }
 
     private void getLocations() {
@@ -138,10 +141,10 @@ public class Game {
             glBegin(GL_LINES);
             glVertex2f(x - size / 2f, y + size / 2f);
             glVertex2f(x + size / 2f, y + size / 2f);
-            
+
             glVertex2f(x + size / 2f, y + size / 2f);
             glVertex2f(x, y - size / 2f);
-            
+
             glVertex2f(x, y - size / 2f);
             glVertex2f(x - size / 2f, y + size / 2f);
             glEnd();
@@ -200,17 +203,46 @@ public class Game {
     }
 
     private void setPlayers() {
+        Player.resetID();
         for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
-                players.add(new Player(locations));
+            players.add(new Player(locations));
         }
         PublicInformation.updateInformation(players);
     }
 
     public void processTurn() {
-        for (Player player : players) {
-            player.act();
+        if (!PublicInformation.isWinner()) {
+            for (Player player : players) {
+                player.act();
+            }
         }
+        turnCount++;
         PublicInformation.updateInformation(players);
+        if (running) {
+            if (PublicInformation.isWinner()) {
+                winCount[PublicInformation.getWinner()]++;
+                for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
+                    System.out.print("Player " + i + " wins: " + winCount[i]+" ");
+                }
+                System.out.println("");
+                resetGame();
+            }
+            else if(turnCount > 1000)
+                resetGame();
+                
+        }
+    }
+
+    private void resetGame() {
+        //locations = new HashMap<>();
+        PublicInformation.reset();
+        players = new ArrayList();
+        turnCount = 0;
+        setPlayers();
+        setTreasures();
+        
+        
+        running = true;
     }
 
     public ArrayList<Player> getPlayers() {

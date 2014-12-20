@@ -5,6 +5,7 @@
  */
 package freeat.ai;
 
+import freeat.Controller;
 import freeat.Node;
 import freeat.Player;
 
@@ -17,15 +18,15 @@ public class NormalAI extends AI {
     static int count = 1;
 
     public NormalAI() {
-        super(count);
-        count++;// set the preferred start city (1 or 2)
+        super(count); // set the preferred start city (1 or 2)
+        //count++;
     }
 
     @Override
     public void act(Player player) {
-        int dice = 1;//(int) (Math.random() * 6 + 1);
+        int dice = (int) (Math.random() * 6 + 1);
         for (int i = 0; i < dice; i++) {
-            System.out.println("balance: " + player.getCashBalance());
+            //System.out.println("balance: " + player.getCashBalance());
             Node current = player.getCurrentNode();
             if (player.isStayInCity()) {
                 player.tryToWinToken();
@@ -39,15 +40,23 @@ public class NormalAI extends AI {
                 if (targetNode.hasTreasure()) {
                     if (player.getCashBalance() >= 100) {
                         player.buyToken();
-                        System.out.println("here");
+
                     } else {
                         player.stayInCity();
                         return;
                     }
-                    System.out.println("here");
                 }
 
             }
+        }
+    }
+    
+    @Override
+    public void act(Controller c){
+        // loop ends when there are no moves left and 
+        // the boolean to end the turn has been set
+        while(c.hasMovesLeft() || !c.endTurn()){
+            //ai logic here
         }
     }
 }

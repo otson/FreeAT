@@ -29,7 +29,11 @@ public class Player {
     public final int ID;
     private HashMap<Integer, Node> locations;
 
+    private int movesLeft = 0;
+
     private int skipTurns = 0;
+    private Controller controller;
+    private boolean endTurn;
 
     public Player(HashMap<Integer, Node> locations) {
         ID = idCount;
@@ -45,10 +49,11 @@ public class Player {
         ai = new NormalAI();
         ai.setLocations(locations);
         this.location = ai.START;
+        controller = new Controller(this);
 
     }
-    
-    public Node getCurrentNode(){
+
+    public Node getCurrentNode() {
         return locations.get(location);
     }
 
@@ -61,7 +66,10 @@ public class Player {
         }
         if (!inSahara && !inPirates) {
             if (skipTurns == 0) {
+                throwDice();
                 ai.act(this);
+                
+                ai.act(controller);
             } else {
                 skipTurns--;
             }
@@ -72,7 +80,12 @@ public class Player {
         if (cashBalance >= 100) {
             cashBalance -= 100;
             openToken();
+            endTurn();
         }
+    }
+
+    private void throwDice() {
+        movesLeft = 1 + (int) (Math.random() * 5);
     }
 
     private void openToken() {
@@ -113,7 +126,21 @@ public class Player {
     }
 
     public void stayInCity() {
-        stayInCity = true;
+        Node current = locations.get(this.location);
+        
+        if(current.getTYPE() == NodeType.CITY || 
+           current.getTYPE() == NodeType.CAIRO ||
+           current.getTYPE() == NodeType.TANGIR ||
+           current.getTYPE() == NodeType.GOLD_COAST||
+           current.getTYPE() == NodeType.SLAVE_COAST ||
+           current.getTYPE() == NodeType.CAPE_TOWN ){
+                stayInCity = true;
+                movesLeft = 0;
+                endTurn();
+        }
+        else{
+            System.out.println("Not valid place to stayInCity");
+        }
     }
 
     public void tryToWinToken() {
@@ -122,14 +149,18 @@ public class Player {
                 openToken();
                 stayInCity = false;
             }
+            endTurn();
+            // rule check: can player move after trying to win token?
         }
     }
 
     public void flyTo(int location) {
-        stayInCity = false;
+        
         Node current = locations.get(this.location);
         if (current.hasPlaneConnection(location)) {
             if (cashBalance >= 300) {
+                stayInCity = false;
+                movesLeft = 0;
                 cashBalance -= 300;
                 Node target = locations.get(location);
                 if (target.TYPE == NodeType.CITY) {
@@ -162,6 +193,10 @@ public class Player {
                 }
             }
         }
+    }
+
+    public static void resetID() {
+        idCount = 0;
     }
 
     public void moveTo(int location) {
@@ -259,6 +294,22 @@ public class Player {
     public boolean isStayInCity() {
         return stayInCity;
     }
-
+    
+    public int getMovesLeft(){
+        return movesLeft;
+    }
+    
+    public void leaveCity(){
+        stayInCity = false;
+    }
+    
+    public void endTurn(){
+        endTurn = true;
+    }
+    public boolean isEndTurn(){
+        return endTurn;
+    }
+    
+    
     
 }

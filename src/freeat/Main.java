@@ -5,6 +5,7 @@
  */
 package freeat;
 
+import com.sun.xml.internal.ws.api.message.saaj.SAAJFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +57,6 @@ public class Main {
     private static final String MAP_FILE = "mapsquare";
     public static final String LOCATIONS_FILE = "src\\res\\coordinates\\coordinates.txt";
     public static final String CONNECTIONS_FILE = "src\\res\\coordinates\\connections.txt";
-    
 
     static int vboHandle;
     static int texHandle;
@@ -100,24 +100,29 @@ public class Main {
 
         glMatrixMode(GL_PROJECTION);
         GL11.glLoadIdentity();
-        glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT,0,1,-1);
+        glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, -1);
         glMatrixMode(GL_MODELVIEW);
         long start;
         long end;
         long total = 0;
         int fps = 0;
+        long sinceUpdate = System.nanoTime();
         while (!Display.isCloseRequested()) {
             start = System.nanoTime();
             glClear(GL_COLOR_BUFFER_BIT);
             checkUserInput();
-            if(fps%10 == 0)
-                game.processTurn();
-            render();
-            Display.update();
-            Display.sync(60);
+            game.processTurn();
+
+            if (System.nanoTime()- sinceUpdate > 1000000*17) {
+                render();
+                Display.update();
+                //Display.sync(60);
+                sinceUpdate = System.nanoTime();
+                fps++;
+            }
             end = System.nanoTime();
             total += end - start;
-            fps++;
+            
             if (total > 1000000000) {
                 Display.setTitle("FPS: " + fps);
                 fps = 0;
@@ -132,17 +137,17 @@ public class Main {
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0);
         glVertex2f(0, 0);
-        
+
         glTexCoord2f(1, 0);
-        glVertex2f(WINDOW_WIDTH,0);
-       
+        glVertex2f(WINDOW_WIDTH, 0);
+
         glTexCoord2f(1, 1);
         glVertex2f(WINDOW_WIDTH, WINDOW_HEIGHT);
-        
+
         glTexCoord2f(0, 1);
         glVertex2f(0, WINDOW_HEIGHT);
         glEnd();
-        
+
         game.renderTreasures();
         game.renderPlayers();
     }
@@ -154,22 +159,21 @@ public class Main {
 //                System.out.println("Wrote id: "+id);
 //                writer.println(id+" "+Mouse.getX()+" "+-Mouse.getY());
 //                id++;
+                }
             }
         }
-        }
     }
-
 
     private static void initTextures() {
         glEnable(GL_TEXTURE_2D);
         map = loadTexture(MAP_FILE);
         map.bind();
-        glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-        
+
     }
 
     public static Texture loadTexture(String key) {
@@ -188,4 +192,3 @@ public class Main {
     }
 
 }
-
