@@ -71,6 +71,10 @@ public class Controller {
         return player.getCurrentNode();
     }
     
+    public Node getNode(int nodeID){
+        return player.getNode(nodeID);
+    }
+    
     public int movesLeft(){
         if(!player.isStayInCity())
             return player.getMovesLeft();

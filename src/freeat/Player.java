@@ -231,80 +231,94 @@ public class Player {
     }
 
     public void moveTo(int location) {
-
-        Node current = locations.get(this.location);
-        if (current.hasConnection(location) && !visitedThisTurn.contains(location)) {
-            stayInCity = false;
-            Node target = locations.get(location);
-            if (target.TYPE == NodeType.ROUTE) {
-                this.location = location;
-                visitedThisTurn.add(location);
-            }
-            if (target.TYPE == NodeType.CITY) {
-                this.location = location;
-                visitedThisTurn.add(location);
-            }
-            if (target.TYPE == NodeType.CAPE_TOWN) {
-                this.location = location;
-                visitedThisTurn.add(location);
-                if (PublicInformation.isCapeTownBonus()) {
-                    cashBalance += 500;
-                    foundCapeTown = true;
-                }
-            }
-            if (target.TYPE == NodeType.CAIRO) {
-                this.location = location;
-                if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
-                    isWinner = true;
-                }
-
-            }
-            if (target.TYPE == NodeType.TANGIR) {
-                this.location = location;
-                visitedThisTurn.add(location);
-                if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
-                    isWinner = true;
-                }
-            }
-            if (target.TYPE == NodeType.GOLD_COAST) {
-                this.location = location;
-                visitedThisTurn.add(location);
-
-            }
-            if (target.TYPE == NodeType.SLAVE_COAST) {
-                this.location = location;
-                visitedThisTurn.add(location);
-            }
-            if (target.TYPE == NodeType.SEA_ROUTE) {
-                if (current.TYPE == NodeType.SEA_ROUTE || current.TYPE == NodeType.PIRATES) {
+        if (movesLeft > 0) {
+            Node current = locations.get(this.location);
+            if (current.hasConnection(location) && !visitedThisTurn.contains(location)) {
+                stayInCity = false;
+                Node target = locations.get(location);
+                if (target.TYPE == NodeType.ROUTE) {
                     this.location = location;
+                    movesLeft--;
                     visitedThisTurn.add(location);
-                } else {
-                    if (cashBalance >= 100) {
-                        cashBalance -= 100;
-                        this.location = location;
-                        visitedThisTurn.add(location);
+                }
+                if (target.TYPE == NodeType.CITY) {
+                    this.location = location;
+                    movesLeft--;
+                    visitedThisTurn.add(location);
+
+                }
+                if (target.TYPE == NodeType.CAPE_TOWN) {
+                    this.location = location;
+                    movesLeft--;
+                    visitedThisTurn.add(location);
+                    if (PublicInformation.isCapeTownBonus()) {
+                        cashBalance += 500;
+                        foundCapeTown = true;
                     }
                 }
-            }
-            if (target.TYPE == NodeType.SAHARA) {
-                inSahara = true;
-                this.location = location;
-                visitedThisTurn.add(location);
-            }
-            if (target.TYPE == NodeType.PIRATES) {
-                inPirates = true;
-                this.location = location;
-                visitedThisTurn.add(location);
-            }
-        } else {
-            if (!current.hasConnection(location)) {
-                System.out.println("Illegal move: no connection");
-            }
-            if (visitedThisTurn.contains(location)) {
-                System.out.println("Can't move there: already visited this turn.");
+                if (target.TYPE == NodeType.CAIRO) {
+                    this.location = location;
+                    movesLeft--;
+                    if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
+                        isWinner = true;
+                    }
+
+                }
+                if (target.TYPE == NodeType.TANGIR) {
+                    this.location = location;
+                    movesLeft--;
+                    visitedThisTurn.add(location);
+                    if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
+                        isWinner = true;
+                    }
+                }
+                if (target.TYPE == NodeType.GOLD_COAST) {
+                    this.location = location;
+                    movesLeft--;
+                    visitedThisTurn.add(location);
+
+                }
+                if (target.TYPE == NodeType.SLAVE_COAST) {
+                    this.location = location;
+                    movesLeft--;
+                    visitedThisTurn.add(location);
+                }
+                if (target.TYPE == NodeType.SEA_ROUTE) {
+                    if (current.TYPE == NodeType.SEA_ROUTE || current.TYPE == NodeType.PIRATES) {
+                        this.location = location;
+                        movesLeft--;
+                        visitedThisTurn.add(location);
+                    } else {
+                        if (cashBalance >= 100) {
+                            cashBalance -= 100;
+                            this.location = location;
+                            movesLeft--;
+                            visitedThisTurn.add(location);
+                        }
+                    }
+                }
+                if (target.TYPE == NodeType.SAHARA) {
+                    inSahara = true;
+                    this.location = location;
+                    movesLeft--;
+                    visitedThisTurn.add(location);
+                }
+                if (target.TYPE == NodeType.PIRATES) {
+                    inPirates = true;
+                    this.location = location;
+                    movesLeft--;
+                    visitedThisTurn.add(location);
+                }
+            } else {
+                if (!current.hasConnection(location)) {
+                    System.out.println("Illegal move: no connection");
+                }
+                if (visitedThisTurn.contains(location)) {
+                    System.out.println("Can't move there: already visited this turn.");
+                }
             }
         }
+        System.out.println("No moves left to move.");
     }
 
     public int getLocation() {
@@ -375,6 +389,10 @@ public class Player {
 
     public boolean isHasFlown() {
         return hasFlown;
+    }
+    
+    public Node getNode(int nodeID){
+        return locations.get(nodeID);
     }
 
 }
