@@ -88,4 +88,28 @@ public class Controller {
         return player.isEndTurn();
     }
     
+    public int totalTreasures(){
+        return PublicInformation.getTreasureTotal();
+    }
+    
+    public int rubiesLeft(){
+        return PublicInformation.getRubiesLeft();
+    }
+    
+    public int topazesLeft(){
+        return PublicInformation.getTopazesLeft();
+    }
+    
+    public int robbersLeft(){
+        return PublicInformation.getRobberLeft();
+    }
+    
+    public int emeraldsLeft(){
+        return PublicInformation.getEmeraldsLeft();
+    }
+    
+    public int horseShoesLeft(){
+        return PublicInformation.getHorseShoesLeft();
+    }
+    
 }

@@ -30,20 +30,20 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
  * @author otso
  */
 public class Game {
-
+    
     private static final int STAR_OF_AFRICA_COUNT = 1;
     private static final int RUBY_COUNT = 2;
     private static final int EMERALD_COUNT = 3;
     private static final int TOPAZ_COUNT = 4;
     private static final int ROBBER_COUNT = 3;
     private static final int HORSESHOE_COUNT = 5;
-
+    
     public static HashMap<Integer, Node> locations;
     private ArrayList<Player> players;
     private boolean running = true;
     private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
     private int turnCount = 0;
-
+    
     public Game() {
         locations = new HashMap<>();
         players = new ArrayList();
@@ -55,7 +55,7 @@ public class Game {
 //            node.print();
 //        }
     }
-
+    
     private void getLocations() {
         BufferedReader br = null;
         try {
@@ -82,9 +82,9 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        
     }
-
+    
     private void getConnections() {
         BufferedReader br = null;
         try {
@@ -115,13 +115,13 @@ public class Game {
             }
         }
     }
-
+    
     public void renderTreasures() {
         for (Node node : locations.values()) {
             node.draw();
         }
     }
-
+    
     public void renderPlayers() {
         for (Player player : players) {
             int x;
@@ -141,19 +141,26 @@ public class Game {
             glBegin(GL_LINES);
             glVertex2f(x - size / 2f, y + size / 2f);
             glVertex2f(x + size / 2f, y + size / 2f);
-
+            
             glVertex2f(x + size / 2f, y + size / 2f);
             glVertex2f(x, y - size / 2f);
-
+            
             glVertex2f(x, y - size / 2f);
             glVertex2f(x - size / 2f, y + size / 2f);
             glEnd();
             glEnable(GL_TEXTURE_2D);
         }
     }
-
+    
     private void setTreasures() {
-
+        PublicInformation.setEmeraldTotal(EMERALD_COUNT);
+        PublicInformation.setHorseShoesTotal(HORSESHOE_COUNT);
+        PublicInformation.setRobberTotal(ROBBER_COUNT);
+        PublicInformation.setRybyTotal(RUBY_COUNT);
+        PublicInformation.setTopazTotal(TOPAZ_COUNT);
+        
+        PublicInformation.setTreasureTotal(Node.CITY_COUNT);
+        
         int[] treasures = new int[Node.CITY_COUNT];
         int current = 0;
         for (int i = 0; i < STAR_OF_AFRICA_COUNT; i++) {
@@ -180,14 +187,14 @@ public class Game {
             treasures[current] = TreasureType.HORSESHOE;
             current++;
         }
-
+        
         treasures = ShuffleArray(treasures);
         for (int i = 0; i < treasures.length; i++) {
             Node temp = locations.get(i + 101);
             temp.setTreasure(treasures[i]);
         }
     }
-
+    
     private int[] ShuffleArray(int[] array) {
         int index;
         Random random = new Random();
@@ -201,7 +208,7 @@ public class Game {
         }
         return array;
     }
-
+    
     private void setPlayers() {
         Player.resetID();
         for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
@@ -209,7 +216,7 @@ public class Game {
         }
         PublicInformation.updateInformation(players);
     }
-
+    
     public void processTurn() {
         if (!PublicInformation.isWinner()) {
             for (Player player : players) {
@@ -222,17 +229,17 @@ public class Game {
             if (PublicInformation.isWinner()) {
                 winCount[PublicInformation.getWinner()]++;
                 for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
-                    System.out.print("Player " + i + " wins: " + winCount[i]+" ");
+                    System.out.print("Player " + i + " wins: " + winCount[i] + " ");
                 }
                 System.out.println("");
                 resetGame();
-            }
-            else if(turnCount > 1000)
+            } else if (turnCount > 1000) {
                 resetGame();
-                
+            }
+            
         }
     }
-
+    
     private void resetGame() {
         //locations = new HashMap<>();
         PublicInformation.reset();
@@ -241,12 +248,11 @@ public class Game {
         setPlayers();
         setTreasures();
         
-        
         running = true;
     }
-
+    
     public ArrayList<Player> getPlayers() {
         return players;
     }
-
+    
 }

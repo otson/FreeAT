@@ -177,5 +177,11 @@ public class Node {
     public ArrayList<Integer> getConnections() {
         return connections;
     }
+
+    public ArrayList<Integer> getPlaneConnections() {
+        return planeConnections;
+    }
+    
+    
     
 }

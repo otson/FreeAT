@@ -7,6 +7,7 @@ package freeat;
 
 import freeat.ai.AI;
 import freeat.ai.NormalAI;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -28,6 +29,7 @@ public class Player {
     private boolean isWinner;
     public final int ID;
     private HashMap<Integer, Node> locations;
+    private ArrayList<Integer> visitedThisTurn;
 
     private int movesLeft = 0;
 
@@ -50,6 +52,7 @@ public class Player {
         ai.setLocations(locations);
         this.location = ai.START;
         controller = new Controller(this);
+        visitedThisTurn = new ArrayList();
 
     }
 
@@ -68,8 +71,9 @@ public class Player {
             if (skipTurns == 0) {
                 throwDice();
                 ai.act(this);
-                
-                ai.act(controller);
+                visitedThisTurn.clear();
+                visitedThisTurn.add(locations.get(location).ID);
+                //ai.act(controller);
             } else {
                 skipTurns--;
             }
@@ -77,10 +81,17 @@ public class Player {
     }
 
     public void buyToken() {
-        if (cashBalance >= 100) {
-            cashBalance -= 100;
-            openToken();
-            endTurn();
+        Node temp = locations.get(location);
+        if (temp.hasTreasure()) {
+            if (cashBalance >= 100) {
+                cashBalance -= 100;
+                openToken();
+                endTurn();
+            } else {
+                System.out.println("Not enough money to buy a token.");
+            }
+        } else {
+            System.out.println("Not possible to buy token: no token available.");
         }
     }
 
@@ -90,72 +101,88 @@ public class Player {
 
     private void openToken() {
         Node temp = locations.get(location);
-        if (temp.getTreasure() != TreasureType.OPENED) {
-            int type = temp.getTreasure();
-            temp.removeTreasure();
-            if (type == TreasureType.EMERALD) {
-                cashBalance += 500;
-                if (temp.TYPE == NodeType.GOLD_COAST) {
+        if (temp.hasTreasure()) {
+            if (temp.getTreasure() != TreasureType.OPENED) {
+                int type = temp.getTreasure();
+                temp.removeTreasure();
+                if (type == TreasureType.EMERALD) {
+                    PublicInformation.removeEmerald();
                     cashBalance += 500;
-                }
-            } else if (type == TreasureType.RUBY) {
-                cashBalance += 1000;
-                if (temp.TYPE == NodeType.GOLD_COAST) {
+                    if (temp.TYPE == NodeType.GOLD_COAST) {
+                        cashBalance += 500;
+                    }
+                } else if (type == TreasureType.RUBY) {
+                    PublicInformation.removeRuby();
                     cashBalance += 1000;
-                }
-            } else if (type == TreasureType.TOPAZ) {
-                cashBalance += 300;
-                if (temp.TYPE == NodeType.GOLD_COAST) {
+                    if (temp.TYPE == NodeType.GOLD_COAST) {
+                        cashBalance += 1000;
+                    }
+                } else if (type == TreasureType.TOPAZ) {
+                    PublicInformation.removeTopaz();
                     cashBalance += 300;
+                    if (temp.TYPE == NodeType.GOLD_COAST) {
+                        cashBalance += 300;
+                    }
+                } else if (type == TreasureType.ROBBER) {
+                    PublicInformation.removeRobber();
+                    cashBalance = 0;
+                } else if (type == TreasureType.HORSESHOE) {
+                    PublicInformation.removeHorseShoe();
+                    if (PublicInformation.isStarFound()) {
+                        hasHorseshoeAfterStar = true;
+                    }
+                } else if (type == TreasureType.STAR_OF_AFRICA) {
+                    hasStar = true;
+                } else if (type == TreasureType.EMPTY) {
+                    if (temp.TYPE == NodeType.SLAVE_COAST) {
+                        skipTurns = 3;
+                    }
                 }
-            } else if (type == TreasureType.ROBBER) {
-                cashBalance = 0;
-            } else if (type == TreasureType.HORSESHOE) {
-                if (PublicInformation.isStarFound()) {
-                    hasHorseshoeAfterStar = true;
-                }
-            } else if (type == TreasureType.STAR_OF_AFRICA) {
-                hasStar = true;
-            } else if (type == TreasureType.EMPTY) {
-                if (temp.TYPE == NodeType.SLAVE_COAST) {
-                    skipTurns = 3;
-                }
-            }
 
+            }
         }
     }
 
     public void stayInCity() {
         Node current = locations.get(this.location);
-        
-        if(current.getTYPE() == NodeType.CITY || 
-           current.getTYPE() == NodeType.CAIRO ||
-           current.getTYPE() == NodeType.TANGIR ||
-           current.getTYPE() == NodeType.GOLD_COAST||
-           current.getTYPE() == NodeType.SLAVE_COAST ||
-           current.getTYPE() == NodeType.CAPE_TOWN ){
+
+        if (current.getTYPE() == NodeType.CITY
+                || current.getTYPE() == NodeType.CAIRO
+                || current.getTYPE() == NodeType.TANGIR
+                || current.getTYPE() == NodeType.GOLD_COAST
+                || current.getTYPE() == NodeType.SLAVE_COAST
+                || current.getTYPE() == NodeType.CAPE_TOWN) {
+            if(current.hasTreasure()){
                 stayInCity = true;
                 movesLeft = 0;
                 endTurn();
-        }
-        else{
+            }
+            
+        } else {
             System.out.println("Not valid place to stayInCity");
         }
     }
 
     public void tryToWinToken() {
+        Node temp = locations.get(location);
         if (stayInCity) {
-            if ((int) (Math.random() * 6 + 1) > 3) {
-                openToken();
-                stayInCity = false;
+            if (temp.hasTreasure()) {
+                if ((int) (Math.random() * 6 + 1) > 3) {
+                    openToken();
+                    stayInCity = false;
+                }
+                endTurn();
+            } else {
+                System.out.println("Can't try to win token: no token available.");
             }
-            endTurn();
-            // rule check: can player move after trying to win token?
+            // rule check needed: can player move after trying to win token?
+        } else {
+            System.out.println("Can't try to win token: not stayInCity.");
         }
     }
 
     public void flyTo(int location) {
-        
+
         Node current = locations.get(this.location);
         if (current.hasPlaneConnection(location)) {
             if (cashBalance >= 300) {
@@ -200,18 +227,22 @@ public class Player {
     }
 
     public void moveTo(int location) {
-        stayInCity = false;
+        
         Node current = locations.get(this.location);
-        if (current.hasConnection(location)) {
+        if (current.hasConnection(location) && !visitedThisTurn.contains(location)) {
+            stayInCity = false;
             Node target = locations.get(location);
             if (target.TYPE == NodeType.ROUTE) {
                 this.location = location;
+                visitedThisTurn.add(location);
             }
             if (target.TYPE == NodeType.CITY) {
                 this.location = location;
+                 visitedThisTurn.add(location);
             }
             if (target.TYPE == NodeType.CAPE_TOWN) {
                 this.location = location;
+                visitedThisTurn.add(location);
                 if (PublicInformation.isCapeTownBonus()) {
                     cashBalance += 500;
                     foundCapeTown = true;
@@ -226,36 +257,47 @@ public class Player {
             }
             if (target.TYPE == NodeType.TANGIR) {
                 this.location = location;
+                 visitedThisTurn.add(location);
                 if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
                     isWinner = true;
                 }
             }
             if (target.TYPE == NodeType.GOLD_COAST) {
                 this.location = location;
+                 visitedThisTurn.add(location);
+                
             }
             if (target.TYPE == NodeType.SLAVE_COAST) {
                 this.location = location;
+                 visitedThisTurn.add(location);
             }
             if (target.TYPE == NodeType.SEA_ROUTE) {
                 if (current.TYPE == NodeType.SEA_ROUTE || current.TYPE == NodeType.PIRATES) {
                     this.location = location;
+                     visitedThisTurn.add(location);
                 } else {
                     if (cashBalance >= 100) {
                         cashBalance -= 100;
                         this.location = location;
+                         visitedThisTurn.add(location);
                     }
                 }
             }
             if (target.TYPE == NodeType.SAHARA) {
                 inSahara = true;
                 this.location = location;
+                 visitedThisTurn.add(location);
             }
             if (target.TYPE == NodeType.PIRATES) {
                 inPirates = true;
                 this.location = location;
+                 visitedThisTurn.add(location);
             }
         } else {
-            System.out.println("Illegal move: no connection");
+            if(!current.hasConnection(location))
+                System.out.println("Illegal move: no connection");
+            if(visitedThisTurn.contains(location))
+                System.out.println("Can't move there: already visited this turn.");
         }
     }
 
@@ -294,22 +336,21 @@ public class Player {
     public boolean isStayInCity() {
         return stayInCity;
     }
-    
-    public int getMovesLeft(){
+
+    public int getMovesLeft() {
         return movesLeft;
     }
-    
-    public void leaveCity(){
+
+    public void leaveCity() {
         stayInCity = false;
     }
-    
-    public void endTurn(){
+
+    public void endTurn() {
         endTurn = true;
     }
-    public boolean isEndTurn(){
+
+    public boolean isEndTurn() {
         return endTurn;
     }
-    
-    
-    
+
 }

@@ -24,6 +24,20 @@ public class PublicInformation {
     private static boolean[] inPirates = new boolean[PLAYER_COUNT];
     private static boolean[] isWinner = new boolean[PLAYER_COUNT];
 
+    private static int horseShoesTotal;
+    private static int horseShoesLeft;
+    private static int rybyTotal;
+    private static int rubiesLeft;
+    private static int topazTotal;
+    private static int topazesLeft;
+    private static int emeraldTotal;
+    private static int emeraldsLeft;
+    private static int robberTotal;
+    private static int robberLeft;
+    
+    private static int treasureTotal;
+    private static int treasuresLeft;
+
     static {
         cashBalance = new int[PLAYER_COUNT];
         location = new int[PLAYER_COUNT];
@@ -108,4 +122,104 @@ public class PublicInformation {
         inPirates = new boolean[PLAYER_COUNT];
         isWinner = new boolean[PLAYER_COUNT];
     }
+
+    public static int getHorseShoesTotal() {
+        return horseShoesTotal;
+    }
+
+    public static int getHorseShoesLeft() {
+        return horseShoesLeft;
+    }
+
+    public static int getRybyTotal() {
+        return rybyTotal;
+    }
+
+    public static int getRubiesLeft() {
+        return rubiesLeft;
+    }
+
+    public static int getTopazTotal() {
+        return topazTotal;
+    }
+
+    public static int getTopazesLeft() {
+        return topazesLeft;
+    }
+
+    public static int getEmeraldTotal() {
+        return emeraldTotal;
+    }
+
+    public static int getEmeraldsLeft() {
+        return emeraldsLeft;
+    }
+
+    public static int getRobberTotal() {
+        return robberTotal;
+    }
+
+    public static int getRobberLeft() {
+        return robberLeft;
+    }
+
+    public static void setHorseShoesTotal(int horseShoesTotal) {
+        PublicInformation.horseShoesTotal = horseShoesTotal;
+    }
+
+    public static void setRybyTotal(int rybyTotal) {
+        PublicInformation.rybyTotal = rybyTotal;
+    }
+
+    public static void setTopazTotal(int topazTotal) {
+        PublicInformation.topazTotal = topazTotal;
+    }
+
+    public static void setEmeraldTotal(int emeraldTotal) {
+        PublicInformation.emeraldTotal = emeraldTotal;
+    }
+
+    public static void setRobberTotal(int robberTotal) {
+        PublicInformation.robberTotal = robberTotal;
+    }
+
+    public int getTreasuresLeft() {
+        return treasuresLeft;
+    }
+
+    public void setTreasuresLeft(int treasuresLeft) {
+        PublicInformation.treasuresLeft = treasuresLeft;
+    }
+
+    public static void setTreasureTotal(int treasureTotal) {
+        PublicInformation.treasureTotal = treasureTotal;
+    }
+    
+    public static void removeEmerald(){
+        emeraldsLeft--;
+    }
+    
+    public static void removeRobber(){
+        robberLeft--;
+    }
+    
+    public static void removeTopaz(){
+        topazesLeft--;
+    }
+    
+    public static void removeRuby(){
+        rubiesLeft--;
+    }
+    
+    public static void removeHorseShoe(){
+        horseShoesLeft--;
+    }
+
+    public static int getTreasureTotal() {
+        return treasureTotal;
+    }
+    
+    
+    
+
 }
