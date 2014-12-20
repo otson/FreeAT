@@ -386,6 +386,10 @@ public class Player {
     public boolean isEndTurn() {
         return endTurn;
     }
+    
+    public boolean isValidMove(int targetID){
+        return !visitedThisTurn.contains(targetID);
+    }
 
     public boolean isHasFlown() {
         return hasFlown;

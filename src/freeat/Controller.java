@@ -84,6 +84,10 @@ public class Controller {
         }
     }
     
+    public boolean isValidMove(int targetID){
+        return player.isValidMove(targetID);
+    }
+    
     public void leaveCity(){
         player.leaveCity();
     }
