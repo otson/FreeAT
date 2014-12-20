@@ -27,6 +27,7 @@ public class Player {
     private boolean inPirates;
     private boolean stayInCity = false;
     private boolean isWinner;
+    private boolean hasFlown;
     public final int ID;
     private HashMap<Integer, Node> locations;
     private ArrayList<Integer> visitedThisTurn;
@@ -44,6 +45,7 @@ public class Player {
         cashBalance = 300;
         hasStar = false;
         hasHorseshoeAfterStar = false;
+        hasFlown = false;
         foundCapeTown = false;
         inSahara = false;
         inPirates = true;
@@ -72,6 +74,7 @@ public class Player {
                 throwDice();
                 ai.act(this);
                 visitedThisTurn.clear();
+                hasFlown = false;
                 visitedThisTurn.add(locations.get(location).ID);
                 //ai.act(controller);
             } else {
@@ -152,12 +155,12 @@ public class Player {
                 || current.getTYPE() == NodeType.GOLD_COAST
                 || current.getTYPE() == NodeType.SLAVE_COAST
                 || current.getTYPE() == NodeType.CAPE_TOWN) {
-            if(current.hasTreasure()){
+            if (current.hasTreasure()) {
                 stayInCity = true;
                 movesLeft = 0;
                 endTurn();
             }
-            
+
         } else {
             System.out.println("Not valid place to stayInCity");
         }
@@ -165,7 +168,7 @@ public class Player {
 
     public void tryToWinToken() {
         Node temp = locations.get(location);
-        if (stayInCity) {
+        if (stayInCity && !endTurn) {
             if (temp.hasTreasure()) {
                 if ((int) (Math.random() * 6 + 1) > 3) {
                     openToken();
@@ -184,10 +187,11 @@ public class Player {
     public void flyTo(int location) {
 
         Node current = locations.get(this.location);
-        if (current.hasPlaneConnection(location)) {
+        if (current.hasPlaneConnection(location) && !hasFlown) {
             if (cashBalance >= 300) {
                 stayInCity = false;
                 movesLeft = 0;
+                hasFlown = true;
                 cashBalance -= 300;
                 Node target = locations.get(location);
                 if (target.TYPE == NodeType.CITY) {
@@ -227,7 +231,7 @@ public class Player {
     }
 
     public void moveTo(int location) {
-        
+
         Node current = locations.get(this.location);
         if (current.hasConnection(location) && !visitedThisTurn.contains(location)) {
             stayInCity = false;
@@ -238,7 +242,7 @@ public class Player {
             }
             if (target.TYPE == NodeType.CITY) {
                 this.location = location;
-                 visitedThisTurn.add(location);
+                visitedThisTurn.add(location);
             }
             if (target.TYPE == NodeType.CAPE_TOWN) {
                 this.location = location;
@@ -257,47 +261,49 @@ public class Player {
             }
             if (target.TYPE == NodeType.TANGIR) {
                 this.location = location;
-                 visitedThisTurn.add(location);
+                visitedThisTurn.add(location);
                 if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
                     isWinner = true;
                 }
             }
             if (target.TYPE == NodeType.GOLD_COAST) {
                 this.location = location;
-                 visitedThisTurn.add(location);
-                
+                visitedThisTurn.add(location);
+
             }
             if (target.TYPE == NodeType.SLAVE_COAST) {
                 this.location = location;
-                 visitedThisTurn.add(location);
+                visitedThisTurn.add(location);
             }
             if (target.TYPE == NodeType.SEA_ROUTE) {
                 if (current.TYPE == NodeType.SEA_ROUTE || current.TYPE == NodeType.PIRATES) {
                     this.location = location;
-                     visitedThisTurn.add(location);
+                    visitedThisTurn.add(location);
                 } else {
                     if (cashBalance >= 100) {
                         cashBalance -= 100;
                         this.location = location;
-                         visitedThisTurn.add(location);
+                        visitedThisTurn.add(location);
                     }
                 }
             }
             if (target.TYPE == NodeType.SAHARA) {
                 inSahara = true;
                 this.location = location;
-                 visitedThisTurn.add(location);
+                visitedThisTurn.add(location);
             }
             if (target.TYPE == NodeType.PIRATES) {
                 inPirates = true;
                 this.location = location;
-                 visitedThisTurn.add(location);
+                visitedThisTurn.add(location);
             }
         } else {
-            if(!current.hasConnection(location))
+            if (!current.hasConnection(location)) {
                 System.out.println("Illegal move: no connection");
-            if(visitedThisTurn.contains(location))
+            }
+            if (visitedThisTurn.contains(location)) {
                 System.out.println("Can't move there: already visited this turn.");
+            }
         }
     }
 
@@ -346,11 +352,29 @@ public class Player {
     }
 
     public void endTurn() {
-        endTurn = true;
+        if (movesLeft == 0 || inCity()) {
+            endTurn = true;
+        } else {
+            System.out.println("Can't end turn: either moves left or not in city");
+        }
+    }
+
+    private boolean inCity() {
+        Node current = locations.get(this.location);
+        return (current.getTYPE() == NodeType.CITY
+                || current.getTYPE() == NodeType.CAIRO
+                || current.getTYPE() == NodeType.TANGIR
+                || current.getTYPE() == NodeType.GOLD_COAST
+                || current.getTYPE() == NodeType.SLAVE_COAST
+                || current.getTYPE() == NodeType.CAPE_TOWN);
     }
 
     public boolean isEndTurn() {
         return endTurn;
+    }
+
+    public boolean isHasFlown() {
+        return hasFlown;
     }
 
 }

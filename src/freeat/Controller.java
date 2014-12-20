@@ -84,8 +84,8 @@ public class Controller {
         player.leaveCity();
     }
 
-    public boolean endTurn() {
-        return player.isEndTurn();
+    public void endTurn() {
+        player.endTurn();
     }
     
     public int totalTreasures(){
@@ -110,6 +110,14 @@ public class Controller {
     
     public int horseShoesLeft(){
         return PublicInformation.getHorseShoesLeft();
+    }
+    
+    public boolean canFly(){
+        return !player.isHasFlown();
+    }
+
+    public boolean isEndTurn() {
+        return player.isEndTurn();
     }
     
 }
