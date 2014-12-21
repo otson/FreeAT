@@ -58,7 +58,7 @@ public class Game {
         int distance = 1;
         int currentPrice = 0;
         for (Node node : locations.values()) {
-            getNext(node, distance, currentPrice, node.getAllLists());
+            getNext(node, null, distance, currentPrice, node.getAllLists());
         }
         // plane routes
         for (Node node : locations.values()) {
@@ -73,23 +73,24 @@ public class Game {
         }
     }
 
-    private void getNext(Node previous, int distance, int currentPrice, ArrayList<Route>[][] list) {
+    private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, ArrayList<Route>[][] list) {
         for (int i = 0; i < previous.getConnections().size(); i++) {
             Integer integer = previous.getConnections().get(i);
             Node current = locations.get(integer);
-
-            if (current.isCity()) {
-                for (int j = 1; j < 7; j++) {
-                    list[j][currentPrice].add(new Route(current, currentPrice * 100));
+            if (current != previousPrevious) {
+                if (current.isCity()) {
+                    for (int j = 1; j < 7; j++) {
+                        list[j][currentPrice].add(new Route(current, currentPrice * 100));
+                    }
+                } else {
+                    if (current.isSea() && !previous.isSea()) {
+                        currentPrice++;
+                    }
+                    list[distance][currentPrice].add(new Route(current, currentPrice * 100));
                 }
-            } else {
-                if (current.isSea() && !previous.isSea()) {
-                    currentPrice++;
+                if (distance < 6) {
+                    getNext(current, previous, distance + 1, currentPrice, list);
                 }
-                list[distance][currentPrice].add(new Route(current, currentPrice * 100));
-            }
-            if(distance < 6){
-                getNext(current, distance+1, currentPrice, list);
             }
         }
     }
