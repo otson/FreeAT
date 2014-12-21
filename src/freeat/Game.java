@@ -86,12 +86,12 @@ public class Game {
                 } else {
                     if (current.isSea() && !previous.isSea()) {
                         tempPrice++;
-                        System.out.println("Current price: " + tempPrice);
-                        if (previousPrevious != null) {
-                            System.out.println("Previousprevious: " + previousPrevious.ID);
-                            System.out.println("Previous: " + previous.ID);
-                            System.out.println("Current: " + current.ID);
-                        }
+//                        System.out.println("Current price: " + tempPrice);
+//                        if (previousPrevious != null) {
+//                            System.out.println("Previousprevious: " + previousPrevious.ID);
+//                            System.out.println("Previous: " + previous.ID);
+//                            System.out.println("Current: " + current.ID);
+//                        }
 
                     }
                     list[distance][tempPrice].add(new Route(current, tempPrice * 100));
