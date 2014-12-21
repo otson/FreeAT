@@ -117,7 +117,7 @@ public class Controller {
     }
     
     public ArrayList<Route> getMyAvailableRoutes(){
-        return getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), 6);
+        return getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice());
     }
     
     public ArrayList<Route> getAvailableRoutes(Node start, int cash, int dice) {

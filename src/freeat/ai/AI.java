@@ -10,6 +10,7 @@ import freeat.Node;
 import freeat.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  *
@@ -29,4 +30,5 @@ public abstract class AI {
     }
     
     public  abstract void act(Controller controller);
+    
 }

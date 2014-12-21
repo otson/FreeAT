@@ -53,6 +53,8 @@ public class Game {
         setTreasures();
         setPlayers();
         setAllRoutes();
+        //printRoutes();
+        //System.exit(0);
     }
 
     public final void setAllRoutes() {
@@ -88,14 +90,9 @@ public class Game {
                 } else {
                     if (current.isSea() && !previous.isSea()) {
                         tempPrice++;
-//                        System.out.println("Current price: " + tempPrice);
-//                        if (previousPrevious != null) {
-//                            System.out.println("Previousprevious: " + previousPrevious.ID);
-//                            System.out.println("Previous: " + previous.ID);
-//                            System.out.println("Current: " + current.ID);
-//                        }
 
                     }
+
                     list[distance][tempPrice].add(new Route(current, tempPrice * 100));
                 }
                 if (distance < 6) {
@@ -165,7 +162,7 @@ public class Game {
             }
         }
     }
-    
+
     private void getPlaneConnections() {
         BufferedReader br = null;
         try {
@@ -336,6 +333,17 @@ public class Game {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    private void printRoutes() {
+
+        for (Node node : locations.values()) {
+            for (int i = 1; i < 7; i++) {
+                for (Route route : node.getAllLists()[i][0]) {
+                    System.out.println("Route from: " + node.ID + " to " + route.getDestination().ID + ". Price: " + route.getPrice()+" length: "+i);
+                }
+            }
+        }
     }
 
 }
