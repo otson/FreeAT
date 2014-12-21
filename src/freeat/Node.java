@@ -36,101 +36,139 @@ public class Node {
 
     //Routes that cost 0
     //Distance of 1
-    private ArrayList<Route> distance1Cost0;
+    private ArrayList<Route> distance1Cost0 = new ArrayList();
 
     //Routes that cost 0
     //Distance of 2
-    private ArrayList<Route> distance2Cost0;
+    private ArrayList<Route> distance2Cost0 = new ArrayList();
 
     //Routes that cost 0
     //Distance of 3
-    private ArrayList<Route> distance3Cost0;
+    private ArrayList<Route> distance3Cost0 = new ArrayList();
 
     //Routes that cost 0
     //Distance of 4
-    private ArrayList<Route> distance4Cost0;
+    private ArrayList<Route> distance4Cost0 = new ArrayList();
 
     //Routes that cost 0
     //Distance of 5
-    private ArrayList<Route> distance5Cost0;
+    private ArrayList<Route> distance5Cost0 = new ArrayList();
 
     //Routes that cost 0
     //Distance of 6
-    private ArrayList<Route> distance6Cost0;
+    private ArrayList<Route> distance6Cost0 = new ArrayList();
 
     //Routes that cost 100 or less
     //Distance of 1
-    private ArrayList<Route> distance1Cost100;
+    private ArrayList<Route> distance1Cost100 = new ArrayList();
 
     //Routes that cost 100 or less
     //Distance of 2
-    private ArrayList<Route> distance2Cost100;
+    private ArrayList<Route> distance2Cost100 = new ArrayList();
 
     //Routes that cost 100 or less
     //Distance of 3
-    private ArrayList<Route> distance3Cost100;
+    private ArrayList<Route> distance3Cost100 = new ArrayList();
 
     //Routes that cost 100 or less
     //Distance of 4
-    private ArrayList<Route> distance4Cost100;
+    private ArrayList<Route> distance4Cost100 = new ArrayList();
 
     //Routes that cost 100 or less
     //Distance of 5
-    private ArrayList<Route> distance5Cost100;
+    private ArrayList<Route> distance5Cost100 = new ArrayList();
 
     //Routes that cost 100 or less
     //Distance of 6
-    private ArrayList<Route> distance6Cost100;
+    private ArrayList<Route> distance6Cost100 = new ArrayList();
 
     //Routes that cost 200 or less
     //Distance of 1
-    private ArrayList<Route> distance1Cost200;
+    private ArrayList<Route> distance1Cost200 = new ArrayList();
 
     //Routes that cost 200 or less
     //Distance of 2
-    private ArrayList<Route> distance2Cost200;
+    private ArrayList<Route> distance2Cost200 = new ArrayList();
 
     //Routes that cost 200 or less
     //Distance of 3
-    private ArrayList<Route> distance3Cost200;
+    private ArrayList<Route> distance3Cost200 = new ArrayList();
 
     //Routes that cost 200 or less
     //Distance of 4
-    private ArrayList<Route> distance4Cost200;
+    private ArrayList<Route> distance4Cost200 = new ArrayList();
 
     //Routes that cost 200 or less
     //Distance of 5
-    private ArrayList<Route> distance5Cost200;
+    private ArrayList<Route> distance5Cost200 = new ArrayList();
 
     //Routes that cost 200 or less
     //Distance of 6
-    private ArrayList<Route> distance6Cost200;
+    private ArrayList<Route> distance6Cost200 = new ArrayList();
 
     //Routes that cost 300 or less
     //Distance of 1
-    private ArrayList<Route> distance1Cost300;
+    private ArrayList<Route> distance1Cost300 = new ArrayList();
 
     //Routes that cost 300 or less
     //Distance of 2
-    private ArrayList<Route> distance2Cost300;
+    private ArrayList<Route> distance2Cost300 = new ArrayList();
 
     //Routes that cost 300 or less
     //Distance of 3
-    private ArrayList<Route> distance3Cost300;
+    private ArrayList<Route> distance3Cost300 = new ArrayList();
 
     //Routes that cost 300 or less
     //Distance of 4
-    private ArrayList<Route> distance4Cost300;
+    private ArrayList<Route> distance4Cost300 = new ArrayList();
 
     //Routes that cost 300 or less
     //Distance of 5
-    private ArrayList<Route> distance5Cost300;
+    private ArrayList<Route> distance5Cost300 = new ArrayList();
 
     //Routes that cost 300 or less
     //Distance of 6
-    private ArrayList<Route> distance6Cost300;
+    private ArrayList<Route> distance6Cost300 = new ArrayList();
+    
+    ArrayList<Route>[][] allLists; 
 
     public Node(int id, int x, int y, HashMap<Integer, Node> locations) {
+        allLists = new ArrayList[7][4];
+        allLists[0][0] = new ArrayList<>();
+        allLists[0][1] = new ArrayList<>();
+        allLists[0][2] = new ArrayList<>();
+        allLists[0][3] = new ArrayList<>();
+        
+        allLists[1][0] = distance1Cost0;
+        allLists[1][1] = distance1Cost100;
+        allLists[1][2] = distance1Cost200;
+        allLists[1][3] = distance1Cost300;
+        
+        allLists[2][0] = distance2Cost0;
+        allLists[2][1] = distance2Cost100;
+        allLists[2][2] = distance2Cost200;
+        allLists[2][3] = distance2Cost300;
+        
+        allLists[3][0] = distance3Cost0;
+        allLists[3][1] = distance3Cost100;
+        allLists[3][2] = distance3Cost200;
+        allLists[3][3] = distance3Cost300;
+        
+        allLists[4][0] = distance4Cost0;
+        allLists[4][1] = distance4Cost100;
+        allLists[4][2] = distance4Cost200;
+        allLists[4][3] = distance4Cost300;
+        
+        allLists[5][0] = distance5Cost0;
+        allLists[5][1] = distance5Cost100;
+        allLists[5][2] = distance5Cost200;
+        allLists[5][3] = distance5Cost300;
+        
+        allLists[6][0] = distance6Cost0;
+        allLists[6][1] = distance6Cost100;
+        allLists[6][2] = distance6Cost200;
+        allLists[6][3] = distance6Cost300;
+        
         this.ID = id;
         this.x = x;
         this.y = Main.WINDOW_HEIGHT - y;
@@ -154,6 +192,10 @@ public class Node {
         }
         if (ID > 500 && ID < 600) {
             TYPE = NodeType.SEA_ROUTE;
+        }
+        
+        if(ID == 601 || ID == 602){
+            TYPE = NodeType.PIRATES;
         }
 
         if (ID == 123) {
@@ -374,5 +416,19 @@ public class Node {
     public ArrayList<Route> getDistance6Cost300() {
         return distance6Cost300;
     }
+
+    public ArrayList<Route>[][] getAllLists() {
+        return allLists;
+    }
+    
+    public boolean isCity(){
+        return ID == 1 || ID == 2 || (ID >100 && ID <200);
+    }
+    
+    public boolean isSea(){
+        return ID > 500;
+    }
+    
+    
 
 }

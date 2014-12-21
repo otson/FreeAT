@@ -30,20 +30,20 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
  * @author otso
  */
 public class Game {
-    
+
     private static final int STAR_OF_AFRICA_COUNT = 1;
     private static final int RUBY_COUNT = 2;
     private static final int EMERALD_COUNT = 3;
     private static final int TOPAZ_COUNT = 4;
     private static final int ROBBER_COUNT = 3;
     private static final int HORSESHOE_COUNT = 5;
-    
+
     public static HashMap<Integer, Node> locations;
     private ArrayList<Player> players;
     private boolean running = true;
     private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
     private int turnCount = 0;
-    
+
     public Game() {
         locations = new HashMap<>();
         players = new ArrayList();
@@ -55,7 +55,48 @@ public class Game {
 //            node.print();
 //        }
     }
-    
+
+    public void setAllRoutes() {
+        int distance = 1;
+        int currentPrice = 0;
+        for (Node node : locations.values()) {
+            getNext(node, distance, currentPrice, node.getAllLists());
+        }
+        // plane routes
+        for (Node node : locations.values()) {
+            currentPrice = 3;
+            for (int i = 0; i < node.getPlaneConnections().size(); i++) {
+                Integer integer = node.getPlaneConnections().get(i);
+                Node next = locations.get(integer);
+                for (int j = 1; j < 7; j++) {
+                    node.allLists[i][currentPrice].add(new Route(next, currentPrice * 100));
+                }
+            }
+        }
+    }
+
+    private void getNext(Node previous, int distance, int currentPrice, ArrayList<Route>[][] list) {
+        int nextDistance = distance + 1;
+        for (int i = 0; i < previous.getConnections().size(); i++) {
+            Integer integer = previous.getConnections().get(i);
+            Node current = locations.get(integer);
+
+            if (current.isCity()) {
+                for (int j = 1; j < 7; j++) {
+                    list[j][currentPrice].add(new Route(current, currentPrice * 100));
+                }
+            } else {
+                if (current.isSea()) {
+                    currentPrice++;
+                }
+                list[distance][currentPrice].add(new Route(current, currentPrice * 100));
+            }
+            if(nextDistance < 7){
+                getNext(current, nextDistance, currentPrice, list);
+            }
+        }
+    }
+
     private void getLocations() {
         BufferedReader br = null;
         try {
@@ -82,9 +123,9 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
-    
+
     private void getConnections() {
         BufferedReader br = null;
         try {
@@ -115,13 +156,13 @@ public class Game {
             }
         }
     }
-    
+
     public void renderTreasures() {
         for (Node node : locations.values()) {
             node.draw();
         }
     }
-    
+
     public void renderPlayers() {
         for (Player player : players) {
             int x;
@@ -141,17 +182,17 @@ public class Game {
             glBegin(GL_LINES);
             glVertex2f(x - size / 2f, y + size / 2f);
             glVertex2f(x + size / 2f, y + size / 2f);
-            
+
             glVertex2f(x + size / 2f, y + size / 2f);
             glVertex2f(x, y - size / 2f);
-            
+
             glVertex2f(x, y - size / 2f);
             glVertex2f(x - size / 2f, y + size / 2f);
             glEnd();
             glEnable(GL_TEXTURE_2D);
         }
     }
-    
+
     private void setTreasures() {
         PublicInformation.setEmeraldTotal(EMERALD_COUNT);
         PublicInformation.setHorseShoesTotal(HORSESHOE_COUNT);
@@ -159,10 +200,10 @@ public class Game {
         PublicInformation.setRybyTotal(RUBY_COUNT);
         PublicInformation.setTopazTotal(TOPAZ_COUNT);
         PublicInformation.setUnOpenedLeft(Node.CITY_COUNT);
-        PublicInformation.setEmptyTotal(Node.CITY_COUNT-EMERALD_COUNT-HORSESHOE_COUNT-ROBBER_COUNT-RUBY_COUNT-TOPAZ_COUNT-STAR_OF_AFRICA_COUNT);
-        
+        PublicInformation.setEmptyTotal(Node.CITY_COUNT - EMERALD_COUNT - HORSESHOE_COUNT - ROBBER_COUNT - RUBY_COUNT - TOPAZ_COUNT - STAR_OF_AFRICA_COUNT);
+
         PublicInformation.setTreasureTotal(Node.CITY_COUNT);
-        
+
         int[] treasures = new int[Node.CITY_COUNT];
         int current = 0;
         for (int i = 0; i < STAR_OF_AFRICA_COUNT; i++) {
@@ -189,14 +230,14 @@ public class Game {
             treasures[current] = TreasureType.HORSESHOE;
             current++;
         }
-        
+
         treasures = ShuffleArray(treasures);
         for (int i = 0; i < treasures.length; i++) {
             Node temp = locations.get(i + 101);
             temp.setTreasure(treasures[i]);
         }
     }
-    
+
     private int[] ShuffleArray(int[] array) {
         int index;
         Random random = new Random();
@@ -210,7 +251,7 @@ public class Game {
         }
         return array;
     }
-    
+
     private void setPlayers() {
         Player.resetID();
         for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
@@ -218,7 +259,7 @@ public class Game {
         }
         PublicInformation.updateInformation(players);
     }
-    
+
     public void processTurn() {
         if (!PublicInformation.isWinner()) {
             for (Player player : players) {
@@ -238,10 +279,10 @@ public class Game {
             } else if (turnCount > 1000) {
                 resetGame();
             }
-            
+
         }
     }
-    
+
     private void resetGame() {
         //locations = new HashMap<>();
         PublicInformation.reset();
@@ -249,12 +290,12 @@ public class Game {
         turnCount = 0;
         setPlayers();
         setTreasures();
-        
+
         running = true;
     }
-    
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
-    
+
 }

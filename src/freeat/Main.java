@@ -69,7 +69,7 @@ public class Main {
     public static Texture map;
 
     public static void main(String[] args) {
-
+        
         initDisplay();
         initTextures();
         game = new Game();
