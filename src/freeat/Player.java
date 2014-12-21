@@ -15,6 +15,7 @@ import java.util.HashMap;
  * @author otso
  */
 public class Player {
+    
 
     private static int idCount = 0;
     private AI ai;
@@ -53,7 +54,7 @@ public class Player {
         ai = new NormalAI();
         ai.setLocations(locations);
         this.location = ai.START;
-        controller = new Controller(this);
+        controller = new Controller(this, locations);
         visitedThisTurn = new ArrayList();
 
     }
@@ -406,5 +407,7 @@ public class Player {
     public Node getNode(int nodeID){
         return locations.get(nodeID);
     }
+    
+    
 
 }

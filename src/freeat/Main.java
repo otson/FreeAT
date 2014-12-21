@@ -74,6 +74,7 @@ public class Main {
     public static Texture map;
 
     public static void main(String[] args) {
+
         initDisplay();
         initTextures();
         game = new Game();
@@ -180,6 +181,7 @@ public class Main {
     public static Texture loadTexture(String key) {
         InputStream resourceAsStream = Main.class
                 .getClassLoader().getResourceAsStream("res/textures/" + key + ".png");
+        
 
         try {
             return TextureLoader.getTexture("png", resourceAsStream);
