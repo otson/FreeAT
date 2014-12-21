@@ -58,44 +58,48 @@ public class NormalAI extends AI {
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
         //while (!c.isEndTurn()) {
-        
+
         if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
             c.decideTryToken();
         } else {
-//            if (c.getMyBalance() >= 400 && c.isAvailablePlanesFromCurrentNode()) {
-//                c.decidetoUsePlane();
-//                ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 300, 1);
-//                for (Route route : routes) {
-//                    if (route.getPrice() == 300) {
-//                        if (route.getDestination().hasTreasure()) {
-//                            if (!c.hasMoved()) {
-//                                c.moveTo(route);
-//                                c.buyToken();
-//                            }
-//                        }
-//                    }
-//                }
-//                if (!c.hasMoved()) {
-//                    c.moveTo(routes.get(1));
-//                    c.endTurn();
-//                }
-//            } else {
-            c.decideToUseLandOrSeaRoute();
-            ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
-            for (Route route : routes) {
-                if (!c.hasMoved() && route.getDestination().hasTreasure()) {
-                    c.moveTo(route);
-                    if (c.getMyBalance() >= 100) {
-                        c.buyToken();
+            if (c.getMyBalance() >= 400 && c.isAvailablePlanesFromCurrentNode()) {
+                c.decidetoUsePlane();
+                ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 300, 1);
+                for (Route route : routes) {
+                    if (route.getPrice() == 300) {
+                        if (route.getDestination().hasTreasure()) {
+                            if (!c.hasMoved()) {
+                                c.moveTo(route);
+                                if (c.getCurrentNode().hasTreasure()) {
+                                    c.buyToken();
+                                }
+                            }
+                        }
                     }
                 }
-            }
-            if (!c.hasMoved()) {
-                int target = (int) (Math.random()*routes.size());
-                c.moveTo(routes.get(target));
+                if (!c.hasMoved()) {
+                    for (Route route : routes) {
+                        if (!c.hasMoved() && route.getPrice() == 300) {
+                            c.moveTo(route);
+                        }
+                    }
+                }
+            } else {
+                c.decideToUseLandOrSeaRoute();
+                ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
+                for (Route route : routes) {
+                    if (!c.hasMoved() && route.getDestination().hasTreasure()) {
+                        c.moveTo(route);
+                        if (c.getMyBalance() >= 100) {
+                            c.buyToken();
+                        }
+                    }
+                }
+                if (!c.hasMoved()) {
+                    int target = (int) (Math.random() * routes.size());
+                    c.moveTo(routes.get(target));
+                }
             }
         }
-        //}
-        //}
     }
 }

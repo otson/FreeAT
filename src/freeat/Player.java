@@ -262,6 +262,9 @@ public class Player {
         if (useLandOrSea || usePlane) {
             if (!moved) {
                 if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[dice][destination.getPrice()/100].contains(destination)) {
+                    if(usePlane){
+                        System.out.println("Flying from: "+getCurrentNode().ID + " to "+destination.getDestination().ID);
+                    }
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
                     if (target.TYPE == NodeType.ROUTE) {
