@@ -88,9 +88,9 @@ public class Game {
                 }
                 list[distance][currentPrice].add(new Route(current, currentPrice * 100));
             }
-            Distance++;
-            if(Distance < 7){
-                getNext(current, Distance, currentPrice, list);
+            distance++;
+            if(distance < 7){
+                getNext(current, distance, currentPrice, list);
             }
         }
     }
