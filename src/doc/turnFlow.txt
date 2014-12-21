@@ -23,7 +23,7 @@ Vuoro loppuu yrityksen jälkeen riippumatta onnistuiko yritys.
 
 JOS
 Päätän lentää.
-Tarkistetaan onko pelaajan pisteestä lentoreitteja.
+Tarkistetaan onko pelaajan pisteestä lentoreittejä.
 Tarkistetaan onko pelaajalla vähintään 300 rahaa.
 JOS on
 Pelaajan lennettyä hän saa yrittää ostaa aarteen aukaisun. Sitten vuoro loppuu.
