@@ -8,6 +8,8 @@ package freeat.ai;
 import freeat.Controller;
 import freeat.Node;
 import freeat.Player;
+import freeat.Route;
+import java.util.ArrayList;
 
 /**
  *
@@ -56,7 +58,14 @@ public class NormalAI extends AI {
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
         while(!c.isEndTurn()){
-            
+            if(c.getMyBalance() <100 && c.getCurrentNode().hasTreasure())
+                c.decideTryToken();
+            else{
+                if(c.getMyBalance() > 400 && c.isAvailablePlanesFromCurrentNode()){
+                    c.decidetoUsePlane();
+                    ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 300, 1);
+                }
+            }
         }
     }
 }

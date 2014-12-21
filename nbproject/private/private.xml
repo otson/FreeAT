@@ -3,30 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/Route.java</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/specialSeaSquares.txt</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/textures/mapSquareNumbers.png</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/walkingSquares.txt</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/Main.java</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/Node.java</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/seaSquares.txt</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/textures/map.png</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/specialWalkingSquares.txt</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/textures/Untitled.png</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/TreasureType.java</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/textures/mapSquare.png</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/doc/turnFlow.txt</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/planeConnections.txt</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/connections.txt</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/ai/NormalAI.java</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/PublicInformation.java</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/plain.txt</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/types.txt</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/coordinates.txt</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/Controller.java</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/NodeType.java</file>
-            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/actionSquares.txt</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/Game.java</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/Player.java</file>
             <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/ai/AI.java</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/Node.java</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/seaSquares.txt</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/textures/map.png</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/textures/Untitled.png</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/TreasureType.java</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/textures/mapSquare.png</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/connections.txt</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/ai/NormalAI.java</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/types.txt</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/coordinates.txt</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/freeat/NodeType.java</file>
+            <file>file:/C:/Users/otso/Documents/NetBeansProjects/FreeAT/src/res/coordinates/actionSquares.txt</file>
         </group>
     </open-files>
 </project-private>

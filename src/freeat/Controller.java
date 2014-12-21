@@ -31,6 +31,10 @@ public class Controller {
         return player.getCashBalance();
     }
     
+    public boolean isAvailablePlanesFromCurrentNode(){
+        return !player.getCurrentNode().getPlaneConnections().isEmpty();
+    }
+    
     public int getBalance(int playedID){
         return PublicInformation.getBalance(playedID);
     }
