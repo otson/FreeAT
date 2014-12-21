@@ -80,7 +80,12 @@ public class Player {
         if (!inSahara && !inPirates) {
             if (skipTurns == 0) {
                 throwDice();
-                ai.act(this);
+                endTurn = false;
+                moved = false;
+                tryToWinToken = false;
+                useLandOrSea = false;
+                usePlane = false;
+                ai.act(controller);
             } else {
                 skipTurns--;
             }
@@ -256,7 +261,7 @@ public class Player {
     public void moveTo(Route destination) {
         if (useLandOrSea || usePlane) {
             if (!moved) {
-                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)) {
+                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[dice][destination.getPrice()/100].contains(destination)) {
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
                     if (target.TYPE == NodeType.ROUTE) {
@@ -312,9 +317,6 @@ public class Player {
                         inPirates = true;
                         moved = true;
                     }
-                } else {
-                    System.out.println("No place to move to, bug.");
-
                 }
             }
         }
@@ -340,6 +342,10 @@ public class Player {
         if (moved) {
             endTurn = true;
         }
+    }
+
+    boolean hasMoved() {
+        return moved;
     }
 
 }

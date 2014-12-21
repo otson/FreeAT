@@ -197,6 +197,15 @@ public class Controller {
     public void buyToken(){
         player.buyToken();
     }
+
+    public boolean hasMoved() {
+        return player.hasMoved();
+        
+    }
+
+    public int getDice() {
+        return player.getDice();
+    }
     
     
 }

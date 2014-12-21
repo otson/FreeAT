@@ -52,25 +52,48 @@ public class NormalAI extends AI {
 //            }
 //        }
     }
-    
+
     @Override
-    public void act(Controller c){
+    public void act(Controller c) {
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
-//        while(!c.isEndTurn()){
-//            if(c.getMyBalance() <100 && c.getCurrentNode().hasTreasure())
-//                c.decideTryToken();
-//            else{
-//                if(c.getMyBalance() > 400 && c.isAvailablePlanesFromCurrentNode()){
-//                    c.decidetoUsePlane();
-//                    ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 300, 1);
-//                    for(Route route : routes){
-//                       if(route.getPrice() == 300)
-//                           if(route.getDestination().hasTreasure())
-//                               c.moveTo(route);
+        //while (!c.isEndTurn()) {
+        if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
+            c.decideTryToken();
+        } else {
+//            if (c.getMyBalance() >= 400 && c.isAvailablePlanesFromCurrentNode()) {
+//                c.decidetoUsePlane();
+//                ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 300, 1);
+//                for (Route route : routes) {
+//                    if (route.getPrice() == 300) {
+//                        if (route.getDestination().hasTreasure()) {
+//                            if (!c.hasMoved()) {
+//                                c.moveTo(route);
+//                                c.buyToken();
+//                            }
+//                        }
 //                    }
 //                }
-//            }
-//        }
+//                if (!c.hasMoved()) {
+//                    c.moveTo(routes.get(1));
+//                    c.endTurn();
+//                }
+//            } else {
+                c.decideToUseLandOrSeaRoute();
+                ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
+                for (Route route : routes) {
+                    if (!c.hasMoved() && route.getDestination().hasTreasure()) {
+                        c.moveTo(route);
+                        if (c.getMyBalance() >= 100) {
+                            c.buyToken();
+                        }
+                    }
+                }
+                if (!c.hasMoved()) {
+                    c.moveTo(routes.get((int)Math.random()*routes.size()));
+                }
+            }
+        //}
+        //}
     }
 }
