@@ -1,0 +1,33 @@
+Afrikan t‰hti
+Vuoro
+
+1:
+Voi yritt‰‰ avata aarteen nopalla. Vuoro loppuu.
+
+2: Voi liikkua maata pitkin. Sen j‰lkeen voi yritt‰‰ ostaa. 
+
+3: Voi liikkua lent‰m‰ll‰. Sen j‰lkeen voi yritt‰‰ ostaa. 
+
+Vuoron alussa p‰‰tˆs:
+P‰‰t‰n yritt‰‰ avata aarteen nopalla.
+TAI
+P‰‰t‰n lent‰‰.
+TAI
+P‰‰t‰n kulkea maareitti‰/merireitti‰.
+
+JOS
+P‰‰t‰n yritt‰‰ avata aarteen nopalla:
+Tarkistetaan onko pelaajan alla avaamaton aarre.
+JOS on
+Vuoro loppuu yrityksen j‰lkeen riippumatta onnistuiko yritys.
+
+JOS
+P‰‰t‰n lent‰‰.
+Tarkistetaan onko pelaajan pisteest‰ lentoreitteja.
+Tarkistetaan onko pelaajalla v‰hint‰‰n 300 rahaa.
+JOS on
+Pelaajan lennetty‰ h‰n saa yritt‰‰ ostaa aarteen aukaisun. Sitten vuoro loppuu.
+
+JOS
+P‰‰t‰n liikkua maata/merta pitkin.
+Pelaajan valittua yhden saatavilla olevista reiteist‰ ja maksettua reitin hinnan, h‰n saa ostaa aarteen, jos m‰‰r‰np‰‰ss‰ on avaamaton aarre. Sitten vuoro loppuu.
