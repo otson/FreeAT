@@ -57,15 +57,20 @@ public class NormalAI extends AI {
     public void act(Controller c){
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
-        while(!c.isEndTurn()){
-            if(c.getMyBalance() <100 && c.getCurrentNode().hasTreasure())
-                c.decideTryToken();
-            else{
-                if(c.getMyBalance() > 400 && c.isAvailablePlanesFromCurrentNode()){
-                    c.decidetoUsePlane();
-                    ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 300, 1);
-                }
-            }
-        }
+//        while(!c.isEndTurn()){
+//            if(c.getMyBalance() <100 && c.getCurrentNode().hasTreasure())
+//                c.decideTryToken();
+//            else{
+//                if(c.getMyBalance() > 400 && c.isAvailablePlanesFromCurrentNode()){
+//                    c.decidetoUsePlane();
+//                    ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 300, 1);
+//                    for(Route route : routes){
+//                       if(route.getPrice() == 300)
+//                           if(route.getDestination().hasTreasure())
+//                               c.moveTo(route);
+//                    }
+//                }
+//            }
+//        }
     }
 }
