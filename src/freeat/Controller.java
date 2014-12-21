@@ -103,6 +103,19 @@ public class Controller {
         return player.isEndTurn();
     }
     
+    public int getMyID(){
+        return player.ID;
+    }
+    
+    public boolean hasStar(){
+        return player.isHasStar();
+        
+    }
+    
+    public boolean hasHorseShoeAfterStar(){
+        return player.isHasHorseshoeAfterStar();
+    }
+    
     public ArrayList<Route> getMyAvailableRoutes(){
         return getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), 6);
     }

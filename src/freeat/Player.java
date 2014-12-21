@@ -240,7 +240,8 @@ public class Player {
             }
         }
     }
-
+    
+    
     // Decision
     public void decidetoUsePlane() {
         if (!getCurrentNode().getPlaneConnections().isEmpty() && cashBalance >= 300) {
