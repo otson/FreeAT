@@ -6,6 +6,7 @@
 package freeat;
 
 import com.sun.xml.internal.ws.api.message.saaj.SAAJFactory;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -179,10 +180,15 @@ public class Main {
     }
 
     public static Texture loadTexture(String key) {
-        InputStream resourceAsStream = Main.class
-                .getClassLoader().getResourceAsStream("res/textures/" + key + ".png");
+        InputStream resourceAsStream = null;// = Main.class
+                //.getClassLoader().getResourceAsStream("res/textures/" + key + ".png");
         
-
+        try {  
+            resourceAsStream = new FileInputStream("C:\\Users\\otso\\Documents\\NetBeansProjects\\FreeAT\\src\\res\\textures\\mapSquare.png");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         try {
             return TextureLoader.getTexture("png", resourceAsStream);
 
