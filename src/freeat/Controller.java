@@ -27,9 +27,7 @@ public class Controller {
     }
     
     
-    public void buyToken(){
-        player.buyToken();
-    }
+    
     
     public int getBalance(int playedID){
         return PublicInformation.getBalance(playedID);
@@ -62,12 +60,6 @@ public class Controller {
     public Node getNode(int nodeID){
         return player.getNode(nodeID);
     }
-
-    
-    public boolean isValidMove(int targetID){
-        return player.isValidMove(targetID);
-    }
-
     
     public int totalTreasures(){
         return PublicInformation.getTreasureTotal();
@@ -176,7 +168,29 @@ public class Controller {
         return null;
 
     }
-
+    public void decidetoUsePlane(){
+        player.decidetoUsePlane();
+    }
+    
+    public void decideTryToken(){
+        player.decideToTryToken();
+    }
+    
+    public void decideToUseLandOrSeaRoute(){
+        player.decideToUseLandOrSeaRoute();
+    }
+    
+    public void moveTo(Route destination){
+        player.moveTo(destination);
+    }
+    
+    public void endTurn(){
+        player.endTurn();
+    }
+    
+    public void buyToken(){
+        player.buyToken();
+    }
     
     
 }

@@ -221,9 +221,6 @@ public class Player {
         return endTurn;
     }
 
-    public boolean isValidMove(int targetID) {
-        return !visitedThisTurn.contains(targetID);
-    }
 
     public Node getNode(int nodeID) {
         return locations.get(nodeID);
