@@ -111,13 +111,13 @@ public class Main {
             checkUserInput();
             game.processTurn();
 
-            if (System.nanoTime()- sinceUpdate > 1000000*17) {
+            //if (System.nanoTime()- sinceUpdate > 1000000*17) {
                 render();
                 Display.update();
                 //Display.sync(60);
                 sinceUpdate = System.nanoTime();
                 fps++;
-            }
+            //}
             end = System.nanoTime();
             total += end - start;
             
