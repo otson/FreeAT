@@ -114,7 +114,7 @@ public class Main {
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
                 render();
                 Display.update();
-                //Display.sync(60);
+                Display.sync(3);
                 sinceUpdate = System.nanoTime();
                 fps++;
             //}
