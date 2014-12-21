@@ -65,7 +65,7 @@ public class Game {
         for (Node node : locations.values()) {
             currentPrice = 3;
             for (int i = 0; i < node.getPlaneConnections().size(); i++) {
-                
+
                 Integer integer = node.getPlaneConnections().get(i);
                 Node next = locations.get(integer);
                 for (int j = 1; j < 7; j++) {
