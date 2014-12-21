@@ -61,37 +61,46 @@ public class Game {
             getNext(node, null, distance, currentPrice, node.getAllLists());
         }
         // plane routes
-        for (Node node : locations.values()) {
-            currentPrice = 3;
-            for (int i = 0; i < node.getPlaneConnections().size(); i++) {
-                Integer integer = node.getPlaneConnections().get(i);
-                Node next = locations.get(integer);
-                for (int j = 1; j < 7; j++) {
-                    node.allLists[i][currentPrice].add(new Route(next, currentPrice * 100));
-                }
-            }
-        }
+//        for (Node node : locations.values()) {
+//            currentPrice = 3;
+//            for (int i = 0; i < node.getPlaneConnections().size(); i++) {
+//                Integer integer = node.getPlaneConnections().get(i);
+//                Node next = locations.get(integer);
+//                for (int j = 1; j < 7; j++) {
+//                    node.allLists[i][currentPrice].add(new Route(next, currentPrice * 100));
+//                }
+//            }
+//        }
     }
 
     private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, ArrayList<Route>[][] list) {
         for (int i = 0; i < previous.getConnections().size(); i++) {
+            int tempPrice = currentPrice;
             Integer integer = previous.getConnections().get(i);
             Node current = locations.get(integer);
             if (current != previousPrevious) {
                 if (current.isCity()) {
                     for (int j = 1; j < 7; j++) {
-                        list[j][currentPrice].add(new Route(current, currentPrice * 100));
+                        list[j][tempPrice].add(new Route(current, tempPrice * 100));
                     }
                 } else {
                     if (current.isSea() && !previous.isSea()) {
-                        currentPrice++;
+                        tempPrice++;
+                        System.out.println("Current price: " + tempPrice);
+                        if (previousPrevious != null) {
+                            System.out.println("Previousprevious: " + previousPrevious.ID);
+                            System.out.println("Previous: " + previous.ID);
+                            System.out.println("Current: " + current.ID);
+                        }
+
                     }
-                    list[distance][currentPrice].add(new Route(current, currentPrice * 100));
+                    list[distance][tempPrice].add(new Route(current, tempPrice * 100));
                 }
                 if (distance < 6) {
-                    getNext(current, previous, distance + 1, currentPrice, list);
+                    getNext(current, previous, distance + 1, tempPrice, list);
                 }
             }
+
         }
     }
 
