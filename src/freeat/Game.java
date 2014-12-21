@@ -51,12 +51,10 @@ public class Game {
         getConnections();
         setTreasures();
         setPlayers();
-//        for (Node node : locations.values()) {
-//            node.print();
-//        }
+        setAllRoutes();
     }
 
-    public void setAllRoutes() {
+    public final void setAllRoutes() {
         int distance = 1;
         int currentPrice = 0;
         for (Node node : locations.values()) {
@@ -86,7 +84,7 @@ public class Game {
                     list[j][currentPrice].add(new Route(current, currentPrice * 100));
                 }
             } else {
-                if (current.isSea()) {
+                if (current.isSea() && !previous.isSea()) {
                     currentPrice++;
                 }
                 list[distance][currentPrice].add(new Route(current, currentPrice * 100));
