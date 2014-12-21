@@ -7,6 +7,7 @@ package freeat.ai;
 
 import freeat.Controller;
 import freeat.Route;
+import java.util.ArrayList;
 
 
 /**
@@ -37,7 +38,9 @@ public class NormalAI extends AI {
                 //for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 100, 1).size(); i++) {
                 //    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 100, 1).get(i).getDestination().ID);
                 //}
-                for (Route route : c.getMyAvailableRoutes()) {
+                ArrayList<Route> routeList = c.getMyAvailableRoutes();
+                int routeListSize = routeList.size();
+                for (Route route : routeList) {
                     System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
                     if (route.getDestination().hasTreasure() && !c.isEndTurn()) {
                         c.moveTo(route);
