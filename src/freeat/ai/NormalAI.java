@@ -58,6 +58,7 @@ public class NormalAI extends AI {
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
         //while (!c.isEndTurn()) {
+        
         if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
             c.decideTryToken();
         } else {
@@ -79,20 +80,21 @@ public class NormalAI extends AI {
 //                    c.endTurn();
 //                }
 //            } else {
-                c.decideToUseLandOrSeaRoute();
-                ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
-                for (Route route : routes) {
-                    if (!c.hasMoved() && route.getDestination().hasTreasure()) {
-                        c.moveTo(route);
-                        if (c.getMyBalance() >= 100) {
-                            c.buyToken();
-                        }
+            c.decideToUseLandOrSeaRoute();
+            ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
+            for (Route route : routes) {
+                if (!c.hasMoved() && route.getDestination().hasTreasure()) {
+                    c.moveTo(route);
+                    if (c.getMyBalance() >= 100) {
+                        c.buyToken();
                     }
                 }
-                if (!c.hasMoved()) {
-                    c.moveTo(routes.get((int)Math.random()*routes.size()));
-                }
             }
+            if (!c.hasMoved()) {
+                int target = (int) (Math.random()*routes.size());
+                c.moveTo(routes.get(target));
+            }
+        }
         //}
         //}
     }
