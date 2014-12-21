@@ -210,6 +210,10 @@ public class Controller {
     public void buyToken(){
         player.buyToken();
     }
+    
+    public int getPlayerCount(){
+        return PublicInformation.PLAYER_COUNT;
+    }
 
     public boolean hasMoved() {
         return player.hasMoved();
