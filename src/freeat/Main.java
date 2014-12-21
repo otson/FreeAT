@@ -5,11 +5,13 @@
  */
 package freeat;
 
+import java.awt.Font;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
@@ -17,7 +19,11 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.GL_ALL_ATTRIB_BITS;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_CLAMP;
+import static org.lwjgl.opengl.GL11.GL_LIGHT0;
+import static org.lwjgl.opengl.GL11.GL_LIGHTING;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
@@ -32,14 +38,21 @@ import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glPopAttrib;
+import static org.lwjgl.opengl.GL11.glPushAttrib;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTexEnvi;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.opengl.GL11.glVertex2f;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import static org.newdawn.slick.opengl.renderer.SGL.GL_COLOR_BUFFER_BIT;
@@ -69,12 +82,33 @@ public class Main {
 
     public static Texture map;
 
+    private static UnicodeFont font;
+
     public static void main(String[] args) {
-        
+
         initDisplay();
+        initFont();
         initTextures();
         game = new Game();
         gameLoop();
+    }
+
+    private static void initFont() {
+        Font awtFont = new Font("Calibri", Font.PLAIN, 18); //name, style (PLAIN, BOLD, or ITALIC), size
+
+        font = new UnicodeFont(awtFont.deriveFont(0, 18));
+
+        font.addAsciiGlyphs();
+        ColorEffect e = new ColorEffect();
+
+        //e.setColor(java.awt.Color.white);
+        font.getEffects()
+                .add(e);
+        try {
+            font.loadGlyphs();
+        } catch (SlickException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private static void initDisplay() {
@@ -112,15 +146,16 @@ public class Main {
             game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
-                render();
-                Display.update();
-                Display.sync(3);
-                sinceUpdate = System.nanoTime();
-                fps++;
+            render();
+            renderDebugText();
+            Display.update();
+            Display.sync(3);
+            sinceUpdate = System.nanoTime();
+            fps++;
             //}
             end = System.nanoTime();
             total += end - start;
-            
+
             if (total > 1000000000) {
                 Display.setTitle("FPS: " + fps);
                 fps = 0;
@@ -176,14 +211,14 @@ public class Main {
 
     public static Texture loadTexture(String key) {
         InputStream resourceAsStream = null;// = Main.class
-                //.getClassLoader().getResourceAsStream("res/textures/" + key + ".png");
-        
-        try {  
+        //.getClassLoader().getResourceAsStream("res/textures/" + key + ".png");
+
+        try {
             resourceAsStream = new FileInputStream("C:\\Users\\otso\\Documents\\NetBeansProjects\\FreeAT\\src\\res\\textures\\mapSquare.png");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
             return TextureLoader.getTexture("png", resourceAsStream);
 
@@ -193,6 +228,36 @@ public class Main {
         }
 
         return null;
+    }
+
+    private static void renderDebugText() {
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(0);
+        glLoadIdentity();
+        glDisable(GL_LIGHTING);
+        glDisable(GL_LIGHT0);
+        glEnable(GL_BLEND);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glDisable(GL_TEXTURE_2D);
+
+        font.drawString(5, 5, "Player 1 cash: " + PublicInformation.getBalance(0));
+        font.drawString(5, 25, "Player 2 cash: " + PublicInformation.getBalance(1));
+        glEnable(GL_TEXTURE_2D);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, -1);
+        glMatrixMode(GL_MODELVIEW);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glDisable(GL_BLEND);
+
+        glLoadIdentity();
+        map.bind();
+        glPopAttrib();
     }
 
 }
