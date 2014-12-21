@@ -179,7 +179,7 @@ public class Node {
             TYPE = NodeType.CAIRO;
         }
         if (ID == 2) {
-            TYPE = NodeType.TANGIR;
+            TYPE = NodeType.TANGIER;
         }
         if (ID > 100 && ID < 200) {
             TYPE = NodeType.CITY;
