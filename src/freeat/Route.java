@@ -11,11 +11,21 @@ package freeat;
  */
 public class Route {
     
-    Node destination;
-    int price;
+    private Node destination;
+    private int price;
     
     Route(Node destination, int price){
         this.destination = destination;
         this.price = price;
     }
+
+    public Node getDestination() {
+        return destination;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+    
+    
 }

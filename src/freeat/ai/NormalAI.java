@@ -55,7 +55,7 @@ public class NormalAI extends AI {
     public void act(Controller c){
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
-        while(c.hasMovesLeft() || !c.isEndTurn()){
+        while(!c.isEndTurn()){
             
         }
     }

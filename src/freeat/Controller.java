@@ -26,29 +26,10 @@ public class Controller {
         this.ID = player.ID;
     }
     
-    public void moveTo(int nodeID){
-        player.moveTo(nodeID);
-    }
     
     public void buyToken(){
         player.buyToken();
     }
-    
-    public void tryToWinToken(){
-        player.tryToWinToken();
-    }
-    
-    public void flyTo(int nodeID){
-        player.flyTo(nodeID);
-    }
-    
-    public void stayInCity(){
-        player.stayInCity();
-    }
-    public boolean hasMovesLeft(){
-        return player.getMovesLeft() > 0;
-    }
-    
     
     public int getBalance(int playedID){
         return PublicInformation.getBalance(playedID);
@@ -81,27 +62,12 @@ public class Controller {
     public Node getNode(int nodeID){
         return player.getNode(nodeID);
     }
-    
-    public int movesLeft(){
-        if(!player.isStayInCity())
-            return player.getMovesLeft();
-        else{
-            System.out.println("Staying in city, don't know how many moves left");
-            return -1;   
-        }
-    }
+
     
     public boolean isValidMove(int targetID){
         return player.isValidMove(targetID);
     }
-    
-    public void leaveCity(){
-        player.leaveCity();
-    }
 
-    public void endTurn() {
-        player.endTurn();
-    }
     
     public int totalTreasures(){
         return PublicInformation.getTreasureTotal();
@@ -133,14 +99,6 @@ public class Controller {
     
     public int unopenedLeft(){
         return PublicInformation.getUnOpenedLeft();
-    }
-    
-    //public ArrayList<Route> getAvailableRoutes(Node start, int cash, int dice) {
-    //    return 
-    //}
-    
-    public boolean canFly(){
-        return !player.isHasFlown();
     }
 
     public boolean isEndTurn() {
