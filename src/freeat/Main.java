@@ -244,8 +244,8 @@ public class Main {
         glMatrixMode(GL_MODELVIEW);
         glDisable(GL_TEXTURE_2D);
 
-        font.drawString(5, 5, "Player 1 cash: " + PublicInformation.getBalance(0));
-        font.drawString(5, 25, "Player 2 cash: " + PublicInformation.getBalance(1));
+        font.drawString(5, 5, "Player 1 cash: " + PublicInformation.getBalance(0)+ " Debug: "+game.getPlayers().get(0).getDebugString());
+        font.drawString(5, 25, "Player 2 cash: " + PublicInformation.getBalance(1)+ " Debug: "+game.getPlayers().get(1).getDebugString());
         glEnable(GL_TEXTURE_2D);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();

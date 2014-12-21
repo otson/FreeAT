@@ -28,9 +28,5 @@ public abstract class AI {
         this.locations = locations;
     }
     
-    
-    
-    public abstract void act(Player player);
-
     public  abstract void act(Controller controller);
 }

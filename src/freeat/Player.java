@@ -31,6 +31,7 @@ public class Player {
     public final int ID;
     private HashMap<Integer, Node> locations;
     private ArrayList<Integer> visitedThisTurn;
+    private String debugString;
 
     private int movesLeft = 0;
 
@@ -63,6 +64,7 @@ public class Player {
         this.location = ai.START;
         controller = new Controller(this, locations);
         visitedThisTurn = new ArrayList();
+        debugString = "Test";
 
     }
 
@@ -351,5 +353,23 @@ public class Player {
     boolean hasMoved() {
         return moved;
     }
+
+    public void setDebugString(String debugString) {
+        this.debugString = debugString;
+    }
+    
+    public void resetDebugString(){
+        debugString = "";
+    }
+    
+    public void concatDebugString(String debugString){
+        this.debugString = this.debugString.concat(debugString);
+    }
+
+    public String getDebugString() {
+        return debugString;
+    }
+    
+    
 
 }

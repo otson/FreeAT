@@ -220,5 +220,18 @@ public class Controller {
         return player.getDice();
     }
     
+    public void setDebugString(String debugString) {
+        player.setDebugString(debugString);
+    }
+    
+    public void resetDebugString(){
+        player.resetDebugString();
+    }
+    
+    public void concatDebugString(String debugString){
+        player.concatDebugString(debugString);
+    }
+    
+    
     
 }
