@@ -1,12 +1,6 @@
 ﻿Afrikan tähti
 Vuoro
 
-1:
-Voi yrittää avata aarteen nopalla. Vuoro loppuu.
-
-2: Voi liikkua maata pitkin. Sen jälkeen voi yrittää ostaa. 
-
-3: Voi liikkua lentämällä. Sen jälkeen voi yrittää ostaa. 
 
 Vuoron alussa päätös:
 Päätän yrittää avata aarteen nopalla.
