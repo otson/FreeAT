@@ -5,6 +5,9 @@
  */
 package freeat;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author otso
@@ -12,10 +15,13 @@ package freeat;
 public class Controller {
     
     private Player player;
+    private HashMap<Integer, Node> locations;
     public final int ID;
     
-    public Controller(Player player) {
+    
+    public Controller(Player player, HashMap<Integer, Node> locations) {
         this.player = player;
+        this.locations = locations;
         this.ID = player.ID;
     }
     
@@ -128,6 +134,10 @@ public class Controller {
         return PublicInformation.getUnOpenedLeft();
     }
     
+    //public ArrayList<Route> getAvailableRoutes(Node start, int cash, int dice) {
+    //    return 
+    //}
+    
     public boolean canFly(){
         return !player.isHasFlown();
     }
@@ -135,5 +145,79 @@ public class Controller {
     public boolean isEndTurn() {
         return player.isEndTurn();
     }
+    
+    public ArrayList<Route> getMyAvailableRoutes(){
+        return getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), 6);
+    }
+    
+    public ArrayList<Route> getAvailableRoutes(Node start, int cash, int dice) {
+        if (cash < 100) {
+            switch (dice) {
+                case 1:
+                    return locations.get(start.ID).getDistance1Cost0();
+                case 2:
+                    return locations.get(start.ID).getDistance2Cost0();
+                case 3:
+                    return locations.get(start.ID).getDistance3Cost0();
+                case 4:
+                    return locations.get(start.ID).getDistance4Cost0();
+                case 5:
+                    return locations.get(start.ID).getDistance5Cost0();
+                case 6:
+                    return locations.get(start.ID).getDistance6Cost0();
+            }
+        } else if (cash < 200) {
+            switch (dice) {
+                case 1:
+                    return locations.get(start.ID).getDistance1Cost100();
+                case 2:
+                    return locations.get(start.ID).getDistance2Cost100();
+                case 3:
+                    return locations.get(start.ID).getDistance3Cost100();
+                case 4:
+                    return locations.get(start.ID).getDistance4Cost100();
+                case 5:
+                    return locations.get(start.ID).getDistance5Cost100();
+                case 6:
+                    return locations.get(start.ID).getDistance6Cost100();
+            }
+        } else if (cash < 300) {
+            switch (dice) {
+                case 1:
+                    return locations.get(start.ID).getDistance1Cost200();
+                case 2:
+                    return locations.get(start.ID).getDistance2Cost200();
+                case 3:
+                    return locations.get(start.ID).getDistance3Cost200();
+                case 4:
+                    return locations.get(start.ID).getDistance4Cost200();
+                case 5:
+                    return locations.get(start.ID).getDistance5Cost200();
+                case 6:
+                    return locations.get(start.ID).getDistance6Cost200();
+            }
+        } else if (cash >= 300) {
+            switch (dice) {
+                case 1:
+                    return locations.get(start.ID).getDistance1Cost300();
+                case 2:
+                    return locations.get(start.ID).getDistance2Cost300();
+                case 3:
+                    return locations.get(start.ID).getDistance3Cost300();
+                case 4:
+                    return locations.get(start.ID).getDistance4Cost300();
+                case 5:
+                    return locations.get(start.ID).getDistance5Cost300();
+                case 6:
+                    return locations.get(start.ID).getDistance6Cost300();
+            }
+        }
+        
+        System.out.println("No destinations found, error...");
+        return null;
+
+    }
+
+    
     
 }
