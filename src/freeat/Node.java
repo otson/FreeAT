@@ -174,6 +174,7 @@ public class Node {
         this.y = Main.WINDOW_HEIGHT - y;
         this.locations = locations;
         connections = new ArrayList<>();
+        planeConnections = new ArrayList<>();
         if (ID == 1) {
             TYPE = NodeType.CAIRO;
         }

@@ -49,6 +49,7 @@ public class Game {
         players = new ArrayList();
         getLocations();
         getConnections();
+        getPlaneConnections();
         setTreasures();
         setPlayers();
         setAllRoutes();
@@ -60,17 +61,18 @@ public class Game {
         for (Node node : locations.values()) {
             getNext(node, null, distance, currentPrice, node.getAllLists());
         }
-        // plane routes
-//        for (Node node : locations.values()) {
-//            currentPrice = 3;
-//            for (int i = 0; i < node.getPlaneConnections().size(); i++) {
-//                Integer integer = node.getPlaneConnections().get(i);
-//                Node next = locations.get(integer);
-//                for (int j = 1; j < 7; j++) {
-//                    node.allLists[i][currentPrice].add(new Route(next, currentPrice * 100));
-//                }
-//            }
-//        }
+        //plane routes
+        for (Node node : locations.values()) {
+            currentPrice = 3;
+            for (int i = 0; i < node.getPlaneConnections().size(); i++) {
+                
+                Integer integer = node.getPlaneConnections().get(i);
+                Node next = locations.get(integer);
+                for (int j = 1; j < 7; j++) {
+                    node.allLists[i][currentPrice].add(new Route(next, currentPrice * 100));
+                }
+            }
+        }
     }
 
     private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, ArrayList<Route>[][] list) {
@@ -148,6 +150,37 @@ public class Game {
                 Node temp = locations.get(iValues[0]);
                 for (int i = 1; i < values.length; i++) {
                     temp.addConnection(iValues[i]);
+                }
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void getPlaneConnections() {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(Main.PLANE_CONNECTIONS_FILE)); // at 120
+            String line = br.readLine();
+            while (line != null) {
+                String[] values = line.split(" ");
+                int[] iValues = new int[values.length];
+                for (int i = 0; i < values.length; i++) {
+                    iValues[i] = Integer.parseInt(values[i].trim());
+                }
+                // add new node to array with the id, x and y coordinates
+                Node temp = locations.get(iValues[0]);
+                for (int i = 1; i < values.length; i++) {
+                    temp.addPlaneConnection(iValues[i]);
                 }
                 line = br.readLine();
             }
