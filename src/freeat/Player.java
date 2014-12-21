@@ -218,7 +218,7 @@ public class Player {
         Node current = locations.get(this.location);
         return (current.getTYPE() == NodeType.CITY
                 || current.getTYPE() == NodeType.CAIRO
-                || current.getTYPE() == NodeType.TANGIR
+                || current.getTYPE() == NodeType.TANGIER
                 || current.getTYPE() == NodeType.GOLD_COAST
                 || current.getTYPE() == NodeType.SLAVE_COAST
                 || current.getTYPE() == NodeType.CAPE_TOWN);
@@ -295,7 +295,7 @@ public class Player {
                         }
 
                     }
-                    if (target.TYPE == NodeType.TANGIR) {
+                    if (target.TYPE == NodeType.TANGIER) {
                         this.location = destination.getDestination().ID;
                         moved = true;
                         if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {

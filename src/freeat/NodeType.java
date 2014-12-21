@@ -11,7 +11,7 @@ package freeat;
  */
 public class NodeType {
     public static final int CAIRO = 1;
-    public static final int TANGIR = 2;
+    public static final int TANGIER = 2;
     public static final int ROUTE = 3;
     public static final int SEA_ROUTE = 4;
     public static final int SAHARA = 5;
