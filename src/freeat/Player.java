@@ -87,8 +87,6 @@ public class Player {
         }
     }
 
-    
-
     private void throwDice() {
         dice = 1 + (int) (Math.random() * 5);
     }
@@ -165,8 +163,6 @@ public class Player {
         idCount = 0;
     }
 
-    
-
     public int getLocation() {
         return location;
     }
@@ -232,7 +228,7 @@ public class Player {
     public Node getNode(int nodeID) {
         return locations.get(nodeID);
     }
-    
+
     // Decision
     public void decideToTryToken() {
         if (getCurrentNode().hasTreasure()) {
@@ -242,7 +238,7 @@ public class Player {
             }
         }
     }
-    
+
     // Decision
     public void decidetoUsePlane() {
         if (!getCurrentNode().getPlaneConnections().isEmpty() && cashBalance >= 300) {
@@ -251,14 +247,14 @@ public class Player {
             }
         }
     }
-    
+
     // Decision
     public void decideToUseLandOrSeaRoute() {
         if (!tryToWinToken && !usePlane) {
             useLandOrSea = true;
         }
     }
-    
+
     // Land, sea, or plane
     public void moveTo(Route destination) {
         if (useLandOrSea || usePlane) {
@@ -326,7 +322,7 @@ public class Player {
             }
         }
     }
-    
+
     public void buyToken() {
         if (!endTurn) {
             Node temp = locations.get(location);
@@ -342,11 +338,9 @@ public class Player {
             }
         }
     }
-    
-    public void endTurn(){
-        if(moved)
-            endTurn = true;
-        else if(tryToWinToken){
+
+    public void endTurn() {
+        if (moved) {
             endTurn = true;
         }
     }
