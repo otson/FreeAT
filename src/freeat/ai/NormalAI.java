@@ -56,7 +56,7 @@ public class NormalAI extends AI {
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
         while(!c.isEndTurn()){
-
+            if(c.)
         }
     }
 }
