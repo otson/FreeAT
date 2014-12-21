@@ -24,10 +24,7 @@ public class Controller {
         this.player = player;
         this.locations = locations;
         this.ID = player.ID;
-    }
-    
-    
-    
+    } 
     
     public int getBalance(int playedID){
         return PublicInformation.getBalance(playedID);
