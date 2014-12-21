@@ -74,7 +74,6 @@ public class Game {
     }
 
     private void getNext(Node previous, int distance, int currentPrice, ArrayList<Route>[][] list) {
-        int nextDistance = distance + 1;
         for (int i = 0; i < previous.getConnections().size(); i++) {
             Integer integer = previous.getConnections().get(i);
             Node current = locations.get(integer);
@@ -89,8 +88,9 @@ public class Game {
                 }
                 list[distance][currentPrice].add(new Route(current, currentPrice * 100));
             }
-            if(nextDistance < 7){
-                getNext(current, nextDistance, currentPrice, list);
+            Distance++;
+            if(Distance < 7){
+                getNext(current, Distance, currentPrice, list);
             }
         }
     }
