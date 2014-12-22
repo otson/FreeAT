@@ -64,11 +64,18 @@ public class Player {
         inSahara = false;
         inPirates = true;
         isWinner = false;
-        ai = new NormalAI();
+        if(ID == 0){
+            ai = new NormalAI();
+        }
+        else{
+            ai = new LoomAI();
+        }
+        
         r = ai.getR();
         g = ai.getG();
         b = ai.getB();
         name = ai.getName();
+        
         ai.setLocations(locations);
         this.location = ai.START;
         controller = new Controller(this, locations);
@@ -345,10 +352,10 @@ public class Player {
                     cashBalance -= 100;
                     openToken();
                 } else {
-                    System.out.println("Not enough money to buy a token.");
+                  //  System.out.println("Not enough money to buy a token.");
                 }
             } else {
-                System.out.println("Not possible to buy token: no token available.");
+                //System.out.println("Not possible to buy token: no token available.");
             }
         }
     }
