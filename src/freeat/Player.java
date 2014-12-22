@@ -279,10 +279,16 @@ public class Player {
     // Land, sea, or plane
     public void moveTo(Route destination) {
         if (useLandOrSea || usePlane) {
+
             if (!moved) {
-                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[dice][destination.getPrice()/100].contains(destination)) {
+                int tempDice = dice;
+                if(usePlane){
+                    //System.out.println("Plane...");
+                    tempDice = 1;
+                }
+                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice()/100].contains(destination)) {
                     if(usePlane){
-                        System.out.println("Flying from: "+getCurrentNode().ID + " to "+destination.getDestination().ID);
+                        System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
                     }
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
@@ -404,6 +410,18 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isTryToWinToken() {
+        return tryToWinToken;
+    }
+
+    public boolean isUsePlane() {
+        return usePlane;
+    }
+
+    public boolean isUseLandOrSea() {
+        return useLandOrSea;
     }
     
     

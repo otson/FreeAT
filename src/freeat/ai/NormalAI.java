@@ -26,34 +26,61 @@ public class NormalAI extends AI {
     @Override
     public void act(Controller c) {
         while (!c.isEndTurn()) {
-            c.setDebugString(" I am at: "+c.getCurrentNodeName());
+            c.setDebugString(" I am at: " + c.getCurrentNodeName());
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
                 c.decideTryToken();
             } else {
-                c.decideToUseLandOrSeaRoute();
-                ArrayList<Route> routeList = c.getMyAvailableRoutes();
-                for (Route route : routeList) {
-                    //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
-                    if (route.getDestination().hasTreasure() && !c.isEndTurn()) {
-                        c.moveTo(route);
-                        if (c.getMyBalance() >= 100) {
-                            c.buyToken();
-                        } else {
-                            c.endTurn();
+                if (c.getMyBalance() >= 500 && c.isAvailablePlanesFromCurrentNode()) {
+                    c.decidetoUsePlane();
+                    ArrayList<Route> routeList = c.getMyAvailableRoutes();
+                    for (Route route : routeList) {
+                        //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
+                        if (route.getDestination().hasTreasure() && route.getPrice() == 300) {
+                            c.moveTo(route);
+                            if (c.getMyBalance() >= 100) {
+                                c.buyToken();
+                            } else {
+                                c.endTurn();
+                            }
                         }
                     }
-                }
-                if (!c.isEndTurn()) {
-                    int target = c.getMyAvailableRoutes().size();
-                    target = (int) (target*Math.random());
-                    if(!c.isEndTurn())
-                        c.moveTo(c.getMyAvailableRoutes().get(target));
-                    c.endTurn();
+                    if (!c.isEndTurn()) {
+                        for (Route route : routeList) {
+                            //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
+                            if (route.getPrice() == 300) {
+                                c.moveTo(route);
+                                c.endTurn();
+                            }
+                        }
+                    }
+
+                } else {
+                    c.decideToUseLandOrSeaRoute();
+                    ArrayList<Route> routeList = c.getMyAvailableRoutes();
+                    for (Route route : routeList) {
+                        //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
+                        if (route.getDestination().hasTreasure() && !c.isEndTurn()) {
+                            c.moveTo(route);
+                            if (c.getMyBalance() >= 100) {
+                                c.buyToken();
+                            } else {
+                                c.endTurn();
+                            }
+                        }
+                    }
+                    if (!c.isEndTurn()) {
+                        int target = c.getMyAvailableRoutes().size();
+                        target = (int) (target * Math.random());
+                        if (!c.isEndTurn()) {
+                            c.moveTo(c.getMyAvailableRoutes().get(target));
+                        }
+                        c.endTurn();
+                    }
                 }
             }
         }
     }
-    
+
     @Override
     public float getR() {
         return 1;
@@ -68,9 +95,9 @@ public class NormalAI extends AI {
     public float getB() {
         return 0.2f;
     }
-    
+
     @Override
-    public String getName(){
+    public String getName() {
         return "Otso";
     }
 }
