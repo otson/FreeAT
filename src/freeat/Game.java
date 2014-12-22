@@ -244,7 +244,7 @@ public class Game {
             y = temp.y;
             glDisable(GL_TEXTURE_2D);
             glBegin(GL_TRIANGLES);
-            glColor3f(1, 1, 1);
+            glColor3f(player.getR(), player.getG(), player.getB());
             glVertex2f(x - size / 2f, y + size / 2f);
             glVertex2f(x + size / 2f, y + size / 2f);
             glVertex2f(x, y - size / 2f);
