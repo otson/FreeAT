@@ -164,4 +164,27 @@ public class NormalAI extends AI {
     public String getName() {
         return "Otso";
     }
+    
+    private void removeRoutesIfNoTreasure(ArrayList<Route> list){
+        for(Route route: list){
+            if(!route.getDestination().hasTreasure())
+                list.remove(route);
+        }
+    }
+    
+    private void removeRouteIfCostEqualOrMore(ArrayList<Route> list, int cost){
+        for(Route route: list){
+            if(route.getPrice() >= cost){
+                list.remove(route);
+            }
+        }
+    }
+    
+    private void removeRouteIfCostEqualOrLess(ArrayList<Route> list, int cost){
+        for(Route route: list){
+            if(route.getPrice() <= cost){
+                list.remove(route);
+            }
+        }
+    }
 }

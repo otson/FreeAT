@@ -247,5 +247,9 @@ public class Controller {
     public String getCurrentNodeName(){
         return getCurrentNode().getName();
     }
+    
+    public HashMap<Integer, Node> getNodeList(){
+        return player.getCurrentNode().getLocations();
+    }
   
 }

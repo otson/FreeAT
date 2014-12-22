@@ -444,6 +444,11 @@ public class Node {
     public boolean isStartCity(){
         return TYPE == NodeType.CAIRO || TYPE == NodeType.TANGIER;
     }
+
+    public HashMap<Integer, Node> getLocations() {
+        return locations;
+    }
+    
     
 
 }
