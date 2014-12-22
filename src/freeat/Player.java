@@ -67,8 +67,9 @@ public class Player {
 
         int nAITypes, AIType;
         nAITypes = AI.AIIdentifications.size();
+        //System.out.println("Size: "+AI.AIIdentifications.size());
         if (nAITypes == 0) {
-            AIType = 0;
+            AIType = 1;
         } else {
             AIType = (ID % nAITypes);
         }

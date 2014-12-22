@@ -10,7 +10,9 @@ import freeat.Node;
 import freeat.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  *
@@ -20,6 +22,8 @@ public abstract class AI {
 
     public final int START;
     protected HashMap<Integer, Node> locations;
+    // public static ArrayList<String> AIIdentifications = new ArrayList();
+    public static Set<String> AIIdentifications = new HashSet<>();
 
     public AI(int start) {
         START = start;
@@ -47,6 +51,5 @@ public abstract class AI {
         return "default";
     }
     
-    // public static ArrayList<String> AIIdentifications = new ArrayList();
-    public static Set<String> AIIdentifications = new Set<String>();
+    
 }

@@ -5,6 +5,7 @@
  */
 package freeat;
 
+import freeat.ai.AI;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.lwjgl.opengl.GL11.GL_LINES;
@@ -354,10 +356,10 @@ public class Game {
         }
     }
 
-    private void resetGame() {
+    public void resetGame() {
         //locations = new HashMap<>();
         PublicInformation.reset();
-        AI.AIIdentifications = new Set<String>();
+        AI.AIIdentifications.clear();
         players = new ArrayList();
         turnCount = 0;
         setPlayers();
