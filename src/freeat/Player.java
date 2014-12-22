@@ -47,6 +47,9 @@ public class Player {
     private boolean useLandOrSea;
     private boolean moved;
     private int dice;
+    
+    
+    private float r,g,b;
 
     public Player(HashMap<Integer, Node> locations) {
         ID = idCount;
@@ -61,6 +64,9 @@ public class Player {
         inPirates = true;
         isWinner = false;
         ai = new NormalAI();
+        r = ai.getR();
+        g = ai.getG();
+        b = ai.getB();
         ai.setLocations(locations);
         this.location = ai.START;
         controller = new Controller(this, locations);
@@ -369,6 +375,22 @@ public class Player {
 
     public String getDebugString() {
         return debugString;
+    }
+
+    public void forceEndTurn() {
+        endTurn = true;
+    }
+
+    public float getR() {
+        return r;
+    }
+
+    public float getG() {
+        return g;
+    }
+
+    public float getB() {
+        return b;
     }
     
     

@@ -117,6 +117,9 @@ public class Controller {
     }
     
     public ArrayList<Route> getMyAvailableRoutes(){
+        if(getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice()).isEmpty()){
+            player.forceEndTurn();
+        }
         return getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice());
     }
     

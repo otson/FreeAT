@@ -17,18 +17,30 @@ import java.util.Random;
  * @author otso
  */
 public abstract class AI {
-    
+
     public final int START;
     protected HashMap<Integer, Node> locations;
-    
-    public AI(int start){
+
+    public AI(int start) {
         START = start;
     }
 
     public void setLocations(HashMap<Integer, Node> locations) {
         this.locations = locations;
     }
-    
-    public  abstract void act(Controller controller);
-    
+
+    public abstract void act(Controller controller);
+
+    public float getR() {
+        return 0;
+    }
+
+    public float getG() {
+        return 1;
+    }
+
+    public float getB() {
+        return 0;
+    }
+
 }
