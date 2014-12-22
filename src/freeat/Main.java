@@ -85,7 +85,6 @@ public class Main {
     private static UnicodeFont font;
 
     public static void main(String[] args) {
-
         initDisplay();
         initFont();
         initTextures();

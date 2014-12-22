@@ -27,17 +27,17 @@ public class NormalAI extends AI {
     public void act(Controller c) {
         // loop ends when there are no moves left and 
         // the boolean to end the turn has been set
-        while (!c.isEndTurn()) {
+        //while (!c.isEndTurn()) {
             c.setDebugString("fee");
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
                 c.decideTryToken();
             } else {
                 c.decideToUseLandOrSeaRoute();
-                //System.out.println("Dice: "+c.getDice());
-                //System.out.println("Routes: " + c.getAvailableRoutes(c.getCurrentNode(), 100, 1).size());
-                //for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 100, 1).size(); i++) {
-                //    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 100, 1).get(i).getDestination().ID);
-                //}
+               // System.out.println("Dice: "+c.getDice());
+                System.out.println("Routes: " + c.getAvailableRoutes(c.getCurrentNode(), 0, 2).size());
+                for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 0, 1).size(); i++) {
+                    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 0, 2).get(i).getDestination().ID);
+                }
                 ArrayList<Route> routeList = c.getMyAvailableRoutes();
                 int routeListSize = routeList.size();
                 for (Route route : routeList) {
@@ -62,6 +62,6 @@ public class NormalAI extends AI {
                     }
                 }
             }
-        }
+      //  }
     }
 }

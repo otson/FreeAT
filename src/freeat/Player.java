@@ -6,6 +6,7 @@
 package freeat;
 
 import freeat.ai.AI;
+import freeat.ai.LoomAI;
 import freeat.ai.NormalAI;
 import java.util.ArrayList;
 import java.util.HashMap;

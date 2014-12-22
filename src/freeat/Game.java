@@ -84,16 +84,19 @@ public class Game {
             Node current = locations.get(integer);
             if (current != previousPrevious) {
                 if (current.isCity()) {
-                    for (int j = 1; j < 7; j++) {
-                        list[j][tempPrice].add(new Route(current, tempPrice * 100));
+                    for (int j = distance; j < 7; j++) {
+                        for(int x = tempPrice; x<4; x++){
+                            list[j][x].add(new Route(current, x * 100));
+                        }
                     }
                 } else {
                     if (current.isSea() && !previous.isSea()) {
                         tempPrice++;
 
                     }
-
-                    list[distance][tempPrice].add(new Route(current, tempPrice * 100));
+                    for(int x = tempPrice; x<4; x++){   
+                        list[distance][x].add(new Route(current, x * 100));
+                    }
                 }
                 if (distance < 6) {
                     getNext(current, previous, distance + 1, tempPrice, list);
