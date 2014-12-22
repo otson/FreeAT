@@ -347,7 +347,7 @@ public class Game {
                 }
                 System.out.println("");
                 resetGame();
-            } else if (turnCount > 1000) {
+            } else if (turnCount > 500) {
                 resetGame();
             }
 
