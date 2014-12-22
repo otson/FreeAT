@@ -50,6 +50,7 @@ public class Player {
     
     
     private float r,g,b;
+    private String name;
 
     public Player(HashMap<Integer, Node> locations) {
         ID = idCount;
@@ -67,6 +68,7 @@ public class Player {
         r = ai.getR();
         g = ai.getG();
         b = ai.getB();
+        name = ai.getName();
         ai.setLocations(locations);
         this.location = ai.START;
         controller = new Controller(this, locations);
@@ -392,6 +394,11 @@ public class Player {
     public float getB() {
         return b;
     }
+
+    public String getName() {
+        return name;
+    }
+    
     
     
 

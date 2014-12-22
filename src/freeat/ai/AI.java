@@ -42,5 +42,11 @@ public abstract class AI {
     public float getB() {
         return 0;
     }
+    
+    public String getName(){
+        return "default";
+    }
+    
+    
 
 }

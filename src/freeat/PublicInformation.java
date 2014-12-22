@@ -23,6 +23,8 @@ public class PublicInformation {
     private static boolean[] inSahara = new boolean[PLAYER_COUNT];
     private static boolean[] inPirates = new boolean[PLAYER_COUNT];
     private static boolean[] isWinner = new boolean[PLAYER_COUNT];
+    
+    private static String[] playerNames = new String[PLAYER_COUNT];
 
     private static int horseShoesTotal;
     private static int horseShoesLeft;
@@ -76,6 +78,7 @@ public class PublicInformation {
             inSahara[player.ID] = player.isInSahara();
             foundCapeTown[player.ID] = player.isFoundCapeTown();
             isWinner[player.ID] = player.isWinner();
+            playerNames[player.ID] = player.getName();
         }
     }
 
@@ -256,7 +259,9 @@ public class PublicInformation {
         PublicInformation.unOpenedLeft = unOpenedLeft;
     }
     
-    
+    public static String getName(int id){
+        return playerNames[id];
+    }
     
 
 }
