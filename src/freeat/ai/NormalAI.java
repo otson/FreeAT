@@ -37,10 +37,10 @@ public class NormalAI extends AI {
                 c.decideTryToken();
             } else {
                 c.decideToUseLandOrSeaRoute();
-                System.out.println("Dice: "+c.getDice());
-                System.out.println("Routes available from " + c.getCurrentNode().ID + " : " + c.getAvailableRoutes(c.getCurrentNode(), 300, c.getDice()).size());
-                for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 300, c.getDice()).size(); i++) {
-                    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 300, c.getDice()).get(i).getDestination().ID);
+                System.out.println("Dice: "+6);
+                System.out.println("Routes available from " + c.getCurrentNode().ID + " : " + c.getAvailableRoutes(c.getCurrentNode(), 100, 6).size());
+                for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 100, 6).size(); i++) {
+                    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 100, 6).get(i).getDestination().ID);
                 }
                 ArrayList<Route> routeList = c.getMyAvailableRoutes();
                 int routeListSize = routeList.size();
