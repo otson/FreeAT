@@ -1,5 +1,5 @@
-1   Cairo
-2   Tangier
+1 Cairo
+2 Tangier
 101 Cape_Guardafui
 102 Tamatave
 103 Cape_St_Marie
