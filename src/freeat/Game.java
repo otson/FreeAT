@@ -343,7 +343,7 @@ public class Game {
             if (PublicInformation.isWinner()) {
                 winCount[PublicInformation.getWinner()]++;
                 for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
-                    System.out.print("Player " + i + " wins: " + winCount[i] + " ");
+                    System.out.print("Player " + i +" "+ PublicInformation.getName(i) + " wins: " + winCount[i] + " ");
                 }
                 System.out.println("");
                 resetGame();
