@@ -15,10 +15,11 @@ import java.util.ArrayList;
  */
 public class NormalAI extends AI {
 
-    static int count = (int)Math.random()*2 + 1;
+    static int count = (int) (Math.random() * 2 + 1);
 
     public NormalAI() {
         super(count); // set the preferred start city (1 or 2)
+        count = (int) (Math.random() * 2 + 1);
         //count++;
     }
 
