@@ -33,6 +33,8 @@ public class Node {
     private ArrayList<Integer> connections;
     private ArrayList<Integer> planeConnections;
     private HashMap<Integer, Node> locations;
+    
+    private String name;
 
     //Routes that cost 0
     //Distance of 1
@@ -428,6 +430,10 @@ public class Node {
     
     public boolean isSea(){
         return ID > 500;
+    }
+
+    public String getName() {
+        return name;
     }
     
     

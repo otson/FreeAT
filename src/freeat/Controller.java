@@ -236,6 +236,8 @@ public class Controller {
         player.concatDebugString(debugString);
     }
     
-    
-    
+    public String getCurrentNodeName(){
+        return getCurrentNode().getName();
+    }
+  
 }
