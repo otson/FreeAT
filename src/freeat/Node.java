@@ -135,6 +135,7 @@ public class Node {
     ArrayList<Route>[][] allLists; 
 
     public Node(int id, int x, int y, HashMap<Integer, Node> locations) {
+        this.name = String.valueOf(id);
         allLists = new ArrayList[7][4];
         allLists[0][0] = new ArrayList<>();
         allLists[0][1] = new ArrayList<>();
@@ -434,6 +435,10 @@ public class Node {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     

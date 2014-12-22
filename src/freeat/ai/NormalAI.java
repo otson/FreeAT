@@ -9,7 +9,6 @@ import freeat.Controller;
 import freeat.Route;
 import java.util.ArrayList;
 
-
 /**
  *
  * @author otso
@@ -26,27 +25,27 @@ public class NormalAI extends AI {
     @Override
     public void act(Controller c) {
         /*
-        while (Keyboard.next()) {
+         while (Keyboard.next()) {
 
-            if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
-                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            }
-        */
-        //while (!c.isEndTurn()) {
+         if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
+         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+         }
+         */
+        while (!c.isEndTurn()) {
             c.setDebugString("fee");
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
                 c.decideTryToken();
             } else {
                 c.decideToUseLandOrSeaRoute();
-               // System.out.println("Dice: "+c.getDice());
-                System.out.println("Routes: " + c.getAvailableRoutes(c.getCurrentNode(), 0, 2).size());
-                for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 0, 1).size(); i++) {
-                    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 0, 2).get(i).getDestination().ID);
+                System.out.println("Dice: "+c.getDice());
+                System.out.println("Routes available from " + c.getCurrentNode().ID + " : " + c.getAvailableRoutes(c.getCurrentNode(), 300, c.getDice()).size());
+                for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 300, c.getDice()).size(); i++) {
+                    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 300, c.getDice()).get(i).getDestination().ID);
                 }
                 ArrayList<Route> routeList = c.getMyAvailableRoutes();
                 int routeListSize = routeList.size();
                 for (Route route : routeList) {
-                    System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
+                    //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
                     if (route.getDestination().hasTreasure() && !c.isEndTurn()) {
                         c.moveTo(route);
                         System.out.println("here");
@@ -67,6 +66,6 @@ public class NormalAI extends AI {
                     }
                 }
             }
-      //  }
+        }
     }
 }

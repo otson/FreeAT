@@ -51,10 +51,16 @@ public class Game {
         getConnections();
         getPlaneConnections();
         setTreasures();
+        setNodeNames();
         setPlayers();
         setAllRoutes();
+//        for(Node node: locations.values()){
+//            System.out.println("Node "+node.ID+" "+node.getName());
+//        }
+//        System.exit(0);
+        
         //printRoutes();
-        //System.exit(0);
+        
     }
 
     public final void setAllRoutes() {
@@ -119,6 +125,31 @@ public class Game {
                 }
                 // add new node to array with the id, x and y coordinates
                 locations.put(iValues[0], new Node(iValues[0], iValues[1], iValues[2], locations));
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+    
+    private static void setNodeNames() {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(Main.NODE_NAMES));
+            String line = br.readLine();
+            while (line != null) {
+                String[] values = line.split(" ");
+                if(values.length == 2)
+                    locations.get(Integer.parseInt(values[0].trim())).setName(values[1].replace("_", " "));
                 line = br.readLine();
             }
         } catch (FileNotFoundException ex) {
