@@ -246,8 +246,8 @@ public class Main {
 
         float x = 5f;
         float y = 5f;
-        for (int i = 0; i < PublicInformation.PLAYER_COUNT; y+=20f, i++) {
-            font.drawString(x, y, "Player " + i + " cash: " + PublicInformation.getBalance(i) + " Debug: " + game.getPlayers().get(i).getDebugString());
+        for (int i = 0; i < PublicInformation.PLAYER_COUNT; y += 20f, i++) {
+            font.drawString(x, y, "Player " + i + " " + PublicInformation.getName(i) + " cash: " + PublicInformation.getBalance(i) + " Debug: " + game.getPlayers().get(i).getDebugString());
         }
 
         glEnable(GL_TEXTURE_2D);

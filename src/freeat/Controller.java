@@ -116,6 +116,8 @@ public class Controller {
         return player.isHasHorseshoeAfterStar();
     }
     
+    
+    
     public ArrayList<Route> getMyAvailableRoutes(){
         if(getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice()).isEmpty()){
             player.forceEndTurn();
