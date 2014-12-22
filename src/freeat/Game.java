@@ -45,6 +45,7 @@ public class Game {
     private boolean running = true;
     private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
     private int turnCount = 0;
+    private int totalWins = 0;
 
     public Game() {
         locations = new HashMap<>();
@@ -344,9 +345,10 @@ public class Game {
         if (running) {
             if (PublicInformation.isWinner()) {
                 winCount[PublicInformation.getWinner()]++;
-                if (winCount[PublicInformation.getWinner()] % 10 == 0) {
+                totalWins++;
+                if (winCount[PublicInformation.getWinner()] % 1 == 0) {
                     for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
-                        System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " ");
+                        System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " ("+(float)winCount[i]*100/totalWins+"%) ");
                     }
                     System.out.println("");
                 }
