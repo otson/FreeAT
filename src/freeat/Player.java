@@ -288,7 +288,7 @@ public class Player {
                 }
                 if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice()/100].contains(destination)) {
                     if(usePlane){
-                        System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
+                        //System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
                     }
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();

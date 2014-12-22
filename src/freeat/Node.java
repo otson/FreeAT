@@ -441,6 +441,9 @@ public class Node {
         this.name = name;
     }
     
+    public boolean isStartCity(){
+        return TYPE == NodeType.CAIRO || TYPE == NodeType.TANGIER;
+    }
     
 
 }

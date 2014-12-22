@@ -157,6 +157,7 @@ public class Main {
             total += end - start;
 
             if (total > 1000000000) {
+                //Display.update();
                 Display.setTitle("FPS: " + fps);
                 fps = 0;
                 total = 0;
