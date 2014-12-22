@@ -20,6 +20,12 @@ public class LoomAI extends AI
     static int count = (int)Math.random()*2 + 1; // random starting city.
 
     @Override
+    public String getName()
+    {
+        return "LoomAI";
+    }
+
+    @Override
     public float getR()
     {
         return 1.0f;
