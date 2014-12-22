@@ -77,7 +77,7 @@ public class Game {
                 Integer integer = node.getPlaneConnections().get(i);
                 Node next = locations.get(integer);
                 for (int j = 1; j < 7; j++) {
-                    node.allLists[i][currentPrice].add(new Route(next, currentPrice * 100));
+                    node.allLists[j][currentPrice].add(new Route(next, currentPrice * 100));
                 }
             }
         }
