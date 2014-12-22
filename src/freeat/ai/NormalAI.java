@@ -25,8 +25,13 @@ public class NormalAI extends AI {
 
     @Override
     public void act(Controller c) {
-        // loop ends when there are no moves left and 
-        // the boolean to end the turn has been set
+        /*
+        while (Keyboard.next()) {
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            }
+        */
         //while (!c.isEndTurn()) {
             c.setDebugString("fee");
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
