@@ -149,7 +149,7 @@ public class Game {
             while (line != null) {
                 String[] values = line.split(" ");
                 if(values.length == 2)
-                    locations.get(Integer.parseInt(values[0].trim())).setName(values[1]);
+                    locations.get(Integer.parseInt(values[0].trim())).setName(values[1].replace("_", " "));
                 line = br.readLine();
             }
         } catch (FileNotFoundException ex) {

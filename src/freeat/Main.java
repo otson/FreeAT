@@ -149,7 +149,7 @@ public class Main {
             render();
             renderDebugText();
             Display.update();
-            Display.sync(5);
+            Display.sync(1);
             sinceUpdate = System.nanoTime();
             fps++;
             //}
