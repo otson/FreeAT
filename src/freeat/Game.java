@@ -60,9 +60,8 @@ public class Game {
 //            System.out.println("Node "+node.ID+" "+node.getName());
 //        }
 //        System.exit(0);
-        
+
         //printRoutes();
-        
     }
 
     public final void setAllRoutes() {
@@ -93,7 +92,7 @@ public class Game {
             if (current != previousPrevious) {
                 if (current.isCity()) {
                     for (int j = distance; j < 7; j++) {
-                        for(int x = tempPrice; x<4; x++){
+                        for (int x = tempPrice; x < 4; x++) {
                             list[j][x].add(new Route(current, x * 100));
                         }
                     }
@@ -102,7 +101,7 @@ public class Game {
                         tempPrice++;
 
                     }
-                    for(int x = tempPrice; x<4; x++){   
+                    for (int x = tempPrice; x < 4; x++) {
                         list[distance][x].add(new Route(current, x * 100));
                     }
                 }
@@ -142,7 +141,7 @@ public class Game {
         }
 
     }
-    
+
     private static void setNodeNames() {
         BufferedReader br = null;
         try {
@@ -150,8 +149,9 @@ public class Game {
             String line = br.readLine();
             while (line != null) {
                 String[] values = line.split(" ");
-                if(values.length == 2)
+                if (values.length == 2) {
                     locations.get(Integer.parseInt(values[0].trim())).setName(values[1].replace("_", " "));
+                }
                 line = br.readLine();
             }
         } catch (FileNotFoundException ex) {
@@ -344,10 +344,13 @@ public class Game {
         if (running) {
             if (PublicInformation.isWinner()) {
                 winCount[PublicInformation.getWinner()]++;
-                for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
-                    System.out.print("Player " + i +" "+ PublicInformation.getName(i) + " wins: " + winCount[i] + " ");
+                if (winCount[PublicInformation.getWinner()] % 10 == 0) {
+                    for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
+                        System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " ");
+                    }
+                    System.out.println("");
                 }
-                System.out.println("");
+
                 resetGame();
             } else if (turnCount > 500) {
                 resetGame();
@@ -377,7 +380,7 @@ public class Game {
         for (Node node : locations.values()) {
             for (int i = 1; i < 7; i++) {
                 for (Route route : node.getAllLists()[i][0]) {
-                    System.out.println("Route from: " + node.ID + " to " + route.getDestination().ID + ". Price: " + route.getPrice()+" length: "+i);
+                    System.out.println("Route from: " + node.ID + " to " + route.getDestination().ID + ". Price: " + route.getPrice() + " length: " + i);
                 }
             }
         }

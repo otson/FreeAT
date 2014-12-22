@@ -30,70 +30,70 @@ public class NormalAI extends AI {
             c.setDebugString(" I am at: " + c.getCurrentNodeName());
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
                 c.decideTryToken();
-//            } else {
-//                if (c.getMyBalance() >= 300 && c.isAvailablePlanesFromCurrentNode() && (c.hasStar() || c.hasHorseShoeAfterStar())) {
-//                    c.decidetoUsePlane();
-//                    ArrayList<Route> routeList = c.getMyAvailableRoutes();
-//                    for (Route route : routeList) {
-//                        //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
-//                        if (route.getDestination().isStartCity()) {
-//                            c.moveTo(route);
-//                            c.endTurn();
-//                        }
-//                    }
-//                    if (!c.isEndTurn()) {
-//                        for (Route route : routeList) {
-//                            ArrayList<Route> innerRouteList = c.getAvailableRoutes(route.getDestination(), 300, 1);
-//                            for (Route innerRoute : innerRouteList) {
-//                                if (innerRoute.getDestination().isStartCity()) {
-//                                    c.moveTo(route);
-//                                    c.endTurn();
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (!c.isEndTurn()) {
-//                        for (Route route : routeList) {
-//                            c.moveTo(route);
-//                            c.endTurn();
-//                        }
-//                    }
-
             } else {
-                c.decideToUseLandOrSeaRoute();
-                //if (!c.hasStar() && !c.hasHorseShoeAfterStar()) {
-                ArrayList<Route> routeList = c.getMyAvailableRoutes();
-
-                for (Route route : routeList) {
-                    if (c.hasStar() && c.hasHorseShoeAfterStar()) {
-                        if (route.getDestination().isStartCity() && !c.isEndTurn()) {
+                if (c.getMyBalance() >= 300 && c.isAvailablePlanesFromCurrentNode() && (c.hasStar() || c.hasHorseShoeAfterStar())) {
+                    c.decidetoUsePlane();
+                    ArrayList<Route> routeList = c.getMyAvailableRoutes();
+                    for (Route route : routeList) {
+                        //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
+                        if (route.getDestination().isStartCity()) {
                             c.moveTo(route);
-                            if (c.getMyBalance() >= 100) {
-                                c.buyToken();
-                            } else {
-                                c.endTurn();
-                            }
-                        }
-                    } else {
-                        if (route.getDestination().isStartCity() && !c.isEndTurn()) {
-                            c.moveTo(route);
-                            if (c.getMyBalance() >= 100) {
-                                c.buyToken();
-                            } else {
-                                c.endTurn();
-                            }
+                            c.endTurn();
                         }
                     }
-                }
-
-                if (!c.isEndTurn()) {
-                    int target = c.getMyAvailableRoutes().size();
-                    target = (int) (target * Math.random());
                     if (!c.isEndTurn()) {
-                        c.moveTo(c.getMyAvailableRoutes().get(target));
+                        for (Route route : routeList) {
+                            ArrayList<Route> innerRouteList = c.getAvailableRoutes(route.getDestination(), 300, 1);
+                            for (Route innerRoute : innerRouteList) {
+                                if (innerRoute.getDestination().isStartCity()) {
+                                    c.moveTo(route);
+                                    c.endTurn();
+                                }
+                            }
+                        }
                     }
-                    c.endTurn();
-                }
+                    if (!c.isEndTurn()) {
+                        for (Route route : routeList) {
+                            c.moveTo(route);
+                            c.endTurn();
+                        }
+                    }
+
+                } else {
+                    c.decideToUseLandOrSeaRoute();
+                    //if (!c.hasStar() && !c.hasHorseShoeAfterStar()) {
+                    ArrayList<Route> routeList = c.getMyAvailableRoutes();
+
+                    for (Route route : routeList) {
+                        if (c.hasStar() && c.hasHorseShoeAfterStar()) {
+                            if (route.getDestination().isStartCity() && !c.isEndTurn()) {
+                                c.moveTo(route);
+                                if (c.getMyBalance() >= 100) {
+                                    c.buyToken();
+                                } else {
+                                    c.endTurn();
+                                }
+                            }
+                        } else {
+                            if (route.getDestination().isStartCity() && !c.isEndTurn()) {
+                                c.moveTo(route);
+                                if (c.getMyBalance() >= 100) {
+                                    c.buyToken();
+                                } else {
+                                    c.endTurn();
+                                }
+                            }
+                        }
+                    }
+
+                    if (!c.isEndTurn()) {
+                        int target = c.getMyAvailableRoutes().size();
+                        target = (int) (target * Math.random());
+                        if (!c.isEndTurn()) {
+                            c.moveTo(c.getMyAvailableRoutes().get(target));
+                        }
+                        c.endTurn();
+                    }
 //                    } 
 //                    else {
 //                        ArrayList<Route> routeList = c.getMyAvailableRoutes();
@@ -140,10 +140,10 @@ public class NormalAI extends AI {
 //                            c.endTurn();
 //                        }
 //                    }
+                }
             }
         }
     }
-    //}
 
     @Override
     public float getR() {
