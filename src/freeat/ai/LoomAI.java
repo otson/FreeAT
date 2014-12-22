@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class LoomAI extends AI
 {
-    static int count = (int)Math.random()*2 + 1; // random starting city.
+    static int count = (int) (Math.random() * 2 + 1); // random starting city for 1st object of this class.
 
     @Override
     public String getName()
@@ -52,7 +52,8 @@ public class LoomAI extends AI
 
     public LoomAI()
     {
-        super(count); // set the preferred start city (1 or 2)
+        super(count); // call the constructor and set the random start city (1 or 2).
+        count = (int) (Math.random() * 2 + 1); // random starting city for next object of this class (must be done here).
     }
 
     private String loomArrayOfStrings[] = {
