@@ -370,6 +370,10 @@ public class Player {
     public String getDebugString() {
         return debugString;
     }
+
+    public void forceEndTurn() {
+        endTurn = true;
+    }
     
     
 

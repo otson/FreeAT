@@ -32,23 +32,21 @@ public class NormalAI extends AI {
          }
          */
         while (!c.isEndTurn()) {
-            c.setDebugString("fee");
+            c.setDebugString(" I am at: "+c.getCurrentNodeName());
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
                 c.decideTryToken();
             } else {
                 c.decideToUseLandOrSeaRoute();
-                System.out.println("Dice: "+6);
-                System.out.println("Routes available from " + c.getCurrentNode().ID + " : " + c.getAvailableRoutes(c.getCurrentNode(), 100, 6).size());
-                for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 100, 6).size(); i++) {
-                    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 100, 6).get(i).getDestination().ID);
-                }
+//                System.out.println("Dice: "+6);
+//                System.out.println("Routes available from " + c.getCurrentNode().ID + " : " + c.getAvailableRoutes(c.getCurrentNode(), 100, 6).size());
+//                for (int i = 0; i < c.getAvailableRoutes(c.getCurrentNode(), 100, 6).size(); i++) {
+//                    System.out.println("To: " + c.getAvailableRoutes(c.getCurrentNode(), 100, 6).get(i).getDestination().ID);
+//                }
                 ArrayList<Route> routeList = c.getMyAvailableRoutes();
-                int routeListSize = routeList.size();
                 for (Route route : routeList) {
                     //System.out.println("Current: " + c.getCurrentNode().ID + " route: " + route.getDestination().ID + " price: " + route.getPrice());
                     if (route.getDestination().hasTreasure() && !c.isEndTurn()) {
                         c.moveTo(route);
-                        System.out.println("here");
                         if (c.getMyBalance() >= 100) {
                             c.buyToken();
                         } else {
@@ -57,13 +55,12 @@ public class NormalAI extends AI {
                     }
                 }
                 if (!c.isEndTurn()) {
-                    for (Route route : c.getMyAvailableRoutes()) {
-                        if (!c.isEndTurn()) {
-                            System.out.println("here");
-                            c.moveTo(route);
-                            c.endTurn();
-                        }
-                    }
+                    int target = c.getMyAvailableRoutes().size();
+                    target = (int) (target*Math.random());
+                    System.out.println("Current Node: "+ c.getCurrentNode().ID +" Total targets: "+c.getMyAvailableRoutes().size()+ " chosen: "+target);
+                    if(!c.isEndTurn())
+                        c.moveTo(c.getMyAvailableRoutes().get(target));
+                    c.endTurn();
                 }
             }
         }
