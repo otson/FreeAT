@@ -17,7 +17,25 @@ import java.util.ArrayList;
  */
 public class LoomAI extends AI
 {
-    static int count = (int)Math.random()*2 + 1;
+    static int count = (int)Math.random()*2 + 1; // random starting city.
+
+    @Override
+    public float getR()
+    {
+        return 1.0f;
+    }
+
+    @Override
+    public float getG()
+    {
+        return 0.0f;
+    }
+
+    @Override
+    public float getB()
+    {
+        return 1.0f;
+    }
 
     int destinationNodeID;
     int oldNodeID;
@@ -65,13 +83,14 @@ public class LoomAI extends AI
 
             c.decideToUseLandOrSeaRoute();
 
-            ArrayList<Route> routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), 0, 1);
+            ArrayList<Route> routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
             c.setDebugString("number of routes: " + routesArrayList.size());
             // System.in.read();
 
-            Route route = routesArrayList.get(1);
+            int iTarget = (int) ((int) routesArrayList.size() * Math.random());
+            Route route = routesArrayList.get(iTarget);
             newNodeID = route.getDestination().ID;
-            c.moveTo(routesArrayList.get(1));
+            c.moveTo(route);
             if (c.getMyBalance() >= 100)
             {
                 c.buyToken();
