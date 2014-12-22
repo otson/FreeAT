@@ -139,6 +139,9 @@ public class Main {
         long total = 0;
         int fps = 0;
         long sinceUpdate = System.nanoTime();
+
+        game.resetGame();
+
         while (!Display.isCloseRequested()) {
             start = System.nanoTime();
             glClear(GL_COLOR_BUFFER_BIT);

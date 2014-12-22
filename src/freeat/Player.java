@@ -64,11 +64,24 @@ public class Player {
         inSahara = false;
         inPirates = true;
         isWinner = false;
-        if(ID == 0){
-            ai = new NormalAI();
+
+        int nAITypes, AIType;
+        nAITypes = AI.AIIdentifications.size();
+        if (nAITypes == 0) {
+            AIType = 0;
+        } else {
+            AIType = (ID % nAITypes);
         }
-        else{
-            ai = new LoomAI();
+
+        switch (AIType) {
+            case 0: ai = new NormalAI();
+                    break;
+            case 1: ai = new LoomAI();
+                    break;
+            default: System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n" +
+                             "Creating a new NormalAI as default action. Please fix Player.java");
+                     ai = new NormalAI(); // create default AI.
+                     break;
         }
         
         r = ai.getR();

@@ -357,6 +357,7 @@ public class Game {
     private void resetGame() {
         //locations = new HashMap<>();
         PublicInformation.reset();
+        AI.AIIdentifications = new Set<String>();
         players = new ArrayList();
         turnCount = 0;
         setPlayers();

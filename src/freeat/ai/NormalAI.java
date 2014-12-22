@@ -19,6 +19,7 @@ public class NormalAI extends AI {
 
     public NormalAI() {
         super(count); // set the preferred start city (1 or 2)
+        AI.AIIdentifications.add("NormalAI");
         count = (int) (Math.random() * 2 + 1);
         //count++;
     }

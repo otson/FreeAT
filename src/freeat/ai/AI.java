@@ -47,6 +47,6 @@ public abstract class AI {
         return "default";
     }
     
-    
-
+    // public static ArrayList<String> AIIdentifications = new ArrayList();
+    public static Set<String> AIIdentifications = new Set<String>();
 }

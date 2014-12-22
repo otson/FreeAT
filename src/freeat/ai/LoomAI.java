@@ -53,6 +53,7 @@ public class LoomAI extends AI
     public LoomAI()
     {
         super(count); // call the constructor and set the random start city (1 or 2).
+        AI.AIIdentifications.add("LoomAI");
         count = (int) (Math.random() * 2 + 1); // random starting city for next object of this class (must be done here).
     }
 
