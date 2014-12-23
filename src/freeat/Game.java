@@ -388,4 +388,10 @@ public class Game {
         }
     }
 
+    void renderAINodes() {
+        for(Player player: players){
+            player.draw();
+        }
+    }
+
 }

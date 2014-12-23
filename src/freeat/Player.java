@@ -6,10 +6,19 @@
 package freeat;
 
 import freeat.ai.AI;
+import freeat.ai.DrawNode;
 import freeat.ai.LoomAI;
 import freeat.ai.NormalAI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.lwjgl.opengl.GL11;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex2f;
 
 /**
  *
@@ -47,9 +56,8 @@ public class Player {
     private boolean useLandOrSea;
     private boolean moved;
     private int dice;
-    
-    
-    private float r,g,b;
+
+    private float r, g, b;
     private String name;
 
     public Player(HashMap<Integer, Node> locations) {
@@ -75,21 +83,24 @@ public class Player {
         }
 
         switch (AIType) {
-            case 0: ai = new NormalAI();
-                    break;
-            case 1: ai = new LoomAI();
-                    break;
-            default: System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n" +
-                             "Creating a new NormalAI as default action. Please fix Player.java");
-                     ai = new NormalAI(); // create default AI.
-                     break;
+            case 0:
+                ai = new NormalAI();
+                break;
+            case 1:
+                ai = new LoomAI();
+                break;
+            default:
+                System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
+                        + "Creating a new NormalAI as default action. Please fix Player.java");
+                ai = new NormalAI(); // create default AI.
+                break;
         }
-        
+
         r = ai.getR();
         g = ai.getG();
         b = ai.getB();
         name = ai.getName();
-        
+
         ai.setLocations(locations);
         this.location = ai.START;
         controller = new Controller(this, locations);
@@ -258,7 +269,6 @@ public class Player {
         return endTurn;
     }
 
-
     public Node getNode(int nodeID) {
         return locations.get(nodeID);
     }
@@ -272,8 +282,7 @@ public class Player {
             }
         }
     }
-    
-    
+
     // Decision
     public void decidetoUsePlane() {
         if (!getCurrentNode().getPlaneConnections().isEmpty() && cashBalance >= 300) {
@@ -296,12 +305,12 @@ public class Player {
 
             if (!moved) {
                 int tempDice = dice;
-                if(usePlane){
+                if (usePlane) {
                     //System.out.println("Plane...");
                     tempDice = 1;
                 }
-                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice()/100].contains(destination)) {
-                    if(usePlane){
+                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice() / 100].contains(destination)) {
+                    if (usePlane) {
                         //System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
                     }
                     Node target = destination.getDestination();
@@ -372,7 +381,7 @@ public class Player {
                     cashBalance -= 100;
                     openToken();
                 } else {
-                  //  System.out.println("Not enough money to buy a token.");
+                    //  System.out.println("Not enough money to buy a token.");
                 }
             } else {
                 //System.out.println("Not possible to buy token: no token available.");
@@ -393,12 +402,12 @@ public class Player {
     public void setDebugString(String debugString) {
         this.debugString = debugString;
     }
-    
-    public void resetDebugString(){
+
+    public void resetDebugString() {
         debugString = "";
     }
-    
-    public void concatDebugString(String debugString){
+
+    public void concatDebugString(String debugString) {
         this.debugString = this.debugString.concat(debugString);
     }
 
@@ -437,8 +446,20 @@ public class Player {
     public boolean isUseLandOrSea() {
         return useLandOrSea;
     }
-    
-    
-    
+
+    public void draw() {
+        int size = 20;
+        for (DrawNode drawNode : ai.getDrawList()) {
+            Node node = locations.get(drawNode.nodeID);
+            glBegin(GL_QUADS);
+            GL11.glColor3f(drawNode.r, drawNode.g, drawNode.b);
+            glVertex2f(-size / 2f + node.x, -size / 2f + node.y);
+            glVertex2f(size / 2f + node.x, -size / 2f + node.y);
+            glVertex2f(size / 2f + node.x, size / 2f + node.y);
+            glVertex2f(-size / 2f + node.x, size / 2f + node.y);
+            glEnd();
+        }
+        glEnable(GL_TEXTURE_2D);
+    }
 
 }

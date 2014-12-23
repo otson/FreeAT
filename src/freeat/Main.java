@@ -151,10 +151,10 @@ public class Main {
             game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
-//            render();
-//            renderDebugText();
-//            Display.update();
-//            Display.sync(60);
+            render();
+            renderDebugText();
+            Display.update();
+            Display.sync(60);
             sinceUpdate = System.nanoTime();
             fps++;
             //}
@@ -189,6 +189,7 @@ public class Main {
 
         game.renderTreasures();
         game.renderPlayers();
+        game.renderAINodes();
     }
 
     private static void checkUserInput() {

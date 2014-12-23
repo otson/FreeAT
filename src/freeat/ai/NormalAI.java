@@ -27,6 +27,8 @@ public class NormalAI extends AI {
     @Override
     public void act(Controller c) {
         while (!c.isEndTurn()) {
+            clearDraw();
+            addDraw(0, 1, 1, 120);
             c.setDebugString(" I am at: " + c.getCurrentNodeName());
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
                 c.decideTryToken();

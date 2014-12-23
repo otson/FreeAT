@@ -52,6 +52,18 @@ public abstract class AI {
     public String getName(){
         return "default";
     }
+
+    public ArrayList<DrawNode> getDrawList() {
+        return drawList;
+    }
+    
+    protected void addDraw(int r, int g, int b, int nodeID){
+        drawList.add(new DrawNode(r,g,b, nodeID));
+    }
+    
+    protected void clearDraw(){
+        drawList.clear();
+    }
     
     
 }
