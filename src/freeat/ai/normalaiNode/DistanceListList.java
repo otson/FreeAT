@@ -1,5 +1,7 @@
 package freeat.ai.normalaiNode;
 
+import freeat.Node;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +16,14 @@ import java.util.Set;
  *
  * @author otso
  */
-public class RoutedNode {
+public class DistanceListList {
     
-    private Set<Integer> distances = new HashSet();
+    private HashMap<Integer, DistanceList> distances = new HashMap<>();
+
+    public DistanceListList(HashMap<Integer, Node> nodeList) {
+    }
+    
+    
+    
+    
 }

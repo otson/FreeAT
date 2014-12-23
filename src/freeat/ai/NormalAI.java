@@ -7,6 +7,7 @@ package freeat.ai;
 
 import freeat.Controller;
 import freeat.Route;
+import freeat.ai.normalaiNode.DistanceListList;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 public class NormalAI extends AI {
 
     static int count = (int) (Math.random() * 2 + 1);
+    private DistanceListList distances;
+    boolean distancesSet = false;
 
     public NormalAI() {
         super(count); // set the preferred start city (1 or 2)
@@ -27,6 +30,10 @@ public class NormalAI extends AI {
     @Override
     public void act(Controller c) {
         while (!c.isEndTurn()) {
+            if(!distancesSet){
+                distancesSet = true;
+                initDistances(c);
+            }
             clearDraw();
             addDraw(0, 1, 1, 120);
             c.setDebugString(" I am at: " + c.getCurrentNodeName());
@@ -138,7 +145,13 @@ public class NormalAI extends AI {
         for (Route route : list) {
             if (route.getPrice() <= cost) {
                 list.remove(route);
+                
             }
         }
+    }
+
+    private void initDistances(Controller c) { 
+        distances = new DistanceListList(c.getNodeList());
+                
     }
 }
