@@ -12,14 +12,21 @@ import java.util.HashMap;
  * @author otso
  */
 public class DistanceList {
-    
-    HashMap<Integer, Integer> distances;
+    // key is target nodeID, value is distance
+    private HashMap<Integer, Integer> distances;
+    public int ID;
 
-    public DistanceList(HashMap<Integer, Integer> distances) {
-        initDistances();
+    public DistanceList() {
+
     }
 
-    private void initDistances() {
+    DistanceList(int id,HashMap<Integer, Integer> distancesForNode) {
+        this.ID = id;
+        this.distances = distancesForNode;
+    }
+
+    public HashMap<Integer, Integer> getDistances() {
+        return distances;
     }
     
     
