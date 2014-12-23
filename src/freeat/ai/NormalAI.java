@@ -31,7 +31,7 @@ public class NormalAI extends AI {
             if (c.getMyBalance() < 100 && c.getCurrentNode().hasTreasure()) {
                 c.decideTryToken();
             } else {
-                if (c.getMyBalance() >= 300 && c.isAvailablePlanesFromCurrentNode() && (c.hasStar() || c.hasHorseShoeAfterStar())) {
+                if (c.getMyBalance() >= 400 && c.isAvailablePlanesFromCurrentNode() && (c.hasStar() || c.hasHorseShoeAfterStar())) {
                     c.decidetoUsePlane();
                     ArrayList<Route> routeList = c.getMyAvailableRoutes();
                     for (Route route : routeList) {
@@ -43,16 +43,14 @@ public class NormalAI extends AI {
                     }
                     if (!c.isEndTurn()) {
                         for (Route route : routeList) {
-                            ArrayList<Route> innerRouteList = c.getAvailableRoutes(route.getDestination(), 300, 1);
-                            for (Route innerRoute : innerRouteList) {
-                                if (innerRoute.getDestination().isStartCity()) {
-                                    c.moveTo(route);
-                                    c.endTurn();
-                                }
+                            if (route.getDestination().hasTreasure()) {
+                                c.moveTo(route);
+                                c.buyToken();
                             }
                         }
                     }
-                    if (!c.isEndTurn()) {
+ 
+                   if (!c.isEndTurn()) {
                         for (Route route : routeList) {
                             c.moveTo(route);
                             c.endTurn();
@@ -61,7 +59,6 @@ public class NormalAI extends AI {
 
                 } else {
                     c.decideToUseLandOrSeaRoute();
-                    //if (!c.hasStar() && !c.hasHorseShoeAfterStar()) {
                     ArrayList<Route> routeList = c.getMyAvailableRoutes();
 
                     for (Route route : routeList) {
@@ -94,52 +91,6 @@ public class NormalAI extends AI {
                         }
                         c.endTurn();
                     }
-//                    } 
-//                    else {
-//                        ArrayList<Route> routeList = c.getMyAvailableRoutes();
-//
-//                        for (Route route : routeList) {
-//                            if (route.getDestination().isStartCity() && !c.isEndTurn()) {
-//                                c.moveTo(route);
-//                                c.endTurn();
-//                            }
-//                        }
-//                        if (!c.isEndTurn()) {
-//                            for (Route route : routeList) {
-//                                ArrayList<Route> innerRouteList = c.getAvailableRoutes(route.getDestination(), c.getMyBalance(), 2);
-//                                for (Route innerRoute : innerRouteList) {
-//                                    if (innerRoute.getDestination().isStartCity()) {
-//                                        c.moveTo(route);
-//                                        c.endTurn();
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        if (!c.isEndTurn()) {
-//                            for (Route route : routeList) {
-//                                ArrayList<Route> innerRouteList = c.getAvailableRoutes(route.getDestination(), c.getMyBalance(), 2);
-//                                for (Route innerRoute : innerRouteList) {
-//                                    ArrayList<Route> innerInnerRouteList = c.getAvailableRoutes(innerRoute.getDestination(), c.getMyBalance(), 2);
-//                                    for (Route innerInnerRoute : innerInnerRouteList) {
-//                                        if (innerInnerRoute.getDestination().isStartCity()) {
-//                                            c.moveTo(route);
-//                                            c.endTurn();
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        if (!c.isEndTurn()) {
-//                            int target = c.getMyAvailableRoutes().size();
-//                            target = (int) (target * Math.random());
-//                            if (!c.isEndTurn()) {
-//                                c.moveTo(c.getMyAvailableRoutes().get(target));
-//                            }
-//                            c.endTurn();
-//                        }
-//                    }
                 }
             }
         }
@@ -164,25 +115,26 @@ public class NormalAI extends AI {
     public String getName() {
         return "Otso";
     }
-    
-    private void removeRoutesIfNoTreasure(ArrayList<Route> list){
-        for(Route route: list){
-            if(!route.getDestination().hasTreasure())
-                list.remove(route);
-        }
-    }
-    
-    private void removeRouteIfCostEqualOrMore(ArrayList<Route> list, int cost){
-        for(Route route: list){
-            if(route.getPrice() >= cost){
+
+    private void removeRoutesIfNoTreasure(ArrayList<Route> list) {
+        for (Route route : list) {
+            if (!route.getDestination().hasTreasure()) {
                 list.remove(route);
             }
         }
     }
-    
-    private void removeRouteIfCostEqualOrLess(ArrayList<Route> list, int cost){
-        for(Route route: list){
-            if(route.getPrice() <= cost){
+
+    private void removeRouteIfCostEqualOrMore(ArrayList<Route> list, int cost) {
+        for (Route route : list) {
+            if (route.getPrice() >= cost) {
+                list.remove(route);
+            }
+        }
+    }
+
+    private void removeRouteIfCostEqualOrLess(ArrayList<Route> list, int cost) {
+        for (Route route : list) {
+            if (route.getPrice() <= cost) {
                 list.remove(route);
             }
         }

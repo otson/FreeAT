@@ -24,7 +24,9 @@ public abstract class AI {
     protected HashMap<Integer, Node> locations;
     // public static ArrayList<String> AIIdentifications = new ArrayList();
     public static Set<String> AIIdentifications = new HashSet<>();
-
+    private ArrayList<DrawNode> drawList = new ArrayList<>();
+    
+    
     public AI(int start) {
         START = start;
     }
