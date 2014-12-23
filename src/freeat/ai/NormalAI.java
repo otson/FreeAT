@@ -32,7 +32,13 @@ public class NormalAI extends AI {
         while (!c.isEndTurn()) {
             if(!distancesSet){
                 distancesSet = true;
+                long start = System.nanoTime();
                 initDistances(c);
+                System.out.println("Time to calculate all distances: "+(System.nanoTime()-start)/1000000+" ms.");
+                int startNode = 2;
+                int target = 120;
+                int distance = distances.getDistance(startNode, target);
+                System.out.println("Distance from Tangier to Tunis: "+distance);
             }
             clearDraw();
             addDraw(0, 1, 1, 120);

@@ -29,7 +29,7 @@ public class DistanceListList {
                     distancesForNode.put(node2.ID, -1);
                 }
             }
-            distances.put(node.ID, new DistanceList(node.ID, distancesForNode));
+            distances.put(node.ID, new DistanceList(node.ID, distancesForNode, nodeList));
         }
 
         // set free routes with a distance of 1
@@ -47,7 +47,18 @@ public class DistanceListList {
             }
 
         }
+        
+        // calculate rest of the distances in the Distancelist of method
+        for (DistanceList nodesList : distances.values()) {
+            nodesList.calculateDistances();
+        }
 
+    }
+    
+    public int getDistance(int from, int to){
+        int distance = distances.get(from).getDistances().get(to);
+        
+        return distance;
     }
 
 }
