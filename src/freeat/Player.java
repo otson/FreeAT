@@ -9,6 +9,7 @@ import freeat.ai.AI;
 import freeat.ai.DrawNode;
 import freeat.ai.LoomAI;
 import freeat.ai.NormalAI;
+import freeat.ai.RouteAI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
@@ -84,7 +85,7 @@ public class Player {
 
         switch (AIType) {
             case 0:
-                ai = new NormalAI();
+                ai = new RouteAI();
                 break;
             case 1:
                 ai = new LoomAI();

@@ -198,6 +198,12 @@ public class Game {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        for(Node node : locations.values()){
+            if(node.getConnections().contains(node.ID)){
+                System.out.println("Node "+node.ID +" contains route to itself.");
+            }
+        }
+        //System.exit(0);
     }
 
     private void getPlaneConnections() {
