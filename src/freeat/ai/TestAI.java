@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class TestAI extends AI {
 
-    static int count = (int) (Math.random() * 2 + 1);
+    static int count = 2;//(int) (Math.random() * 2 + 1);
     private static DistanceListList distances;
     private static boolean distancesSet = false;
     private Controller c;
@@ -27,7 +27,7 @@ public class TestAI extends AI {
     public TestAI() {
         super(count); // set the preferred start city (1 or 2)
         AI.AIIdentifications.add("TestAI");
-        count = (int) (Math.random() * 2 + 1);
+        //count = (int) (Math.random() * 2 + 1);
         targetNode = 120;
         //count++;
     }

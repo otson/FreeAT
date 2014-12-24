@@ -304,8 +304,7 @@ public class Player {
     // Land, sea, or plane
     public void moveTo(Route destination) {
         if (useLandOrSea || usePlane) {
-            if(destination.getDestination().ID == 400)
-                System.out.println("Going to Sahara");
+            
             if (!moved) {
                 int tempDice = dice;
                 if (usePlane) {
@@ -313,6 +312,8 @@ public class Player {
                     tempDice = 1;
                 }
                 if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice() / 100].contains(destination)) {
+                    if(destination.getDestination().ID == 400)
+                System.out.println("Going to Sahara");
                     if (usePlane) {
                         //System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
                     }
@@ -364,10 +365,12 @@ public class Player {
                         moved = true;
                     }
                     if (target.TYPE == NodeType.SAHARA) {
+                        this.location = destination.getDestination().ID;
                         inSahara = true;
                         moved = true;
                     }
                     if (target.TYPE == NodeType.PIRATES) {
+                        this.location = destination.getDestination().ID;
                         inPirates = true;
                         moved = true;
                     }
