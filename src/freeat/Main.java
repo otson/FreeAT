@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
@@ -152,10 +150,10 @@ public class Main {
             game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
-//            render();
-//            renderDebugText();
-//            Display.update();
-//            Display.sync(3);
+            render();
+            renderDebugText();
+            Display.update();
+            Display.sync(60);
             sinceUpdate = System.nanoTime();
             fps++;
             //}

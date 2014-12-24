@@ -116,6 +116,10 @@ public class TestAI extends AI {
     }
 
     private Route getRouteTo(int to, int maxPrice) {
+        c.setDebugString(" Heading towards: "+c.getNodeList().get(to).getName());
+        if(c.isEligibleForWinning()){
+            c.concatDebugString(" with the Star or HorseShoe.");
+        }
         ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), maxPrice, c.getDice());
         if (routes == null) {
             System.out.println("No routes: null");
