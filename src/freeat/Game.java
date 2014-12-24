@@ -360,7 +360,7 @@ public class Game {
                 }
 
                 resetGame();
-            } else if (turnCount > 500) {
+            } else if (turnCount > 1000) {
                 resetGame();
             }
 

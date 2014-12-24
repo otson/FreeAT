@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class PublicInformation {
 
-    public static final int PLAYER_COUNT = 1;
+    public static final int PLAYER_COUNT = 2;
 
     private static int[] cashBalance = new int[PLAYER_COUNT];
     private static int[] location = new int[PLAYER_COUNT];

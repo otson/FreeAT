@@ -49,14 +49,22 @@ public class TestAI extends AI {
 //                System.exit(0);
             }
             if (c.getCurrentNode().hasTreasure()) {
-                System.out.println("Trying to win treasure");
                 c.decideTryToken();
             } else {
                 c.decideToUseLandOrSeaRoute();
-                Route route = getRouteToTreasure(0);
+                Route route;
+                if (!c.isEligibleForWinning()) {
+                    route = getRouteToTreasure(0);
+                } else {
+                    route = getRouteTo(1, 0);
+                }
 
                 c.moveTo(route);
-                c.endTurn();
+                if (canBuyTreasure()) {
+                    c.buyToken();
+                } else {
+                    c.endTurn();
+                }
 
                 // at cape town, head to Cairo
                 if (c.getCurrentNode().ID == targetNode) {
@@ -70,9 +78,12 @@ public class TestAI extends AI {
         }
     }
 
+    public boolean canBuyTreasure() {
+        return c.getMyBalance() >= 100 && c.getCurrentNode().hasTreasure();
+    }
+
     private Route getRouteToTreasure(int maxPrice) {
         ArrayList<Node> treasures = c.getRemainingTreasures();
-        System.out.println("Remaining treasures: "+treasures.size());
         // find the closest node with treasure
         // find first accessible node with treasure
         Node nodeCandidate = null;
@@ -92,6 +103,16 @@ public class TestAI extends AI {
             return getRouteTo(nodeCandidate.ID, maxPrice);
         }
 
+    }
+
+    private Route getRouteToStart(int maxPrice) {
+        int distanceToCairo = distances.getDistance(c.getCurrentNode().ID, 1);
+        int distanceToTangier = distances.getDistance(c.getCurrentNode().ID, 2);
+        if (distanceToCairo < distanceToTangier) {
+            return getRouteTo(2, maxPrice);
+        } else {
+            return getRouteTo(1, maxPrice);
+        }
     }
 
     private Route getRouteTo(int to, int maxPrice) {
@@ -119,7 +140,7 @@ public class TestAI extends AI {
                 distanceCandidate = distances.getDistance(route.getDestination().ID, to);
             }
         }
-        System.out.println("Selected route distance: "+distanceCandidate);
+        //System.out.println("Selected route distance: "+distanceCandidate);
         return routeCandidate;
 
     }

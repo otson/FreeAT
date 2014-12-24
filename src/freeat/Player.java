@@ -138,7 +138,7 @@ public class Player {
     }
 
     private void throwDice() {
-        dice = 1;// + (int) (Math.random() * 5);
+        dice = 1 + (int) (Math.random() * 5);
     }
 
     private void openToken() {
@@ -313,7 +313,6 @@ public class Player {
                 }
                 if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice() / 100].contains(destination)) {
                     if(destination.getDestination().ID == 400)
-                System.out.println("Going to Sahara");
                     if (usePlane) {
                         //System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
                     }

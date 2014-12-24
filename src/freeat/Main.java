@@ -152,10 +152,10 @@ public class Main {
             game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
-            render();
-            renderDebugText();
-            Display.update();
-            Display.sync(3);
+//            render();
+//            renderDebugText();
+//            Display.update();
+//            Display.sync(3);
             sinceUpdate = System.nanoTime();
             fps++;
             //}
