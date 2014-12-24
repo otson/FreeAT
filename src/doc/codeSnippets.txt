@@ -1,0 +1,9 @@
+2d arrayList
+
+ArrayList<ArrayList<Node>> list = new ArrayList<>();
+
+// indeksiin 0 luodaan uusi arrayList (jonka sisään tallennetaan nodeja)
+list.add(0,new ArrayList<>());
+
+// Lisätään 2d-Arraylistan indeksissä 0 olevaan arrayListaan uusi Node
+list.get(0).add(new Node(0,0,0, null));
