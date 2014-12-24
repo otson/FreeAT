@@ -21,7 +21,8 @@ public class TestAI extends AI {
     private static DistanceListList distances;
     private static boolean distancesSet = false;
     private Controller c;
-
+    private int turnCount = 0;
+    private ArrayList<Integer> test;
     private int targetNode;
 
     public TestAI() {
@@ -30,12 +31,14 @@ public class TestAI extends AI {
         //count = (int) (Math.random() * 2 + 1);
         targetNode = 120;
         //count++;
+        test= new ArrayList<>();
     }
 
     @Override
     public void act(Controller c) {
         this.c = c;
         while (!c.isEndTurn()) {
+            turnCount++;
             if (!distancesSet) {
                 distancesSet = true;
                 long start = System.nanoTime();
@@ -60,6 +63,9 @@ public class TestAI extends AI {
                 }
 
                 c.moveTo(route);
+                if(c.isEligibleForWinning() && c.getCurrentNode().ID == 1){
+                    System.out.println("Turns to win: "+turnCount);
+                }
                 if (canBuyTreasure()) {
                     c.buyToken();
                 } else {
