@@ -136,9 +136,6 @@ public class Node {
     
 
     public Node(int id, int x, int y, HashMap<Integer, Node> locations) {
-        //ArrayList<ArrayList<Node>> list = new ArrayList<>();
-        //list.add(0,new ArrayList<>());
-        //list.get(0).add(new Node(0,0,0, null));
         
         this.name = String.valueOf(id);
         allLists = new ArrayList[7][4];

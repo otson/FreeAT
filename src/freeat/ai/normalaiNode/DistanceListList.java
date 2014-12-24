@@ -18,9 +18,10 @@ import java.util.Set;
 public class DistanceListList {
 
     private HashMap<Integer, DistanceList> distances = new HashMap<>();
-
+    private HashMap<Integer, Node> nodeList;
+    
     public DistanceListList(HashMap<Integer, Node> nodeList) {
-
+        this.nodeList = nodeList;
         // Give all the nodes in the list a list of all the other nodes, with a starting distance of -1 (not reachable)
         for (Node node : nodeList.values()) {
             HashMap<Integer, Integer> distancesForNode = new HashMap<>();
@@ -87,6 +88,11 @@ public class DistanceListList {
                 }
             }
         }
+    }
+
+    public void printDistance(int from, int to) {
+        int distance = distances.get(from).getDistances().get(to);
+        System.out.println("From: "+nodeList.get(from).getName()+" to: "+nodeList.get(to).getName()+" distance: "+distance);
     }
 
 }

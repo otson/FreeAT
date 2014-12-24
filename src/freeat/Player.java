@@ -10,6 +10,7 @@ import freeat.ai.DrawNode;
 import freeat.ai.LoomAI;
 import freeat.ai.NormalAI;
 import freeat.ai.RouteAI;
+import freeat.ai.TestAI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
@@ -85,10 +86,10 @@ public class Player {
 
         switch (AIType) {
             case 0:
-                ai = new RouteAI();
+                ai = new LoomAI();
                 break;
             case 1:
-                ai = new LoomAI();
+                ai = new TestAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
