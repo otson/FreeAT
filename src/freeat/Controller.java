@@ -299,5 +299,35 @@ public class Controller {
         }
         return valuesList;
     }
+    
+    public ArrayList<Node> getAllPirates() {
+        int size = getNodeList().size();
+        ArrayList<Node> valuesList = new ArrayList<>(getNodeList().values());
+        for (int i = 0; i < valuesList.size(); i++) {
+            if (!valuesList.get(i).isPirate()) {
+                valuesList.remove(i);
+                i--;
+            }
+        }
+        if (size != getNodeList().size()) {
+            System.out.println("ERROR");
+        }
+        return valuesList;
+    }
+    
+    public ArrayList<Node> getAllSaharas() {
+        int size = getNodeList().size();
+        ArrayList<Node> valuesList = new ArrayList<>(getNodeList().values());
+        for (int i = 0; i < valuesList.size(); i++) {
+            if (!valuesList.get(i).isSahara()) {
+                valuesList.remove(i);
+                i--;
+            }
+        }
+        if (size != getNodeList().size()) {
+            System.out.println("ERROR");
+        }
+        return valuesList;
+    }
 
 }

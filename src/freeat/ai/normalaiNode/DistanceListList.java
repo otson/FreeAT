@@ -2,6 +2,7 @@ package freeat.ai.normalaiNode;
 
 import freeat.Node;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,12 +28,12 @@ public class DistanceListList {
             HashMap<Integer, Integer> distancesForNode = new HashMap<>();
             for (Node node2 : nodeList.values()) {
                 if (node.ID != node2.ID) {
-                    distancesForNode.put(node2.ID, 100);
+                    distancesForNode.put(node2.ID, -1);
                 }
             }
             distances.put(node.ID, new DistanceList(node.ID, distancesForNode, nodeList));
         }
-
+        //Collections.
         // set free routes with a distance of 1
         for (DistanceList nodesList : distances.values()) {
             HashMap<Integer, Integer> nodeDistances = nodesList.getDistances();
@@ -76,11 +77,11 @@ public class DistanceListList {
     public void checkRoutes() {
         for (DistanceList list : distances.values()) {
             int from = list.ID;
-            if (from > 100 && from < 400 && from != 1 && from != 2 && from != 1 && from != 128 && from != 127 && from != 102 && from != 103 && from != 215 && from != 216 && from != 217) {
+            if (from > 100 && from <= 400 && from != 1 && from != 2 && from != 1 && from != 128 && from != 127 && from != 102 && from != 103 && from != 215 && from != 216 && from != 217) {
 
                 for (Integer to : list.getDistances().keySet()) {
                     int distance = list.getDistances().get(to);
-                    if (to > 100 && to < 400 && to != 1 && to != 2 && to != 1 && to != 128 && to != 127 && to != 102 && to != 103 && to != 215 && to != 216 && to != 217) {
+                    if (to > 100 && to <= 400 && to != 1 && to != 2 && to != 1 && to != 128 && to != 127 && to != 102 && to != 103 && to != 215 && to != 216 && to != 217) {
                         if(distance == -1){
                             System.out.println("Distance of "+distance+" from "+from+" to "+to);
                         }

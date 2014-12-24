@@ -451,6 +451,14 @@ public class Node {
         return locations;
     }
     
+    public boolean isPirate(){
+        return this.TYPE == NodeType.PIRATES;
+    }
+    
+    public boolean isSahara(){
+        return this.TYPE == NodeType.SAHARA;
+    }
+    
     
 
 }

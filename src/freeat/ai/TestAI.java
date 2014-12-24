@@ -42,39 +42,63 @@ public class TestAI extends AI {
                 initDistances(c);
                 System.out.println("Time to calculate all distances: " + (System.nanoTime() - start) / 1000000 + " ms.");
                 distances.checkRoutes();
-//                distances.printDistance(1, 108);
-//                distances.printDistance(262, 108);
-//                distances.printDistance(261, 108);
-//                distances.printDistance(260, 108);
-//                distances.printDistance(109, 108);
-//                distances.printDistance(259, 108);
-//                distances.printDistance(258, 108);
-//                distances.printDistance(114, 108);
-//                distances.printDistance(243, 108);
-//                distances.printDistance(110, 108);
-//                distances.printDistance(244, 108);
+//                distances.printDistance(114, 243);
+//                distances.printDistance(114, 110);
+//                //distances.printDistance(1, 108);
+//
 //                System.exit(0);
             }
-            c.decideToUseLandOrSeaRoute();
-            Route route = getRouteTo(targetNode, 0);
-            c.moveTo(route);
-            c.endTurn();
-            // at cape town, head to Cairo
-            if (c.getCurrentNode().ID == targetNode) {
-                if(targetNode == 120){
-                    targetNode = 1;
-                }
-                else if(targetNode == 1){
-                    targetNode = 120;
+            if (c.getCurrentNode().hasTreasure()) {
+                System.out.println("Trying to win treasure");
+                c.decideTryToken();
+            } else {
+                c.decideToUseLandOrSeaRoute();
+                Route route = getRouteToTreasure(0);
+
+                c.moveTo(route);
+                c.endTurn();
+
+                // at cape town, head to Cairo
+                if (c.getCurrentNode().ID == targetNode) {
+                    if (targetNode == 120) {
+                        targetNode = 1;
+                    } else if (targetNode == 1) {
+                        targetNode = 120;
+                    }
                 }
             }
         }
     }
 
+    private Route getRouteToTreasure(int maxPrice) {
+        ArrayList<Node> treasures = c.getRemainingTreasures();
+        System.out.println("Remaining treasures: "+treasures.size());
+        // find the closest node with treasure
+        // find first accessible node with treasure
+        Node nodeCandidate = null;
+        for (Node node : treasures) {
+
+            // if found a route longer than -1, it's valid candidate
+            if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1) {
+                nodeCandidate = node;
+                break;
+            }
+        }
+
+        // If no routes available to any treasures
+        if (nodeCandidate == null) {
+            return getRouteTo(targetNode, 0);
+        } else {
+            return getRouteTo(nodeCandidate.ID, maxPrice);
+        }
+
+    }
+
     private Route getRouteTo(int to, int maxPrice) {
         ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), maxPrice, c.getDice());
-        if(routes == null)
+        if (routes == null) {
             System.out.println("No routes: null");
+        }
         // check if direct route is available
         for (Route route : routes) {
             if (route.getDestination().ID == to) {
@@ -95,7 +119,7 @@ public class TestAI extends AI {
                 distanceCandidate = distances.getDistance(route.getDestination().ID, to);
             }
         }
-
+        System.out.println("Selected route distance: "+distanceCandidate);
         return routeCandidate;
 
     }

@@ -138,7 +138,7 @@ public class Player {
     }
 
     private void throwDice() {
-        dice = 1 + (int) (Math.random() * 5);
+        dice = 1;// + (int) (Math.random() * 5);
     }
 
     private void openToken() {
@@ -304,7 +304,8 @@ public class Player {
     // Land, sea, or plane
     public void moveTo(Route destination) {
         if (useLandOrSea || usePlane) {
-
+            if(destination.getDestination().ID == 400)
+                System.out.println("Going to Sahara");
             if (!moved) {
                 int tempDice = dice;
                 if (usePlane) {

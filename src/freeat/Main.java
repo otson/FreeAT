@@ -137,6 +137,7 @@ public class Main {
         glOrtho(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 1, -1);
         glMatrixMode(GL_MODELVIEW);
         long start;
+        Float f;
         long end;
         long total = 0;
         int fps = 0;
@@ -154,7 +155,7 @@ public class Main {
             render();
             renderDebugText();
             Display.update();
-            Display.sync(60);
+            Display.sync(3);
             sinceUpdate = System.nanoTime();
             fps++;
             //}
