@@ -88,6 +88,7 @@ public class Main {
     private static UnicodeFont font;
 
     public static void main(String[] args) {
+        System.out.println("Loading game...");
         initDisplay();
         initFont();
         initTextures();
@@ -145,7 +146,7 @@ public class Main {
 
         game.resetGame();
 
-        while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+        while (!Display.isCloseRequested()) {
             start = System.nanoTime();
             glClear(GL_COLOR_BUFFER_BIT);
             checkUserInput();
