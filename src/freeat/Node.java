@@ -38,99 +38,99 @@ public class Node {
 
     //Routes that cost 0
     //Distance of 1
-    private ArrayList<Route> distance1Cost0 = new ArrayList();
+    private ArrayList<Route> distance1Cost0 = new ArrayList<>();
 
     //Routes that cost 0
     //Distance of 2
-    private ArrayList<Route> distance2Cost0 = new ArrayList();
+    private ArrayList<Route> distance2Cost0 = new ArrayList<>();
 
     //Routes that cost 0
     //Distance of 3
-    private ArrayList<Route> distance3Cost0 = new ArrayList();
+    private ArrayList<Route> distance3Cost0 = new ArrayList<>();
 
     //Routes that cost 0
     //Distance of 4
-    private ArrayList<Route> distance4Cost0 = new ArrayList();
+    private ArrayList<Route> distance4Cost0 = new ArrayList<>();
 
     //Routes that cost 0
     //Distance of 5
-    private ArrayList<Route> distance5Cost0 = new ArrayList();
+    private ArrayList<Route> distance5Cost0 = new ArrayList<>();
 
     //Routes that cost 0
     //Distance of 6
-    private ArrayList<Route> distance6Cost0 = new ArrayList();
+    private ArrayList<Route> distance6Cost0 = new ArrayList<>();
 
     //Routes that cost 100 or less
     //Distance of 1
-    private ArrayList<Route> distance1Cost100 = new ArrayList();
+    private ArrayList<Route> distance1Cost100 = new ArrayList<>();
 
     //Routes that cost 100 or less
     //Distance of 2
-    private ArrayList<Route> distance2Cost100 = new ArrayList();
+    private ArrayList<Route> distance2Cost100 = new ArrayList<>();
 
     //Routes that cost 100 or less
     //Distance of 3
-    private ArrayList<Route> distance3Cost100 = new ArrayList();
+    private ArrayList<Route> distance3Cost100 = new ArrayList<>();
 
     //Routes that cost 100 or less
     //Distance of 4
-    private ArrayList<Route> distance4Cost100 = new ArrayList();
+    private ArrayList<Route> distance4Cost100 = new ArrayList<>();
 
     //Routes that cost 100 or less
     //Distance of 5
-    private ArrayList<Route> distance5Cost100 = new ArrayList();
+    private ArrayList<Route> distance5Cost100 = new ArrayList<>();
 
     //Routes that cost 100 or less
     //Distance of 6
-    private ArrayList<Route> distance6Cost100 = new ArrayList();
+    private ArrayList<Route> distance6Cost100 = new ArrayList<>();
 
     //Routes that cost 200 or less
     //Distance of 1
-    private ArrayList<Route> distance1Cost200 = new ArrayList();
+    private ArrayList<Route> distance1Cost200 = new ArrayList<>();
 
     //Routes that cost 200 or less
     //Distance of 2
-    private ArrayList<Route> distance2Cost200 = new ArrayList();
+    private ArrayList<Route> distance2Cost200 = new ArrayList<>();
 
     //Routes that cost 200 or less
     //Distance of 3
-    private ArrayList<Route> distance3Cost200 = new ArrayList();
+    private ArrayList<Route> distance3Cost200 = new ArrayList<>();
 
     //Routes that cost 200 or less
     //Distance of 4
-    private ArrayList<Route> distance4Cost200 = new ArrayList();
+    private ArrayList<Route> distance4Cost200 = new ArrayList<>();
 
     //Routes that cost 200 or less
     //Distance of 5
-    private ArrayList<Route> distance5Cost200 = new ArrayList();
+    private ArrayList<Route> distance5Cost200 = new ArrayList<>();
 
     //Routes that cost 200 or less
     //Distance of 6
-    private ArrayList<Route> distance6Cost200 = new ArrayList();
+    private ArrayList<Route> distance6Cost200 = new ArrayList<>();
 
     //Routes that cost 300 or less
     //Distance of 1
-    private ArrayList<Route> distance1Cost300 = new ArrayList();
+    private ArrayList<Route> distance1Cost300 = new ArrayList<>();
 
     //Routes that cost 300 or less
     //Distance of 2
-    private ArrayList<Route> distance2Cost300 = new ArrayList();
+    private ArrayList<Route> distance2Cost300 = new ArrayList<>();
 
     //Routes that cost 300 or less
     //Distance of 3
-    private ArrayList<Route> distance3Cost300 = new ArrayList();
+    private ArrayList<Route> distance3Cost300 = new ArrayList<>();
 
     //Routes that cost 300 or less
     //Distance of 4
-    private ArrayList<Route> distance4Cost300 = new ArrayList();
+    private ArrayList<Route> distance4Cost300 = new ArrayList<>();
 
     //Routes that cost 300 or less
     //Distance of 5
-    private ArrayList<Route> distance5Cost300 = new ArrayList();
+    private ArrayList<Route> distance5Cost300 = new ArrayList<>();
 
     //Routes that cost 300 or less
     //Distance of 6
-    private ArrayList<Route> distance6Cost300 = new ArrayList();
+    private ArrayList<Route> distance6Cost300 = new ArrayList<>();
     
     ArrayList<Route>[][] allLists;
     
