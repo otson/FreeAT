@@ -63,56 +63,59 @@ public class LoomAI extends AI
     @Override
     public void act()
     {
-        if (destinationNodeID > 0)
+        while (!(c.isEndTurn()))
         {
-            c.setDebugString("current destination is " + destinationNodeID);
-            // System.in.read();
-
-            // TODO: go to the destination node, buy tokens on the way (if it's probably useful).
-
-            // when destination is reached, set destination to 0 (no destination).
-            if (c.getCurrentNode().ID == destinationNodeID)
+            if (destinationNodeID > 0)
             {
-                destinationNodeID = 0;
+                c.setDebugString("current destination is " + destinationNodeID);
+                // System.in.read();
+
+                // TODO: go to the destination node, buy tokens on the way (if it's probably useful).
+
+                // when destination is reached, set destination to 0 (no destination).
+                if (c.getCurrentNode().ID == destinationNodeID)
+                {
+                    destinationNodeID = 0;
+                }
+                c.endTurn();
             }
+            else
+            {
+                c.setDebugString("no current destination");
+                // System.in.read();
+
+                c.decideToUseLandOrSeaRoute();
+
+                ArrayList<Route> routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
+                c.setDebugString("number of routes: " + routesArrayList.size());
+                // System.in.read();
+
+                int iTarget = (int) ((int) routesArrayList.size() * Math.random());
+                Route route = routesArrayList.get(iTarget);
+                newNodeID = route.getDestination().ID;
+                c.moveTo(route);
+                if (c.getMyBalance() >= 100)
+                {
+                    c.buyToken();
+                }
+            }
+
+            // print my itinerary this turn.
+
+            printMyItineraryAndWait(oldNodeID, newNodeID);
+            oldNodeID = newNodeID;
+
+            if (askMeAboutLoomStatus == 0)
+            {
+                askMeAboutLoomStatus = (c.getMyID() + 1);
+                if (askMeAboutLoomStatus > loomArrayOfStrings.length)
+                {
+                    askMeAboutLoomStatus = 1;
+                }
+            }
+            askMeAboutLoom();
             c.endTurn();
         }
-        else
-        {
-            c.setDebugString("no current destination");
-            // System.in.read();
-
-            c.decideToUseLandOrSeaRoute();
-
-            ArrayList<Route> routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
-            c.setDebugString("number of routes: " + routesArrayList.size());
-            // System.in.read();
-
-            int iTarget = (int) ((int) routesArrayList.size() * Math.random());
-            Route route = routesArrayList.get(iTarget);
-            newNodeID = route.getDestination().ID;
-            c.moveTo(route);
-            if (c.getMyBalance() >= 100)
-            {
-                c.buyToken();
-            }
-        }
-
-        // print my itinerary this turn.
-
-        printMyItineraryAndWait(oldNodeID, newNodeID);
-        oldNodeID = newNodeID;
-
-        if (askMeAboutLoomStatus == 0)
-        {
-            askMeAboutLoomStatus = (c.getMyID() + 1);
-            if (askMeAboutLoomStatus > loomArrayOfStrings.length)
-            {
-                askMeAboutLoomStatus = 1;
-            }
-        }
-        askMeAboutLoom();
-        c.endTurn();
     }
 
     private void printMyItinerary(int oldNodeID, int newNodeID)
