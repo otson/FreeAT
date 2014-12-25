@@ -5,9 +5,6 @@
  */
 package freeat.ai;
 
-import freeat.Controller;
-import freeat.Node;
-import freeat.Player;
 import freeat.Route;
 import java.util.ArrayList;
 
