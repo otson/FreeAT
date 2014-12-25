@@ -18,7 +18,8 @@ import java.util.Set;
  *
  * @author otso
  */
-public abstract class AI {
+public abstract class AI
+{
 
     public final int START;
     protected HashMap<Integer, Node> locations;
@@ -26,51 +27,57 @@ public abstract class AI {
     public static Set<String> AIIdentifications = new HashSet<>();
     private ArrayList<DrawNode> drawList = new ArrayList<>();
     protected Controller c;
-    
-    
-    
-    public AI(int start) {
+
+    public AI(int start)
+    {
         START = start;
     }
 
-    public void setLocations(HashMap<Integer, Node> locations) {
+    public void setLocations(HashMap<Integer, Node> locations)
+    {
         this.locations = locations;
     }
 
     public abstract void act();
 
-    public float getR() {
+    public float getR()
+    {
         return 0;
     }
 
-    public float getG() {
+    public float getG()
+    {
         return 1;
     }
 
-    public float getB() {
+    public float getB()
+    {
         return 0;
     }
-    
-    public String getName(){
+
+    public String getName()
+    {
         return "default";
     }
 
-    public ArrayList<DrawNode> getDrawList() {
+    public ArrayList<DrawNode> getDrawList()
+    {
         return drawList;
     }
-    
-    protected void addDraw(int r, int g, int b, int nodeID){
-        drawList.add(new DrawNode(r,g,b, nodeID));
+
+    protected void addDraw(int r, int g, int b, int nodeID)
+    {
+        drawList.add(new DrawNode(r, g, b, nodeID));
     }
-    
-    protected void clearDraw(){
+
+    protected void clearDraw()
+    {
         drawList.clear();
     }
 
-    public void setController(Controller controller) {
+    public void setController(Controller controller)
+    {
         this.c = controller;
     }
 
-    
-    
 }

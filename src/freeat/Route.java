@@ -9,23 +9,26 @@ package freeat;
  *
  * @author otso
  */
-public class Route {
-    
+public class Route
+{
+
     private Node destination;
     private int price;
-    
-    Route(Node destination, int price){
+
+    Route(Node destination, int price)
+    {
         this.destination = destination;
         this.price = price;
     }
 
-    public Node getDestination() {
+    public Node getDestination()
+    {
         return destination;
     }
 
-    public int getPrice() {
+    public int getPrice()
+    {
         return price;
     }
-    
-    
+
 }

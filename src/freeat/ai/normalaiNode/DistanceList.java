@@ -13,7 +13,8 @@ import java.util.HashMap;
  *
  * @author otso
  */
-public class DistanceList {
+public class DistanceList
+{
 
     // key is target nodeID, value is distance
     private HashMap<Integer, Integer> distances;
@@ -21,34 +22,44 @@ public class DistanceList {
     public int ID;
     public ArrayList<Integer>[] array;
 
-    DistanceList(int ID, HashMap<Integer, Integer> distancesForNode, HashMap<Integer, Node> nodeList) {
+    DistanceList(int ID, HashMap<Integer, Integer> distancesForNode, HashMap<Integer, Node> nodeList)
+    {
         this.ID = ID;
         this.distances = distancesForNode;
         this.nodeList = nodeList;
     }
 
-    public HashMap<Integer, Integer> getDistances() {
+    public HashMap<Integer, Integer> getDistances()
+    {
         return distances;
     }
 
-    public void calculateDistances() {
+    public void calculateDistances()
+    {
 
-        for (int i = 2; i < 43; i++) {
-            for (int targetNodeID : distances.keySet()) {
+        for (int i = 2; i < 43; i++)
+        {
+            for (int targetNodeID : distances.keySet())
+            {
 
                 // if sea, no route is currently set
-                if (targetNodeID < 500) {
+                if (targetNodeID < 500)
+                {
                     int distance = distances.get(targetNodeID);
 
-                    if (distance == -1 || distance > i) {
+                    if (distance == -1 || distance > i)
+                    {
 
-                        for (int tempTarget : distances.keySet()) {
+                        for (int tempTarget : distances.keySet())
+                        {
                             int tempDist = distances.get(tempTarget);
 
-                            if (tempDist == i - 1) {
+                            if (tempDist == i - 1)
+                            {
                                 Node tempNode = nodeList.get(tempTarget);
                                 // check if the node at distance i-1 has a direct connection to targetNode
-                                if (tempNode.hasConnection(targetNodeID)) {
+                                if (tempNode.hasConnection(targetNodeID))
+                                {
                                     //Node targetNode = nodeList.get(targetNodeID);
 
                                     // check that the route is free (not moving from city to sea)
@@ -58,7 +69,8 @@ public class DistanceList {
                         }
                     }
                 } // Shorter distance already found
-                else {
+                else
+                {
 
                 }
             }

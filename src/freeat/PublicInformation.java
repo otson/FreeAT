@@ -11,7 +11,8 @@ import java.util.ArrayList;
  *
  * @author otso
  */
-public class PublicInformation {
+public class PublicInformation
+{
 
     public static final int PLAYER_COUNT = 2;
 
@@ -23,7 +24,7 @@ public class PublicInformation {
     private static boolean[] inSahara = new boolean[PLAYER_COUNT];
     private static boolean[] inPirates = new boolean[PLAYER_COUNT];
     private static boolean[] isWinner = new boolean[PLAYER_COUNT];
-    
+
     private static String[] playerNames = new String[PLAYER_COUNT];
 
     private static int horseShoesTotal;
@@ -38,13 +39,14 @@ public class PublicInformation {
     private static int robberLeft;
     private static int emptyLeft;
     private static int emptyTotal;
-    
+
     private static int unOpenedLeft;
-    
+
     private static int treasureTotal;
     private static int treasuresLeft;
 
-    static {
+    static
+    {
         cashBalance = new int[PLAYER_COUNT];
         location = new int[PLAYER_COUNT];
         hasStar = new boolean[PLAYER_COUNT];
@@ -52,24 +54,30 @@ public class PublicInformation {
         foundCapeTown = new boolean[PLAYER_COUNT];
     }
 
-    public static int getBalance(int ID) {
+    public static int getBalance(int ID)
+    {
         return cashBalance[ID];
     }
 
-    public static int getLocation(int ID) {
+    public static int getLocation(int ID)
+    {
         return location[ID];
     }
 
-    public static boolean hasStar(int ID) {
+    public static boolean hasStar(int ID)
+    {
         return hasStar[ID];
     }
 
-    public static boolean hasHorseshoeAfterStar(int ID) {
+    public static boolean hasHorseshoeAfterStar(int ID)
+    {
         return hasHorseshoeAfterStar[ID];
     }
 
-    public static void updateInformation(ArrayList<Player> players) {
-        for (Player player : players) {
+    public static void updateInformation(ArrayList<Player> players)
+    {
+        for (Player player : players)
+        {
             cashBalance[player.ID] = player.getCashBalance();
             location[player.ID] = player.getLocation();
             hasStar[player.ID] = player.isHasStar();
@@ -82,36 +90,48 @@ public class PublicInformation {
         }
     }
 
-    public static boolean isStarFound() {
-        for (int i = 0; i < hasStar.length; i++) {
-            if (hasStar[i]) {
+    public static boolean isStarFound()
+    {
+        for (int i = 0; i < hasStar.length; i++)
+        {
+            if (hasStar[i])
+            {
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean isCapeTownBonus() {
-        for (int i = 0; i < foundCapeTown.length; i++) {
-            if (foundCapeTown[i]) {
+    public static boolean isCapeTownBonus()
+    {
+        for (int i = 0; i < foundCapeTown.length; i++)
+        {
+            if (foundCapeTown[i])
+            {
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean isWinner() {
-        for (int i = 0; i < isWinner.length; i++) {
-            if (isWinner[i]) {
+    public static boolean isWinner()
+    {
+        for (int i = 0; i < isWinner.length; i++)
+        {
+            if (isWinner[i])
+            {
                 return true;
             }
         }
         return false;
     }
 
-    public static int getWinner() {
-        for (int i = 0; i < isWinner.length; i++) {
-            if (isWinner[i]) {
+    public static int getWinner()
+    {
+        for (int i = 0; i < isWinner.length; i++)
+        {
+            if (isWinner[i])
+            {
                 return i;
             }
         }
@@ -119,7 +139,8 @@ public class PublicInformation {
         return -1;
     }
 
-    public static void reset() {
+    public static void reset()
+    {
         cashBalance = new int[PLAYER_COUNT];
         location = new int[PLAYER_COUNT];
         hasStar = new boolean[PLAYER_COUNT];
@@ -130,138 +151,170 @@ public class PublicInformation {
         isWinner = new boolean[PLAYER_COUNT];
     }
 
-    public static int getHorseShoesTotal() {
+    public static int getHorseShoesTotal()
+    {
         return horseShoesTotal;
     }
 
-    public static int getHorseShoesLeft() {
+    public static int getHorseShoesLeft()
+    {
         return horseShoesLeft;
     }
 
-    public static int getRybyTotal() {
+    public static int getRybyTotal()
+    {
         return rybyTotal;
     }
 
-    public static int getRubiesLeft() {
+    public static int getRubiesLeft()
+    {
         return rubiesLeft;
     }
 
-    public static int getTopazTotal() {
+    public static int getTopazTotal()
+    {
         return topazTotal;
     }
 
-    public static int getTopazesLeft() {
+    public static int getTopazesLeft()
+    {
         return topazesLeft;
     }
 
-    public static int getEmeraldTotal() {
+    public static int getEmeraldTotal()
+    {
         return emeraldTotal;
     }
 
-    public static int getEmeraldsLeft() {
+    public static int getEmeraldsLeft()
+    {
         return emeraldsLeft;
     }
 
-    public static int getRobberTotal() {
+    public static int getRobberTotal()
+    {
         return robberTotal;
     }
 
-    public static int getRobberLeft() {
+    public static int getRobberLeft()
+    {
         return robberLeft;
     }
 
-    public static void setHorseShoesTotal(int horseShoesTotal) {
+    public static void setHorseShoesTotal(int horseShoesTotal)
+    {
         PublicInformation.horseShoesTotal = horseShoesTotal;
     }
 
-    public static void setRybyTotal(int rybyTotal) {
+    public static void setRybyTotal(int rybyTotal)
+    {
         PublicInformation.rybyTotal = rybyTotal;
     }
 
-    public static void setTopazTotal(int topazTotal) {
+    public static void setTopazTotal(int topazTotal)
+    {
         PublicInformation.topazTotal = topazTotal;
     }
 
-    public static void setEmeraldTotal(int emeraldTotal) {
+    public static void setEmeraldTotal(int emeraldTotal)
+    {
         PublicInformation.emeraldTotal = emeraldTotal;
     }
 
-    public static void setRobberTotal(int robberTotal) {
+    public static void setRobberTotal(int robberTotal)
+    {
         PublicInformation.robberTotal = robberTotal;
     }
 
-    public int getTreasuresLeft() {
+    public int getTreasuresLeft()
+    {
         return treasuresLeft;
     }
 
-    public void setTreasuresLeft(int treasuresLeft) {
+    public void setTreasuresLeft(int treasuresLeft)
+    {
         PublicInformation.treasuresLeft = treasuresLeft;
     }
 
-    public static void setTreasureTotal(int treasureTotal) {
+    public static void setTreasureTotal(int treasureTotal)
+    {
         PublicInformation.treasureTotal = treasureTotal;
     }
-    
-    public static void removeEmerald(){
+
+    public static void removeEmerald()
+    {
         emeraldsLeft--;
     }
-    
-    public static void removeRobber(){
+
+    public static void removeRobber()
+    {
         robberLeft--;
     }
-    
-    public static void removeTopaz(){
+
+    public static void removeTopaz()
+    {
         topazesLeft--;
     }
-    
-    public static void removeRuby(){
+
+    public static void removeRuby()
+    {
         rubiesLeft--;
     }
-    
-    public static void removeHorseShoe(){
+
+    public static void removeHorseShoe()
+    {
         horseShoesLeft--;
     }
 
-    public static int getTreasureTotal() {
+    public static int getTreasureTotal()
+    {
         return treasureTotal;
     }
 
-    public static int getEmptyLeft() {
+    public static int getEmptyLeft()
+    {
         return emptyLeft;
     }
 
-    public static int getEmptyTotal() {
+    public static int getEmptyTotal()
+    {
         return emptyTotal;
     }
 
-    public static int getUnOpenedLeft() {
+    public static int getUnOpenedLeft()
+    {
         return unOpenedLeft;
     }
-    
-    public static void removeUnopened(){
+
+    public static void removeUnopened()
+    {
         unOpenedLeft--;
     }
-    
-    public static void removeEmpty(){
+
+    public static void removeEmpty()
+    {
         emptyLeft--;
     }
 
-    public static void setEmptyLeft(int emptyLeft) {
+    public static void setEmptyLeft(int emptyLeft)
+    {
         PublicInformation.emptyLeft = emptyLeft;
     }
 
-    public static void setEmptyTotal(int emptyTotal) {
+    public static void setEmptyTotal(int emptyTotal)
+    {
         PublicInformation.emptyTotal = emptyTotal;
         emptyLeft = emptyTotal;
     }
 
-    public static void setUnOpenedLeft(int unOpenedLeft) {
+    public static void setUnOpenedLeft(int unOpenedLeft)
+    {
         PublicInformation.unOpenedLeft = unOpenedLeft;
     }
-    
-    public static String getName(int id){
+
+    public static String getName(int id)
+    {
         return playerNames[id];
     }
-    
 
 }

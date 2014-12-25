@@ -16,18 +16,23 @@ import java.util.Set;
  *
  * @author otso
  */
-public class DistanceListList {
+public class DistanceListList
+{
 
     private HashMap<Integer, DistanceList> distances = new HashMap<>();
     private HashMap<Integer, Node> nodeList;
-    
-    public DistanceListList(HashMap<Integer, Node> nodeList) {
+
+    public DistanceListList(HashMap<Integer, Node> nodeList)
+    {
         this.nodeList = nodeList;
         // Give all the nodes in the list a list of all the other nodes, with a starting distance of -1 (not reachable)
-        for (Node node : nodeList.values()) {
+        for (Node node : nodeList.values())
+        {
             HashMap<Integer, Integer> distancesForNode = new HashMap<>();
-            for (Node node2 : nodeList.values()) {
-                if (node.ID != node2.ID) {
+            for (Node node2 : nodeList.values())
+            {
+                if (node.ID != node2.ID)
+                {
                     distancesForNode.put(node2.ID, -1);
                 }
             }
@@ -35,14 +40,17 @@ public class DistanceListList {
         }
         //Collections.
         // set free routes with a distance of 1
-        for (DistanceList nodesList : distances.values()) {
+        for (DistanceList nodesList : distances.values())
+        {
             HashMap<Integer, Integer> nodeDistances = nodesList.getDistances();
             Node currentNode = nodeList.get(nodesList.ID);
             ArrayList<Integer> connections = currentNode.getConnections();
-            for (Integer destination : connections) {
+            for (Integer destination : connections)
+            {
                 Node destNode = nodeList.get(destination);
                 // check that the route is free
-                if (!(currentNode.isCity() && destNode.isSea())) {
+                if (!(currentNode.isCity() && destNode.isSea()))
+                {
                     nodeDistances.put(destination, 1);
                 }
 
@@ -51,22 +59,25 @@ public class DistanceListList {
         }
 
         // calculate rest of the distances in the Distancelist of method
-        for (DistanceList nodesList : distances.values()) {
+        for (DistanceList nodesList : distances.values())
+        {
             nodesList.calculateDistances();
         }
 
     }
 
-    public int getDistance(int from, int to) {
+    public int getDistance(int from, int to)
+    {
 
         //System.out.println("From: "+from+" to: "+to);
-        if (from == to) {
+        if (from == to)
+        {
             System.out.println("Distance from and to same value");
-            System.out.println("From: "+ from);
+            System.out.println("From: " + from);
             System.out.println("To: " + to);
-            
+
             int i = 0;
-           // i /=i;
+            // i /=i;
             return 0;
         }
         int distance = distances.get(from).getDistances().get(to);
@@ -74,16 +85,22 @@ public class DistanceListList {
         return distance;
     }
 
-    public void checkRoutes() {
-        for (DistanceList list : distances.values()) {
+    public void checkRoutes()
+    {
+        for (DistanceList list : distances.values())
+        {
             int from = list.ID;
-            if (from > 100 && from <= 400 && from != 1 && from != 2 && from != 1 && from != 128 && from != 127 && from != 102 && from != 103 && from != 215 && from != 216 && from != 217) {
+            if (from > 100 && from <= 400 && from != 1 && from != 2 && from != 1 && from != 128 && from != 127 && from != 102 && from != 103 && from != 215 && from != 216 && from != 217)
+            {
 
-                for (Integer to : list.getDistances().keySet()) {
+                for (Integer to : list.getDistances().keySet())
+                {
                     int distance = list.getDistances().get(to);
-                    if (to > 100 && to <= 400 && to != 1 && to != 2 && to != 1 && to != 128 && to != 127 && to != 102 && to != 103 && to != 215 && to != 216 && to != 217) {
-                        if(distance == -1){
-                            System.out.println("Distance of "+distance+" from "+from+" to "+to);
+                    if (to > 100 && to <= 400 && to != 1 && to != 2 && to != 1 && to != 128 && to != 127 && to != 102 && to != 103 && to != 215 && to != 216 && to != 217)
+                    {
+                        if (distance == -1)
+                        {
+                            System.out.println("Distance of " + distance + " from " + from + " to " + to);
                         }
                     }
                 }
@@ -91,9 +108,10 @@ public class DistanceListList {
         }
     }
 
-    public void printDistance(int from, int to) {
+    public void printDistance(int from, int to)
+    {
         int distance = distances.get(from).getDistances().get(to);
-        System.out.println("From: "+nodeList.get(from).getName()+" to: "+nodeList.get(to).getName()+" distance: "+distance);
+        System.out.println("From: " + nodeList.get(from).getName() + " to: " + nodeList.get(to).getName() + " distance: " + distance);
     }
 
 }

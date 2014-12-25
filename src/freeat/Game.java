@@ -31,7 +31,8 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
  *
  * @author otso
  */
-public class Game {
+public class Game
+{
 
     private static final int STAR_OF_AFRICA_COUNT = 1;
     private static final int RUBY_COUNT = 2;
@@ -47,7 +48,8 @@ public class Game {
     private int turnCount = 0;
     private int totalWins = 0;
 
-    public Game() {
+    public Game()
+    {
         locations = new HashMap<>();
         players = new ArrayList<>();
         getLocations();
@@ -65,48 +67,63 @@ public class Game {
         //printRoutes();
     }
 
-    public final void setAllRoutes() {
+    public final void setAllRoutes()
+    {
         int distance = 1;
         int currentPrice = 0;
-        for (Node node : locations.values()) {
+        for (Node node : locations.values())
+        {
             getNext(node, null, distance, currentPrice, node.getAllLists());
         }
         //plane routes
-        for (Node node : locations.values()) {
+        for (Node node : locations.values())
+        {
             currentPrice = 3;
-            for (int i = 0; i < node.getPlaneConnections().size(); i++) {
+            for (int i = 0; i < node.getPlaneConnections().size(); i++)
+            {
 
                 Integer integer = node.getPlaneConnections().get(i);
                 Node next = locations.get(integer);
-                for (int j = 1; j < 7; j++) {
+                for (int j = 1; j < 7; j++)
+                {
                     node.allLists[j][currentPrice].add(new Route(next, currentPrice * 100));
                 }
             }
         }
     }
 
-    private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, ArrayList<Route>[][] list) {
-        for (int i = 0; i < previous.getConnections().size(); i++) {
+    private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, ArrayList<Route>[][] list)
+    {
+        for (int i = 0; i < previous.getConnections().size(); i++)
+        {
             int tempPrice = currentPrice;
             Integer integer = previous.getConnections().get(i);
             Node current = locations.get(integer);
-            if (current != previousPrevious) {
-                if (current.isCity()) {
-                    for (int j = distance; j < 7; j++) {
-                        for (int x = tempPrice; x < 4; x++) {
+            if (current != previousPrevious)
+            {
+                if (current.isCity())
+                {
+                    for (int j = distance; j < 7; j++)
+                    {
+                        for (int x = tempPrice; x < 4; x++)
+                        {
                             list[j][x].add(new Route(current, x * 100));
                         }
                     }
-                } else {
-                    if (current.isSea() && !previous.isSea()) {
+                } else
+                {
+                    if (current.isSea() && !previous.isSea())
+                    {
                         tempPrice++;
 
                     }
-                    for (int x = tempPrice; x < 4; x++) {
+                    for (int x = tempPrice; x < 4; x++)
+                    {
                         list[distance][x].add(new Route(current, x * 100));
                     }
                 }
-                if (distance < 6) {
+                if (distance < 6)
+                {
                     getNext(current, previous, distance + 1, tempPrice, list);
                 }
             }
@@ -114,137 +131,181 @@ public class Game {
         }
     }
 
-    private void getLocations() {
+    private void getLocations()
+    {
         BufferedReader br = null;
-        try {
+        try
+        {
             br = new BufferedReader(new FileReader(Main.LOCATIONS_FILE));
             String line = br.readLine();
-            while (line != null) {
+            while (line != null)
+            {
                 String[] values = line.split(" ");
                 int[] iValues = new int[values.length];
-                for (int i = 0; i < values.length; i++) {
+                for (int i = 0; i < values.length; i++)
+                {
                     iValues[i] = Integer.parseInt(values[i].trim());
                 }
                 // add new node to array with the id, x and y coordinates
                 locations.put(iValues[0], new Node(iValues[0], iValues[1], iValues[2], locations));
                 line = br.readLine();
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 br.close();
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
     }
 
-    private static void setNodeNames() {
+    private static void setNodeNames()
+    {
         BufferedReader br = null;
-        try {
+        try
+        {
             br = new BufferedReader(new FileReader(Main.NODE_NAMES));
             String line = br.readLine();
-            while (line != null) {
+            while (line != null)
+            {
                 String[] values = line.split(" ");
-                if (values.length == 2) {
+                if (values.length == 2)
+                {
                     locations.get(Integer.parseInt(values[0].trim())).setName(values[1].replace("_", " "));
                 }
                 line = br.readLine();
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 br.close();
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
     }
 
-    private void getConnections() {
+    private void getConnections()
+    {
         BufferedReader br = null;
-        try {
+        try
+        {
             br = new BufferedReader(new FileReader(Main.CONNECTIONS_FILE)); // at 120
             String line = br.readLine();
-            while (line != null) {
+            while (line != null)
+            {
                 String[] values = line.split(" ");
                 int[] iValues = new int[values.length];
-                for (int i = 0; i < values.length; i++) {
+                for (int i = 0; i < values.length; i++)
+                {
                     iValues[i] = Integer.parseInt(values[i].trim());
                 }
                 // add new node to array with the id, x and y coordinates
                 Node temp = locations.get(iValues[0]);
-                for (int i = 1; i < values.length; i++) {
+                for (int i = 1; i < values.length; i++)
+                {
                     temp.addConnection(iValues[i]);
                 }
                 line = br.readLine();
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 br.close();
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        for(Node node : locations.values()){
-            if(node.getConnections().contains(node.ID)){
-                System.out.println("Node "+node.ID +" contains route to itself.");
+        for (Node node : locations.values())
+        {
+            if (node.getConnections().contains(node.ID))
+            {
+                System.out.println("Node " + node.ID + " contains route to itself.");
             }
         }
         //System.exit(0);
     }
 
-    private void getPlaneConnections() {
+    private void getPlaneConnections()
+    {
         BufferedReader br = null;
-        try {
+        try
+        {
             br = new BufferedReader(new FileReader(Main.PLANE_CONNECTIONS_FILE)); // at 120
             String line = br.readLine();
-            while (line != null) {
+            while (line != null)
+            {
                 String[] values = line.split(" ");
                 int[] iValues = new int[values.length];
-                for (int i = 0; i < values.length; i++) {
+                for (int i = 0; i < values.length; i++)
+                {
                     iValues[i] = Integer.parseInt(values[i].trim());
                 }
                 // add new node to array with the id, x and y coordinates
                 Node temp = locations.get(iValues[0]);
-                for (int i = 1; i < values.length; i++) {
+                for (int i = 1; i < values.length; i++)
+                {
                     temp.addPlaneConnection(iValues[i]);
                 }
                 line = br.readLine();
             }
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
+        } finally
+        {
+            try
+            {
                 br.close();
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
-    public void renderTreasures() {
-        for (Node node : locations.values()) {
+    public void renderTreasures()
+    {
+        for (Node node : locations.values())
+        {
             node.draw();
         }
     }
 
-    public void renderPlayers() {
-        for (Player player : players) {
+    public void renderPlayers()
+    {
+        for (Player player : players)
+        {
             int x;
             int y;
             int size = 25;
@@ -273,7 +334,8 @@ public class Game {
         }
     }
 
-    private void setTreasures() {
+    private void setTreasures()
+    {
         PublicInformation.setEmeraldTotal(EMERALD_COUNT);
         PublicInformation.setHorseShoesTotal(HORSESHOE_COUNT);
         PublicInformation.setRobberTotal(ROBBER_COUNT);
@@ -286,44 +348,54 @@ public class Game {
 
         int[] treasures = new int[Node.CITY_COUNT];
         int current = 0;
-        for (int i = 0; i < STAR_OF_AFRICA_COUNT; i++) {
+        for (int i = 0; i < STAR_OF_AFRICA_COUNT; i++)
+        {
             treasures[current] = TreasureType.STAR_OF_AFRICA;
             current++;
         }
-        for (int i = 0; i < RUBY_COUNT; i++) {
+        for (int i = 0; i < RUBY_COUNT; i++)
+        {
             treasures[current] = TreasureType.RUBY;
             current++;
         }
-        for (int i = 0; i < EMERALD_COUNT; i++) {
+        for (int i = 0; i < EMERALD_COUNT; i++)
+        {
             treasures[current] = TreasureType.EMERALD;
             current++;
         }
-        for (int i = 0; i < TOPAZ_COUNT; i++) {
+        for (int i = 0; i < TOPAZ_COUNT; i++)
+        {
             treasures[current] = TreasureType.TOPAZ;
             current++;
         }
-        for (int i = 0; i < ROBBER_COUNT; i++) {
+        for (int i = 0; i < ROBBER_COUNT; i++)
+        {
             treasures[current] = TreasureType.ROBBER;
             current++;
         }
-        for (int i = 0; i < HORSESHOE_COUNT; i++) {
+        for (int i = 0; i < HORSESHOE_COUNT; i++)
+        {
             treasures[current] = TreasureType.HORSESHOE;
             current++;
         }
 
         treasures = ShuffleArray(treasures);
-        for (int i = 0; i < treasures.length; i++) {
+        for (int i = 0; i < treasures.length; i++)
+        {
             Node temp = locations.get(i + 101);
             temp.setTreasure(treasures[i]);
         }
     }
 
-    private int[] ShuffleArray(int[] array) {
+    private int[] ShuffleArray(int[] array)
+    {
         int index;
         Random random = new Random();
-        for (int i = array.length - 1; i > 0; i--) {
+        for (int i = array.length - 1; i > 0; i--)
+        {
             index = random.nextInt(i + 1);
-            if (index != i) {
+            if (index != i)
+            {
                 array[index] ^= array[i];
                 array[i] ^= array[index];
                 array[index] ^= array[i];
@@ -332,42 +404,53 @@ public class Game {
         return array;
     }
 
-    private void setPlayers() {
+    private void setPlayers()
+    {
         Player.resetID();
-        for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
+        for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++)
+        {
             players.add(new Player(locations));
         }
         PublicInformation.updateInformation(players);
     }
 
-    public void processTurn() {
-        if (!PublicInformation.isWinner()) {
-            for (Player player : players) {
+    public void processTurn()
+    {
+        if (!PublicInformation.isWinner())
+        {
+            for (Player player : players)
+            {
                 player.act();
             }
         }
         turnCount++;
         PublicInformation.updateInformation(players);
-        if (running) {
-            if (PublicInformation.isWinner()) {
+        if (running)
+        {
+            if (PublicInformation.isWinner())
+            {
                 winCount[PublicInformation.getWinner()]++;
                 totalWins++;
-                if (winCount[PublicInformation.getWinner()] % 1 == 0) {
-                    for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++) {
-                        System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " ("+(float)winCount[i]*100/totalWins+"%) ");
+                if (winCount[PublicInformation.getWinner()] % 1 == 0)
+                {
+                    for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++)
+                    {
+                        System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " (" + (float) winCount[i] * 100 / totalWins + "%) ");
                     }
                     System.out.println("");
                 }
 
                 resetGame();
-            } else if (turnCount > 1000) {
+            } else if (turnCount > 1000)
+            {
                 resetGame();
             }
 
         }
     }
 
-    public void resetGame() {
+    public void resetGame()
+    {
         //locations = new HashMap<>();
         PublicInformation.reset();
         AI.AIIdentifications.clear();
@@ -379,23 +462,30 @@ public class Game {
         running = true;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<Player> getPlayers()
+    {
         return players;
     }
 
-    private void printRoutes() {
+    private void printRoutes()
+    {
 
-        for (Node node : locations.values()) {
-            for (int i = 1; i < 7; i++) {
-                for (Route route : node.getAllLists()[i][0]) {
+        for (Node node : locations.values())
+        {
+            for (int i = 1; i < 7; i++)
+            {
+                for (Route route : node.getAllLists()[i][0])
+                {
                     System.out.println("Route from: " + node.ID + " to " + route.getDestination().ID + ". Price: " + route.getPrice() + " length: " + i);
                 }
             }
         }
     }
 
-    void renderAINodes() {
-        for(Player player: players){
+    void renderAINodes()
+    {
+        for (Player player : players)
+        {
             player.draw();
         }
     }

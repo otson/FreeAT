@@ -15,13 +15,15 @@ import java.util.ArrayList;
  *
  * @author otso
  */
-public class RouteAI extends AI {
+public class RouteAI extends AI
+{
 
     static int count = (int) (Math.random() * 2 + 1);
     private static DistanceListList distances;
     private static boolean distancesSet = false;
 
-    public RouteAI() {
+    public RouteAI()
+    {
         super(count); // set the preferred start city (1 or 2)
         AI.AIIdentifications.add("RouteAI");
         count = (int) (Math.random() * 2 + 1);
@@ -29,9 +31,12 @@ public class RouteAI extends AI {
     }
 
     @Override
-    public void act() {
-        while (!c.isEndTurn()) {
-            if (!distancesSet) {
+    public void act()
+    {
+        while (!c.isEndTurn())
+        {
+            if (!distancesSet)
+            {
                 distancesSet = true;
                 long start = System.nanoTime();
                 initDistances(c);
@@ -41,14 +46,17 @@ public class RouteAI extends AI {
                 //System.exit(0);
             }
 
-            if (c.isEligibleForWinning()) {
+            if (c.isEligibleForWinning())
+            {
                 // go towards a starting town
                 int tangierDist = distances.getDistance(c.getCurrentNode().ID, 1);
                 int cairoDist = distances.getDistance(c.getCurrentNode().ID, 2);
                 int target;
-                if (tangierDist > cairoDist) {
+                if (tangierDist > cairoDist)
+                {
                     target = 1;
-                } else {
+                } else
+                {
                     target = 2;
                 }
 
@@ -56,9 +64,11 @@ public class RouteAI extends AI {
                 ArrayList<Route> possibleRoutes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
                 Route selectedRoute = possibleRoutes.get(0);
                 int selectedRouteDist = distances.getDistance(selectedRoute.getDestination().ID, target);
-                for (Route tempRoute : possibleRoutes) {
+                for (Route tempRoute : possibleRoutes)
+                {
                     int tempDist = distances.getDistance(tempRoute.getDestination().ID, target);
-                    if (tempDist < selectedRouteDist) {
+                    if (tempDist < selectedRouteDist)
+                    {
                         selectedRoute = tempRoute;
                         selectedRouteDist = tempDist;
                     }
@@ -66,26 +76,33 @@ public class RouteAI extends AI {
                 c.moveTo(selectedRoute);
                 c.endTurn();
             } // check if can try to win treasure
-            else if (c.getCurrentNode().hasTreasure()) {
+            else if (c.getCurrentNode().hasTreasure())
+            {
                 c.decideTryToken();
-            } else {
+            } else
+            {
                 c.decideToUseLandOrSeaRoute();
                 // go towards nearest treasure
 
                 // if there are remaining treasures
-                if (!c.getRemainingTreasures().isEmpty()) {
+                if (!c.getRemainingTreasures().isEmpty())
+                {
                     ArrayList<Node> treasureCities = c.getRemainingTreasures();
                     Node selectedNode = treasureCities.get(0);
                     int selectedNodeDist = distances.getDistance(c.getCurrentNode().ID, selectedNode.ID);
 
-                    if (selectedNodeDist > c.getDice()) {
+                    if (selectedNodeDist > c.getDice())
+                    {
                         // find the nearest treasure
-                        for (Node tempNode : treasureCities) {
+                        for (Node tempNode : treasureCities)
+                        {
                             int tempDist = distances.getDistance(c.getCurrentNode().ID, tempNode.ID);
-                            if (tempDist < selectedNodeDist) {
+                            if (tempDist < selectedNodeDist)
+                            {
                                 selectedNode = tempNode;
                                 selectedNodeDist = tempDist;
-                                if (selectedNodeDist == c.getDice()) {
+                                if (selectedNodeDist == c.getDice())
+                                {
                                     break;
                                 }
                             }
@@ -95,13 +112,17 @@ public class RouteAI extends AI {
                     // find the best route
                     ArrayList<Route> possibleRoutes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
                     Route selectedRoute = possibleRoutes.get(0);
-                    if (containsNode(possibleRoutes, selectedNode)) {
+                    if (containsNode(possibleRoutes, selectedNode))
+                    {
                         selectedRoute = getRoute(possibleRoutes, selectedNode);
-                    } else {
+                    } else
+                    {
                         int selectedRouteDist = distances.getDistance(selectedRoute.getDestination().ID, selectedNode.ID);
-                        for (Route tempRoute : possibleRoutes) {
+                        for (Route tempRoute : possibleRoutes)
+                        {
                             int tempDist = distances.getDistance(tempRoute.getDestination().ID, selectedNode.ID);
-                            if (tempDist < selectedRouteDist) {
+                            if (tempDist < selectedRouteDist)
+                            {
                                 selectedRoute = tempRoute;
                                 selectedRouteDist = tempDist;
                             }
@@ -110,17 +131,21 @@ public class RouteAI extends AI {
                     }
                     //System.out.println("From: "+c.getCurrentNodeName()+ " to "+selectedNode.getName()+" distance: "+selectedNodeDist);
                     c.moveTo(selectedRoute);
-                    if (c.getMyBalance() >= 100 && c.getCurrentNode().hasTreasure()) {
+                    if (c.getMyBalance() >= 100 && c.getCurrentNode().hasTreasure())
+                    {
                         c.buyToken();
-                    } else {
+                    } else
+                    {
                         c.endTurn();
                     }
 
                 } // wander aimlessly
-                else {
+                else
+                {
                     int target = c.getMyAvailableRoutes().size();
                     target = (int) (target * Math.random());
-                    if (!c.isEndTurn()) {
+                    if (!c.isEndTurn())
+                    {
                         c.moveTo(c.getMyAvailableRoutes().get(target));
                     }
                     c.endTurn();
@@ -129,43 +154,54 @@ public class RouteAI extends AI {
         }
     }
 
-    private void initDistances(Controller c) {
+    private void initDistances(Controller c)
+    {
         distances = new DistanceListList(c.getNodeList());
 
     }
 
     @Override
-    public float getR() {
+    public float getR()
+    {
         return 1;
     }
 
     @Override
-    public float getG() {
+    public float getG()
+    {
         return 1f;
     }
 
     @Override
-    public float getB() {
+    public float getB()
+    {
         return 0f;
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return "ReittiOtso";
     }
 
-    private boolean containsNode(ArrayList<Route> possibleRoutes, Node selectedNode) {
-        for (Route route : possibleRoutes) {
-            if (route.getDestination() == selectedNode) {
+    private boolean containsNode(ArrayList<Route> possibleRoutes, Node selectedNode)
+    {
+        for (Route route : possibleRoutes)
+        {
+            if (route.getDestination() == selectedNode)
+            {
                 return true;
             }
         }
         return false;
     }
 
-    private Route getRoute(ArrayList<Route> possibleRoutes, Node selectedNode) {
-        for (Route route : possibleRoutes) {
-            if (route.getDestination() == selectedNode) {
+    private Route getRoute(ArrayList<Route> possibleRoutes, Node selectedNode)
+    {
+        for (Route route : possibleRoutes)
+        {
+            if (route.getDestination() == selectedNode)
+            {
                 return route;
             }
         }

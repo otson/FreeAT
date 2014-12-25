@@ -63,7 +63,8 @@ import static org.newdawn.slick.opengl.renderer.SGL.GL_COLOR_BUFFER_BIT;
  *
  * @author otso
  */
-public class Main {
+public class Main
+{
 
     private static final String MAP_FILE = "mapsquare";
     public static final String LOCATIONS_FILE = "src\\res\\coordinates\\coordinates.txt";
@@ -88,7 +89,8 @@ public class Main {
 
     private static UnicodeFont font;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         System.out.println(array.length);
         System.out.println("Loading game...");
         initDisplay();
@@ -98,7 +100,8 @@ public class Main {
         gameLoop();
     }
 
-    private static void initFont() {
+    private static void initFont()
+    {
         Font awtFont = new Font("Calibri", Font.PLAIN, 18); //name, style (PLAIN, BOLD, or ITALIC), size
 
         font = new UnicodeFont(awtFont.deriveFont(0, 18));
@@ -109,19 +112,24 @@ public class Main {
         //e.setColor(java.awt.Color.white);
         font.getEffects()
                 .add(e);
-        try {
+        try
+        {
             font.loadGlyphs();
-        } catch (SlickException e1) {
+        } catch (SlickException e1)
+        {
             e1.printStackTrace();
         }
     }
 
-    private static void initDisplay() {
-        try {
+    private static void initDisplay()
+    {
+        try
+        {
             Display.setDisplayMode(new DisplayMode(WINDOW_WIDTH, WINDOW_HEIGHT));
             Display.setTitle("FreeAT");
             Display.create();
-        } catch (LWJGLException e) {
+        } catch (LWJGLException e)
+        {
             e.printStackTrace();
             Display.destroy();
             System.exit(1);
@@ -133,7 +141,8 @@ public class Main {
 //        }
     }
 
-    private static void gameLoop() {
+    private static void gameLoop()
+    {
 
         glMatrixMode(GL_PROJECTION);
         GL11.glLoadIdentity();
@@ -148,7 +157,8 @@ public class Main {
 
         game.resetGame();
 
-        while (!Display.isCloseRequested()) {
+        while (!Display.isCloseRequested())
+        {
             start = System.nanoTime();
             glClear(GL_COLOR_BUFFER_BIT);
             checkUserInput();
@@ -165,7 +175,8 @@ public class Main {
             end = System.nanoTime();
             total += end - start;
 
-            if (total > 1000000000) {
+            if (total > 1000000000)
+            {
                 //Display.update();
                 Display.setTitle("FPS: " + fps);
                 fps = 0;
@@ -175,7 +186,8 @@ public class Main {
         //writer.close();
     }
 
-    private static void render() {
+    private static void render()
+    {
         map.bind();
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0);
@@ -196,10 +208,14 @@ public class Main {
         game.renderAINodes();
     }
 
-    private static void checkUserInput() {
-        while (Mouse.next() && Mouse.isButtonDown(0)) {
-            if (Mouse.isButtonDown(0)) {
-                if (Mouse.isButtonDown(0)) {
+    private static void checkUserInput()
+    {
+        while (Mouse.next() && Mouse.isButtonDown(0))
+        {
+            if (Mouse.isButtonDown(0))
+            {
+                if (Mouse.isButtonDown(0))
+                {
 //                System.out.println("Wrote id: "+id);
 //                writer.println(id+" "+Mouse.getX()+" "+-Mouse.getY());
 //                id++;
@@ -208,7 +224,8 @@ public class Main {
         }
     }
 
-    private static void initTextures() {
+    private static void initTextures()
+    {
         glEnable(GL_TEXTURE_2D);
         map = loadTexture(MAP_FILE);
         map.bind();
@@ -220,20 +237,25 @@ public class Main {
 
     }
 
-    public static Texture loadTexture(String key) {
+    public static Texture loadTexture(String key)
+    {
         InputStream resourceAsStream = null;// = Main.class
         //.getClassLoader().getResourceAsStream("res/textures/" + key + ".png");
 
-        try {
+        try
+        {
             resourceAsStream = new FileInputStream("C:\\Users\\otso\\Documents\\NetBeansProjects\\FreeAT\\src\\res\\textures\\mapSquare.png");
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        try {
+        try
+        {
             return TextureLoader.getTexture("png", resourceAsStream);
 
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Logger.getLogger(Main.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
@@ -241,7 +263,8 @@ public class Main {
         return null;
     }
 
-    private static void renderDebugText() {
+    private static void renderDebugText()
+    {
         glPushAttrib(GL_ALL_ATTRIB_BITS);
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(0);
@@ -257,7 +280,8 @@ public class Main {
 
         float x = 5f;
         float y = 5f;
-        for (int i = 0; i < PublicInformation.PLAYER_COUNT; y += 20f, i++) {
+        for (int i = 0; i < PublicInformation.PLAYER_COUNT; y += 20f, i++)
+        {
             font.drawString(x, y, "Player " + i + " " + PublicInformation.getName(i) + " cash: " + PublicInformation.getBalance(i) + " Debug: " + game.getPlayers().get(i).getDebugString());
         }
 

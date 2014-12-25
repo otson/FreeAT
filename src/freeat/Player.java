@@ -26,7 +26,8 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
  *
  * @author otso
  */
-public class Player {
+public class Player
+{
 
     private static int idCount = 0;
     private AI ai;
@@ -62,7 +63,8 @@ public class Player {
     private float r, g, b;
     private String name;
 
-    public Player(HashMap<Integer, Node> locations) {
+    public Player(HashMap<Integer, Node> locations)
+    {
         ID = idCount;
         idCount++;
         this.locations = locations;
@@ -78,13 +80,16 @@ public class Player {
         int nAITypes, AIType;
         nAITypes = AI.AIIdentifications.size();
         //System.out.println("Size: "+AI.AIIdentifications.size());
-        if (nAITypes == 0) {
+        if (nAITypes == 0)
+        {
             AIType = 1;
-        } else {
+        } else
+        {
             AIType = (ID % nAITypes);
         }
 
-        switch (AIType) {
+        switch (AIType)
+        {
             case 0:
                 ai = new LoomAI();
                 break;
@@ -97,7 +102,7 @@ public class Player {
                 ai = new LoomAI(); // create default AI.
                 break;
         }
-        
+
         this.location = ai.START;
         controller = new Controller(this, locations);
         ai.setController(controller);
@@ -107,26 +112,31 @@ public class Player {
         name = ai.getName();
 
         ai.setLocations(locations);
-        
-        
+
         visitedThisTurn = new ArrayList();
         debugString = "Test";
 
     }
 
-    public Node getCurrentNode() {
+    public Node getCurrentNode()
+    {
         return locations.get(location);
     }
 
-    public void act() {
-        if (inSahara || inPirates) {
-            if ((int) (Math.random() * 6 + 1) < 3) {
+    public void act()
+    {
+        if (inSahara || inPirates)
+        {
+            if ((int) (Math.random() * 6 + 1) < 3)
+            {
                 inSahara = false;
                 inPirates = false;
             }
         }
-        if (!inSahara && !inPirates) {
-            if (skipTurns == 0) {
+        if (!inSahara && !inPirates)
+        {
+            if (skipTurns == 0)
+            {
                 throwDice();
                 endTurn = false;
                 moved = false;
@@ -134,67 +144,84 @@ public class Player {
                 useLandOrSea = false;
                 usePlane = false;
                 ai.act();
-            } else {
+            } else
+            {
                 skipTurns--;
             }
         }
     }
 
-    private void throwDice() {
+    private void throwDice()
+    {
         dice = 1 + (int) (Math.random() * 5);
     }
 
-    private void openToken() {
+    private void openToken()
+    {
         Node temp = locations.get(location);
-        if (temp.hasTreasure()) {
-            if (temp.getTreasure() != TreasureType.OPENED) {
+        if (temp.hasTreasure())
+        {
+            if (temp.getTreasure() != TreasureType.OPENED)
+            {
                 int type = temp.getTreasure();
                 temp.removeTreasure();
-                if (type == TreasureType.EMERALD) {
+                if (type == TreasureType.EMERALD)
+                {
                     PublicInformation.removeEmerald();
                     PublicInformation.removeUnopened();
                     cashBalance += 500;
                     endTurn = true;
-                    if (temp.TYPE == NodeType.GOLD_COAST) {
+                    if (temp.TYPE == NodeType.GOLD_COAST)
+                    {
                         cashBalance += 500;
                     }
-                } else if (type == TreasureType.RUBY) {
+                } else if (type == TreasureType.RUBY)
+                {
                     PublicInformation.removeRuby();
                     PublicInformation.removeUnopened();
                     cashBalance += 1000;
                     endTurn = true;
-                    if (temp.TYPE == NodeType.GOLD_COAST) {
+                    if (temp.TYPE == NodeType.GOLD_COAST)
+                    {
                         cashBalance += 1000;
                     }
-                } else if (type == TreasureType.TOPAZ) {
+                } else if (type == TreasureType.TOPAZ)
+                {
                     PublicInformation.removeTopaz();
                     PublicInformation.removeUnopened();
                     cashBalance += 300;
                     endTurn = true;
-                    if (temp.TYPE == NodeType.GOLD_COAST) {
+                    if (temp.TYPE == NodeType.GOLD_COAST)
+                    {
                         cashBalance += 300;
                     }
-                } else if (type == TreasureType.ROBBER) {
+                } else if (type == TreasureType.ROBBER)
+                {
                     PublicInformation.removeRobber();
                     PublicInformation.removeUnopened();
                     cashBalance = 0;
                     endTurn = true;
-                } else if (type == TreasureType.HORSESHOE) {
+                } else if (type == TreasureType.HORSESHOE)
+                {
                     PublicInformation.removeHorseShoe();
                     PublicInformation.removeUnopened();
                     endTurn = true;
-                    if (PublicInformation.isStarFound()) {
+                    if (PublicInformation.isStarFound())
+                    {
                         hasHorseshoeAfterStar = true;
                     }
-                } else if (type == TreasureType.STAR_OF_AFRICA) {
+                } else if (type == TreasureType.STAR_OF_AFRICA)
+                {
                     PublicInformation.removeUnopened();
                     hasStar = true;
                     endTurn = true;
-                } else if (type == TreasureType.EMPTY) {
+                } else if (type == TreasureType.EMPTY)
+                {
                     endTurn = true;
                     PublicInformation.removeEmpty();
                     PublicInformation.removeUnopened();
-                    if (temp.TYPE == NodeType.SLAVE_COAST) {
+                    if (temp.TYPE == NodeType.SLAVE_COAST)
+                    {
                         skipTurns = 3;
                     }
                 }
@@ -202,65 +229,82 @@ public class Player {
         }
     }
 
-    private void tryToWinToken() {
+    private void tryToWinToken()
+    {
         Node temp = locations.get(location);
-        if (temp.hasTreasure()) {
-            if ((int) (Math.random() * 6 + 1) > 3) {
+        if (temp.hasTreasure())
+        {
+            if ((int) (Math.random() * 6 + 1) > 3)
+            {
                 openToken();
             }
         }
         endTurn = true;
     }
 
-    public static void resetID() {
+    public static void resetID()
+    {
         idCount = 0;
     }
 
-    public int getLocation() {
+    public int getLocation()
+    {
         return location;
     }
 
-    public int getCashBalance() {
+    public int getCashBalance()
+    {
         return cashBalance;
     }
 
-    public boolean isHasStar() {
+    public boolean isHasStar()
+    {
         return hasStar;
     }
 
-    public boolean isHasHorseshoeAfterStar() {
+    public boolean isHasHorseshoeAfterStar()
+    {
         return hasHorseshoeAfterStar;
     }
 
-    public boolean isInSahara() {
+    public boolean isInSahara()
+    {
         return inSahara;
     }
 
-    public boolean isInPirates() {
+    public boolean isInPirates()
+    {
         return inPirates;
     }
 
-    public boolean isFoundCapeTown() {
+    public boolean isFoundCapeTown()
+    {
         return foundCapeTown;
     }
 
-    public boolean isWinner() {
+    public boolean isWinner()
+    {
         return isWinner;
     }
 
-    public boolean isStayInCity() {
+    public boolean isStayInCity()
+    {
         return stayInCity;
     }
 
-    public int getDice() {
-        if (useLandOrSea) {
+    public int getDice()
+    {
+        if (useLandOrSea)
+        {
             return dice;
-        } else {
+        } else
+        {
             return 0;
         }
     }
 
-    private boolean inCity() {
+    private boolean inCity()
+    {
         Node current = locations.get(this.location);
         return (current.getTYPE() == NodeType.CITY
                 || current.getTYPE() == NodeType.CAIRO
@@ -270,18 +314,23 @@ public class Player {
                 || current.getTYPE() == NodeType.CAPE_TOWN);
     }
 
-    public boolean isEndTurn() {
+    public boolean isEndTurn()
+    {
         return endTurn;
     }
 
-    public Node getNode(int nodeID) {
+    public Node getNode(int nodeID)
+    {
         return locations.get(nodeID);
     }
 
     // Decision
-    public void decideToTryToken() {
-        if (getCurrentNode().hasTreasure()) {
-            if (!usePlane && !useLandOrSea) {
+    public void decideToTryToken()
+    {
+        if (getCurrentNode().hasTreasure())
+        {
+            if (!usePlane && !useLandOrSea)
+            {
                 tryToWinToken = true;
                 tryToWinToken();
             }
@@ -289,89 +338,115 @@ public class Player {
     }
 
     // Decision
-    public void decidetoUsePlane() {
-        if (!getCurrentNode().getPlaneConnections().isEmpty() && cashBalance >= 300) {
-            if (!tryToWinToken && !useLandOrSea) {
+    public void decidetoUsePlane()
+    {
+        if (!getCurrentNode().getPlaneConnections().isEmpty() && cashBalance >= 300)
+        {
+            if (!tryToWinToken && !useLandOrSea)
+            {
                 usePlane = true;
             }
         }
     }
 
     // Decision
-    public void decideToUseLandOrSeaRoute() {
-        if (!tryToWinToken && !usePlane) {
+    public void decideToUseLandOrSeaRoute()
+    {
+        if (!tryToWinToken && !usePlane)
+        {
             useLandOrSea = true;
         }
     }
 
     // Land, sea, or plane
-    public void moveTo(Route destination) {
-        if (useLandOrSea || usePlane) {
-            
-            if (!moved) {
+    public void moveTo(Route destination)
+    {
+        if (useLandOrSea || usePlane)
+        {
+
+            if (!moved)
+            {
                 int tempDice = dice;
-                if (usePlane) {
+                if (usePlane)
+                {
                     //System.out.println("Plane...");
                     tempDice = 1;
                 }
-                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice() / 100].contains(destination)) {
-                    if(destination.getDestination().ID == 400)
-                    if (usePlane) {
-                        //System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
+                if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice() / 100].contains(destination))
+                {
+                    if (destination.getDestination().ID == 400)
+                    {
+                        if (usePlane)
+                        {
+                            //System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
+                        }
                     }
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
-                    if (target.TYPE == NodeType.ROUTE) {
+                    if (target.TYPE == NodeType.ROUTE)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
                     }
-                    if (target.TYPE == NodeType.CITY) {
+                    if (target.TYPE == NodeType.CITY)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
 
                     }
-                    if (target.TYPE == NodeType.CAPE_TOWN) {
+                    if (target.TYPE == NodeType.CAPE_TOWN)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
-                        if (PublicInformation.isCapeTownBonus()) {
+                        if (PublicInformation.isCapeTownBonus())
+                        {
                             cashBalance += 500;
                             foundCapeTown = true;
                         }
                     }
-                    if (target.TYPE == NodeType.CAIRO) {
+                    if (target.TYPE == NodeType.CAIRO)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
-                        if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
+                        if (location != ai.START && (hasHorseshoeAfterStar || hasStar))
+                        {
                             isWinner = true;
                         }
 
                     }
-                    if (target.TYPE == NodeType.TANGIER) {
+                    if (target.TYPE == NodeType.TANGIER)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
-                        if (location != ai.START && (hasHorseshoeAfterStar || hasStar)) {
+                        if (location != ai.START && (hasHorseshoeAfterStar || hasStar))
+                        {
                             isWinner = true;
                         }
                     }
-                    if (target.TYPE == NodeType.GOLD_COAST) {
+                    if (target.TYPE == NodeType.GOLD_COAST)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
 
                     }
-                    if (target.TYPE == NodeType.SLAVE_COAST) {
+                    if (target.TYPE == NodeType.SLAVE_COAST)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
                     }
-                    if (target.TYPE == NodeType.SEA_ROUTE) {
+                    if (target.TYPE == NodeType.SEA_ROUTE)
+                    {
                         this.location = destination.getDestination().ID;
                         moved = true;
                     }
-                    if (target.TYPE == NodeType.SAHARA) {
+                    if (target.TYPE == NodeType.SAHARA)
+                    {
                         this.location = destination.getDestination().ID;
                         inSahara = true;
                         moved = true;
                     }
-                    if (target.TYPE == NodeType.PIRATES) {
+                    if (target.TYPE == NodeType.PIRATES)
+                    {
                         this.location = destination.getDestination().ID;
                         inPirates = true;
                         moved = true;
@@ -381,83 +456,106 @@ public class Player {
         }
     }
 
-    public void buyToken() {
-        if (!endTurn) {
+    public void buyToken()
+    {
+        if (!endTurn)
+        {
             Node temp = locations.get(location);
-            if (temp.hasTreasure()) {
-                if (cashBalance >= 100) {
+            if (temp.hasTreasure())
+            {
+                if (cashBalance >= 100)
+                {
                     cashBalance -= 100;
                     openToken();
-                } else {
+                } else
+                {
                     //  System.out.println("Not enough money to buy a token.");
                 }
-            } else {
+            } else
+            {
                 //System.out.println("Not possible to buy token: no token available.");
             }
         }
     }
 
-    public void endTurn() {
-        if (moved) {
+    public void endTurn()
+    {
+        if (moved)
+        {
             endTurn = true;
         }
     }
 
-    boolean hasMoved() {
+    boolean hasMoved()
+    {
         return moved;
     }
 
-    public void setDebugString(String debugString) {
+    public void setDebugString(String debugString)
+    {
         this.debugString = debugString;
     }
 
-    public void resetDebugString() {
+    public void resetDebugString()
+    {
         debugString = "";
     }
 
-    public void concatDebugString(String debugString) {
+    public void concatDebugString(String debugString)
+    {
         this.debugString = this.debugString.concat(debugString);
     }
 
-    public String getDebugString() {
+    public String getDebugString()
+    {
         return debugString;
     }
 
-    public void forceEndTurn() {
+    public void forceEndTurn()
+    {
         endTurn = true;
     }
 
-    public float getR() {
+    public float getR()
+    {
         return r;
     }
 
-    public float getG() {
+    public float getG()
+    {
         return g;
     }
 
-    public float getB() {
+    public float getB()
+    {
         return b;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public boolean isTryToWinToken() {
+    public boolean isTryToWinToken()
+    {
         return tryToWinToken;
     }
 
-    public boolean isUsePlane() {
+    public boolean isUsePlane()
+    {
         return usePlane;
     }
 
-    public boolean isUseLandOrSea() {
+    public boolean isUseLandOrSea()
+    {
         return useLandOrSea;
     }
 
-    public void draw() {
+    public void draw()
+    {
         int size = 20;
-        for (DrawNode drawNode : ai.getDrawList()) {
+        for (DrawNode drawNode : ai.getDrawList())
+        {
             Node node = locations.get(drawNode.nodeID);
             glBegin(GL_QUADS);
             GL11.glColor3f(drawNode.r, drawNode.g, drawNode.b);

@@ -11,28 +11,31 @@ import freeat.Node;
  *
  * @author otso
  */
-public class DistanceNode {
-    
+public class DistanceNode
+{
+
     private Node node;
     private int distance;
     private int price;
 
-    public DistanceNode(Node node) {
+    public DistanceNode(Node node)
+    {
         this.node = node;
     }
 
-    public int getDistance() {
+    public int getDistance()
+    {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(int distance)
+    {
         this.distance = distance;
     }
 
-    public Node getNode() {
+    public Node getNode()
+    {
         return node;
     }
-    
-    
-    
+
 }

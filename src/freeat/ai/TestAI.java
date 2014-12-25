@@ -15,7 +15,8 @@ import java.util.ArrayList;
  *
  * @author otso
  */
-public class TestAI extends AI {
+public class TestAI extends AI
+{
 
     static int count = 2;//(int) (Math.random() * 2 + 1);
     private static DistanceListList distances;
@@ -24,21 +25,24 @@ public class TestAI extends AI {
     private ArrayList<Integer> test;
     private int targetNode;
 
-    public TestAI() {
+    public TestAI()
+    {
         super(count); // set the preferred start city (1 or 2)
         AI.AIIdentifications.add("TestAI");
         //count = (int) (Math.random() * 2 + 1);
         targetNode = 120;
         //count++;
-        test= new ArrayList<>();
+        test = new ArrayList<>();
     }
 
-
     @Override
-    public void act() {
-        while (!c.isEndTurn()) {
+    public void act()
+    {
+        while (!c.isEndTurn())
+        {
             turnCount++;
-            if (!distancesSet) {
+            if (!distancesSet)
+            {
                 distancesSet = true;
                 long start = System.nanoTime();
                 initDistances(c);
@@ -50,32 +54,42 @@ public class TestAI extends AI {
 //
 //                System.exit(0);
             }
-            if (c.getCurrentNode().hasTreasure()) {
+            if (c.getCurrentNode().hasTreasure())
+            {
                 c.decideTryToken();
-            } else {
+            } else
+            {
                 c.decideToUseLandOrSeaRoute();
                 Route route;
-                if (!c.isEligibleForWinning()) {
+                if (!c.isEligibleForWinning())
+                {
                     route = getRouteToTreasure(0);
-                } else {
+                } else
+                {
                     route = getRouteTo(1, 0);
                 }
 
                 c.moveTo(route);
-                if(c.isEligibleForWinning() && c.getCurrentNode().ID == 1){
-                    System.out.println("Turns to win: "+turnCount);
+                if (c.isEligibleForWinning() && c.getCurrentNode().ID == 1)
+                {
+                    System.out.println("Turns to win: " + turnCount);
                 }
-                if (canBuyTreasure()) {
+                if (canBuyTreasure())
+                {
                     c.buyToken();
-                } else {
+                } else
+                {
                     c.endTurn();
                 }
 
                 // at cape town, head to Cairo
-                if (c.getCurrentNode().ID == targetNode) {
-                    if (targetNode == 120) {
+                if (c.getCurrentNode().ID == targetNode)
+                {
+                    if (targetNode == 120)
+                    {
                         targetNode = 1;
-                    } else if (targetNode == 1) {
+                    } else if (targetNode == 1)
+                    {
                         targetNode = 120;
                     }
                 }
@@ -83,55 +97,69 @@ public class TestAI extends AI {
         }
     }
 
-    public boolean canBuyTreasure() {
+    public boolean canBuyTreasure()
+    {
         return c.getMyBalance() >= 100 && c.getCurrentNode().hasTreasure();
     }
 
-    private Route getRouteToTreasure(int maxPrice) {
+    private Route getRouteToTreasure(int maxPrice)
+    {
         ArrayList<Node> treasures = c.getRemainingTreasures();
         // find the closest node with treasure
         // find first accessible node with treasure
         Node nodeCandidate = null;
-        for (Node node : treasures) {
+        for (Node node : treasures)
+        {
 
             // if found a route longer than -1, it's valid candidate
-            if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1) {
+            if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1)
+            {
                 nodeCandidate = node;
                 break;
             }
         }
 
         // If no routes available to any treasures
-        if (nodeCandidate == null) {
+        if (nodeCandidate == null)
+        {
             return getRouteTo(targetNode, 0);
-        } else {
+        } else
+        {
             return getRouteTo(nodeCandidate.ID, maxPrice);
         }
 
     }
 
-    private Route getRouteToStart(int maxPrice) {
+    private Route getRouteToStart(int maxPrice)
+    {
         int distanceToCairo = distances.getDistance(c.getCurrentNode().ID, 1);
         int distanceToTangier = distances.getDistance(c.getCurrentNode().ID, 2);
-        if (distanceToCairo < distanceToTangier) {
+        if (distanceToCairo < distanceToTangier)
+        {
             return getRouteTo(2, maxPrice);
-        } else {
+        } else
+        {
             return getRouteTo(1, maxPrice);
         }
     }
 
-    private Route getRouteTo(int to, int maxPrice) {
-        c.setDebugString(" Heading towards: "+c.getNodeList().get(to).getName());
-        if(c.isEligibleForWinning()){
+    private Route getRouteTo(int to, int maxPrice)
+    {
+        c.setDebugString(" Heading towards: " + c.getNodeList().get(to).getName());
+        if (c.isEligibleForWinning())
+        {
             c.concatDebugString(" with the Star or HorseShoe.");
         }
         ArrayList<Route> routes = c.getAvailableRoutes(c.getCurrentNode(), maxPrice, c.getDice());
-        if (routes == null) {
+        if (routes == null)
+        {
             System.out.println("No routes: null");
         }
         // check if direct route is available
-        for (Route route : routes) {
-            if (route.getDestination().ID == to) {
+        for (Route route : routes)
+        {
+            if (route.getDestination().ID == to)
+            {
                 return route;
             }
         }
@@ -142,9 +170,11 @@ public class TestAI extends AI {
         // distance from route's destination to the wanted to node
         int distanceCandidate = distances.getDistance(routeCandidate.getDestination().ID, to);
 
-        for (Route route : routes) {
+        for (Route route : routes)
+        {
             // check if the the route in the list has shorter distance to target
-            if (distances.getDistance(route.getDestination().ID, to) < distanceCandidate) {
+            if (distances.getDistance(route.getDestination().ID, to) < distanceCandidate)
+            {
                 routeCandidate = route;
                 distanceCandidate = distances.getDistance(route.getDestination().ID, to);
             }
@@ -154,43 +184,54 @@ public class TestAI extends AI {
 
     }
 
-    private void initDistances(Controller c) {
+    private void initDistances(Controller c)
+    {
         distances = new DistanceListList(c.getNodeList());
 
     }
 
     @Override
-    public float getR() {
+    public float getR()
+    {
         return 1;
     }
 
     @Override
-    public float getG() {
+    public float getG()
+    {
         return 1f;
     }
 
     @Override
-    public float getB() {
+    public float getB()
+    {
         return 0f;
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return "ReittiTest";
     }
 
-    private boolean containsNode(ArrayList<Route> possibleRoutes, Node selectedNode) {
-        for (Route route : possibleRoutes) {
-            if (route.getDestination() == selectedNode) {
+    private boolean containsNode(ArrayList<Route> possibleRoutes, Node selectedNode)
+    {
+        for (Route route : possibleRoutes)
+        {
+            if (route.getDestination() == selectedNode)
+            {
                 return true;
             }
         }
         return false;
     }
 
-    private Route getRoute(ArrayList<Route> possibleRoutes, Node selectedNode) {
-        for (Route route : possibleRoutes) {
-            if (route.getDestination() == selectedNode) {
+    private Route getRoute(ArrayList<Route> possibleRoutes, Node selectedNode)
+    {
+        for (Route route : possibleRoutes)
+        {
+            if (route.getDestination() == selectedNode)
+            {
                 return route;
             }
         }

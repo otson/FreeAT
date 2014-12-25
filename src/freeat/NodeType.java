@@ -9,7 +9,9 @@ package freeat;
  *
  * @author otso
  */
-public class NodeType {
+public class NodeType
+{
+    
     public static final int CAIRO = 1;
     public static final int TANGIER = 2;
     public static final int ROUTE = 3;
@@ -20,5 +22,4 @@ public class NodeType {
     public static final int GOLD_COAST = 8;
     public static final int SLAVE_COAST = 9;
     public static final int CAPE_TOWN = 10;
-    
 }

@@ -9,20 +9,18 @@ package freeat.ai;
  *
  * @author otso
  */
-public class DrawNode {
-    
-    public float r,g,b;
+public class DrawNode
+{
+
+    public float r, g, b;
     public int nodeID;
 
-    public DrawNode(float r, float g, float b, int nodeID) {
+    public DrawNode(float r, float g, float b, int nodeID)
+    {
         this.r = r;
         this.g = g;
         this.b = b;
         this.nodeID = nodeID;
     }
-    
-    
-    
-    
-    
+
 }
