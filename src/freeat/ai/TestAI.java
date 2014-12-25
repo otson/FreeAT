@@ -20,7 +20,6 @@ public class TestAI extends AI {
     static int count = 2;//(int) (Math.random() * 2 + 1);
     private static DistanceListList distances;
     private static boolean distancesSet = false;
-    private Controller c;
     private int turnCount = 0;
     private ArrayList<Integer> test;
     private int targetNode;
@@ -34,9 +33,9 @@ public class TestAI extends AI {
         test= new ArrayList<>();
     }
 
+
     @Override
-    public void act(Controller c) {
-        this.c = c;
+    public void act() {
         while (!c.isEndTurn()) {
             turnCount++;
             if (!distancesSet) {

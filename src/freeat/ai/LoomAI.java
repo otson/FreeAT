@@ -48,8 +48,6 @@ public class LoomAI extends AI
     int newNodeID;
     int askMeAboutLoomStatus;
 
-    Controller myController;
-
     public LoomAI()
     {
         super(count); // call the constructor and set the random start city (1 or 2).
@@ -66,10 +64,8 @@ public class LoomAI extends AI
         "Beat the rush! Go out and buy Loom today!" };
 
     @Override
-    public void act(Controller c)
+    public void act()
     {
-        myController = c;
-
         if (destinationNodeID > 0)
         {
             c.setDebugString("current destination is " + destinationNodeID);
@@ -124,7 +120,7 @@ public class LoomAI extends AI
 
     private void printMyItinerary(int oldNodeID, int newNodeID)
     {
-        myController.setDebugString("coming from " + oldNodeID + " going to " + newNodeID);
+        c.setDebugString("coming from " + oldNodeID + " going to " + newNodeID);
         // System.in.read();
     }
 
@@ -136,7 +132,7 @@ public class LoomAI extends AI
 
     public void askMeAboutLoom()
     {
-        myController.setDebugString(loomArrayOfStrings[(askMeAboutLoomStatus-1)]);
+        c.setDebugString(loomArrayOfStrings[(askMeAboutLoomStatus-1)]);
         // myController.setDebugString(loomArrayOfStrings[1]);
         // System.in.read();
         if (++askMeAboutLoomStatus > loomArrayOfStrings.length)

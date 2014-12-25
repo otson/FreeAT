@@ -18,12 +18,14 @@ public class Controller {
 
     private Player player;
     private HashMap<Integer, Node> locations;
+    
     public final int ID;
 
     public Controller(Player player, HashMap<Integer, Node> locations) {
         this.player = player;
         this.locations = locations;
         this.ID = player.ID;
+        
     }
 
     public int getMyBalance() {
@@ -249,6 +251,7 @@ public class Controller {
 
     public HashMap<Integer, Node> getNodeList() {
         return player.getCurrentNode().getLocations();
+        
     }
 
     public boolean isEligibleForWinning() {

@@ -97,15 +97,18 @@ public class Player {
                 ai = new NormalAI(); // create default AI.
                 break;
         }
-
+        
+        this.location = ai.START;
+        controller = new Controller(this, locations);
+        ai.setController(controller);
         r = ai.getR();
         g = ai.getG();
         b = ai.getB();
         name = ai.getName();
 
         ai.setLocations(locations);
-        this.location = ai.START;
-        controller = new Controller(this, locations);
+        
+        
         visitedThisTurn = new ArrayList();
         debugString = "Test";
 
@@ -130,7 +133,7 @@ public class Player {
                 tryToWinToken = false;
                 useLandOrSea = false;
                 usePlane = false;
-                ai.act(controller);
+                ai.act();
             } else {
                 skipTurns--;
             }

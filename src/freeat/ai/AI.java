@@ -25,6 +25,8 @@ public abstract class AI {
     // public static ArrayList<String> AIIdentifications = new ArrayList();
     public static Set<String> AIIdentifications = new HashSet<>();
     private ArrayList<DrawNode> drawList = new ArrayList<>();
+    protected Controller c;
+    
     
     
     public AI(int start) {
@@ -35,7 +37,7 @@ public abstract class AI {
         this.locations = locations;
     }
 
-    public abstract void act(Controller controller);
+    public abstract void act();
 
     public float getR() {
         return 0;
@@ -64,6 +66,11 @@ public abstract class AI {
     protected void clearDraw(){
         drawList.clear();
     }
+
+    public void setController(Controller controller) {
+        this.c = controller;
+    }
+
     
     
 }

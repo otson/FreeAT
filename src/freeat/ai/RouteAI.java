@@ -29,7 +29,7 @@ public class RouteAI extends AI {
     }
 
     @Override
-    public void act(Controller c) {
+    public void act() {
         while (!c.isEndTurn()) {
             if (!distancesSet) {
                 distancesSet = true;

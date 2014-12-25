@@ -82,12 +82,14 @@ public class Main {
     static int id = 101;
     static PrintWriter writer = null;
     private static Game game;
+    static final float[] array = new float[6];
 
     public static Texture map;
 
     private static UnicodeFont font;
 
     public static void main(String[] args) {
+        System.out.println(array.length);
         System.out.println("Loading game...");
         initDisplay();
         initFont();
