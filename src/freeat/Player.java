@@ -89,12 +89,12 @@ public class Player {
                 ai = new LoomAI();
                 break;
             case 1:
-                ai = new TestAI();
+                ai = new LoomAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
                         + "Creating a new NormalAI as default action. Please fix Player.java");
-                ai = new NormalAI(); // create default AI.
+                ai = new LoomAI(); // create default AI.
                 break;
         }
         
