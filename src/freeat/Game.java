@@ -49,7 +49,7 @@ public class Game {
 
     public Game() {
         locations = new HashMap<>();
-        players = new ArrayList();
+        players = new ArrayList<>();
         getLocations();
         getConnections();
         getPlaneConnections();
@@ -371,7 +371,7 @@ public class Game {
         //locations = new HashMap<>();
         PublicInformation.reset();
         AI.AIIdentifications.clear();
-        players = new ArrayList();
+        players = new ArrayList<>();
         turnCount = 0;
         setPlayers();
         setTreasures();
