@@ -49,6 +49,10 @@ public class Controller
     {
         return PublicInformation.getLocation(playedID);
     }
+    
+    public boolean isEligibleForWin(int playerID){
+        return  hasStar(playerID) || hasHorseShoeAfterStar(playerID);
+    }
 
     public boolean hasStar(int playedID)
     {
