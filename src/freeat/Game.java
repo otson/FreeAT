@@ -6,6 +6,7 @@
 package freeat;
 
 import freeat.ai.AI;
+import freeat.ai.TestAI;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -458,6 +459,7 @@ public class Game
         turnCount = 0;
         setPlayers();
         setTreasures();
+        TestAI.count = 1;
 
         running = true;
     }

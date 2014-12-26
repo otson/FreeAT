@@ -161,14 +161,14 @@ public class Main
         {
             start = System.nanoTime();
             glClear(GL_COLOR_BUFFER_BIT);
-            checkUserInput();
+            //checkUserInput();
             game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
             render();
             renderDebugText();
             Display.update();
-            Display.sync(60);
+            Display.sync(6);
             sinceUpdate = System.nanoTime();
             fps++;
             //}

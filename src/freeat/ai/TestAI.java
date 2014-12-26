@@ -18,11 +18,9 @@ import java.util.ArrayList;
 public class TestAI extends AI
 {
 
-    static int count = 2;//(int) (Math.random() * 2 + 1);
+    public static int count = 1;//(int) (Math.random() * 2 + 1);
     private static DistanceListList distances;
     private static boolean distancesSet = false;
-    private int turnCount = 0;
-    private ArrayList<Integer> test;
     private int targetNode;
 
     public TestAI()
@@ -31,8 +29,7 @@ public class TestAI extends AI
         AI.AIIdentifications.add("TestAI");
         //count = (int) (Math.random() * 2 + 1);
         targetNode = 120;
-        //count++;
-        test = new ArrayList<>();
+        count++;
     }
 
     @Override
@@ -40,7 +37,7 @@ public class TestAI extends AI
     {
         while (!c.isEndTurn())
         {
-            turnCount++;
+            //turnCount++;
             if (!distancesSet)
             {
                 distancesSet = true;
@@ -70,10 +67,10 @@ public class TestAI extends AI
                 }
 
                 c.moveTo(route);
-                if (c.isEligibleForWinning() && c.getCurrentNode().ID == 1)
-                {
-                    System.out.println("Turns to win: " + turnCount);
-                }
+//                if (c.isEligibleForWinning() && c.getCurrentNode().ID == 1)
+//                {
+//                    System.out.println("Turns to win: " + turnCount);
+//                }
                 if (canBuyTreasure())
                 {
                     c.buyToken();
