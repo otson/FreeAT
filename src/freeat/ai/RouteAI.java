@@ -46,7 +46,7 @@ public class RouteAI extends AI
                 //System.exit(0);
             }
 
-            if (c.isEligibleForWinning())
+            if (c.isEligibleForWin())
             {
                 // go towards a starting town
                 int tangierDist = distances.getDistance(c.getCurrentNode().ID, 1);

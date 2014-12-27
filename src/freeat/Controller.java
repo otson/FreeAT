@@ -308,7 +308,7 @@ public class Controller
 
     }
 
-    public boolean isEligibleForWinning()
+    public boolean isEligibleForWin()
     {
         return player.isHasStar() || player.isHasHorseshoeAfterStar();
     }

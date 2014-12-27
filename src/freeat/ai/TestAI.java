@@ -61,7 +61,7 @@ public class TestAI extends AI
             {
                 c.decideToUseLandOrSeaRoute();
                 Route route;
-                if (!c.isEligibleForWinning())
+                if (!c.isEligibleForWin())
                 {
                     route = getRouteToTreasure(0);
                 } else
@@ -70,7 +70,7 @@ public class TestAI extends AI
                 }
 
                 c.moveTo(route);
-                if (c.isEligibleForWinning() && c.getCurrentNode().ID == 1)
+                if (c.isEligibleForWin() && c.getCurrentNode().ID == 1)
                 {
                     System.out.println("Turns to win: " + turnCount);
                 }
@@ -146,7 +146,7 @@ public class TestAI extends AI
     private Route getRouteTo(int to, int maxPrice)
     {
         c.setDebugString(" Heading towards: " + c.getNodeList().get(to).getName());
-        if (c.isEligibleForWinning())
+        if (c.isEligibleForWin())
         {
             c.concatDebugString(" with the Star or HorseShoe.");
         }
