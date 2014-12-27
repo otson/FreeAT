@@ -23,3 +23,6 @@ nbproject/
 
 # All jar files.
 *.jar
+
+# All log files.
+*.log
