@@ -94,7 +94,7 @@ public class Player
                 ai = new LoomAI();
                 break;
             case 1:
-                ai = new LoomAI();
+                ai = new TestAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
@@ -408,7 +408,7 @@ public class Player
                     {
                         this.location = destination.getDestination().ID;
                         moved = true;
-                        if (location != ai.START && (hasHorseshoeAfterStar || hasStar))
+                        if (hasHorseshoeAfterStar || hasStar)
                         {
                             isWinner = true;
                         }
@@ -418,7 +418,7 @@ public class Player
                     {
                         this.location = destination.getDestination().ID;
                         moved = true;
-                        if (location != ai.START && (hasHorseshoeAfterStar || hasStar))
+                        if (hasHorseshoeAfterStar || hasStar)
                         {
                             isWinner = true;
                         }
