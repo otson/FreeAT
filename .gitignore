@@ -29,3 +29,6 @@ nbproject/
 
 # All XML files.
 *.xml
+
+# Manifest file.
+manifest.mf
