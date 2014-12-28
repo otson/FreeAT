@@ -122,6 +122,19 @@ public class TestAI extends AI
             return getRouteTo(targetNode, 0);
         } else
         {
+            int candidateDistance = distances.getDistance(c.getCurrentNode().ID, nodeCandidate.ID);
+            
+            // find the route with shortest distance
+            for (Node node : treasures)
+            {
+                // distance is shorter than the candidate and longer than -1, it becomes the new candidate
+                if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1 &&  distances.getDistance(c.getCurrentNode().ID, node.ID) < candidateDistance)
+                {
+                    nodeCandidate = node;
+                    candidateDistance = distances.getDistance(c.getCurrentNode().ID, node.ID);
+                }
+            }
+
             return getRouteTo(nodeCandidate.ID, maxPrice);
         }
 

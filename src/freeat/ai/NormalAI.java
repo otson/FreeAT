@@ -94,7 +94,7 @@ public class NormalAI extends AI
 
                     for (Route route : routeList)
                     {
-                        if (c.hasStar() && c.hasHorseShoeAfterStar())
+                        if (c.hasStar() || c.hasHorseShoeAfterStar())
                         {
                             if (route.getDestination().isStartCity() && !c.isEndTurn())
                             {
