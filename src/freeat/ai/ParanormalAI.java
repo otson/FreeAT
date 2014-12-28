@@ -28,6 +28,7 @@ import freeat.ai.paranormalai.*;
  */
 public class ParanormalAI extends AI
 {
+
     // class-level (static) variables.
     static String paranormalAIStartDateString;
     static boolean isParanormalAIStartDateStringReady = false;
@@ -46,9 +47,18 @@ public class ParanormalAI extends AI
     static int startingCity = (int) (Math.random() * 2 + 1); // random starting city for 1st object of this class.
 
     //                                        pink, cyan,  red, green, blue, purple.
-    static final float[] REDVALUESARRAY   = { 1.0f, 0.0f, 1.0f,  0.0f, 0.0f,   0.5f };
-    static final float[] GREENVALUESARRAY = { 0.0f, 1.0f, 0.0f,  1.0f, 0.0f,   0.0f };
-    static final float[] BLUEVALUESARRAY  = { 1.0f, 1.0f, 0.0f,  0.0f, 1.0f,   1.0f };
+    static final float[] REDVALUESARRAY =
+    {
+        1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f
+    };
+    static final float[] GREENVALUESARRAY =
+    {
+        0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f
+    };
+    static final float[] BLUEVALUESARRAY =
+    {
+        1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f
+    };
 
     @Override
     public String getName()
@@ -63,7 +73,7 @@ public class ParanormalAI extends AI
         {
             return REDVALUESARRAY[0];
         }
-            else
+        else
         {
             return REDVALUESARRAY[c.getMyID()];
         }
@@ -76,7 +86,7 @@ public class ParanormalAI extends AI
         {
             return GREENVALUESARRAY[0];
         }
-            else
+        else
         {
             return GREENVALUESARRAY[c.getMyID()];
         }
@@ -89,7 +99,7 @@ public class ParanormalAI extends AI
         {
             return BLUEVALUESARRAY[0];
         }
-            else
+        else
         {
             return BLUEVALUESARRAY[c.getMyID()];
         }
@@ -145,7 +155,10 @@ public class ParanormalAI extends AI
     public static final int TANGIERNODEID = 2;
 
     // metropols.
-    public static int[] METROPOLSARRAY = { CAIRONODEID, TANGIERNODEID };
+    public static int[] METROPOLSARRAY =
+    {
+        CAIRONODEID, TANGIERNODEID
+    };
 
     public static HashMap<Integer, ParanormalNode> paranormalNodeHashMap = new HashMap<>();
     public static HashMap<Integer, HashMap<Integer, HashMap<Integer, ParanormalNode>>> connectionsHashMap = new HashMap<>();
@@ -229,7 +242,6 @@ public class ParanormalAI extends AI
             // #3 No one is eligible for win and I have no money.
             // #4 No one is eligible for win and I do have money.
             // #5 Hopeless situation: I have no money and there are no treasures.
-
             if (c.isEligibleForWin())
             {
                 writeTextAndNewlineToLog("situation #1: I am eligible for win.");
@@ -237,7 +249,6 @@ public class ParanormalAI extends AI
                 // Situation #1.
                 // Great, I have Africa's star or a horse shoe found after Africa's star.
                 // Check which is closest land & sea destination, Cairo or Tangier.
-
                 int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithMoney(
                         c.getCurrentNode(),
                         c.getNode(CAIRONODEID),
@@ -281,7 +292,6 @@ public class ParanormalAI extends AI
                 // Situation #3.
                 // No one is eligible for win and I have no cash.
                 // Check if I am on top of a token.
-
                 if (c.getCurrentNode().hasTreasure())
                 {
                     writeTextAndNewlineToLog("situation #3 continues: my node has a treasure!");
@@ -347,7 +357,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void writeTextToLog(String text)
     {
         try
@@ -361,14 +370,12 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void writeTextAndNewlineToLog(String text)
     {
         writeTextToLog(text + "\n");
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void writeTextAndNewlineToLogAndDebug(String text)
     {
         writeTextAndNewlineToLog(text);
@@ -376,7 +383,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private ArrayList<Route> removeRoutesIfNoTreasure(ArrayList<Route> routesArrayList)
     // Returns a shallow copy of `routesArrayList`.
     // The routes stored in the returned ArrayList are still the same as original,
@@ -395,20 +401,19 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void createConnectionsHashMapWithAccumulatedPrice(
-        Node originNode,
-        Node targetNode,
-        int cumulativeDistance,
-        int cumulativePrice,
-        int currentMaxTotalPrice)
+            Node originNode,
+            Node targetNode,
+            int cumulativeDistance,
+            int cumulativePrice,
+            int currentMaxTotalPrice)
     {
         writeTextAndNewlineToLog(
-                "originNode: " + originNode.getName() +
-                ", targetNode: " + targetNode.getName() +
-                ", cumulativeDistance: " + cumulativeDistance +
-                ", cumulativePrice: " + cumulativePrice +
-                ", currentMaxTotalPrice: " + currentMaxTotalPrice);
+                "originNode: " + originNode.getName()
+                + ", targetNode: " + targetNode.getName()
+                + ", cumulativeDistance: " + cumulativeDistance
+                + ", cumulativePrice: " + cumulativePrice
+                + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
 
         if (!(connectionsHashMap.containsKey(originNode.ID)))
         {
@@ -418,15 +423,15 @@ public class ParanormalAI extends AI
         if (!(connectionsHashMap.get(originNode.ID).containsKey(targetNode.ID)))
         {
             connectionsHashMap.get(originNode.ID).put(
-                targetNode.ID,
-                new HashMap<>());
+                    targetNode.ID,
+                    new HashMap<>());
         }
 
         if (!(connectionsHashMap.get(originNode.ID).get(targetNode.ID).containsKey(currentMaxTotalPrice)))
         {
-           connectionsHashMap.get(originNode.ID).get(targetNode.ID).put(
-               currentMaxTotalPrice,
-               paranormalNodeHashMap.get(originNode.ID));
+            connectionsHashMap.get(originNode.ID).get(targetNode.ID).put(
+                    currentMaxTotalPrice,
+                    paranormalNodeHashMap.get(originNode.ID));
         }
 
         ParanormalNode pNode = connectionsHashMap.get(originNode.ID).get(targetNode.ID).get(currentMaxTotalPrice);
@@ -443,11 +448,10 @@ public class ParanormalAI extends AI
         //
         // 0: start from node, cumulative price = 0.
         //    call recursively each neighboring node if distance there is negative (not yet defined) or greater than current distance.
-
         ArrayList<Route> routesArrayList = c.getAvailableRoutes(
-            originNode,
-            TRUEMAXROADPRICE,
-            NEIGHBORDISTANCE); // ArrayList of neighboring nodeID's.
+                originNode,
+                TRUEMAXROADPRICE,
+                NEIGHBORDISTANCE); // ArrayList of neighboring nodeID's.
 
         cumulativeDistance++;
 
@@ -482,60 +486,55 @@ public class ParanormalAI extends AI
             // if (isUpdateNeeded && (newCumulativePrice <= currentMaxTotalPrice))
             if (isUpdateNeeded)
             {
-            createConnectionsHashMapWithAccumulatedPrice( // call recursively.
-                neighborNode,                             // neighbor node as the new origin node.
-                targetNode,                               // keep the same target node.
-                cumulativeDistance,                       // cumulative distance has already been incremented.
-                newCumulativePrice,                       // new cumulative price.
-                currentMaxTotalPrice);                    // keep original max total price.
+                createConnectionsHashMapWithAccumulatedPrice( // call recursively.
+                        neighborNode, // neighbor node as the new origin node.
+                        targetNode, // keep the same target node.
+                        cumulativeDistance, // cumulative distance has already been incremented.
+                        newCumulativePrice, // new cumulative price.
+                        currentMaxTotalPrice);                    // keep original max total price.
             }
         }
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private ParanormalNode getParanormalNode(Node node)
     {
         return paranormalNodeHashMap.get(node.ID);
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private ParanormalNode getParanormalNode(int nodeID)
     {
         return paranormalNodeHashMap.get(nodeID);
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void createConnectionsHashMap(
-        Node targetNode,
-        int currentMaxTotalPrice)
+            Node targetNode,
+            int currentMaxTotalPrice)
     {
         createConnectionsHashMapWithAccumulatedPrice(
-        targetNode,
-        targetNode,
-        INITIALDISTANCE,
-        INITIALPRICE,
-        currentMaxTotalPrice);
+                targetNode,
+                targetNode,
+                INITIALDISTANCE,
+                INITIALPRICE,
+                currentMaxTotalPrice);
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void createConnectionsHashMap(
-        int targetNodeID,
-        int currentMaxTotalPrice)
+            int targetNodeID,
+            int currentMaxTotalPrice)
     {
         createConnectionsHashMapWithAccumulatedPrice(
-        c.getNode(targetNodeID),
-        c.getNode(targetNodeID),
-        INITIALDISTANCE,
-        INITIALPRICE,
-        currentMaxTotalPrice);
+                c.getNode(targetNodeID),
+                c.getNode(targetNodeID),
+                INITIALDISTANCE,
+                INITIALPRICE,
+                currentMaxTotalPrice);
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestDistanceWithMoney(Node originNode, Node targetNode, int cash)
     // Read the distance from populated ArrayList connectionsHashMap<ParanormalNode>[][]
     {
@@ -543,7 +542,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestDistanceWithCurrentMoney(Node originNode, Node targetNode)
     // shortest distance with current cash between two nodes.
     {
@@ -551,7 +549,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestDistanceWithCurrentMoney(Node targetNode)
     // shortest distance with current cash from _current_ node to _target_ node.
     {
@@ -559,7 +556,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestLandDistance(Node originNode, Node targetNode)
     // shortest only-land distance between two nodes.
     {
@@ -567,7 +563,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestLandSeaDistance(Node originNode, Node targetNode)
     // shortest land & sea distance between two nodes.
     {
@@ -575,7 +570,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestAirDistance(Node originNode, Node targetNode)
     // shortest only-flight distance between two nodes.
     // TODO: write the code!
@@ -584,7 +578,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestLandDistance(Node targetNode)
     // shortest only-land distance from current node to node.
     {
@@ -592,7 +585,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getShortestAirDistance(Node targetNode)
     // shortest only-land distance from current node to node.
     {
@@ -600,28 +592,24 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void printMyItinerary(int oldNodeID, int newNodeID, int destinationNodeID)
     {
         writeTextAndNewlineToLogAndDebug("coming from " + oldNodeID + ", going to " + newNodeID + ", en route to " + destinationNodeID + ".");
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void printMyItinerary(int oldNodeID, int newNodeID)
     {
         writeTextAndNewlineToLogAndDebug("coming from " + oldNodeID + ", going to " + newNodeID + ".");
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private int getCash()
     {
         return c.getMyBalance() / MONEYSCALE;
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void doLandTravelTowards(Node targetNode, int dice)
     {
         ArrayList<Route> routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), MAXLANDROADPRICE, dice);
@@ -660,29 +648,26 @@ public class ParanormalAI extends AI
             }
             else
             {
-                writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName() +
-                        ", go to " + chosenRoute.getDestination().getName() +
-                        ", en route to " + targetNode.getName() +  ".");
+                writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName()
+                                                 + ", go to " + chosenRoute.getDestination().getName()
+                                                 + ", en route to " + targetNode.getName() + ".");
                 c.moveTo(chosenRoute); // Do the movement.
             }
         }
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void doLandTravelTowards(int targetNodeID, int dice)
     {
         doLandTravelTowards(c.getNode(targetNodeID), dice);
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void doLandTravelTowardsClosestTreasure()
     {
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private boolean isAnyOpponentEligibleForWin()
     {
         boolean anyOpponentEligibleForWin = false;
@@ -698,14 +683,12 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     public boolean isAnyoneEligibleForWin()
     {
         return (c.isEligibleForWin() || isAnyOpponentEligibleForWin());
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void doRandomLandMovement()
     {
         c.decideToUseLandOrSeaRoute();
@@ -723,7 +706,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void moveTowardsClosestTreasure()
     {
         c.decideToUseLandOrSeaRoute();
@@ -773,7 +755,6 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void doRandomUsefulLandMovement()
     {
         c.decideToUseLandOrSeaRoute();
@@ -809,14 +790,12 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private boolean areThereValuableTreasuresLeft()
     {
         return ((c.rubiesLeft() + c.emeraldsLeft() + c.topazesLeft()) > 0);
     }
 
     /*-------------------------------------------------------------------------------------------*/
-
     private void buyTokenIfItMayBeUseful()
     {
         // Different situations in which buying a token may be useful:
