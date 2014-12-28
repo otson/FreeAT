@@ -9,6 +9,7 @@ import freeat.ai.AI;
 import freeat.ai.DrawNode;
 import freeat.ai.LoomAI;
 import freeat.ai.NormalAI;
+import freeat.ai.ParanormalAI;
 import freeat.ai.RouteAI;
 import freeat.ai.TestAI;
 import java.util.ArrayList;
