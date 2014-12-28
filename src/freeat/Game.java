@@ -109,7 +109,7 @@ public class Game
                     {
                         for (int x = tempPrice; x < 4; x++)
                         {
-                            list[j][x].add(new Route(current, x * 100));
+                            list[j][x].add(new Route(current, tempPrice * 100));
                         }
                     }
                 } else
@@ -121,7 +121,7 @@ public class Game
                     }
                     for (int x = tempPrice; x < 4; x++)
                     {
-                        list[distance][x].add(new Route(current, x * 100));
+                        list[distance][x].add(new Route(current, tempPrice * 100));
                     }
                 }
                 if (distance < 6)
@@ -420,7 +420,7 @@ public class Game
     {
         if (!PublicInformation.isWinner())
         {
-            for (Player player : players)
+            players.stream().forEach((player) ->
             {
                 if (calculateActTime)
                 {
@@ -431,7 +431,7 @@ public class Game
                 {
                     player.act();
                 }
-            }
+            });
         }
         turnCount++;
         PublicInformation.updateInformation(players);
