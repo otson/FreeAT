@@ -70,7 +70,7 @@ public class ParanormalNode
     {
         this.neighbors = neighbors;
     }
-    
+
     public int getDistanceToTarget()
     {
         return this.distanceToTarget;

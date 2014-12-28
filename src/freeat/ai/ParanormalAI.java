@@ -34,7 +34,7 @@ public class ParanormalAI extends AI
     static boolean isParanormalNodeHashMapReady = false;
     static boolean isDistanceDataReady = false;
     boolean isFilenameDefined = false;
-    
+
     static DateFormat dateFormat = new SimpleDateFormat("_yyyy_MM_dd_HH_mm_ss");
     static Date date = new Date();
     String filename;
@@ -155,7 +155,7 @@ public class ParanormalAI extends AI
     int newNodeID;
 
     int targetMetropolID = METROPOLSARRAY[(int) (Math.random())];
-                
+
     PrintWriter writer = null;
 
     public ParanormalAI()
@@ -193,9 +193,9 @@ public class ParanormalAI extends AI
             {
                 System.err.println("IOException: " + ioe.getMessage());
             }
-            
+
             writeTextAndNewlineToLog("log file " + absFilename + " is opened.");
-            
+
             if (!(isParanormalNodeHashMapReady))
             {
                 for (int nodeID : c.getNodeList().keySet())
@@ -233,7 +233,7 @@ public class ParanormalAI extends AI
             if (c.isEligibleForWin())
             {
                 writeTextAndNewlineToLog("situation #1: I am eligible for win.");
-                
+
                 // Situation #1.
                 // Great, I have Africa's star or a horse shoe found after Africa's star.
                 // Check which is closest land & sea destination, Cairo or Tangier.
@@ -277,7 +277,7 @@ public class ParanormalAI extends AI
             else if (getCash() < TOKENPRICE)
             {
                 writeTextAndNewlineToLog("situation #3: no one is eligible for treasure and I have no cash.");
-                
+
                 // Situation #3.
                 // No one is eligible for win and I have no cash.
                 // Check if I am on top of a token.
@@ -290,7 +290,7 @@ public class ParanormalAI extends AI
                 else if (c.totalTreasures() >= 1)
                 {
                     writeTextAndNewlineToLog("situation #3 continues: there are treasures available!");
-                    
+
                     int dice = c.getDice();
 
                     ArrayList<Node> treasuresArrayList = c.getRemainingTreasures();
@@ -315,7 +315,7 @@ public class ParanormalAI extends AI
                     // Situation #5.
                     // Hopeless situation: I have no money and there are no treasures.
                     writeTextAndNewlineToLog("situation #5: hopeless situation!");
-                    
+
                     // Hopeless situation: I have no money and there are no treasures.
                     // Win is not possible, so just do some random land movement.
                     doRandomLandMovement();
@@ -324,7 +324,7 @@ public class ParanormalAI extends AI
             else
             {
                 writeTextAndNewlineToLog("situation #4");
-                
+
                 // #4 No one is eligible for win and I do have money.
                 doRandomUsefulLandMovement();
                 buyTokenIfItMayBeUseful();
@@ -332,7 +332,7 @@ public class ParanormalAI extends AI
             oldNodeID = newNodeID;
 
             c.endTurn();
-            
+
             try
             {
                 bw.close();
@@ -343,7 +343,7 @@ public class ParanormalAI extends AI
             }
         }
         writeTextAndNewlineToLog("log file " + absFilename + " will be closed next.");
-            
+
     }
 
     /*-------------------------------------------------------------------------------------------*/
@@ -361,20 +361,20 @@ public class ParanormalAI extends AI
     }
 
     /*-------------------------------------------------------------------------------------------*/
-    
+
     private void writeTextAndNewlineToLog(String text)
     {
         writeTextToLog(text + "\n");
     }
-    
+
     /*-------------------------------------------------------------------------------------------*/
-    
+
     private void writeTextAndNewlineToLogAndDebug(String text)
     {
         writeTextAndNewlineToLog(text);
         c.setDebugString(text);
     }
-    
+
     /*-------------------------------------------------------------------------------------------*/
 
     private ArrayList<Route> removeRoutesIfNoTreasure(ArrayList<Route> routesArrayList)
@@ -409,7 +409,7 @@ public class ParanormalAI extends AI
                 ", cumulativeDistance: " + cumulativeDistance +
                 ", cumulativePrice: " + cumulativePrice +
                 ", currentMaxTotalPrice: " + currentMaxTotalPrice);
-        
+
         if (!(connectionsHashMap.containsKey(originNode.ID)))
         {
             connectionsHashMap.put(originNode.ID, new HashMap<Integer, HashMap<Integer, ParanormalNode>>());
@@ -448,7 +448,7 @@ public class ParanormalAI extends AI
             originNode,
             TRUEMAXROADPRICE,
             NEIGHBORDISTANCE); // ArrayList of neighboring nodeID's.
-        
+
         cumulativeDistance++;
 
         for (Route route : routesArrayList)
@@ -501,13 +501,13 @@ public class ParanormalAI extends AI
 
     /*-------------------------------------------------------------------------------------------*/
 
-    private ParanormalNode  getParanormalNode(int nodeID)
+    private ParanormalNode getParanormalNode(int nodeID)
     {
         return paranormalNodeHashMap.get(nodeID);
     }
 
     /*-------------------------------------------------------------------------------------------*/
-    
+
     private void createConnectionsHashMap(
         Node targetNode,
         int currentMaxTotalPrice)
@@ -519,9 +519,9 @@ public class ParanormalAI extends AI
         INITIALPRICE,
         currentMaxTotalPrice);
     }
-        
+
     /*-------------------------------------------------------------------------------------------*/
-    
+
     private void createConnectionsHashMap(
         int targetNodeID,
         int currentMaxTotalPrice)
@@ -533,7 +533,7 @@ public class ParanormalAI extends AI
         INITIALPRICE,
         currentMaxTotalPrice);
     }
-        
+
     /*-------------------------------------------------------------------------------------------*/
 
     private int getShortestDistanceWithMoney(Node originNode, Node targetNode, int cash)
@@ -625,7 +625,7 @@ public class ParanormalAI extends AI
     private void doLandTravelTowards(Node targetNode, int dice)
     {
         ArrayList<Route> routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), MAXLANDROADPRICE, dice);
-        
+
         if (!(routesArrayList.isEmpty()))
         {
             Route chosenRoute = routesArrayList.get(0);
@@ -667,20 +667,20 @@ public class ParanormalAI extends AI
             }
         }
     }
-    
+
     /*-------------------------------------------------------------------------------------------*/
 
     private void doLandTravelTowards(int targetNodeID, int dice)
     {
         doLandTravelTowards(c.getNode(targetNodeID), dice);
     }
-    
+
     /*-------------------------------------------------------------------------------------------*/
 
     private void doLandTravelTowardsClosestTreasure()
     {
     }
-    
+
     /*-------------------------------------------------------------------------------------------*/
 
     private boolean isAnyOpponentEligibleForWin()
@@ -823,7 +823,7 @@ public class ParanormalAI extends AI
         // #1 No one has Africa's star.
         // #2 I am eligible for win, and there are valuable treasures left.
         // #3 Some opponent has Africa's star, and there are horseshoes left.
-       
+
         if (!(isAnyoneEligibleForWin()))
         {
             // Situation #1. No one has Africa's star.

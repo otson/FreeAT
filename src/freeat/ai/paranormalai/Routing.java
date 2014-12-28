@@ -9,7 +9,7 @@ public class Routing
 {
     public ArrayList<ParanormalNode> routingArrayList;
     public int nRoadsOrFlights;
-    
+
     public Routing(ArrayList<ParanormalNode> routingArrayList)
     {
         this.routingArrayList = routingArrayList;
