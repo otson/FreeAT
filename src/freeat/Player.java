@@ -114,7 +114,7 @@ public class Player
 
         ai.setLocations(locations);
 
-        visitedThisTurn = new ArrayList();
+        visitedThisTurn = new ArrayList<>();
         debugString = "Test";
 
     }
