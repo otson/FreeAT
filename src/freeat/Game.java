@@ -48,6 +48,7 @@ public class Game
     private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
     private int turnCount = 0;
     private int totalWins = 0;
+    private boolean calculateActTime = true;
 
     public Game()
     {
@@ -421,7 +422,15 @@ public class Game
         {
             for (Player player : players)
             {
-                player.act();
+                if (calculateActTime)
+                {
+                    long start = System.nanoTime();
+                    player.act();
+                    System.out.println("Act time for " + player.getName() + ": " + (System.nanoTime() - start) / 1000 + " microseconds.");
+                } else
+                {
+                    player.act();
+                }
             }
         }
         turnCount++;
