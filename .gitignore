@@ -23,3 +23,12 @@ nbproject/
 
 # All jar files.
 *.jar
+
+# All log files.
+*.log
+
+# All XML files.
+*.xml
+
+# Manifest file.
+manifest.mf
