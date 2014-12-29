@@ -29,7 +29,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
  */
 public class Player
 {
-
+    
     private static int idCount = 0;
     private AI ai;
     private int location;
@@ -66,6 +66,7 @@ public class Player
 
     public Player(HashMap<Integer, Node> locations)
     {
+        
         ID = idCount;
         idCount++;
         this.locations = locations;
@@ -154,7 +155,7 @@ public class Player
 
     private void throwDice()
     {
-        dice = 1;// + (int) (Math.random() * 5);
+        dice = 1 + (int) (Math.random() * 5);
     }
 
     private void openToken()

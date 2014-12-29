@@ -30,5 +30,9 @@ public class Route
     {
         return price;
     }
+    
+    public String getString(){
+        return "Destination: "+destination.getName()+" price: "+price;
+    }
 
 }

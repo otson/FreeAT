@@ -57,13 +57,6 @@ public class TestAI extends AI
             } else
             {
                 c.decideToUseLandOrSeaRoute();
-                ArrayList<Route> test = c.getAvailableRoutes(c.getNode(523), 200, 2);
-                System.out.println("Routes from 523: ");
-                for(Route route : test){
-                    System.out.println(route.getString());
-                }
-                System.exit(0);
-                
                 Route route;
                 if (!c.isEligibleForWin())
                 {

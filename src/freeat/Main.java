@@ -91,8 +91,6 @@ public class Main
 
     public static void main(String[] args)
     {
-        System.out.println(array.length);
-        System.out.println("Loading game...");
         initDisplay();
         initFont();
         initTextures();
@@ -168,7 +166,7 @@ public class Main
             render();
             renderDebugText();
             Display.update();
-            Display.sync(6);
+            Display.sync(3);
             sinceUpdate = System.nanoTime();
             fps++;
             //}
@@ -298,5 +296,6 @@ public class Main
         map.bind();
         glPopAttrib();
     }
+
 
 }
