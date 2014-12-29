@@ -61,6 +61,9 @@ public class RouteAI extends AI
                 }
 
                 c.decideToUseLandOrSeaRoute();
+                
+                
+                
                 ArrayList<Route> possibleRoutes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
                 Route selectedRoute = possibleRoutes.get(0);
                 int selectedRouteDist = distances.getDistance(selectedRoute.getDestination().ID, target);
