@@ -5,7 +5,7 @@ connection from 104 to 1 is OK!
 origin city: 2.
 target cities: 115 126.
 target city: 115.
-connection from 115 to 2 is missing!
+connection from 115 to 2 is OK!
 target city: 126.
 connection from 126 to 2 is OK!
 origin city: 101.
@@ -71,11 +71,13 @@ connection from 104 to 114 is OK!
 target city: 111.
 connection from 111 to 114 is OK!
 target city: 115.
-connection from 115 to 114 is missing!
+connection from 115 to 114 is OK!
 origin city: 115.
-target cities: 1142 125.
-target city: 1142.
-connection from 1142 to 115 is missing!
+target cities: 114 2 125.
+target city: 114.
+connection from 114 to 115 is OK!
+target city: 2.
+connection from 2 to 115 is OK!
 target city: 125.
 connection from 125 to 115 is OK!
 origin city: 116.

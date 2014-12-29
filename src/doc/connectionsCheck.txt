@@ -21,7 +21,7 @@ target cities: 501 508 201 206 557.
 target city: 501.
 connection from 501 to 101 is OK!
 target city: 508.
-connection from 508 to 101 is missing!
+connection from 508 to 101 is OK!
 target city: 201.
 connection from 201 to 101 is OK!
 target city: 206.
@@ -67,11 +67,15 @@ connection from 205 to 106 is OK!
 target city: 213.
 connection from 213 to 106 is OK!
 origin city: 107.
-target cities: 214 218.
+target cities: 214 218 514 515.
 target city: 214.
 connection from 214 to 107 is OK!
 target city: 218.
 connection from 218 to 107 is OK!
+target city: 514.
+connection from 514 to 107 is OK!
+target city: 515.
+connection from 515 to 107 is OK!
 origin city: 108.
 target cities: 209 210 244 245.
 target city: 209.
@@ -249,7 +253,7 @@ connection from 539 to 129 is OK!
 origin city: 130.
 target cities: 540 287 288 541.
 target city: 540.
-connection from 540 to 130 is OK!
+connection from 540 to 130 is missing!
 target city: 287.
 connection from 287 to 130 is OK!
 target city: 288.
@@ -741,11 +745,11 @@ target cities: 278 280.
 target city: 278.
 connection from 278 to 279 is OK!
 target city: 280.
-connection from 280 to 279 is missing!
+connection from 280 to 279 is OK!
 origin city: 280.
-target cities: 278 281.
-target city: 278.
-connection from 278 to 280 is missing!
+target cities: 279 281.
+target city: 279.
+connection from 279 to 280 is OK!
 target city: 281.
 connection from 281 to 280 is OK!
 origin city: 281.
@@ -979,9 +983,9 @@ connection from 506 to 507 is OK!
 target city: 102.
 connection from 102 to 507 is OK!
 origin city: 508.
-target cities: 191 509.
-target city: 191.
-connection from 191 to 508 is missing!
+target cities: 101 509.
+target city: 101.
+connection from 101 to 508 is OK!
 target city: 509.
 connection from 509 to 508 is OK!
 origin city: 509.
@@ -1019,11 +1023,11 @@ target cities: 513 107.
 target city: 513.
 connection from 513 to 514 is OK!
 target city: 107.
-connection from 107 to 514 is missing!
+connection from 107 to 514 is OK!
 origin city: 515.
 target cities: 107 516.
 target city: 107.
-connection from 107 to 515 is missing!
+connection from 107 to 515 is OK!
 target city: 516.
 connection from 516 to 515 is OK!
 origin city: 516.
@@ -1173,11 +1177,11 @@ connection from 538 to 539 is OK!
 target city: 129.
 connection from 129 to 539 is OK!
 origin city: 540.
-target cities: 129 130.
+target cities: 129 539.
 target city: 129.
 connection from 129 to 540 is missing!
-target city: 130.
-connection from 130 to 540 is OK!
+target city: 539.
+connection from 539 to 540 is missing!
 origin city: 541.
 target cities: 130 542.
 target city: 130.
@@ -1375,15 +1379,15 @@ connection from 128 to 572 is OK!
 target city: 273.
 connection from 273 to 572 is missing!
 origin city: 573.
-target cities: 272 274.
-target city: 272.
-connection from 272 to 573 is missing!
-target city: 274.
-connection from 274 to 573 is missing!
+target cities: 572 574.
+target city: 572.
+connection from 572 to 573 is missing!
+target city: 574.
+connection from 574 to 573 is OK!
 origin city: 574.
-target cities: 273 575.
-target city: 273.
-connection from 273 to 574 is missing!
+target cities: 573 575.
+target city: 573.
+connection from 573 to 574 is OK!
 target city: 575.
 connection from 575 to 574 is OK!
 origin city: 575.
