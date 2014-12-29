@@ -1,0 +1,1406 @@
+origin city: 1.
+target cities: 563 564 262.
+target city: 563.
+connection from 563 to 1 is OK!
+target city: 564.
+connection from 564 to 1 is OK!
+target city: 262.
+connection from 262 to 1 is OK!
+origin city: 2.
+target cities: 569 273 274 570.
+target city: 569.
+connection from 569 to 2 is OK!
+target city: 273.
+connection from 273 to 2 is OK!
+target city: 274.
+connection from 274 to 2 is OK!
+target city: 570.
+connection from 570 to 2 is OK!
+origin city: 101.
+target cities: 501 508 201 206 557.
+target city: 501.
+connection from 501 to 101 is OK!
+target city: 508.
+connection from 508 to 101 is missing!
+target city: 201.
+connection from 201 to 101 is OK!
+target city: 206.
+connection from 206 to 101 is OK!
+target city: 557.
+connection from 557 to 101 is OK!
+origin city: 102.
+target cities: 507 215.
+target city: 507.
+connection from 507 to 102 is OK!
+target city: 215.
+connection from 215 to 102 is OK!
+origin city: 103.
+target cities: 217 516 517.
+target city: 217.
+connection from 217 to 103 is OK!
+target city: 516.
+connection from 516 to 103 is OK!
+target city: 517.
+connection from 517 to 103 is OK!
+origin city: 104.
+target cities: 560 561 239 240.
+target city: 560.
+connection from 560 to 104 is OK!
+target city: 561.
+connection from 561 to 104 is OK!
+target city: 239.
+connection from 239 to 104 is OK!
+target city: 240.
+connection from 240 to 104 is OK!
+origin city: 105.
+target cities: 238 207 208.
+target city: 238.
+connection from 238 to 105 is OK!
+target city: 207.
+connection from 207 to 105 is OK!
+target city: 208.
+connection from 208 to 105 is OK!
+origin city: 106.
+target cities: 205 213.
+target city: 205.
+connection from 205 to 106 is OK!
+target city: 213.
+connection from 213 to 106 is OK!
+origin city: 107.
+target cities: 214 218.
+target city: 214.
+connection from 214 to 107 is OK!
+target city: 218.
+connection from 218 to 107 is OK!
+origin city: 108.
+target cities: 209 210 244 245.
+target city: 209.
+connection from 209 to 108 is OK!
+target city: 210.
+connection from 210 to 108 is OK!
+target city: 244.
+connection from 244 to 108 is OK!
+target city: 245.
+connection from 245 to 108 is OK!
+origin city: 109.
+target cities: 260 259 263.
+target city: 260.
+connection from 260 to 109 is OK!
+target city: 259.
+connection from 259 to 109 is OK!
+target city: 263.
+connection from 263 to 109 is OK!
+origin city: 110.
+target cities: 243 244.
+target city: 243.
+connection from 243 to 110 is OK!
+target city: 244.
+connection from 244 to 110 is OK!
+origin city: 111.
+target cities: 247 248.
+target city: 247.
+connection from 247 to 111 is OK!
+target city: 248.
+connection from 248 to 111 is OK!
+origin city: 112.
+target cities: 222 224 232.
+target city: 222.
+connection from 222 to 112 is OK!
+target city: 224.
+connection from 224 to 112 is OK!
+target city: 232.
+connection from 232 to 112 is OK!
+origin city: 113.
+target cities: 221 223.
+target city: 221.
+connection from 221 to 113 is OK!
+target city: 223.
+connection from 223 to 113 is OK!
+origin city: 114.
+target cities: 258 242 243 305 304 257.
+target city: 258.
+connection from 258 to 114 is OK!
+target city: 242.
+connection from 242 to 114 is OK!
+target city: 243.
+connection from 243 to 114 is OK!
+target city: 305.
+connection from 305 to 114 is OK!
+target city: 304.
+connection from 304 to 114 is OK!
+target city: 257.
+connection from 257 to 114 is OK!
+origin city: 115.
+target cities: 566 267 268.
+target city: 566.
+connection from 566 to 115 is OK!
+target city: 267.
+connection from 267 to 115 is OK!
+target city: 268.
+connection from 268 to 115 is OK!
+origin city: 116.
+target cities: 302 301.
+target city: 302.
+connection from 302 to 116 is OK!
+target city: 301.
+connection from 301 to 116 is OK!
+origin city: 117.
+target cities: 253 252.
+target city: 253.
+connection from 253 to 117 is OK!
+target city: 252.
+connection from 252 to 117 is OK!
+origin city: 118.
+target cities: 251 250 231 550 551.
+target city: 251.
+connection from 251 to 118 is OK!
+target city: 250.
+connection from 250 to 118 is OK!
+target city: 231.
+connection from 231 to 118 is OK!
+target city: 550.
+connection from 550 to 118 is OK!
+target city: 551.
+connection from 551 to 118 is OK!
+origin city: 119.
+target cities: 234 235 554 555.
+target city: 234.
+connection from 234 to 119 is OK!
+target city: 235.
+connection from 235 to 119 is OK!
+target city: 554.
+connection from 554 to 119 is OK!
+target city: 555.
+connection from 555 to 119 is OK!
+origin city: 120.
+target cities: 237 523 524.
+target city: 237.
+connection from 237 to 120 is OK!
+target city: 523.
+connection from 523 to 120 is OK!
+target city: 524.
+connection from 524 to 120 is OK!
+origin city: 121.
+target cities: 567 269 270 568.
+target city: 567.
+connection from 567 to 121 is OK!
+target city: 269.
+connection from 269 to 121 is OK!
+target city: 270.
+connection from 270 to 121 is OK!
+target city: 568.
+connection from 568 to 121 is OK!
+origin city: 122.
+target cities: 277 310.
+target city: 277.
+connection from 277 to 122 is OK!
+target city: 310.
+connection from 310 to 122 is OK!
+origin city: 123.
+target cities: 296 297 547.
+target city: 296.
+connection from 296 to 123 is OK!
+target city: 297.
+connection from 297 to 123 is OK!
+target city: 547.
+connection from 547 to 123 is OK!
+origin city: 124.
+target cities: 293 292.
+target city: 293.
+connection from 293 to 124 is OK!
+target city: 292.
+connection from 292 to 124 is OK!
+origin city: 125.
+target cities: 291 545 544.
+target city: 291.
+connection from 291 to 125 is OK!
+target city: 545.
+connection from 545 to 125 is OK!
+target city: 544.
+connection from 544 to 125 is OK!
+origin city: 126.
+target cities: 274 278.
+target city: 274.
+connection from 274 to 126 is OK!
+target city: 278.
+connection from 278 to 126 is OK!
+origin city: 127.
+target cities: 601 602.
+target city: 601.
+connection from 601 to 127 is OK!
+target city: 602.
+connection from 602 to 127 is OK!
+origin city: 128.
+target cities: 571 572.
+target city: 571.
+connection from 571 to 128 is OK!
+target city: 572.
+connection from 572 to 128 is OK!
+origin city: 129.
+target cities: 575 284 285 539.
+target city: 575.
+connection from 575 to 129 is OK!
+target city: 284.
+connection from 284 to 129 is OK!
+target city: 285.
+connection from 285 to 129 is OK!
+target city: 539.
+connection from 539 to 129 is OK!
+origin city: 130.
+target cities: 540 287 288 541.
+target city: 540.
+connection from 540 to 130 is OK!
+target city: 287.
+connection from 287 to 130 is OK!
+target city: 288.
+connection from 288 to 130 is OK!
+target city: 541.
+connection from 541 to 130 is OK!
+origin city: 201.
+target cities: 101 202.
+target city: 101.
+connection from 101 to 201 is OK!
+target city: 202.
+connection from 202 to 201 is OK!
+origin city: 202.
+target cities: 201 203.
+target city: 201.
+connection from 201 to 202 is OK!
+target city: 203.
+connection from 203 to 202 is OK!
+origin city: 203.
+target cities: 204 202.
+target city: 204.
+connection from 204 to 203 is OK!
+target city: 202.
+connection from 202 to 203 is OK!
+origin city: 204.
+target cities: 203 205.
+target city: 203.
+connection from 203 to 204 is OK!
+target city: 205.
+connection from 205 to 204 is OK!
+origin city: 205.
+target cities: 204 106.
+target city: 204.
+connection from 204 to 205 is OK!
+target city: 106.
+connection from 106 to 205 is OK!
+origin city: 206.
+target cities: 101 207.
+target city: 101.
+connection from 101 to 206 is OK!
+target city: 207.
+connection from 207 to 206 is OK!
+origin city: 207.
+target cities: 105 206.
+target city: 105.
+connection from 105 to 207 is OK!
+target city: 206.
+connection from 206 to 207 is OK!
+origin city: 208.
+target cities: 105 209.
+target city: 105.
+connection from 105 to 208 is OK!
+target city: 209.
+connection from 209 to 208 is OK!
+origin city: 209.
+target cities: 208 108.
+target city: 208.
+connection from 208 to 209 is OK!
+target city: 108.
+connection from 108 to 209 is OK!
+origin city: 210.
+target cities: 108 211.
+target city: 108.
+connection from 108 to 210 is OK!
+target city: 211.
+connection from 211 to 210 is OK!
+origin city: 211.
+target cities: 210 212.
+target city: 210.
+connection from 210 to 211 is OK!
+target city: 212.
+connection from 212 to 211 is OK!
+origin city: 212.
+target cities: 211 213.
+target city: 211.
+connection from 211 to 212 is OK!
+target city: 213.
+connection from 213 to 212 is OK!
+origin city: 213.
+target cities: 212 106 214.
+target city: 212.
+connection from 212 to 213 is OK!
+target city: 106.
+connection from 106 to 213 is OK!
+target city: 214.
+connection from 214 to 213 is OK!
+origin city: 214.
+target cities: 213 107.
+target city: 213.
+connection from 213 to 214 is OK!
+target city: 107.
+connection from 107 to 214 is OK!
+origin city: 215.
+target cities: 102 216.
+target city: 102.
+connection from 102 to 215 is OK!
+target city: 216.
+connection from 216 to 215 is OK!
+origin city: 216.
+target cities: 215 217.
+target city: 215.
+connection from 215 to 216 is OK!
+target city: 217.
+connection from 217 to 216 is OK!
+origin city: 217.
+target cities: 216 103.
+target city: 216.
+connection from 216 to 217 is OK!
+target city: 103.
+connection from 103 to 217 is OK!
+origin city: 218.
+target cities: 107 219.
+target city: 107.
+connection from 107 to 218 is OK!
+target city: 219.
+connection from 219 to 218 is OK!
+origin city: 219.
+target cities: 218 220 225.
+target city: 218.
+connection from 218 to 219 is OK!
+target city: 220.
+connection from 220 to 219 is OK!
+target city: 225.
+connection from 225 to 219 is OK!
+origin city: 220.
+target cities: 221 222 219.
+target city: 221.
+connection from 221 to 220 is OK!
+target city: 222.
+connection from 222 to 220 is OK!
+target city: 219.
+connection from 219 to 220 is OK!
+origin city: 221.
+target cities: 220 113.
+target city: 220.
+connection from 220 to 221 is OK!
+target city: 113.
+connection from 113 to 221 is OK!
+origin city: 222.
+target cities: 220 112.
+target city: 220.
+connection from 220 to 222 is OK!
+target city: 112.
+connection from 112 to 222 is OK!
+origin city: 223.
+target cities: 113 224.
+target city: 113.
+connection from 113 to 223 is OK!
+target city: 224.
+connection from 224 to 223 is OK!
+origin city: 224.
+target cities: 223 112.
+target city: 223.
+connection from 223 to 224 is OK!
+target city: 112.
+connection from 112 to 224 is OK!
+origin city: 225.
+target cities: 219 226.
+target city: 219.
+connection from 219 to 225 is OK!
+target city: 226.
+connection from 226 to 225 is OK!
+origin city: 226.
+target cities: 225 227.
+target city: 225.
+connection from 225 to 226 is OK!
+target city: 227.
+connection from 227 to 226 is OK!
+origin city: 227.
+target cities: 226 228.
+target city: 226.
+connection from 226 to 227 is OK!
+target city: 228.
+connection from 228 to 227 is OK!
+origin city: 228.
+target cities: 227 229.
+target city: 227.
+connection from 227 to 228 is OK!
+target city: 229.
+connection from 229 to 228 is OK!
+origin city: 229.
+target cities: 230 228.
+target city: 230.
+connection from 230 to 229 is OK!
+target city: 228.
+connection from 228 to 229 is OK!
+origin city: 230.
+target cities: 229 231.
+target city: 229.
+connection from 229 to 230 is OK!
+target city: 231.
+connection from 231 to 230 is OK!
+origin city: 231.
+target cities: 230 118.
+target city: 230.
+connection from 230 to 231 is OK!
+target city: 118.
+connection from 118 to 231 is OK!
+origin city: 232.
+target cities: 112 233.
+target city: 112.
+connection from 112 to 232 is OK!
+target city: 233.
+connection from 233 to 232 is OK!
+origin city: 233.
+target cities: 232 234.
+target city: 232.
+connection from 232 to 233 is OK!
+target city: 234.
+connection from 234 to 233 is OK!
+origin city: 234.
+target cities: 233 119.
+target city: 233.
+connection from 233 to 234 is OK!
+target city: 119.
+connection from 119 to 234 is OK!
+origin city: 235.
+target cities: 119 236.
+target city: 119.
+connection from 119 to 235 is OK!
+target city: 236.
+connection from 236 to 235 is OK!
+origin city: 236.
+target cities: 235 237.
+target city: 235.
+connection from 235 to 236 is OK!
+target city: 237.
+connection from 237 to 236 is OK!
+origin city: 237.
+target cities: 236 120.
+target city: 236.
+connection from 236 to 237 is OK!
+target city: 120.
+connection from 120 to 237 is OK!
+origin city: 238.
+target cities: 105 239.
+target city: 105.
+connection from 105 to 238 is OK!
+target city: 239.
+connection from 239 to 238 is OK!
+origin city: 239.
+target cities: 238 104.
+target city: 238.
+connection from 238 to 239 is OK!
+target city: 104.
+connection from 104 to 239 is OK!
+origin city: 240.
+target cities: 104 241.
+target city: 104.
+connection from 104 to 240 is OK!
+target city: 241.
+connection from 241 to 240 is OK!
+origin city: 241.
+target cities: 240 242.
+target city: 240.
+connection from 240 to 241 is OK!
+target city: 242.
+connection from 242 to 241 is OK!
+origin city: 242.
+target cities: 241 114.
+target city: 241.
+connection from 241 to 242 is OK!
+target city: 114.
+connection from 114 to 242 is OK!
+origin city: 243.
+target cities: 110 114.
+target city: 110.
+connection from 110 to 243 is OK!
+target city: 114.
+connection from 114 to 243 is OK!
+origin city: 244.
+target cities: 110 108.
+target city: 110.
+connection from 110 to 244 is OK!
+target city: 108.
+connection from 108 to 244 is OK!
+origin city: 245.
+target cities: 108 246.
+target city: 108.
+connection from 108 to 245 is OK!
+target city: 246.
+connection from 246 to 245 is OK!
+origin city: 246.
+target cities: 245 247.
+target city: 245.
+connection from 245 to 246 is OK!
+target city: 247.
+connection from 247 to 246 is OK!
+origin city: 247.
+target cities: 246 111.
+target city: 246.
+connection from 246 to 247 is OK!
+target city: 111.
+connection from 111 to 247 is OK!
+origin city: 248.
+target cities: 111 249.
+target city: 111.
+connection from 111 to 248 is OK!
+target city: 249.
+connection from 249 to 248 is OK!
+origin city: 249.
+target cities: 248 250.
+target city: 248.
+connection from 248 to 249 is OK!
+target city: 250.
+connection from 250 to 249 is OK!
+origin city: 250.
+target cities: 249 118.
+target city: 249.
+connection from 249 to 250 is OK!
+target city: 118.
+connection from 118 to 250 is OK!
+origin city: 251.
+target cities: 118 252.
+target city: 118.
+connection from 118 to 251 is OK!
+target city: 252.
+connection from 252 to 251 is OK!
+origin city: 252.
+target cities: 251 117.
+target city: 251.
+connection from 251 to 252 is OK!
+target city: 117.
+connection from 117 to 252 is OK!
+origin city: 253.
+target cities: 117 254.
+target city: 117.
+connection from 117 to 253 is OK!
+target city: 254.
+connection from 254 to 253 is OK!
+origin city: 254.
+target cities: 255 253 299 298.
+target city: 255.
+connection from 255 to 254 is OK!
+target city: 253.
+connection from 253 to 254 is OK!
+target city: 299.
+connection from 299 to 254 is OK!
+target city: 298.
+connection from 298 to 254 is OK!
+origin city: 255.
+target cities: 254 256.
+target city: 254.
+connection from 254 to 255 is OK!
+target city: 256.
+connection from 256 to 255 is OK!
+origin city: 256.
+target cities: 255 257.
+target city: 255.
+connection from 255 to 256 is OK!
+target city: 257.
+connection from 257 to 256 is OK!
+origin city: 257.
+target cities: 256 114.
+target city: 256.
+connection from 256 to 257 is OK!
+target city: 114.
+connection from 114 to 257 is OK!
+origin city: 258.
+target cities: 259 114.
+target city: 259.
+connection from 259 to 258 is OK!
+target city: 114.
+connection from 114 to 258 is OK!
+origin city: 259.
+target cities: 258 109.
+target city: 258.
+connection from 258 to 259 is OK!
+target city: 109.
+connection from 109 to 259 is OK!
+origin city: 260.
+target cities: 109 261.
+target city: 109.
+connection from 109 to 260 is OK!
+target city: 261.
+connection from 261 to 260 is OK!
+origin city: 261.
+target cities: 260 262.
+target city: 260.
+connection from 260 to 261 is OK!
+target city: 262.
+connection from 262 to 261 is OK!
+origin city: 262.
+target cities: 1 261.
+target city: 1.
+connection from 1 to 262 is OK!
+target city: 261.
+connection from 261 to 262 is OK!
+origin city: 263.
+target cities: 109 264.
+target city: 109.
+connection from 109 to 263 is OK!
+target city: 264.
+connection from 264 to 263 is OK!
+origin city: 264.
+target cities: 265 263.
+target city: 265.
+connection from 265 to 264 is OK!
+target city: 263.
+connection from 263 to 264 is OK!
+origin city: 265.
+target cities: 264 266.
+target city: 264.
+connection from 264 to 265 is OK!
+target city: 266.
+connection from 266 to 265 is OK!
+origin city: 266.
+target cities: 265 267.
+target city: 265.
+connection from 265 to 266 is OK!
+target city: 267.
+connection from 267 to 266 is OK!
+origin city: 267.
+target cities: 266 115.
+target city: 266.
+connection from 266 to 267 is OK!
+target city: 115.
+connection from 115 to 267 is OK!
+origin city: 268.
+target cities: 115 269.
+target city: 115.
+connection from 115 to 268 is OK!
+target city: 269.
+connection from 269 to 268 is OK!
+origin city: 269.
+target cities: 268 121.
+target city: 268.
+connection from 268 to 269 is OK!
+target city: 121.
+connection from 121 to 269 is OK!
+origin city: 270.
+target cities: 121 271.
+target city: 121.
+connection from 121 to 270 is OK!
+target city: 271.
+connection from 271 to 270 is OK!
+origin city: 271.
+target cities: 270 272.
+target city: 270.
+connection from 270 to 271 is OK!
+target city: 272.
+connection from 272 to 271 is OK!
+origin city: 272.
+target cities: 273 271.
+target city: 273.
+connection from 273 to 272 is OK!
+target city: 271.
+connection from 271 to 272 is OK!
+origin city: 273.
+target cities: 272 2.
+target city: 272.
+connection from 272 to 273 is OK!
+target city: 2.
+connection from 2 to 273 is OK!
+origin city: 274.
+target cities: 2 126 275.
+target city: 2.
+connection from 2 to 274 is OK!
+target city: 126.
+connection from 126 to 274 is OK!
+target city: 275.
+connection from 275 to 274 is OK!
+origin city: 275.
+target cities: 274 276.
+target city: 274.
+connection from 274 to 275 is OK!
+target city: 276.
+connection from 276 to 275 is OK!
+origin city: 276.
+target cities: 275 277.
+target city: 275.
+connection from 275 to 276 is OK!
+target city: 277.
+connection from 277 to 276 is OK!
+origin city: 277.
+target cities: 276 122.
+target city: 276.
+connection from 276 to 277 is OK!
+target city: 122.
+connection from 122 to 277 is OK!
+origin city: 278.
+target cities: 126 279.
+target city: 126.
+connection from 126 to 278 is OK!
+target city: 279.
+connection from 279 to 278 is OK!
+origin city: 279.
+target cities: 278 280.
+target city: 278.
+connection from 278 to 279 is OK!
+target city: 280.
+connection from 280 to 279 is missing!
+origin city: 280.
+target cities: 278 281.
+target city: 278.
+connection from 278 to 280 is missing!
+target city: 281.
+connection from 281 to 280 is OK!
+origin city: 281.
+target cities: 280 282.
+target city: 280.
+connection from 280 to 281 is OK!
+target city: 282.
+connection from 282 to 281 is OK!
+origin city: 282.
+target cities: 281 283.
+target city: 281.
+connection from 281 to 282 is OK!
+target city: 283.
+connection from 283 to 282 is OK!
+origin city: 283.
+target cities: 282 284.
+target city: 282.
+connection from 282 to 283 is OK!
+target city: 284.
+connection from 284 to 283 is OK!
+origin city: 284.
+target cities: 283 129.
+target city: 283.
+connection from 283 to 284 is OK!
+target city: 129.
+connection from 129 to 284 is OK!
+origin city: 285.
+target cities: 129 286.
+target city: 129.
+connection from 129 to 285 is OK!
+target city: 286.
+connection from 286 to 285 is OK!
+origin city: 286.
+target cities: 285 287.
+target city: 285.
+connection from 285 to 286 is OK!
+target city: 287.
+connection from 287 to 286 is OK!
+origin city: 287.
+target cities: 286 130.
+target city: 286.
+connection from 286 to 287 is OK!
+target city: 130.
+connection from 130 to 287 is OK!
+origin city: 288.
+target cities: 130 289.
+target city: 130.
+connection from 130 to 288 is OK!
+target city: 289.
+connection from 289 to 288 is OK!
+origin city: 289.
+target cities: 288 290.
+target city: 288.
+connection from 288 to 289 is OK!
+target city: 290.
+connection from 290 to 289 is OK!
+origin city: 290.
+target cities: 289 292 291.
+target city: 289.
+connection from 289 to 290 is OK!
+target city: 292.
+connection from 292 to 290 is OK!
+target city: 291.
+connection from 291 to 290 is OK!
+origin city: 291.
+target cities: 290 125.
+target city: 290.
+connection from 290 to 291 is OK!
+target city: 125.
+connection from 125 to 291 is OK!
+origin city: 292.
+target cities: 290 124.
+target city: 290.
+connection from 290 to 292 is OK!
+target city: 124.
+connection from 124 to 292 is OK!
+origin city: 293.
+target cities: 124 294.
+target city: 124.
+connection from 124 to 293 is OK!
+target city: 294.
+connection from 294 to 293 is OK!
+origin city: 294.
+target cities: 293 295.
+target city: 293.
+connection from 293 to 294 is OK!
+target city: 295.
+connection from 295 to 294 is OK!
+origin city: 295.
+target cities: 294 296.
+target city: 294.
+connection from 294 to 295 is OK!
+target city: 296.
+connection from 296 to 295 is OK!
+origin city: 296.
+target cities: 295 123.
+target city: 295.
+connection from 295 to 296 is OK!
+target city: 123.
+connection from 123 to 296 is OK!
+origin city: 297.
+target cities: 123 298.
+target city: 123.
+connection from 123 to 297 is OK!
+target city: 298.
+connection from 298 to 297 is OK!
+origin city: 298.
+target cities: 297 254.
+target city: 297.
+connection from 297 to 298 is OK!
+target city: 254.
+connection from 254 to 298 is OK!
+origin city: 299.
+target cities: 254 300.
+target city: 254.
+connection from 254 to 299 is OK!
+target city: 300.
+connection from 300 to 299 is OK!
+origin city: 300.
+target cities: 299 301.
+target city: 299.
+connection from 299 to 300 is OK!
+target city: 301.
+connection from 301 to 300 is OK!
+origin city: 301.
+target cities: 300 116.
+target city: 300.
+connection from 300 to 301 is OK!
+target city: 116.
+connection from 116 to 301 is OK!
+origin city: 302.
+target cities: 116 303.
+target city: 116.
+connection from 116 to 302 is OK!
+target city: 303.
+connection from 303 to 302 is OK!
+origin city: 303.
+target cities: 302 304.
+target city: 302.
+connection from 302 to 303 is OK!
+target city: 304.
+connection from 304 to 303 is OK!
+origin city: 304.
+target cities: 303 114.
+target city: 303.
+connection from 303 to 304 is OK!
+target city: 114.
+connection from 114 to 304 is OK!
+origin city: 305.
+target cities: 114 306.
+target city: 114.
+connection from 114 to 305 is OK!
+target city: 306.
+connection from 306 to 305 is OK!
+origin city: 306.
+target cities: 305 307.
+target city: 305.
+connection from 305 to 306 is OK!
+target city: 307.
+connection from 307 to 306 is OK!
+origin city: 307.
+target cities: 306 308.
+target city: 306.
+connection from 306 to 307 is OK!
+target city: 308.
+connection from 308 to 307 is OK!
+origin city: 308.
+target cities: 307 309.
+target city: 307.
+connection from 307 to 308 is OK!
+target city: 309.
+connection from 309 to 308 is OK!
+origin city: 309.
+target cities: 308 400.
+target city: 308.
+connection from 308 to 309 is OK!
+target city: 400.
+connection from 400 to 309 is OK!
+origin city: 310.
+target cities: 122 400.
+target city: 122.
+connection from 122 to 310 is OK!
+target city: 400.
+connection from 400 to 310 is OK!
+origin city: 400.
+target cities: 310 309.
+target city: 310.
+connection from 310 to 400 is OK!
+target city: 309.
+connection from 309 to 400 is OK!
+origin city: 501.
+target cities: 101 502.
+target city: 101.
+connection from 101 to 501 is OK!
+target city: 502.
+connection from 502 to 501 is OK!
+origin city: 502.
+target cities: 501 503.
+target city: 501.
+connection from 501 to 502 is OK!
+target city: 503.
+connection from 503 to 502 is OK!
+origin city: 503.
+target cities: 502 504.
+target city: 502.
+connection from 502 to 503 is OK!
+target city: 504.
+connection from 504 to 503 is OK!
+origin city: 504.
+target cities: 503 505.
+target city: 503.
+connection from 503 to 504 is OK!
+target city: 505.
+connection from 505 to 504 is OK!
+origin city: 505.
+target cities: 504 506.
+target city: 504.
+connection from 504 to 505 is OK!
+target city: 506.
+connection from 506 to 505 is OK!
+origin city: 506.
+target cities: 505 507.
+target city: 505.
+connection from 505 to 506 is OK!
+target city: 507.
+connection from 507 to 506 is OK!
+origin city: 507.
+target cities: 506 102.
+target city: 506.
+connection from 506 to 507 is OK!
+target city: 102.
+connection from 102 to 507 is OK!
+origin city: 508.
+target cities: 191 509.
+target city: 191.
+connection from 191 to 508 is missing!
+target city: 509.
+connection from 509 to 508 is OK!
+origin city: 509.
+target cities: 508 510.
+target city: 508.
+connection from 508 to 509 is OK!
+target city: 510.
+connection from 510 to 509 is OK!
+origin city: 510.
+target cities: 509 511.
+target city: 509.
+connection from 509 to 510 is OK!
+target city: 511.
+connection from 511 to 510 is OK!
+origin city: 511.
+target cities: 510 512.
+target city: 510.
+connection from 510 to 511 is OK!
+target city: 512.
+connection from 512 to 511 is OK!
+origin city: 512.
+target cities: 511 513.
+target city: 511.
+connection from 511 to 512 is OK!
+target city: 513.
+connection from 513 to 512 is OK!
+origin city: 513.
+target cities: 512 514.
+target city: 512.
+connection from 512 to 513 is OK!
+target city: 514.
+connection from 514 to 513 is OK!
+origin city: 514.
+target cities: 513 107.
+target city: 513.
+connection from 513 to 514 is OK!
+target city: 107.
+connection from 107 to 514 is missing!
+origin city: 515.
+target cities: 107 516.
+target city: 107.
+connection from 107 to 515 is missing!
+target city: 516.
+connection from 516 to 515 is OK!
+origin city: 516.
+target cities: 515 103.
+target city: 515.
+connection from 515 to 516 is OK!
+target city: 103.
+connection from 103 to 516 is OK!
+origin city: 517.
+target cities: 103 518.
+target city: 103.
+connection from 103 to 517 is OK!
+target city: 518.
+connection from 518 to 517 is OK!
+origin city: 518.
+target cities: 519 517.
+target city: 519.
+connection from 519 to 518 is OK!
+target city: 517.
+connection from 517 to 518 is OK!
+origin city: 519.
+target cities: 518 520.
+target city: 518.
+connection from 518 to 519 is OK!
+target city: 520.
+connection from 520 to 519 is OK!
+origin city: 520.
+target cities: 519 521.
+target city: 519.
+connection from 519 to 520 is OK!
+target city: 521.
+connection from 521 to 520 is OK!
+origin city: 521.
+target cities: 520 522.
+target city: 520.
+connection from 520 to 521 is OK!
+target city: 522.
+connection from 522 to 521 is OK!
+origin city: 522.
+target cities: 521 523.
+target city: 521.
+connection from 521 to 522 is OK!
+target city: 523.
+connection from 523 to 522 is OK!
+origin city: 523.
+target cities: 522 120.
+target city: 522.
+connection from 522 to 523 is OK!
+target city: 120.
+connection from 120 to 523 is OK!
+origin city: 524.
+target cities: 120 525.
+target city: 120.
+connection from 120 to 524 is OK!
+target city: 525.
+connection from 525 to 524 is OK!
+origin city: 525.
+target cities: 524 556 526.
+target city: 524.
+connection from 524 to 525 is OK!
+target city: 556.
+connection from 556 to 525 is OK!
+target city: 526.
+connection from 526 to 525 is OK!
+origin city: 526.
+target cities: 525 527.
+target city: 525.
+connection from 525 to 526 is OK!
+target city: 527.
+connection from 527 to 526 is OK!
+origin city: 527.
+target cities: 526 528.
+target city: 526.
+connection from 526 to 527 is OK!
+target city: 528.
+connection from 528 to 527 is OK!
+origin city: 528.
+target cities: 527 529.
+target city: 527.
+connection from 527 to 528 is OK!
+target city: 529.
+connection from 529 to 528 is OK!
+origin city: 529.
+target cities: 528 530.
+target city: 528.
+connection from 528 to 529 is OK!
+target city: 530.
+connection from 530 to 529 is OK!
+origin city: 530.
+target cities: 529 531.
+target city: 529.
+connection from 529 to 530 is OK!
+target city: 531.
+connection from 531 to 530 is OK!
+origin city: 531.
+target cities: 530 602.
+target city: 530.
+connection from 530 to 531 is OK!
+target city: 602.
+connection from 602 to 531 is OK!
+origin city: 532.
+target cities: 533 601.
+target city: 533.
+connection from 533 to 532 is OK!
+target city: 601.
+connection from 601 to 532 is OK!
+origin city: 533.
+target cities: 532 534.
+target city: 532.
+connection from 532 to 533 is OK!
+target city: 534.
+connection from 534 to 533 is OK!
+origin city: 534.
+target cities: 533 535.
+target city: 533.
+connection from 533 to 534 is OK!
+target city: 535.
+connection from 535 to 534 is OK!
+origin city: 535.
+target cities: 534 536.
+target city: 534.
+connection from 534 to 535 is OK!
+target city: 536.
+connection from 536 to 535 is OK!
+origin city: 536.
+target cities: 535 537.
+target city: 535.
+connection from 535 to 536 is OK!
+target city: 537.
+connection from 537 to 536 is OK!
+origin city: 537.
+target cities: 536 538.
+target city: 536.
+connection from 536 to 537 is OK!
+target city: 538.
+connection from 538 to 537 is OK!
+origin city: 538.
+target cities: 537 539.
+target city: 537.
+connection from 537 to 538 is OK!
+target city: 539.
+connection from 539 to 538 is OK!
+origin city: 539.
+target cities: 538 129.
+target city: 538.
+connection from 538 to 539 is OK!
+target city: 129.
+connection from 129 to 539 is OK!
+origin city: 540.
+target cities: 129 130.
+target city: 129.
+connection from 129 to 540 is missing!
+target city: 130.
+connection from 130 to 540 is OK!
+origin city: 541.
+target cities: 130 542.
+target city: 130.
+connection from 130 to 541 is OK!
+target city: 542.
+connection from 542 to 541 is OK!
+origin city: 542.
+target cities: 541 543.
+target city: 541.
+connection from 541 to 542 is OK!
+target city: 543.
+connection from 543 to 542 is OK!
+origin city: 543.
+target cities: 542 544.
+target city: 542.
+connection from 542 to 543 is OK!
+target city: 544.
+connection from 544 to 543 is OK!
+origin city: 544.
+target cities: 543 125.
+target city: 543.
+connection from 543 to 544 is OK!
+target city: 125.
+connection from 125 to 544 is OK!
+origin city: 545.
+target cities: 125 546.
+target city: 125.
+connection from 125 to 545 is OK!
+target city: 546.
+connection from 546 to 545 is OK!
+origin city: 546.
+target cities: 545 547.
+target city: 545.
+connection from 545 to 546 is OK!
+target city: 547.
+connection from 547 to 546 is OK!
+origin city: 547.
+target cities: 123 546 548.
+target city: 123.
+connection from 123 to 547 is OK!
+target city: 546.
+connection from 546 to 547 is OK!
+target city: 548.
+connection from 548 to 547 is OK!
+origin city: 548.
+target cities: 547 549.
+target city: 547.
+connection from 547 to 548 is OK!
+target city: 549.
+connection from 549 to 548 is OK!
+origin city: 549.
+target cities: 548 550.
+target city: 548.
+connection from 548 to 549 is OK!
+target city: 550.
+connection from 550 to 549 is OK!
+origin city: 550.
+target cities: 549 118.
+target city: 549.
+connection from 549 to 550 is OK!
+target city: 118.
+connection from 118 to 550 is OK!
+origin city: 551.
+target cities: 118 552.
+target city: 118.
+connection from 118 to 551 is OK!
+target city: 552.
+connection from 552 to 551 is OK!
+origin city: 552.
+target cities: 551 553.
+target city: 551.
+connection from 551 to 552 is OK!
+target city: 553.
+connection from 553 to 552 is OK!
+origin city: 553.
+target cities: 552 554.
+target city: 552.
+connection from 552 to 553 is OK!
+target city: 554.
+connection from 554 to 553 is OK!
+origin city: 554.
+target cities: 553 119.
+target city: 553.
+connection from 553 to 554 is OK!
+target city: 119.
+connection from 119 to 554 is OK!
+origin city: 555.
+target cities: 119 556.
+target city: 119.
+connection from 119 to 555 is OK!
+target city: 556.
+connection from 556 to 555 is OK!
+origin city: 556.
+target cities: 555 525.
+target city: 555.
+connection from 555 to 556 is OK!
+target city: 525.
+connection from 525 to 556 is OK!
+origin city: 557.
+target cities: 101 558.
+target city: 101.
+connection from 101 to 557 is OK!
+target city: 558.
+connection from 558 to 557 is OK!
+origin city: 558.
+target cities: 557 559.
+target city: 557.
+connection from 557 to 558 is OK!
+target city: 559.
+connection from 559 to 558 is OK!
+origin city: 559.
+target cities: 558 560.
+target city: 558.
+connection from 558 to 559 is OK!
+target city: 560.
+connection from 560 to 559 is OK!
+origin city: 560.
+target cities: 559 104.
+target city: 559.
+connection from 559 to 560 is OK!
+target city: 104.
+connection from 104 to 560 is OK!
+origin city: 561.
+target cities: 104 562.
+target city: 104.
+connection from 104 to 561 is OK!
+target city: 562.
+connection from 562 to 561 is OK!
+origin city: 562.
+target cities: 561 563.
+target city: 561.
+connection from 561 to 562 is OK!
+target city: 563.
+connection from 563 to 562 is OK!
+origin city: 563.
+target cities: 562 1.
+target city: 562.
+connection from 562 to 563 is OK!
+target city: 1.
+connection from 1 to 563 is OK!
+origin city: 564.
+target cities: 1 565.
+target city: 1.
+connection from 1 to 564 is OK!
+target city: 565.
+connection from 565 to 564 is OK!
+origin city: 565.
+target cities: 564 566.
+target city: 564.
+connection from 564 to 565 is OK!
+target city: 566.
+connection from 566 to 565 is OK!
+origin city: 566.
+target cities: 565 567 115.
+target city: 565.
+connection from 565 to 566 is OK!
+target city: 567.
+connection from 567 to 566 is OK!
+target city: 115.
+connection from 115 to 566 is OK!
+origin city: 567.
+target cities: 566 121.
+target city: 566.
+connection from 566 to 567 is OK!
+target city: 121.
+connection from 121 to 567 is OK!
+origin city: 568.
+target cities: 121 569.
+target city: 121.
+connection from 121 to 568 is OK!
+target city: 569.
+connection from 569 to 568 is OK!
+origin city: 569.
+target cities: 568 2.
+target city: 568.
+connection from 568 to 569 is OK!
+target city: 2.
+connection from 2 to 569 is OK!
+origin city: 570.
+target cities: 2 571.
+target city: 2.
+connection from 2 to 570 is OK!
+target city: 571.
+connection from 571 to 570 is OK!
+origin city: 571.
+target cities: 570 128.
+target city: 570.
+connection from 570 to 571 is OK!
+target city: 128.
+connection from 128 to 571 is OK!
+origin city: 572.
+target cities: 128 273.
+target city: 128.
+connection from 128 to 572 is OK!
+target city: 273.
+connection from 273 to 572 is missing!
+origin city: 573.
+target cities: 272 274.
+target city: 272.
+connection from 272 to 573 is missing!
+target city: 274.
+connection from 274 to 573 is missing!
+origin city: 574.
+target cities: 273 575.
+target city: 273.
+connection from 273 to 574 is missing!
+target city: 575.
+connection from 575 to 574 is OK!
+origin city: 575.
+target cities: 574 129.
+target city: 574.
+connection from 574 to 575 is OK!
+target city: 129.
+connection from 129 to 575 is OK!
+origin city: 601.
+target cities: 532 127.
+target city: 532.
+connection from 532 to 601 is OK!
+target city: 127.
+connection from 127 to 601 is OK!
+origin city: 602.
+target cities: 127 531.
+target city: 127.
+connection from 127 to 602 is OK!
+target city: 531.
+connection from 531 to 602 is OK!

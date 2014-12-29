@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use File::Slurp;
+
+my $num_args;
+my $filename;
+my $space_index;
+my $origin_city;
+my $target_city;
+my $target_cities_string;
+my @target_cities_array;
+
+$num_args = $#ARGV + 1;
+
+if ($num_args != 1)
+{
+    printf("Usage: check_connections <filename.txt>\n");
+    exit;
+}
+
+$filename = $ARGV[0];
+
+my $text = read_file($filename);
+
+open(FILE, $filename);
+
+while(<FILE>)
+{
+    chomp;
+
+    $space_index = index($_, " ");
+
+    if ($space_index < 0)
+    {
+        $target_cities_string = "";
+    }
+    else
+    {
+        $target_cities_string = substr($_, $space_index + 1);
+    }
+
+    $origin_city = (split / +/, $_)[0];
+    printf("origin city: %s.\n", $origin_city);
+    printf("target cities: %s.\n", $target_cities_string);
+
+    @target_cities_array = ();
+    @target_cities_array = split / +/, $target_cities_string;
+
+    for my $target_city (@target_cities_array)
+    {
+        printf("target city: %s.\n", $target_city);
+
+        if ($text =~ /^$target_city\b.*\b$origin_city\b/m)
+        {
+            printf("connection from %s to %s is OK!\n", $target_city, $origin_city);
+        }
+        else
+        {
+            printf("connection from %s to %s is missing!\n", $target_city, $origin_city);
+        }
+    }
+}
+
+close(FILE);
