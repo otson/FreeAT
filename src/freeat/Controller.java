@@ -49,9 +49,10 @@ public class Controller
     {
         return PublicInformation.getLocation(playedID);
     }
-    
-    public boolean isEligibleForWin(int playerID){
-        return  hasStar(playerID) || hasHorseShoeAfterStar(playerID);
+
+    public boolean isEligibleForWin(int playerID)
+    {
+        return hasStar(playerID) || hasHorseShoeAfterStar(playerID);
     }
 
     public boolean hasStar(int playedID)
@@ -154,7 +155,10 @@ public class Controller
 
         if (getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice()).isEmpty())
         {
-            player.forceEndTurn();
+            if (isDecideToTryWinToken() || isDecideToUseLandOrSea() || isDecideToUsePlane())
+            {
+                player.forceEndTurn();
+            }
         }
         // no plane routes
         return getAvailableRoutes(player.getCurrentNode(), Math.min(200, player.getCashBalance()), player.getDice());
@@ -236,16 +240,19 @@ public class Controller
         return null;
 
     }
-    
-    public boolean isDecideToUsePlane(){
+
+    public boolean isDecideToUsePlane()
+    {
         return player.isUsePlane();
     }
-    
-    public boolean isDecideToUseLandOrSea(){
+
+    public boolean isDecideToUseLandOrSea()
+    {
         return player.isUseLandOrSea();
     }
-    
-    public boolean isDecideToTryWinToken(){
+
+    public boolean isDecideToTryWinToken()
+    {
         return player.isTryToWinToken();
     }
 
@@ -320,7 +327,7 @@ public class Controller
         return player.getCurrentNode().getLocations();
 
     }
-    
+
     public boolean isEligibleForWin()
     {
         return player.isHasStar() || player.isHasHorseshoeAfterStar();

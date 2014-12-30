@@ -133,6 +133,7 @@ public class TestAI extends AI
 
     private Route getRouteToStart(int maxPrice)
     {
+        
         int distanceToCairo = distances.getDistance(c.getCurrentNode().ID, 1);
         int distanceToTangier = distances.getDistance(c.getCurrentNode().ID, 2);
         if (distanceToCairo < distanceToTangier)
