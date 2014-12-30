@@ -174,22 +174,22 @@ public class ParanormalNode
 
 	public int getDistanceToTarget(Node targetNode, int currentMaxTotalPrice)
 	{
-		return this.distanceToTargetHashMap.get(targetNode.ID).get(currentMaxTotalPrice);
+		return this.distanceToTargetHashMap.get(targetNode.ID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
 	}
 
 	public int getDistanceToTarget(int targetNodeID, int currentMaxTotalPrice)
 	{
-		return this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice);
+		return this.distanceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
 	}
 
 	public int getPriceToTarget(Node targetNode, int currentMaxTotalPrice)
 	{
-		return this.priceToTargetHashMap.get(targetNode.ID).get(currentMaxTotalPrice);
+		return this.priceToTargetHashMap.get(targetNode.ID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
 	}
 
 	public int getPriceToTarget(int targetNodeID, int currentMaxTotalPrice)
 	{
-		return this.priceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice);
+		return this.priceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
 	}
 
 	public ArrayList<Integer> getNeighbors()

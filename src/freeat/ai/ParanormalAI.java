@@ -216,7 +216,6 @@ public class ParanormalAI extends AI
 //		{
 //			System.err.println("IOException: " + ioe.getMessage());
 //		}
-
 		writeTextAndNewlineToLog("log file " + absFilename + " is opened.");
 
 		while (!(c.isEndTurn()))
@@ -261,14 +260,12 @@ public class ParanormalAI extends AI
 				// Situation #1.
 				// Great, I have Africa's star or a horse shoe found after Africa's star.
 				// Check which is closest land & sea destination, Cairo or Tangier.
-				int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithMoney(
+				int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithCurrentMoney(
 					c.getCurrentNode(),
-					c.getNode(CAIRO_NODE_ID),
-					getCash());
-				int shortestDistanceToTangierWithCurrentMoney = getShortestDistanceWithMoney(
+					c.getNode(CAIRO_NODE_ID));
+				int shortestDistanceToTangierWithCurrentMoney = getShortestDistanceWithCurrentMoney(
 					c.getCurrentNode(),
-					c.getNode(TANGIER_NODE_ID),
-					getCash());
+					c.getNode(TANGIER_NODE_ID));
 
 				if (shortestDistanceToCairoWithCurrentMoney < shortestDistanceToTangierWithCurrentMoney)
 				{
@@ -355,8 +352,8 @@ public class ParanormalAI extends AI
 					doEndTurn();
 				}
 			}
-                    c.endTurn();
-                    System.out.println("End of while loop");
+			c.endTurn();
+			System.out.println("End of while loop");
 		}
 
 		writeTextAndNewlineToLog("log file " + absFilename + " will be closed next.");
@@ -895,7 +892,6 @@ public class ParanormalAI extends AI
 //		System.out.println("isTryToWinToken: " + c.isDecideToTryWinToken());
 //		System.out.println("isDecideToUsePlane: " + c.isDecideToUsePlane());
 //		System.out.println("isDecideToUseLandOrSea: " + c.isDecideToUseLandOrSea());
-
 		int currentNodeID = c.getCurrentNode().ID;
 		// writeTextAndNewlineToLogAndDebug("node before move: " + currentNodeID);
 //		System.out.println("node before move: " + currentNodeID);
