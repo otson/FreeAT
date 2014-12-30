@@ -29,7 +29,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
  */
 public class Player
 {
-    
+
     private static int idCount = 0;
     private AI ai;
     private int location;
@@ -66,7 +66,7 @@ public class Player
 
     public Player(HashMap<Integer, Node> locations)
     {
-        
+
         ID = idCount;
         idCount++;
         this.locations = locations;
@@ -155,7 +155,7 @@ public class Player
 
     private void throwDice()
     {
-        dice = 1 + (int) (Math.random() * 5);
+        dice = 1 + (int) (Math.random() * 6);
     }
 
     private void openToken()
@@ -371,18 +371,26 @@ public class Player
                 int tempDice = dice;
                 if (usePlane)
                 {
-                    //System.out.println("Plane...");
+                    if (destination.getPrice() != 300)
+                    {
+                        System.out.println("Tried to use a non-plane route after selecting to use a plane. Returning...");
+                        return;
+                    }
+                    
+                    // redundant?
                     tempDice = 1;
+                }
+                if (useLandOrSea)
+                {
+                    if (destination.getPrice() == 300)
+                    {
+                        System.out.println("Tried to use a plane route after selecting to use a land or sea route. Returning...");
+                        return;
+                    }
                 }
                 if (cashBalance >= destination.getPrice() && getCurrentNode().getAllLists()[tempDice][destination.getPrice() / 100].contains(destination))
                 {
-                    if (destination.getDestination().ID == 400)
-                    {
-                        if (usePlane)
-                        {
-                            //System.out.println(name+" flying from: "+getCurrentNode().getName() + " to "+destination.getDestination().getName());
-                        }
-                    }
+
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
                     if (target.TYPE == NodeType.ROUTE)

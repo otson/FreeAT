@@ -156,7 +156,8 @@ public class Controller
         {
             player.forceEndTurn();
         }
-        return getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice());
+        // no plane routes
+        return getAvailableRoutes(player.getCurrentNode(), Math.min(200, player.getCashBalance()), player.getDice());
     }
 
     public ArrayList<Route> getAvailableRoutes(Node start, int cash, int dice)

@@ -58,6 +58,13 @@ public class TestAI extends AI
             {
                 c.decideToUseLandOrSeaRoute();
                 Route route;
+//                ArrayList<Route>  list = c.getAvailableRoutes(c.getNode(120), 200, 6);
+//                System.out.println("Routes from 120: ");
+//                for(Route r : list){
+//                    System.out.println(r.getString());
+//                }
+//                System.exit(0);
+                
                 if (!c.isEligibleForWin())
                 {
                     route = getRouteToTreasure(0);
