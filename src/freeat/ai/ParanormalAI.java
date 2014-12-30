@@ -29,6 +29,7 @@ public class ParanormalAI extends AI
 {
 
 	// class-level (static) variables.
+	static boolean isLoggingInUse = false;
 	static boolean shouldConnectionHashMapGenerationBeLogged = false;
 
 	static String paranormalAIStartDateString;
@@ -50,7 +51,7 @@ public class ParanormalAI extends AI
 	static int LeaderID;
 	static int turnNumber;
 
-	//                                        pink, cyan,  red, green, blue, purple.
+	// pink, cyan,  red, green, blue, purple.
 	static final float[] REDVALUESARRAY =
 	{
 		1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f
@@ -168,8 +169,6 @@ public class ParanormalAI extends AI
 	public static HashMap<Integer, HashMap<Integer, HashMap<Integer, ParanormalNode>>> connectionsHashMap = new HashMap<>();
 
 	int destinationNodeID;
-	int oldNodeID;
-	int newNodeID;
 
 	int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
 
@@ -208,15 +207,18 @@ public class ParanormalAI extends AI
 			isFilenameDefined = true;
 		}
 
-//		try
-//		{
-//			bw = new BufferedWriter(new FileWriter(absFilename, true));
-//		}
-//		catch (IOException ioe)
-//		{
-//			System.err.println("IOException: " + ioe.getMessage());
-//		}
-		writeTextAndNewlineToLog("log file " + absFilename + " is opened.");
+		if (isLoggingInUse)
+		{
+			try
+			{
+				bw = new BufferedWriter(new FileWriter(absFilename, true));
+			}
+			catch (IOException ioe)
+			{
+				System.err.println("IOException: " + ioe.getMessage());
+			}
+			writeTextAndNewlineToLog("log file " + absFilename + " is opened.");
+		}
 
 		while (!(c.isEndTurn()))
 		{
@@ -358,14 +360,17 @@ public class ParanormalAI extends AI
 
 		writeTextAndNewlineToLog("log file " + absFilename + " will be closed next.");
 
-//		try
-//		{
-//			bw.close();
-//		}
-//		catch (IOException ioe)
-//		{
-//			System.err.println("IOException: " + ioe.getMessage());
-//		}
+		if (isLoggingInUse)
+		{
+			try
+			{
+				bw.close();
+			}
+			catch (IOException ioe)
+			{
+				System.err.println("IOException: " + ioe.getMessage());
+			}
+		}
 	}
 
 	/*------------------------------------------------------------------------*/
@@ -444,10 +449,6 @@ public class ParanormalAI extends AI
 			Node neighborNode = route.getDestination();
 			ParanormalNode neighborParanormalNode = getParanormalNode(neighborNode);
 
-			// ParanormalNode neighborParanormalNode;
-			// neighborParanormalNode = connectionsHashMap.get(neighborNode.ID).get(targetNode.ID).get(currentMaxTotalPrice);
-			boolean isUpdateNeeded;
-
 			Route linkRoute = getLinkRoute(neighborNode, originNode);
 
 			if (linkRoute == null)
@@ -457,9 +458,8 @@ public class ParanormalAI extends AI
 
 			int newCumulativePrice = (cumulativePrice + (linkRoute.getPrice() / MONEY_SCALE));
 
-			boolean isNewPriceOK = (newCumulativePrice <= currentMaxTotalPrice);
-
-			boolean isRecursiveCallNeeded = neighborParanormalNode.updateDistanceAndPrice(
+			boolean isRecursiveCallNeeded;
+			isRecursiveCallNeeded = neighborParanormalNode.updateDistanceAndPrice(
 				targetNode,
 				currentMaxTotalPrice,
 				cumulativeDistance,
@@ -646,10 +646,10 @@ public class ParanormalAI extends AI
 	 | Movement methods.                                                       |
 	 |-------------------------------------------------------------------------|
 	 |                                                                         |
-	 | doRandomUsefulMovement() - TODO!                                        |
-	 \ +-> doUsefulLandMovement()                                        |
-	 | +-> doRandomUsefulSeaMovement() TODO!                                   |
-	 | +-> doRandomUsefulAirMovement()                                         |
+	 | doUsefulMovement()                                                      |
+	 | +-> doUsefulLandMovement()                                              |
+	 | +-> doUsefulSeaMovement() TODO!                                         |
+	 | +-> doUsefulAirMovement() TODO!                                         |
 	 | ...                                                                     |
 	 |     +-> moveTowardsClosestTreasure()                                    |
 	 |     +-> doLandTravelTowards()                                           |
@@ -657,43 +657,7 @@ public class ParanormalAI extends AI
 	 \------------------------------------------------------------------------*/
 	private void doUsefulLandMovement()
 	{
-		c.decideToUseLandOrSeaRoute();
-
-		ArrayList<Route> routesArrayList;
-		// routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), MAX_LAND_ROAD_PRICE), c.getDice());
-		routesArrayList = c.getMyAvailableRoutes();
-
-		if (!(routesArrayList.isEmpty()))
-		{
-			writeTextAndNewlineToLog("I'm doing some useful land movement.");
-
-			Route chosenRouteWithTreasure = null;
-
-			for (Route route : routesArrayList)
-			{
-				if (route.getDestination().hasTreasure())
-				{
-					chosenRouteWithTreasure = route;
-				}
-			}
-
-			if (chosenRouteWithTreasure == null)
-			{
-				writeTextAndNewlineToLog("chosenRouteWithTreasure is null! I'll move towards closest treasure!");
-				moveTowardsClosestTreasure();
-			}
-			else
-			{
-				printMyItineraryToLogAndDebug(c.getCurrentNode(), chosenRouteWithTreasure.getDestination());
-				executeRoute(chosenRouteWithTreasure);
-			}
-		}
-		else
-		{
-			String targetMetropolName = c.getNode(targetMetropolID).getName();
-			writeTextAndNewlineToLog("routesArrayList is empty! I'll do land travel towards " + targetMetropolName + ".");
-			doLandTravelTowards(targetMetropolID);
-		}
+		moveTowardsClosestTreasure();
 	}
 
 	/*------------------------------------------------------------------------*/
@@ -702,6 +666,7 @@ public class ParanormalAI extends AI
 		c.decideToUseLandOrSeaRoute();
 
 		ArrayList<Route> routesArrayList;
+
 		// routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 2 * TRUE_MAX_ROAD_PRICE), c.getDice());
 		routesArrayList = c.getMyAvailableRoutes();
 
@@ -757,8 +722,8 @@ public class ParanormalAI extends AI
 		}
 		else
 		{
-			writeTextAndNewlineToLog("I'm taking chosenRoute to " + chosenRoute.getDestination().getName()
-									 + ", en route to " + chosenTreasureCity.getName() + ".");
+			writeTextAndNewlineToLogAndDebug("I'm taking chosenRoute to " + chosenRoute.getDestination().getName()
+											 + ", en route to " + chosenTreasureCity.getName() + ".");
 			executeRoute(chosenRoute);
 		}
 	}
@@ -781,7 +746,6 @@ public class ParanormalAI extends AI
 			route = routesArrayList.get(0);
 			writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName() + " and I take the first available route to " + route.getDestination().getName() + ".");
 			executeRoute(route);
-
 		}
 	}
 
@@ -832,7 +796,6 @@ public class ParanormalAI extends AI
 					landDistanceFromChosenNodeToTreasureCity = landDistanceFromDestinationToTreasureCity;
 					writeTextAndNewlineToLog("The destination node of chosenRoute is " + chosenRoute.getDestination().getName() + ".");
 					writeTextAndNewlineToLog("landDistanceFromChosenNodeToTreasureCity is " + landDistanceFromChosenNodeToTreasureCity + ".");
-
 				}
 			}
 
@@ -851,7 +814,7 @@ public class ParanormalAI extends AI
 			else
 			{
 				writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName()
-												 + ", go to " + chosenRoute.getDestination().getName()
+												 + ", I'm going to " + chosenRoute.getDestination().getName()
 												 + ", en route to " + targetNode.getName() + ".");
 				executeRoute(chosenRoute); // Do the movement.
 			}
@@ -883,24 +846,7 @@ public class ParanormalAI extends AI
 		String string;
 		string = "Executing route to " + route.getDestination().getName() + ".";
 		writeTextAndNewlineToLog(string);
-//		System.out.println(string);
-//
-//		System.out.println("Inside availableRoutesArrayList: " + c.getMyAvailableRoutes().contains(route));
-//
-//		System.out.println("isEndTurn: " + c.isEndTurn());
-
-//		System.out.println("isTryToWinToken: " + c.isDecideToTryWinToken());
-//		System.out.println("isDecideToUsePlane: " + c.isDecideToUsePlane());
-//		System.out.println("isDecideToUseLandOrSea: " + c.isDecideToUseLandOrSea());
-		int currentNodeID = c.getCurrentNode().ID;
-		// writeTextAndNewlineToLogAndDebug("node before move: " + currentNodeID);
-//		System.out.println("node before move: " + currentNodeID);
-
 		c.moveTo(route);
-
-		int newCurrentNodeID = c.getCurrentNode().ID;
-		// writeTextAndNewlineToLogAndDebug("node after move: " + newCurrentNodeID);
-//		System.out.println("node after move: " + newCurrentNodeID);
 	}
 
 	/*-------------------------------------------------------------------------\
@@ -945,13 +891,16 @@ public class ParanormalAI extends AI
 	 \------------------------------------------------------------------------*/
 	private void writeTextToLog(String text)
 	{
-		try
+		if (isLoggingInUse)
 		{
-			bw.write(text);
-		}
-		catch (IOException ioe)
-		{
-			System.err.println("IOexception: " + ioe.getMessage());
+			try
+			{
+				bw.write(text);
+			}
+			catch (IOException ioe)
+			{
+				System.err.println("IOexception: " + ioe.getMessage());
+			}
 		}
 	}
 
@@ -959,7 +908,7 @@ public class ParanormalAI extends AI
 	private void writeTextAndNewlineToLog(String text)
 	{
 		String string = turnNumber + ": " + text + "\n";
-		// writeTextToLog(string);
+		writeTextToLog(string);
 	}
 
 	/*------------------------------------------------------------------------*/
