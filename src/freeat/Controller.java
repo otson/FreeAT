@@ -236,6 +236,18 @@ public class Controller
         return null;
 
     }
+    
+    public boolean isDecideToUsePlane(){
+        return player.isUsePlane();
+    }
+    
+    public boolean isDecideToUseLandOrSea(){
+        return player.isUseLandOrSea();
+    }
+    
+    public boolean isDecideToTryWinToken(){
+        return player.isTryToWinToken();
+    }
 
     public void decidetoUsePlane()
     {
@@ -308,7 +320,7 @@ public class Controller
         return player.getCurrentNode().getLocations();
 
     }
-
+    
     public boolean isEligibleForWin()
     {
         return player.isHasStar() || player.isHasHorseshoeAfterStar();
