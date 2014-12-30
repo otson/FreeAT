@@ -104,6 +104,30 @@ public class ParanormalNode
 	{
 		boolean hasSomeBenefit = false;
 
+		if (paranormalNodeHashMap.get(this.node.ID).node.ID == targetNodeID)
+		{
+			// OK, were updating the distance to the same node.
+			// If newDistanceToTarget != 0 , there might be a bug somewhere.
+			// If newPriceToTarget != 0, there might be a somewhere.
+			if (newDistanceToTarget > 0)
+			{
+				// TODO: report error!
+			}
+			if (newPriceToTarget > 0)
+			{
+				// TODO: report error!
+			}
+
+			if ((this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) != 0)
+				|| (this.priceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) != 0))
+			{
+				hasSomeBenefit = true;
+			}
+			// This is probably not the most elegant solution here...
+			this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
+			this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
+		}
+
 		if ((this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) < 0)
 			&& (newPriceToTarget >= 0)
 			&& (newPriceToTarget <= currentMaxTotalPrice))
