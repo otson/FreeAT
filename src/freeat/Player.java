@@ -155,7 +155,7 @@ public class Player
 
     private void throwDice()
     {
-        dice = 1 + (int) (Math.random() * 5);
+        dice = 1 + (int) (Math.random() * 6);
     }
 
     private void openToken()

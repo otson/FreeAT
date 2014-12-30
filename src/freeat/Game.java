@@ -48,7 +48,7 @@ public class Game
     private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
     private int turnCount = 0;
     private int totalWins = 0;
-    private boolean calculateActTime = true;
+    private boolean calculateActTime = false;
 
     public Game()
     {
@@ -61,12 +61,6 @@ public class Game
         setNodeNames();
         setPlayers();
         setAllRoutes();
-//        for(Node node: locations.values()){
-//            System.out.println("Node "+node.ID+" "+node.getName());
-//        }
-//        System.exit(0);
-
-        //printRoutes();
     }
 
     public final void setAllRoutes()
