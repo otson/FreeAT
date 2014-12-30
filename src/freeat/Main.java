@@ -166,7 +166,7 @@ public class Main
             render();
             renderDebugText();
             Display.update();
-            Display.sync(1);
+            Display.sync(2);
             sinceUpdate = System.nanoTime();
             fps++;
             //}
