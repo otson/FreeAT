@@ -211,16 +211,16 @@ public class ParanormalAI extends AI
 			isFilenameDefined = true;
 		}
 
-		try
-		{
-			// fw = new FileWriter(absFilename, true);
-			// fw = new FileWriter(new File(logDirectory, filename));
-			bw = new BufferedWriter(new FileWriter(absFilename, true));
-		}
-		catch (IOException ioe)
-		{
-			System.err.println("IOException: " + ioe.getMessage());
-		}
+//		try
+//		{
+//			// fw = new FileWriter(absFilename, true);
+//			// fw = new FileWriter(new File(logDirectory, filename));
+//			bw = new BufferedWriter(new FileWriter(absFilename, true));
+//		}
+//		catch (IOException ioe)
+//		{
+//			System.err.println("IOException: " + ioe.getMessage());
+//		}
 
 		writeTextAndNewlineToLog("log file " + absFilename + " is opened.");
 
@@ -360,18 +360,20 @@ public class ParanormalAI extends AI
 					doEndTurn();
 				}
 			}
+                    c.endTurn();
+                    System.out.println("End of while loop");
 		}
 
 		writeTextAndNewlineToLog("log file " + absFilename + " will be closed next.");
 
-		try
-		{
-			bw.close();
-		}
-		catch (IOException ioe)
-		{
-			System.err.println("IOException: " + ioe.getMessage());
-		}
+//		try
+//		{
+//			bw.close();
+//		}
+//		catch (IOException ioe)
+//		{
+//			System.err.println("IOException: " + ioe.getMessage());
+//		}
 	}
 
 	/*------------------------------------------------------------------------*/
@@ -890,25 +892,25 @@ public class ParanormalAI extends AI
 		String string;
 		string = "Executing route to " + route.getDestination().getName() + ".";
 		writeTextAndNewlineToLog(string);
-		System.out.println(string);
+//		System.out.println(string);
+//
+//		System.out.println("Inside availableRoutesArrayList: " + c.getMyAvailableRoutes().contains(route));
+//
+//		System.out.println("isEndTurn: " + c.isEndTurn());
 
-		System.out.println("Inside availableRoutesArrayList: " + c.getMyAvailableRoutes().contains(route));
-
-		System.out.println("isEndTurn: " + c.isEndTurn());
-
-		System.out.println("isTryToWinToken: " + c.isDecideToTryWinToken());
-		System.out.println("isDecideToUsePlane: " + c.isDecideToUsePlane());
-		System.out.println("isDecideToUseLandOrSea: " + c.isDecideToUseLandOrSea());
+//		System.out.println("isTryToWinToken: " + c.isDecideToTryWinToken());
+//		System.out.println("isDecideToUsePlane: " + c.isDecideToUsePlane());
+//		System.out.println("isDecideToUseLandOrSea: " + c.isDecideToUseLandOrSea());
 
 		int currentNodeID = c.getCurrentNode().ID;
 		// writeTextAndNewlineToLogAndDebug("node before move: " + currentNodeID);
-		System.out.println("node before move: " + currentNodeID);
+//		System.out.println("node before move: " + currentNodeID);
 
 		c.moveTo(route);
 
 		int newCurrentNodeID = c.getCurrentNode().ID;
 		// writeTextAndNewlineToLogAndDebug("node after move: " + newCurrentNodeID);
-		System.out.println("node after move: " + newCurrentNodeID);
+//		System.out.println("node after move: " + newCurrentNodeID);
 	}
 
 	/*-------------------------------------------------------------------------\
