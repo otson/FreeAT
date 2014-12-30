@@ -12,8 +12,8 @@ public class ParanormalNode
 {
 
 	private Node node;
-	private HashMap<Integer, HashMap<Integer, Integer>> distanceToTargetHashMap;
-	private HashMap<Integer, HashMap<Integer, Integer>> priceToTargetHashMap;
+	private final HashMap<Integer, HashMap<Integer, Integer>> distanceToTargetHashMap;
+	private final HashMap<Integer, HashMap<Integer, Integer>> priceToTargetHashMap;
 	private ArrayList<Integer> neighbors;
 	private boolean hasAirport;
 

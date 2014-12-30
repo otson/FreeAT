@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -36,6 +35,7 @@ public class ParanormalAI extends AI
 	static boolean isParanormalAIStartDateStringReady = false;
 	static boolean isParanormalNodeHashMapReady = false;
 	static boolean isDistanceDataReady = false;
+	static boolean isLeaderIDDefined = false;
 	boolean isFilenameDefined = false;
 
 	static DateFormat dateFormat = new SimpleDateFormat("_yyyy_MM_dd_HH_mm_ss");
@@ -49,7 +49,6 @@ public class ParanormalAI extends AI
 
 	static int LeaderID;
 	static int turnNumber;
-	static boolean isLeaderIDDefined = false;
 
 	//                                        pink, cyan,  red, green, blue, purple.
 	static final float[] REDVALUESARRAY =
@@ -174,8 +173,6 @@ public class ParanormalAI extends AI
 
 	int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
 
-	PrintWriter writer = null;
-
 	public ParanormalAI()
 	{
 		super(startingCity); // Call the constructor and set the random start city (1 or 2).
@@ -213,8 +210,6 @@ public class ParanormalAI extends AI
 
 		try
 		{
-			// fw = new FileWriter(absFilename, true);
-			// fw = new FileWriter(new File(logDirectory, filename));
 			bw = new BufferedWriter(new FileWriter(absFilename, true));
 		}
 		catch (IOException ioe)
@@ -269,11 +264,11 @@ public class ParanormalAI extends AI
 				int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithMoney(
 					c.getCurrentNode(),
 					c.getNode(CAIRO_NODE_ID),
-					c.getMyBalance());
+					getCash());
 				int shortestDistanceToTangierWithCurrentMoney = getShortestDistanceWithMoney(
 					c.getCurrentNode(),
 					c.getNode(TANGIER_NODE_ID),
-					c.getMyBalance());
+					getCash());
 
 				if (shortestDistanceToCairoWithCurrentMoney < shortestDistanceToTangierWithCurrentMoney)
 				{
@@ -703,7 +698,7 @@ public class ParanormalAI extends AI
 	}
 
 	/*------------------------------------------------------------------------*/
-	private boolean moveTowardsClosestTreasure()
+	private void moveTowardsClosestTreasure()
 	{
 		c.decideToUseLandOrSeaRoute();
 
@@ -758,15 +753,14 @@ public class ParanormalAI extends AI
 
 		if (chosenRoute == null)
 		{
-			writeTextAndNewlineToLog("chosenRoute is null!");
-			return false;
+			writeTextAndNewlineToLog("chosenRoute is null, I'll do random land movement!");
+			doRandomLandMovement();
 		}
 		else
 		{
 			writeTextAndNewlineToLog("I'm taking chosenRoute to " + chosenRoute.getDestination().getName()
 									 + ", en route to " + chosenTreasureCity.getName() + ".");
 			executeRoute(chosenRoute);
-			return true;
 		}
 	}
 
