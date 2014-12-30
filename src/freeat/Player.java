@@ -96,7 +96,7 @@ public class Player
                 ai = new ParanormalAI();
                 break;
             case 1:
-                ai = new TestAI();
+                ai = new ParanormalAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
@@ -155,7 +155,7 @@ public class Player
 
     private void throwDice()
     {
-        dice = 1 + (int) (Math.random() * 6);
+        dice = 1;//+(int) (Math.random() * 6);
     }
 
     private void openToken()
@@ -363,8 +363,8 @@ public class Player
     // Land, sea, or plane
     public void moveTo(Route destination)
     {
-        System.out.println("old check result: " + getCurrentNode().getAllLists()[dice][destination.getPrice() / 100].contains(destination));
-        System.out.println("New check result: " + controller.getMyAvailableRoutes().contains(destination));
+        //System.out.println("old check result: " + getCurrentNode().getAllLists()[dice][destination.getPrice() / 100].contains(destination));
+        //System.out.println("New check result: " + controller.getMyAvailableRoutes().contains(destination));
 
         if (useLandOrSea || usePlane)
         {
@@ -394,7 +394,7 @@ public class Player
                 // getCurrentNode().getAllLists()[dice][destination.getPrice() / 100].contains(destination)
                 if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice() / 100].contains(destination)))
                 {
-                    System.out.println("MOVING!");
+                    //System.out.println("MOVING!");
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
                     if (target.TYPE == NodeType.ROUTE)
