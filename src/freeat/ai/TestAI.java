@@ -37,7 +37,6 @@ public class TestAI extends AI
     {
         while (!c.isEndTurn())
         {
-            //turnCount++;
             if (!distancesSet)
             {
                 distancesSet = true;
@@ -45,11 +44,6 @@ public class TestAI extends AI
                 initDistances(c);
                 System.out.println("Time to calculate all distances: " + (System.nanoTime() - start) / 1000000 + " ms.");
                 distances.checkRoutes();
-//                distances.printDistance(114, 243);
-//                distances.printDistance(114, 110);
-//                //distances.printDistance(1, 108);
-//
-//                System.exit(0);
             }
             if (c.getCurrentNode().hasTreasure())
             {
@@ -58,26 +52,16 @@ public class TestAI extends AI
             {
                 c.decideToUseLandOrSeaRoute();
                 Route route;
-//                ArrayList<Route>  list = c.getAvailableRoutes(c.getNode(120), 200, 6);
-//                System.out.println("Routes from 120: ");
-//                for(Route r : list){
-//                    System.out.println(r.getString());
-//                }
-//                System.exit(0);
                 
                 if (!c.isEligibleForWin())
                 {
                     route = getRouteToTreasure(0);
                 } else
                 {
-                    route = getRouteTo(1, 0);
+                    route = getRouteToStart(0);
                 }
 
                 c.moveTo(route);
-//                if (c.isEligibleForWin() && c.getCurrentNode().ID == 1)
-//                {
-//                    System.out.println("Turns to win: " + turnCount);
-//                }
                 if (canBuyTreasure())
                 {
                     c.buyToken();
@@ -153,10 +137,10 @@ public class TestAI extends AI
         int distanceToTangier = distances.getDistance(c.getCurrentNode().ID, 2);
         if (distanceToCairo < distanceToTangier)
         {
-            return getRouteTo(2, maxPrice);
+            return getRouteTo(1, maxPrice);
         } else
         {
-            return getRouteTo(1, maxPrice);
+            return getRouteTo(2, maxPrice);
         }
     }
 
