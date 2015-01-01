@@ -445,7 +445,7 @@ public class Game
                 }
 
                 resetGame();
-            } else if (turnCount > 200)
+            } else if (turnCount > 250)
             {
                 resetGame();
             }
