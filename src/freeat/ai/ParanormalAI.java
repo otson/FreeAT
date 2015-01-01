@@ -372,7 +372,6 @@ public class ParanormalAI extends AI
                 }
             }
             c.endTurn();
-            System.out.println("End of while loop");
         }
 
         updateZeitgebers();
