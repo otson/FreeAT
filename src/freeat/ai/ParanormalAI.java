@@ -563,7 +563,7 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestDistanceWithMoney(Node originNode, Node targetNode, int cash)
+    private int getShortestDistanceWithCash(Node originNode, Node targetNode, int cash)
     // Read the distance from populated ArrayList connectionsHashMap<ParanormalNode>[][]
     {
         return paranormalNodeHashMap.get(originNode.ID).getDistanceToTarget(targetNode, cash);
@@ -580,7 +580,7 @@ public class ParanormalAI extends AI
     private int getShortestDistanceWithCurrentCash(Node targetNode)
     // shortest distance with current cash from _current_ node to _target_ node.
     {
-        return getShortestDistanceWithMoney(c.getCurrentNode(), targetNode, getCash());
+        return getShortestDistanceWithCash(c.getCurrentNode(), targetNode, getCash());
     }
 
     /*------------------------------------------------------------------------*/
