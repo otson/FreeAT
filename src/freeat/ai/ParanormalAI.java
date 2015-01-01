@@ -656,7 +656,7 @@ public class ParanormalAI extends AI
             horseShoesLeft = c.horseShoesLeft();
             emptyLeft = c.emptyLeft();
             robbersLeft = c.robbersLeft();
-            unopenedLeft = c.unOpenedLeft();
+            unopenedLeft = c.unopenedLeft();
         }
     }
     /*------------------------------------------------------------------------*/
