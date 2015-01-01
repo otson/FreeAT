@@ -165,6 +165,15 @@ public class ParanormalAI extends AI
     // price to buy token for FreeAT.
     public static final int TRUE_TOKEN_PRICE = MONEY_SCALE * TOKEN_PRICE;
 
+    // minimum roll of 1d6.
+    public static final float DICE_MIN = 1.0f;
+
+    // maximum roll of 1d6.
+    public static final float DICE_MAX = 6.0f;
+
+    // average roll of 1d6.
+    public static final float DICE_AVG = (DICE_MIN + DICE_MAX) / 2;
+
     // Cairo node ID.
     public static final int CAIRO_NODE_ID = 1;
 
