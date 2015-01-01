@@ -288,10 +288,10 @@ public class ParanormalAI extends AI
                 // Situation #1.
                 // Great, I have Africa's star or a horse shoe found after Africa's star.
                 // Check which is closest land & sea destination, Cairo or Tangier.
-                int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithCurrentMoney(
+                int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithCurrentCash(
                     c.getCurrentNode(),
                     c.getNode(CAIRO_NODE_ID));
-                int shortestDistanceToTangierWithCurrentMoney = getShortestDistanceWithCurrentMoney(
+                int shortestDistanceToTangierWithCurrentMoney = getShortestDistanceWithCurrentCash(
                     c.getCurrentNode(),
                     c.getNode(TANGIER_NODE_ID));
 
@@ -570,14 +570,14 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestDistanceWithCurrentMoney(Node originNode, Node targetNode)
+    private int getShortestDistanceWithCurrentCash(Node originNode, Node targetNode)
     // shortest distance with current cash between two nodes.
     {
         return paranormalNodeHashMap.get(originNode.ID).getDistanceToTarget(targetNode, getCash());
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestDistanceWithCurrentMoney(Node targetNode)
+    private int getShortestDistanceWithCurrentCash(Node targetNode)
     // shortest distance with current cash from _current_ node to _target_ node.
     {
         return getShortestDistanceWithMoney(c.getCurrentNode(), targetNode, getCash());
