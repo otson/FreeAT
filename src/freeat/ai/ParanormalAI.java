@@ -740,13 +740,14 @@ public class ParanormalAI extends AI
         Route chosenRoute = null;
         Node chosenTreasureCity = null;
         int shortestDistanceToTreasureCity = -1;
-        // TODO: add check for sea & land routes of the same length!
+        int chosenPrice = -1;
 
         for (Route route : routesArrayList)
         {
             for (Node treasureCity : treasureCitiesArrayList)
             {
                 int distanceFromDestinationToTreasureCity = getShortestLandDistance(route.getDestination(), treasureCity);
+                int routePrice = route.getPrice();
                 boolean isUpdateNeeded = false;
 
                 writeTextAndNewlineToLog("distance from " + route.getDestination().getName()
@@ -764,6 +765,11 @@ public class ParanormalAI extends AI
                     {
                         isUpdateNeeded = true;
                     }
+                    else if ((shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
+                             && (chosenPrice > routePrice))
+                    {
+                        isUpdateNeeded = true;
+                    }
                     else
                     {
                         isUpdateNeeded = false;
@@ -773,13 +779,14 @@ public class ParanormalAI extends AI
                 if (isUpdateNeeded)
                 {
                     chosenRoute = route;
+                    chosenPrice = routePrice;
                     chosenTreasureCity = treasureCity;
                     shortestDistanceToTreasureCity = distanceFromDestinationToTreasureCity;
                 }
             }
         }
 
-        if (chosenRoute == null)
+        if ((chosenRoute == null) || (chosenTreasureCity == null))
         {
             writeTextAndNewlineToLog("chosenRoute is null, I'll do random land movement!");
             doRandomLandMovement();
@@ -787,7 +794,7 @@ public class ParanormalAI extends AI
         else
         {
             writeTextAndNewlineToLogAndDebug("I'm taking chosenRoute to " + chosenRoute.getDestination().getName()
-                                             + ", en route to " + chosenTreasureCity.getName() + ".");
+                                             + ", en route to " + chosenTreasureCity.getName() + ", price " + chosenPrice + " pounds.");
             executeRoute(chosenRoute);
         }
     }
