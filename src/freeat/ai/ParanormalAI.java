@@ -51,7 +51,7 @@ public class ParanormalAI extends AI
     static int LeaderID;
     static int turnNumber;
 
-    // pink, cyan,  red, green, blue, purple.
+    // pink, cyan, red, green, blue, purple.
     static final float[] REDVALUESARRAY =
     {
         1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f
@@ -110,7 +110,7 @@ public class ParanormalAI extends AI
         }
     }
 
-	// ParanormalAI uses money as 0, 1, 2, 3, ...
+    // ParanormalAI uses money as 0, 1, 2, 3, ...
     // FreetAT uses money as 0, 100, 200, 300, ...
     public static final int MONEY_SCALE = 100;
 
@@ -248,7 +248,7 @@ public class ParanormalAI extends AI
                 isDistanceDataReady = true;
             }
 
-			// Main game loop begins here.
+            // Main game loop begins here.
             // The different situations that I as an AI need to handle:
             // #1 I am eligible for win (someone else may be eligible too).
             // #2 I am not eligible for win, but someone else is.
@@ -259,7 +259,7 @@ public class ParanormalAI extends AI
             {
                 writeTextAndNewlineToLog("situation #1: I am eligible for win.");
 
-				// Situation #1.
+                // Situation #1.
                 // Great, I have Africa's star or a horse shoe found after Africa's star.
                 // Check which is closest land & sea destination, Cairo or Tangier.
                 int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithCurrentMoney(
@@ -306,7 +306,7 @@ public class ParanormalAI extends AI
             {
                 writeTextAndNewlineToLog("situation #2: some else is eligible for win but not me.");
 
-				// Situation #2.
+                // Situation #2.
                 // Someone else is eligible for win and I am not.
                 // Play using best-case scenario for me.
                 doUsefulLandMovement();
@@ -317,7 +317,7 @@ public class ParanormalAI extends AI
             {
                 writeTextAndNewlineToLog("situation #3: No one is eligible for win and I do have money.");
 
-				// Situation #3.
+                // Situation #3.
                 // No one is eligible for win and I do have money.
                 doUsefulLandMovement();
                 buyTokenIfItMayBeUseful();
@@ -327,7 +327,7 @@ public class ParanormalAI extends AI
             {
                 writeTextAndNewlineToLog("situation #4: no one is eligible for treasure and I have no cash.");
 
-				// Situation #4.
+                // Situation #4.
                 // No one is eligible for win and I have no cash.
                 // Check if I am on top of a token.
                 if (c.getCurrentNode().hasTreasure())
@@ -344,11 +344,11 @@ public class ParanormalAI extends AI
                 }
                 else
                 {
-					// Situation #5.
+                    // Situation #5.
                     // Hopeless situation: There are no treasures.
                     writeTextAndNewlineToLog("situation #5: hopeless situation!");
 
-					// Hopeless situation: There are no treasures.
+                    // Hopeless situation: There are no treasures.
                     // Win is not possible, so just do some random land movement.
                     doRandomLandMovement();
                     doEndTurn();
@@ -375,7 +375,7 @@ public class ParanormalAI extends AI
 
     /*------------------------------------------------------------------------*/
     private ArrayList<Route> removeRoutesIfNoTreasure(ArrayList<Route> routesArrayList)
-	// Returns a shallow copy of `routesArrayList`.
+    // Returns a shallow copy of `routesArrayList`.
     // The routes stored in the returned ArrayList are still the same as original,
     // so they must not be modified!!!
     {
@@ -435,7 +435,7 @@ public class ParanormalAI extends AI
         ParanormalNode pNode;
         pNode = paranormalNodeHashMap.get(originNode.ID);
 
-		// 0: start from node, cumulative price = 0.
+        // 0: start from node, cumulative price = 0.
         //    call recursively each neighboring node if distance there is negative (not yet defined) or greater than current distance.
         ArrayList<Route> routesArrayList = c.getAvailableRoutes(
             originNode,
@@ -587,7 +587,7 @@ public class ParanormalAI extends AI
 
     /*------------------------------------------------------------------------*/
     private int getShortestAirDistance(Node originNode, Node targetNode)
-	// shortest only-flight distance between two nodes.
+    // shortest only-flight distance between two nodes.
     // TODO: write the code!
     {
         return -1;
@@ -856,7 +856,7 @@ public class ParanormalAI extends AI
      \------------------------------------------------------------------------*/
     private void buyTokenIfItMayBeUseful()
     {
-		// Different situations in which buying a token may be useful:
+        // Different situations in which buying a token may be useful:
         // #1 No one has Africa's star.
         // #2 I am eligible for win, and there are valuable treasures left.
         // #3 Some opponent has Africa's star, and there are horseshoes left.
