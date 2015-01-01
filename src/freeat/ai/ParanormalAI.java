@@ -48,8 +48,20 @@ public class ParanormalAI extends AI
 
     static int startingCity = (int) (Math.random() * 2 + 1); // random starting city for 1st object of this class.
 
-    static int LeaderID;
+    // needed for updating ParanormalAI's internal turn number.
+    static int leaderID;
     static int turnNumber;
+
+    // zeitgebers.
+    static Node lastLeaderNode;
+    static boolean isStarFound;
+    static int rubiesLeft;
+    static int emeraldsLeft;
+    static int topazesLeft;
+    static int horseShoesLeft;
+    static int emptyLeft;
+    static int robbersLeft;
+    static int unopenedLeft;
 
     // pink, cyan, red, green, blue, purple.
     static final float[] REDVALUESARRAY =
@@ -184,12 +196,17 @@ public class ParanormalAI extends AI
     {
         if (!(isLeaderIDDefined))
         {
-            LeaderID = c.getMyID();
+            leaderID = c.getMyID();
             turnNumber = 0;
             isLeaderIDDefined = true;
         }
 
-        if (c.getMyID() == LeaderID)
+        if (isNewGame())
+        {
+            turnNumber = 0;
+        }
+
+        if (c.getMyID() == leaderID)
         {
             turnNumber++; // gets updated from 0 to 1 immediately.
         }
@@ -358,6 +375,7 @@ public class ParanormalAI extends AI
             System.out.println("End of while loop");
         }
 
+        updateZeitgebers();
         writeTextAndNewlineToLog("log file " + absFilename + " will be closed next.");
 
         if (isLoggingInUse)
@@ -618,6 +636,44 @@ public class ParanormalAI extends AI
      | Global game state reasoning methods.                                    |
      |                                                                         |
      \------------------------------------------------------------------------*/
+    private void updateZeitgebers()
+    {
+        if ((c.getMyID() == leaderID))
+        {
+            lastLeaderNode = c.getCurrentNode();
+            isStarFound = c.isStarFound();
+            rubiesLeft = c.rubiesLeft();
+            emeraldsLeft = c.emeraldsLeft();
+            topazesLeft = c.topazesLeft();
+            horseShoesLeft = c.horseShoesLeft();
+            emptyLeft = c.emptyLeft();
+            robbersLeft = c.robbersLeft();
+            unopenedLeft = c.unOpenedLeft();
+        }
+    }
+    /*------------------------------------------------------------------------*/
+
+    private boolean isNewGame()
+    {
+        if (c.getMyID() != leaderID)
+        {
+            return false;
+        }
+        else
+        {
+            return ((lastLeaderNode != c.getCurrentNode())
+                    || (isStarFound && (!(c.isStarFound())))
+                    || (rubiesLeft > c.rubiesLeft())
+                    || (emeraldsLeft > c.emeraldsLeft())
+                    || (topazesLeft > c.topazesLeft())
+                    || (horseShoesLeft > c.horseShoesLeft())
+                    || (emptyLeft > c.emptyLeft())
+                    || (robbersLeft > c.robbersLeft())
+                    || (unopenedLeft > c.unopenedLeft()));
+        }
+    }
+
+    /*------------------------------------------------------------------------*/
     private boolean isAnyOpponentEligibleForWin()
     {
         for (int playerID = 0; playerID < PublicInformation.PLAYER_COUNT; playerID++)
