@@ -11,11 +11,21 @@ import static freeat.ai.ParanormalAI.*;
 public class ParanormalNode
 {
 
+    private static int nContinentalCities; // number of cities located in the continen (the landmass with most cities).
+    private static int maxLandmassID = -1; // highest used landmassID so far (-1 for not landmassIDs used so far).
+
     private Node node;
     private final HashMap<Integer, HashMap<Integer, Integer>> distanceToTargetHashMap;
     private final HashMap<Integer, HashMap<Integer, Integer>> priceToTargetHashMap;
     private ArrayList<Integer> neighbors;
     private boolean hasAirport;
+    private boolean isIslandTreasureCity;      // non-city nodes are never island cities.
+    private boolean isContinentalTreasureCity; // non-city nodes are never continental cities.
+    private boolean isIslandMetropol;          // a metropol located a not located in the landmass with most treasure cities.
+    private boolean isContinentalMetropol;     // a metropol located in the landmass with most treasure cities.
+    private boolean isMetropolLandmass;        // is the node located in a landmass with 1 or more metropols?
+    private int nTreasureCitiesOnLandmass;     // total number of treasure cities on the same landmass (including the node itself).
+    private int landmassID;                    // landmass ID number (used for internal purposes).
 
     // constructors.
     public ParanormalNode(Node node, HashMap<Integer, HashMap<Integer, Integer>> distanceToTargetHashMap, HashMap<Integer, HashMap<Integer, Integer>> PriceToTargetHashMap, ArrayList<Integer> neighbors, Controller c)
@@ -25,6 +35,13 @@ public class ParanormalNode
         this.priceToTargetHashMap = PriceToTargetHashMap;
         this.neighbors = neighbors;
         this.hasAirport = node.getPlaneConnections().size() > 0;
+        this.isIslandTreasureCity = false;
+        this.isContinentalTreasureCity = false;
+        this.isIslandMetropol = false;
+        this.isContinentalMetropol = false;
+        this.isMetropolLandmass = false;
+        this.nTreasureCitiesOnLandmass = 0;
+        this.landmassID = -1;
 
         this.fillHashMaps(c);
     }
@@ -36,6 +53,13 @@ public class ParanormalNode
         this.priceToTargetHashMap = new HashMap<>();
         this.neighbors = neighbors;
         this.hasAirport = node.getPlaneConnections().size() > 0;
+        this.isIslandTreasureCity = false;
+        this.isContinentalTreasureCity = false;
+        this.isIslandMetropol = false;
+        this.isContinentalMetropol = false;
+        this.isMetropolLandmass = false;
+        this.nTreasureCitiesOnLandmass = 0;
+        this.landmassID = -1;
 
         this.fillHashMaps(c);
     }
@@ -47,6 +71,13 @@ public class ParanormalNode
         this.priceToTargetHashMap = new HashMap<>();
         this.neighbors = new ArrayList<>();
         this.hasAirport = node.getPlaneConnections().size() > 0;
+        this.isIslandTreasureCity = false;
+        this.isContinentalTreasureCity = false;
+        this.isIslandMetropol = false;
+        this.isContinentalMetropol = false;
+        this.isMetropolLandmass = false;
+        this.nTreasureCitiesOnLandmass = 0;
+        this.landmassID = -1;
 
         this.fillHashMaps(c);
     }
@@ -58,29 +89,78 @@ public class ParanormalNode
         this.hasAirport = this.node.getPlaneConnections().size() > 0;
     }
 
-    public void setDistanceToTarget(Node targetNode, int currentMaxTotalPrice, int distanceToTarget)
-    {
-        this.distanceToTargetHashMap.get(targetNode.ID).put(currentMaxTotalPrice, distanceToTarget);
-    }
-
     public void setDistanceToTarget(int targetNodeID, int currentMaxTotalPrice, int distanceToTarget)
     {
         this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, distanceToTarget);
     }
 
-    public void setPriceToTarget(Node targetNode, int currentMaxTotalPrice, int PriceToTarget)
+    public void setDistanceToTarget(Node targetNode, int currentMaxTotalPrice, int distanceToTarget)
     {
-        this.priceToTargetHashMap.get(targetNode.ID).put(currentMaxTotalPrice, PriceToTarget);
+        setDistanceToTarget(targetNode.ID, currentMaxTotalPrice, distanceToTarget);
     }
 
-    public void setPriceToTarget(int targetNodeID, int currentMaxTotalPrice, int PriceToTarget)
+    public void setPriceToTarget(int targetNodeID, int currentMaxTotalPrice, int priceToTarget)
     {
-        this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, PriceToTarget);
+        this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, priceToTarget);
+
+        if (priceToTarget == 0)
+        {
+            int lowerLandmassID = -1;
+
+            if ((this.landmassID > 0) && (paranormalNodeHashMap.get(targetNodeID).getLandmassID() > 0))
+            {
+                lowerLandmassID = Math.min(this.landmassID, paranormalNodeHashMap.get(targetNodeID).getLandmassID());
+            }
+            else if (this.landmassID > 0)
+            {
+                lowerLandmassID = this.landmassID;
+            }
+            else if (paranormalNodeHashMap.get(targetNodeID).getLandmassID() > 0)
+            {
+                lowerLandmassID = paranormalNodeHashMap.get(targetNodeID).getLandmassID();
+            }
+
+            if (lowerLandmassID > 0)
+            {
+                this.landmassID = lowerLandmassID;
+                // paranormalNodeHashMap.get(targetNodeID).setLandmassID(lowerLandmassID);
+            }
+        }
+    }
+
+    public void setPriceToTarget(Node targetNode, int currentMaxTotalPrice, int PriceToTarget)
+    {
+        setPriceToTarget(targetNode.ID, currentMaxTotalPrice, PriceToTarget);
     }
 
     public void setNeighbors(ArrayList<Integer> neighbors)
     {
         this.neighbors = neighbors;
+    }
+
+    public void isIslandTreasureCity(boolean isIslandTreasureCity)
+    {
+        this.isIslandTreasureCity = isIslandTreasureCity;
+    }
+
+    public void setIsContinentalTreasureCity(boolean setIsContinentalTreasureCity)
+    {
+        this.isContinentalTreasureCity = setIsContinentalTreasureCity;
+    }
+
+    public void setIsIslandMetropol(boolean isIslandMetropol)
+    {
+        this.isIslandMetropol = isIslandMetropol;
+    }
+
+    public void setIsContinentalMetropol(boolean isContinentalMetropol)
+    {
+        this.isContinentalMetropol = isContinentalMetropol;
+    }
+
+    public void setLandmassID(int landmassID)
+    {
+        this.landmassID = landmassID;
     }
 
     // fillers.
@@ -196,19 +276,14 @@ public class ParanormalNode
         return this.node;
     }
 
-    public int getDistanceToTarget(Node targetNode, int currentMaxTotalPrice)
-    {
-        return this.distanceToTargetHashMap.get(targetNode.ID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
-    }
-
     public int getDistanceToTarget(int targetNodeID, int currentMaxTotalPrice)
     {
         return this.distanceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
     }
 
-    public int getPriceToTarget(Node targetNode, int currentMaxTotalPrice)
+    public int getDistanceToTarget(Node targetNode, int currentMaxTotalPrice)
     {
-        return this.priceToTargetHashMap.get(targetNode.ID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
+        return getDistanceToTarget(targetNode.ID, currentMaxTotalPrice);
     }
 
     public int getPriceToTarget(int targetNodeID, int currentMaxTotalPrice)
@@ -216,8 +291,43 @@ public class ParanormalNode
         return this.priceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
     }
 
+    public int getPriceToTarget(Node targetNode, int currentMaxTotalPrice)
+    {
+        return getPriceToTarget(targetNode.ID, currentMaxTotalPrice);
+    }
+
     public ArrayList<Integer> getNeighbors()
     {
         return this.neighbors;
+    }
+
+    public boolean getHasAiport()
+    {
+        return this.hasAirport;
+    }
+
+    public boolean getIsIslandTreasureCity()
+    {
+        return this.isIslandTreasureCity;
+    }
+
+    public boolean getIsContinentalTreasureCity()
+    {
+        return this.isContinentalTreasureCity;
+    }
+
+    public boolean getIsIslandMetropol()
+    {
+        return this.isIslandMetropol;
+    }
+
+    public boolean getIsContinentalMetropol()
+    {
+        return this.isContinentalMetropol;
+    }
+
+    public int getLandmassID()
+    {
+        return this.landmassID;
     }
 }
