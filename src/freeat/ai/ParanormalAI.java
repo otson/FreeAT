@@ -288,10 +288,10 @@ public class ParanormalAI extends AI
                 // Situation #1.
                 // Great, I have Africa's star or a horse shoe found after Africa's star.
                 // Check which is closest land & sea destination, Cairo or Tangier.
-                int shortestDistanceToCairoWithCurrentCash = getShortestDistanceWithCurrentCash(
+                int shortestDistanceToCairoWithCurrentCash = getShortestDistanceWithCash(
                     c.getCurrentNode(),
                     c.getNode(CAIRO_NODE_ID));
-                int shortestDistanceToTangierWithCurrentCash = getShortestDistanceWithCurrentCash(
+                int shortestDistanceToTangierWithCurrentCash = getShortestDistanceWithCash(
                     c.getCurrentNode(),
                     c.getNode(TANGIER_NODE_ID));
 
@@ -335,7 +335,7 @@ public class ParanormalAI extends AI
                 // Situation #2.
                 // Someone else is eligible for win and I am not.
                 // Play using best-case scenario for me.
-                doUsefulLandMovement();
+                moveTowardsClosestTreasure();
                 buyTokenIfItMayBeUseful();
                 doEndTurn();
             }
@@ -345,7 +345,7 @@ public class ParanormalAI extends AI
 
                 // Situation #3.
                 // No one is eligible for win and I do have money.
-                doUsefulLandMovement();
+                moveTowardsClosestTreasure();
                 buyTokenIfItMayBeUseful();
                 doEndTurn();
             }
@@ -465,7 +465,7 @@ public class ParanormalAI extends AI
         //    call recursively each neighboring node if distance there is negative (not yet defined) or greater than current distance.
         ArrayList<Route> routesArrayList = c.getAvailableRoutes(
             originNode,
-            2 * TRUE_MAX_ROAD_PRICE,
+            TRUE_MAX_ROAD_PRICE,
             NEIGHBOR_DISTANCE); // ArrayList of neighboring nodeID's.
 
         cumulativeDistance++;
@@ -473,32 +473,36 @@ public class ParanormalAI extends AI
         for (Route route : routesArrayList)
         {
             Node neighborNode = route.getDestination();
-            ParanormalNode neighborParanormalNode = getParanormalNode(neighborNode);
 
-            Route linkRoute = getLinkRoute(neighborNode, originNode);
-
-            if (linkRoute == null)
+            if (neighborNode != originNode)
             {
-                System.out.println("error: linkRoute from " + neighborNode.getName() + " to " + originNode.getName() + " is null!");
-            }
+                ParanormalNode neighborParanormalNode = getParanormalNode(neighborNode);
 
-            int newCumulativePrice = (cumulativePrice + (linkRoute.getPrice() / MONEY_SCALE));
+                Route linkRoute = getLinkRoute(neighborNode, originNode);
 
-            boolean isRecursiveCallNeeded;
-            isRecursiveCallNeeded = neighborParanormalNode.updateDistanceAndPrice(
-                targetNode,
-                currentMaxTotalPrice,
-                cumulativeDistance,
-                newCumulativePrice);
+                if (linkRoute == null)
+                {
+                    System.out.println("error: linkRoute from " + neighborNode.getName() + " to " + originNode.getName() + " is null!");
+                }
 
-            if (isRecursiveCallNeeded)
-            {
-                createConnectionsHashMapWithAccumulatedPrice( // call recursively.
-                    neighborNode, // neighbor node as the new origin node.
-                    targetNode, // keep the same target node.
-                    cumulativeDistance, // cumulative distance has already been incremented.
-                    newCumulativePrice, // new cumulative price.
-                    currentMaxTotalPrice); // keep original max total price.
+                int newCumulativePrice = (cumulativePrice + (linkRoute.getPrice() / MONEY_SCALE));
+
+                boolean isRecursiveCallNeeded;
+                isRecursiveCallNeeded = neighborParanormalNode.updateDistanceAndPrice(
+                    targetNode,
+                    currentMaxTotalPrice,
+                    cumulativeDistance,
+                    newCumulativePrice);
+
+                if (isRecursiveCallNeeded)
+                {
+                    createConnectionsHashMapWithAccumulatedPrice( // call recursively.
+                        neighborNode, // neighbor node as the new origin node.
+                        targetNode, // keep the same target node.
+                        cumulativeDistance, // cumulative distance has already been incremented.
+                        newCumulativePrice, // new cumulative price.
+                        currentMaxTotalPrice); // keep original max total price.
+                }
             }
         }
     }
@@ -563,72 +567,79 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private int getShortestDistanceWithCash(int originNodeID, int targetNodeID, int cash)
+    // shortest distance with given cash from _origin_ node to _target_ node.
+    {
+        return paranormalNodeHashMap.get(originNodeID).getDistanceToTarget(targetNodeID, cash);
+    }
+
+    /*------------------------------------------------------------------------*/
     private int getShortestDistanceWithCash(Node originNode, Node targetNode, int cash)
-    // Read the distance from populated ArrayList connectionsHashMap<ParanormalNode>[][]
+    // shortest distance with given cash from _origin_ node to _target_ node.
     {
-        return paranormalNodeHashMap.get(originNode.ID).getDistanceToTarget(targetNode, cash);
+        return getShortestDistanceWithCash(originNode.ID, targetNode.ID, cash);
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestDistanceWithCurrentCash(Node originNode, Node targetNode)
-    // shortest distance with current cash between two nodes.
+    private int getShortestDistanceWithCash(Node originNode, Node targetNode)
+    // shortest distance with current cash from _origin_ node to _target_ node.
     {
-        return paranormalNodeHashMap.get(originNode.ID).getDistanceToTarget(targetNode, getCash());
+        return getShortestDistanceWithCash(originNode, targetNode, getCash());
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestDistanceWithCurrentCash(Node targetNode)
+    private int getShortestDistanceWithCash(Node targetNode, int cash)
+    // shortest distance with given cash from _current_ node to _target_ node.
+    {
+        return getShortestDistanceWithCash(c.getCurrentNode().ID, targetNode.ID, cash);
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getShortestDistanceWithCash(Node targetNode)
     // shortest distance with current cash from _current_ node to _target_ node.
     {
-        return getShortestDistanceWithCash(c.getCurrentNode(), targetNode, getCash());
+        return getShortestDistanceWithCash(c.getCurrentNode(), targetNode);
     }
 
     /*------------------------------------------------------------------------*/
     private int getShortestLandDistance(Node originNode, Node targetNode)
-    // shortest only-land distance between two nodes.
+    // shortest distance with 0 cash from _origin_ node to _target_ node.
     {
-        return paranormalNodeHashMap.get(originNode.ID).getDistanceToTarget(targetNode, MAX_LAND_ROAD_PRICE);
+        return getShortestDistanceWithCash(originNode, targetNode, MAX_LAND_ROAD_PRICE);
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestLandDistance(int originNodeID, int targetNodeID)
-    // shortest only-land distance between two nodes.
+    private int getShortestLandDistance(Node targetNode)
+    // shortest distance with 0 cash from _current_ node to _target_ node.
     {
-        return paranormalNodeHashMap.get(originNodeID).getDistanceToTarget(c.getNode(targetNodeID), MAX_LAND_ROAD_PRICE);
+        return getShortestLandDistance(c.getCurrentNode(), targetNode);
     }
-
     /*------------------------------------------------------------------------*/
-    private int getShortestLandSeaDistance(Node originNode, Node targetNode)
-    // shortest land & sea distance between two nodes.
-    {
-        return paranormalNodeHashMap.get(originNode.ID).getDistanceToTarget(targetNode, MAX_LAND_SEA_TOTAL_PRICE);
-    }
 
-    /*------------------------------------------------------------------------*/
-    private int getShortestLandSeaDistance(int originNodeID, int targetNodeID)
-    // shortest land & sea distance between two nodes.
-    {
-        return paranormalNodeHashMap.get(originNodeID).getDistanceToTarget(c.getNode(targetNodeID), MAX_LAND_SEA_TOTAL_PRICE);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getShortestAirDistance(Node originNode, Node targetNode)
-    // shortest only-flight distance between two nodes.
+    private int getShortestAirDistance(int originNodeID, int targetNodeID, int cash)
+    // shortest flight distance with given cash from _current_ node to _target_ node.
     // TODO: write the code!
     {
         return -1;
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestLandDistance(Node targetNode)
-    // shortest only-land distance from current node to node.
+    private int getShortestAirDistance(Node originNode, Node C, int cash)
+    // shortest flight distance with given cash from _current_ node to _target_ node.
     {
-        return getShortestLandDistance(c.getCurrentNode(), targetNode);
+        return getShortestAirDistance(originNode.ID, originNode.ID, cash);
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getShortestAirDistance(Node originNode, Node targetNode)
+    // shortest flight distance with current cash from _origin_ node to _target_ node.
+    {
+        return getShortestAirDistance(originNode, targetNode, getCash());
     }
 
     /*------------------------------------------------------------------------*/
     private int getShortestAirDistance(Node targetNode)
-    // shortest only-land distance from current node to node.
+    // shortest flight distance with current cash from _current_ node to _target_ node.
     {
         return getShortestAirDistance(c.getCurrentNode(), targetNode);
     }
@@ -706,27 +717,33 @@ public class ParanormalAI extends AI
         return ((c.rubiesLeft() + c.emeraldsLeft() + c.topazesLeft()) > 0);
     }
 
-    /*-------------------------------------------------------------------------\
-     | Movement methods.                                                       |
-     |-------------------------------------------------------------------------|
-     |                                                                         |
-     | doUsefulMovement()                                                      |
-     | +-> doUsefulLandMovement()                                              |
-     | +-> doUsefulSeaMovement() TODO!                                         |
-     | +-> doUsefulAirMovement() TODO!                                         |
-     | ...                                                                     |
-     |     +-> moveTowardsClosestTreasure()                                    |
-     |     +-> doLandTravelTowards()                                           |
-     |                                                                         |
-     \------------------------------------------------------------------------*/
-    private void doUsefulLandMovement()
+    /*------------------------------------------------------------------------*/
+    private int getCash()
     {
-        moveTowardsClosestTreasure();
+        return c.getMyBalance() / MONEY_SCALE;
     }
 
     /*------------------------------------------------------------------------*/
+    private int getRoutePrice(Route route)
+    {
+        return route.getPrice() / MONEY_SCALE;
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getCashAfterRoute(Route route)
+    {
+        return getCash() - getRoutePrice(route);
+    }
+
+    /*-------------------------------------------------------------------------\
+     |                                                                         |
+     | Movement methods.                                                       |
+     |                                                                         |
+     \------------------------------------------------------------------------*/
     private void moveTowardsClosestTreasure()
     {
+        // TODO: implement travel to treasure cities also with flights.
+
         c.decideToUseLandOrSeaRoute();
 
         ArrayList<Route> routesArrayList;
@@ -746,7 +763,7 @@ public class ParanormalAI extends AI
         {
             for (Node treasureCity : treasureCitiesArrayList)
             {
-                int distanceFromDestinationToTreasureCity = getShortestLandDistance(route.getDestination(), treasureCity);
+                int distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(route.getDestination(), treasureCity, getCashAfterRoute(route));
                 int routePrice = route.getPrice();
                 boolean isUpdateNeeded = false;
 
@@ -794,7 +811,9 @@ public class ParanormalAI extends AI
         else
         {
             writeTextAndNewlineToLogAndDebug("I'm taking chosenRoute to " + chosenRoute.getDestination().getName()
-                                             + ", en route to " + chosenTreasureCity.getName() + ", price " + chosenPrice + " pounds.");
+                                             + ", en route to " + chosenTreasureCity.getName()
+                                             + " (" + shortestDistanceToTreasureCity
+                                             + " links remaining), price " + chosenPrice + " GBP.");
             executeRoute(chosenRoute);
         }
     }

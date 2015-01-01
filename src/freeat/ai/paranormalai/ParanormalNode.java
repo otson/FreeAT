@@ -184,7 +184,12 @@ public class ParanormalNode
     {
         boolean hasSomeBenefit = false;
 
-        if (paranormalNodeHashMap.get(this.node.ID).node.ID == targetNodeID)
+        if ((newDistanceToTarget < 0) || (newPriceToTarget < 0))
+        {
+            // TODO: report error! Updated distance must a real distance, and update price must be a real price!
+            return false;
+        }
+        else if (paranormalNodeHashMap.get(this.node.ID).node.ID == targetNodeID)
         {
             // OK, were updating the distance to the same node.
             // If newDistanceToTarget != 0 , there might be a bug somewhere.
@@ -201,22 +206,20 @@ public class ParanormalNode
             if ((this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) != 0)
                 || (this.priceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) != 0))
             {
+                // This is probably not the most elegant solution here...
+                this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
+                this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
                 hasSomeBenefit = true;
             }
-            // This is probably not the most elegant solution here...
-            this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
-            this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
         }
-
-        if ((this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) < 0)
-            && (newPriceToTarget >= 0)
-            && (newPriceToTarget <= currentMaxTotalPrice))
+        else if ((this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) < 0)
+                 && (newPriceToTarget <= currentMaxTotalPrice))
         {
             this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newDistanceToTarget);
             this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newPriceToTarget);
             hasSomeBenefit = true;
         }
-        else if ((newDistanceToTarget < this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice)) && (newPriceToTarget >= 0) && (newPriceToTarget <= currentMaxTotalPrice))
+        else if ((newDistanceToTarget < this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice)) && (newPriceToTarget <= currentMaxTotalPrice))
         {
             this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newDistanceToTarget);
             this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newPriceToTarget);
@@ -230,10 +233,6 @@ public class ParanormalNode
             this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newPriceToTarget);
             hasSomeBenefit = true;
         }
-        //else if (newPriceToTarget < this.priceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice))
-        //{
-        //	hasSomeBenefit = true;
-        //}
         return hasSomeBenefit;
     }
 
