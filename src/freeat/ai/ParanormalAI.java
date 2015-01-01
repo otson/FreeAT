@@ -288,22 +288,22 @@ public class ParanormalAI extends AI
                 // Situation #1.
                 // Great, I have Africa's star or a horse shoe found after Africa's star.
                 // Check which is closest land & sea destination, Cairo or Tangier.
-                int shortestDistanceToCairoWithCurrentMoney = getShortestDistanceWithCurrentCash(
+                int shortestDistanceToCairoWithCurrentCash = getShortestDistanceWithCurrentCash(
                     c.getCurrentNode(),
                     c.getNode(CAIRO_NODE_ID));
-                int shortestDistanceToTangierWithCurrentMoney = getShortestDistanceWithCurrentCash(
+                int shortestDistanceToTangierWithCurrentCash = getShortestDistanceWithCurrentCash(
                     c.getCurrentNode(),
                     c.getNode(TANGIER_NODE_ID));
 
-                if (shortestDistanceToCairoWithCurrentMoney < shortestDistanceToTangierWithCurrentMoney)
+                if (shortestDistanceToCairoWithCurrentCash < shortestDistanceToTangierWithCurrentCash)
                 {
                     targetMetropolID = CAIRO_NODE_ID;   // Target metropol is Cairo.
                 }
-                else if (shortestDistanceToCairoWithCurrentMoney > shortestDistanceToTangierWithCurrentMoney)
+                else if (shortestDistanceToCairoWithCurrentCash > shortestDistanceToTangierWithCurrentCash)
                 {
                     targetMetropolID = TANGIER_NODE_ID; // Target metropol is Tangier.
                 }
-                else if (shortestDistanceToCairoWithCurrentMoney == shortestDistanceToTangierWithCurrentMoney)
+                else if (shortestDistanceToCairoWithCurrentCash == shortestDistanceToTangierWithCurrentCash)
                 {
                     targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())]; // Target metropol is randomly chosen between Cairo and Tangier.
                 }
