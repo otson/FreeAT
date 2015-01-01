@@ -840,7 +840,7 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandTravelTowards(Node targetNode)
+    private void doLandSeaTravelTowards(Node targetNode)
     {
         c.decideToUseLandOrSeaRoute();
 
@@ -851,48 +851,48 @@ public class ParanormalAI extends AI
         if (!(routesArrayList.isEmpty()))
         {
             Route chosenRoute = null;
-            int landDistanceFromChosenNodeToTreasureCity = -1;
+            int landSeaDistanceFromChosenNodeToTargetNode = -1;
 
             for (Route currentRoute : routesArrayList)
             {
                 Node routeNode;
                 routeNode = currentRoute.getDestination();
 
-                int landDistanceFromDestinationToTreasureCity;
-                landDistanceFromDestinationToTreasureCity = getShortestLandDistance(routeNode, targetNode);
+                int landSeaDistanceFromDestinationToTargetNode;
+                landSeaDistanceFromDestinationToTargetNode = getShortestDistanceWithCash(routeNode, targetNode);
 
-                writeTextAndNewlineToLog("Land distance from destination " + routeNode.getName()
+                writeTextAndNewlineToLog("Land & sea distance from destination " + routeNode.getName()
                                          + " to " + targetNode.getName()
-                                         + " is " + landDistanceFromDestinationToTreasureCity
+                                         + " is " + landSeaDistanceFromDestinationToTargetNode
                                          + " links.");
 
                 boolean isUpdateNeeded = false;
 
-                if (landDistanceFromDestinationToTreasureCity >= 0)
+                if (landSeaDistanceFromDestinationToTargetNode >= 0)
                 {
-                    if (landDistanceFromChosenNodeToTreasureCity < 0)
+                    if (landSeaDistanceFromChosenNodeToTargetNode < 0)
                     {
                         isUpdateNeeded = true;
                     }
                     else
                     {
-                        isUpdateNeeded = (landDistanceFromChosenNodeToTreasureCity > landDistanceFromDestinationToTreasureCity);
+                        isUpdateNeeded = (landSeaDistanceFromChosenNodeToTargetNode > landSeaDistanceFromDestinationToTargetNode);
                     }
                 }
 
                 if (isUpdateNeeded)
                 {
                     chosenRoute = currentRoute;
-                    landDistanceFromChosenNodeToTreasureCity = landDistanceFromDestinationToTreasureCity;
+                    landSeaDistanceFromChosenNodeToTargetNode = landSeaDistanceFromDestinationToTargetNode;
                     writeTextAndNewlineToLog("The destination node of chosenRoute is " + chosenRoute.getDestination().getName() + ".");
-                    writeTextAndNewlineToLog("landDistanceFromChosenNodeToTreasureCity is " + landDistanceFromChosenNodeToTreasureCity + ".");
+                    writeTextAndNewlineToLog("landDistanceFromChosenNodeToTreasureCity is " + landSeaDistanceFromChosenNodeToTargetNode + ".");
                 }
             }
 
-            if (landDistanceFromChosenNodeToTreasureCity < 0)
+            if (landSeaDistanceFromChosenNodeToTargetNode < 0)
             {
                 writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
-                                         + ", but landDistanceFromChosenNodeToTreasureCity is " + landDistanceFromChosenNodeToTreasureCity
+                                         + ", but landDistanceFromChosenNodeToTreasureCity is " + landSeaDistanceFromChosenNodeToTargetNode
                                          + "! Doing random land move!");
                 doRandomLandMovement();
             }
@@ -912,7 +912,7 @@ public class ParanormalAI extends AI
         else
         {
 
-            writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName() + ", but routesArrayList is empty! Doing random land move!");
+            writeTextAndNewlineToLog("I'm trying to do land & sea travel towards " + targetNode.getName() + ", but routesArrayList is empty! Doing random land move!");
             doRandomLandMovement();
         }
     }
@@ -920,7 +920,7 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private void doLandTravelTowards(int targetNodeID)
     {
-        doLandTravelTowards(c.getNode(targetNodeID));
+        doLandSeaTravelTowards(c.getNode(targetNodeID));
     }
 
     /*------------------------------------------------------------------------*/
