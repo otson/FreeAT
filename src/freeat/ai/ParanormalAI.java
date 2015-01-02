@@ -810,7 +810,7 @@ public class ParanormalAI extends AI
         }
         else
         {
-            writeTextAndNewlineToLogAndDebug("I'm taking chosenRoute to " + chosenRoute.getDestination().getName()
+            writeTextAndNewlineToLogAndDebug("I'm taking route to " + chosenRoute.getDestination().getName()
                                              + ", en route to " + chosenTreasureCity.getName()
                                              + " (" + shortestDistanceToTreasureCity
                                              + " links remaining), price " + chosenPrice + " GBP.");
