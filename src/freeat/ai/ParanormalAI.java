@@ -840,13 +840,16 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(Node targetNode)
+    private void doLandSeaTravelTowards(Node targetNode, int currentMaxTotalPrice)
     {
         c.decideToUseLandOrSeaRoute();
 
         ArrayList<Route> routesArrayList;
-        // routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), MAX_LAND_ROAD_PRICE), c.getDice());
-        routesArrayList = c.getMyAvailableRoutes();
+        // routesArrayList = c.getMyAvailableRoutes();
+        routesArrayList = c.getAvailableRoutes(
+            c.getCurrentNode(),
+            Math.min(MONEY_SCALE * currentMaxTotalPrice, 2 * TRUE_MAX_ROAD_PRICE),
+            c.getDice());
 
         if (!(routesArrayList.isEmpty()))
         {
@@ -915,6 +918,12 @@ public class ParanormalAI extends AI
             writeTextAndNewlineToLog("I'm trying to do land & sea travel towards " + targetNode.getName() + ", but routesArrayList is empty! Doing random land move!");
             doRandomLandMovement();
         }
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void doLandSeaTravelTowards(Node targetNode)
+    {
+        doLandSeaTravelTowards(targetNode, getCash());
     }
 
     /*------------------------------------------------------------------------*/
