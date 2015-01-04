@@ -16,6 +16,9 @@ public class Globals
     
     // game variables
     public static final int MAXIMUM_ROUNDS = 200;
+    public static final int DISPLAY_FRAME_RATE = 60;
+    public static final boolean RENDER = true;
+    public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice
     public static final int DICE_SIZE = 6;
