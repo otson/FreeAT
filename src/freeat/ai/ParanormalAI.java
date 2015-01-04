@@ -718,12 +718,6 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private int getCash()
-    {
-        return c.getMyBalance() / MONEY_SCALE;
-    }
-
-    /*------------------------------------------------------------------------*/
     private int getRoutePrice(Route route)
     {
         return route.getPrice() / MONEY_SCALE;
