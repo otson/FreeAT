@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class PublicInformation
 {
 
-    public static final int PLAYER_COUNT = 1;
+    public static final int PLAYER_COUNT = 2;
 
     private static int[] cashBalance = new int[PLAYER_COUNT];
     private static int[] location = new int[PLAYER_COUNT];
@@ -29,7 +29,7 @@ public class PublicInformation
 
     private static int horseShoesTotal;
     private static int horseShoesLeft;
-    private static int rybyTotal;
+    private static int rubyTotal;
     private static int rubiesLeft;
     private static int topazTotal;
     private static int topazesLeft;
@@ -149,6 +149,14 @@ public class PublicInformation
         inSahara = new boolean[PLAYER_COUNT];
         inPirates = new boolean[PLAYER_COUNT];
         isWinner = new boolean[PLAYER_COUNT];
+        emeraldsLeft = emeraldTotal;
+        topazesLeft = topazTotal;
+        rubiesLeft = rubyTotal;
+        emptyLeft = emptyTotal;
+        robberLeft = robberTotal;
+        horseShoesLeft = horseShoesTotal;
+        
+        
     }
 
     public static int getHorseShoesTotal()
@@ -161,9 +169,9 @@ public class PublicInformation
         return horseShoesLeft;
     }
 
-    public static int getRybyTotal()
+    public static int getRubyTotal()
     {
-        return rybyTotal;
+        return rubyTotal;
     }
 
     public static int getRubiesLeft()
@@ -206,9 +214,9 @@ public class PublicInformation
         PublicInformation.horseShoesTotal = horseShoesTotal;
     }
 
-    public static void setRybyTotal(int rybyTotal)
+    public static void setRubyTotal(int rubyTotal)
     {
-        PublicInformation.rybyTotal = rybyTotal;
+        PublicInformation.rubyTotal = rubyTotal;
     }
 
     public static void setTopazTotal(int topazTotal)
