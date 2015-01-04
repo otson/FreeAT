@@ -19,20 +19,20 @@ public class Globals
 
     // dice
     public static final int DICE_SIZE = 6;
-    public static final int DICE_COUNT = 2;
+    public static final int DICE_COUNT = 1;
 
     // Treasure counts
-    public static final int ROBBER_COUNT = 0;
-    public static final int TOPAZ_COUNT = 0;
-    public static final int RUBY_COUNT = 0;
-    public static final int SAPPHIRE_COUNT = 0;
-    public static final int STAR_OF_AFRICA_COUNT = 0;
-    public static final int HORSE_SHOE_COUNT = 0;
+    public static final int STAR_OF_AFRICA_COUNT = 1;
+    public static final int RUBY_COUNT = 2;
+    public static final int EMERALD_COUNT = 3;
+    public static final int TOPAZ_COUNT = 4;
+    public static final int ROBBER_COUNT = 3;
+    public static final int HORSESHOE_COUNT = 5;
 
     // Treasure values
-    public static final int TOPAZ_VALUE = 0;
-    public static final int RUBY_VALUE = 0;
-    public static final int SAPPHIRE_VALUE = 0;
+    public static final int TOPAZ_VALUE = 3;
+    public static final int RUBY_VALUE = 10;
+    public static final int SAPPHIRE_VALUE = 5;
 
     // route prices
     public static final int SEA_ROUTE_PRICE = 1;
