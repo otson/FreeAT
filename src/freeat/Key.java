@@ -23,9 +23,9 @@ public class Key
     @Override
     public int hashCode()
     {
-        int hash = 5;
-        hash = 61 * hash + this.distance;
-        hash = 61 * hash + this.price;
+        int hash = 92821;
+        hash = 7243 * hash + this.distance;
+        hash = 7243 * hash + this.price;
         return hash;
     }
 
