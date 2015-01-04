@@ -103,6 +103,7 @@ public class Game
                     {
                         for (int x = tempPrice; x < 4; x++)
                         {
+
                             list[j][x].add(new Route(current, tempPrice * 100));
                         }
                     }
@@ -335,7 +336,7 @@ public class Game
         PublicInformation.setEmeraldTotal(EMERALD_COUNT);
         PublicInformation.setHorseShoesTotal(HORSESHOE_COUNT);
         PublicInformation.setRobberTotal(ROBBER_COUNT);
-        PublicInformation.setRybyTotal(RUBY_COUNT);
+        PublicInformation.setRubyTotal(RUBY_COUNT);
         PublicInformation.setTopazTotal(TOPAZ_COUNT);
         PublicInformation.setUnOpenedLeft(Node.CITY_COUNT);
         PublicInformation.setEmptyTotal(Node.CITY_COUNT - EMERALD_COUNT - HORSESHOE_COUNT - ROBBER_COUNT - RUBY_COUNT - TOPAZ_COUNT - STAR_OF_AFRICA_COUNT);
