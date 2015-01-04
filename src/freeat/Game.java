@@ -409,6 +409,7 @@ public class Game
             players.add(new Player(locations));
         }
         PublicInformation.updateInformation(players);
+        Collections.shuffle(players);
     }
 
     public void processTurn()
@@ -420,6 +421,7 @@ public class Game
                 if (calculateActTime)
                 {
                     long start = System.nanoTime();
+                    //player.resetCash();
                     player.act();
                     System.out.println("Act time for " + player.getName() + ": " + (System.nanoTime() - start) / 1000 + " microseconds.");
                 } else

@@ -96,7 +96,7 @@ public class Player
                 ai = new ParanormalAI();
                 break;
             case 1:
-                ai = new ParanormalAI();
+                ai = new TestAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
@@ -155,12 +155,13 @@ public class Player
 
     private void throwDice()
     {
-        dice = 1;//+(int) (Math.random() * 6);
+        dice = 1 + (int) (Math.random() * 6);
     }
 
     private void openToken()
     {
         Node temp = locations.get(location);
+        
         if (temp.hasTreasure())
         {
             if (temp.getTreasure() != TreasureType.OPENED)
@@ -588,6 +589,10 @@ public class Player
             glEnd();
         }
         glEnable(GL_TEXTURE_2D);
+    }
+    
+    public void resetCash(){
+        cashBalance = 0;
     }
 
 }

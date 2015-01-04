@@ -8,6 +8,7 @@ package freeat.ai;
 import freeat.Controller;
 import freeat.Node;
 import freeat.Route;
+import freeat.TreasureType;
 import freeat.ai.normalaiNode.DistanceListList;
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class TestAI extends AI
 {
 
-    public static int count = 1;//(int) (Math.random() * 2 + 1);
+    public static int count = (int) (Math.random() * 2 + 1);
     private static DistanceListList distances;
     private static boolean distancesSet = false;
     private int targetNode;
@@ -27,9 +28,8 @@ public class TestAI extends AI
     {
         super(count); // set the preferred start city (1 or 2)
         AI.AIIdentifications.add("TestAI");
-        //count = (int) (Math.random() * 2 + 1);
+        count = (int) (Math.random() * 2 + 1);
         targetNode = 120;
-        count++;
     }
 
     @Override
@@ -215,30 +215,10 @@ public class TestAI extends AI
     {
         return "ReittiTest";
     }
-
-    private boolean containsNode(ArrayList<Route> possibleRoutes, Node selectedNode)
-    {
-        for (Route route : possibleRoutes)
-        {
-            if (route.getDestination() == selectedNode)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Route getRoute(ArrayList<Route> possibleRoutes, Node selectedNode)
-    {
-        for (Route route : possibleRoutes)
-        {
-            if (route.getDestination() == selectedNode)
-            {
-                return route;
-            }
-        }
-        System.out.println("route did not contain given node");
-        return null;
+    
+    // return boolean if the parameter node has a land connection to either of the start cities
+    private boolean isIsland(Node node){
+        return distances.getDistance(node.ID, 1) != -1 && distances.getDistance(node.ID, 2) != -1;
     }
 
 }
