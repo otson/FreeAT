@@ -13,6 +13,7 @@ import freeat.Globals;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Date;
+import java.util.Random;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.io.FileWriter;
@@ -46,6 +47,7 @@ public class ParanormalAI extends AI
     String absFilename;
     static String logDirectory = "/home/antti/paranormalai_log/";
     BufferedWriter bw;
+    Random rand = new Random();
 
     static int startingCity = (int) (Math.random() * 2 + 1); // random starting city for 1st object of this class.
 
