@@ -6,6 +6,7 @@
 package freeat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
@@ -568,6 +569,38 @@ public class Node
     public ArrayList<Route> getFreeSeaRoutes()
     {
         return freeSeaRoutes;
+    }
+
+    void shuffleArrays()
+    {
+        Collections.shuffle(distance1Cost0);
+        Collections.shuffle(distance2Cost0);
+        Collections.shuffle(distance3Cost0);
+        Collections.shuffle(distance4Cost0);
+        Collections.shuffle(distance5Cost0);
+        Collections.shuffle(distance6Cost0);
+        
+        Collections.shuffle(distance1Cost100);
+        Collections.shuffle(distance2Cost100);
+        Collections.shuffle(distance3Cost100);
+        Collections.shuffle(distance4Cost100);
+        Collections.shuffle(distance5Cost100);
+        Collections.shuffle(distance6Cost100);
+        
+        Collections.shuffle(distance1Cost200);
+        Collections.shuffle(distance2Cost200);
+        Collections.shuffle(distance3Cost200);
+        Collections.shuffle(distance4Cost200);
+        Collections.shuffle(distance5Cost200);
+        Collections.shuffle(distance6Cost200);
+        
+        Collections.shuffle(distance1Cost300);
+        Collections.shuffle(distance2Cost300);
+        Collections.shuffle(distance3Cost300);
+        Collections.shuffle(distance4Cost300);
+        Collections.shuffle(distance5Cost300);
+        Collections.shuffle(distance6Cost300);
+        
     }
 
     

@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class DistanceListList
 {
-
+    
     private HashMap<Integer, DistanceList> distances = new HashMap<>();
     private HashMap<Integer, Node> nodeList;
 
@@ -110,5 +110,9 @@ public class DistanceListList
         int distance = distances.get(from).getDistances().get(to);
         System.out.println("From: " + nodeList.get(from).getName() + " to: " + nodeList.get(to).getName() + " distance: " + distance);
     }
-
+    public void printAll(){
+        for(DistanceList distanceList: distances.values()){
+            distanceList.print();
+        }
+    }
 }

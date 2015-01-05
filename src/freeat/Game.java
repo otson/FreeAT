@@ -48,6 +48,7 @@ public class Game
     private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
     private int turnCount = 0;
     private int totalWins = 0;
+    private int totalDraws = 0;
     private boolean calculateActTime = false;
 
     public Game()
@@ -60,7 +61,9 @@ public class Game
         setTreasures();
         setNodeNames();
         setPlayers();
-        setAllRoutes();
+        //setAllRoutes();
+        setAllRoutesNOT_YET_IMPLEMENTED();
+        //shuffleRouteOrder();
     }
 
     public final void setAllRoutes()
@@ -94,6 +97,7 @@ public class Game
         int currentPrice = 0;
         for (Node node : locations.values())
         {
+            
             getNext_NOT_IMPLEMENTED(node, null, distance, currentPrice, node.getNonPlaneRoutes());
         }
         //plane routes, free sea routes
@@ -162,8 +166,11 @@ public class Game
                         for (int x = tempPrice; x < Globals.MAX_SEA_MOVEMENT_COST; x++)
                         {
                             //list[j][x].add(new Route(current, tempPrice * 100));
-                            //routes.put(new Key(j, x, current.ID).hashCode(), new Route(locations.get(current.ID), x));
-                            routes.get(new Key(j, x).hashCode()).add(new Route(locations.get(current.ID), x));
+                            if (routes.get(new Key(j, x).hashCode()) == null)
+                            {
+                                routes.put(new Key(j, x).hashCode(), new ArrayList<>());
+                            }
+                            routes.get(new Key(j, x).hashCode()).add(new Route(locations.get(current.ID), tempPrice));
                         }
                     }
                 } else
@@ -171,12 +178,16 @@ public class Game
                     if (current.isSea() && !previous.isSea())
                     {
                         tempPrice++;
-
                     }
                     for (int x = tempPrice; x < Globals.MAX_SEA_MOVEMENT_COST; x++)
                     {
                         //list[distance][x].add(new Route(current, tempPrice * 100));
-                        routes.get(new Key(distance, x).hashCode()).add(new Route(locations.get(current.ID), x));
+                        if (routes.get(new Key(distance, x).hashCode()) == null)
+                            {
+                                routes.put(new Key(distance, x).hashCode(), new ArrayList<>());
+                            }
+                        
+                        routes.get(new Key(distance, x).hashCode()).add(new Route(locations.get(current.ID), tempPrice));
                     }
                 }
                 if (distance < Globals.MAX_DICE_VALUE)
@@ -504,12 +515,14 @@ public class Game
                     {
                         System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " (" + (float) winCount[i] * 100 / totalWins + "%) ");
                     }
+                    System.out.print("Draws: " + totalDraws + " (" + (float) totalDraws * 100 / totalWins + "%) ");
                     System.out.println("");
                 }
 
                 resetGame();
             } else if (turnCount > 250)
             {
+                totalDraws++;
                 resetGame();
             }
 
@@ -555,6 +568,13 @@ public class Game
         for (Player player : players)
         {
             player.draw();
+        }
+    }
+
+    private void shuffleRouteOrder()
+    {
+        for(Node node: locations.values()){
+            node.shuffleArrays();
         }
     }
 

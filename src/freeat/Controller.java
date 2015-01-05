@@ -235,7 +235,7 @@ public class Controller
                     return locations.get(start.ID).getDistance6Cost300();
             }
         }
-
+        System.out.println("cash: " + cash + " dice: " + dice);
         System.out.println("No destinations found, error...");
         return null;
 
@@ -427,31 +427,48 @@ public class Controller
         }
         return valuesList;
     }
-    
+
     // Not yet implemented
-    
-    public ArrayList<Route> getAllRoutes(Node start, int cash, int dice){
+    public ArrayList<Route> getAllRoutes(Node start, int cash, int dice)
+    {
         HashMap<Integer, ArrayList<Route>> hashMap = start.getNonPlaneRoutes();
         ArrayList<Route> list = new ArrayList<>();
-        
+        System.out.println("here");
         ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
+        System.out.println("Hashmap size: " + hashMap.size());
+//        for(ArrayList<Route> array: hashMap.values()){
+//            for(Route route : array){
+//                System.out.println(route.getString());
+//            }
+//        }
+        if (landSeaList == null)
+        {
+            System.out.println("LandSeaList is null");
+        } else
+        {
+            System.out.println("LandSeaList is not null");
+        }
+        System.out.println("Start: "+start.ID + " cash: " + cash + " dice: " + dice);
         list.addAll(landSeaList);
         
-        if(cash >=Globals.PLANE_ROUTE_PRICE){
+        if (cash >= Globals.PLANE_ROUTE_PRICE)
+        {
             ArrayList<Route> planeList = start.getPlaneRoutes();
             list.addAll(planeList);
         }
-        
-        if(cash == 0){
+
+        if (cash == 0)
+        {
             ArrayList<Route> freeSeaList = start.getFreeSeaRoutes();
             list.addAll(freeSeaList);
         }
-        
-        
+
         return list;
     }
-    
-    public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED(){
+
+    public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED()
+    {
+        System.out.println("ID: " + getAllCities().get(ID).ID + " balance: " + getMyBalance() + "dice : " + getDice());
         return getAllRoutes(getAllCities().get(ID), getMyBalance(), getDice());
     }
 

@@ -13,12 +13,12 @@ public class Globals
 {
 
     // player variables
-    public static final int START_CASH = 3;
+    public static final int START_CASH = 2;
 
     // game variables
     public static final int MAXIMUM_ROUNDS = 150;
     public static final int DISPLAY_FRAME_RATE = 4;
-    public static final boolean RENDER = false;
+    public static final boolean RENDER = true;
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice

@@ -12,6 +12,7 @@ import freeat.ai.LoomAI;
 import freeat.ai.NormalAI;
 import freeat.ai.ParanormalAI;
 import freeat.ai.RouteAI;
+import freeat.ai.Test2AI;
 import freeat.ai.TestAI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -164,7 +165,6 @@ public class Player
         for (int i = 0; i < Globals.DICE_COUNT; i++)
         {
             dice += 1 + (int) (Math.random() * diceSize);
-            System.out.println("Dice: "+dice);
             // Line below is sufficient after full implementation of Globals.
             // dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
         }
@@ -415,9 +415,9 @@ public class Player
                 }
                 // getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)
                 // if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)))
-                if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)))
+                if (controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().contains(destination))
                 {
-                    //System.out.println("MOVING!");
+                    System.out.println("MOVING!");
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
                     if (target.TYPE == NodeType.ROUTE)
