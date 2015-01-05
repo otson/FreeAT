@@ -71,7 +71,7 @@ public class Player
         ID = idCount;
         idCount++;
         this.locations = locations;
-        cashBalance = 300;
+        cashBalance = Globals.START_CASH;
         hasStar = false;
         hasHorseshoeAfterStar = false;
         hasFlown = false;
@@ -161,8 +161,7 @@ public class Player
         if (Globals.DICE_SIZE > 6)
         {
             dice_size = 6;
-        }
-        else
+        } else
         {
             dice_size = Globals.DICE_SIZE;
         }
@@ -174,7 +173,7 @@ public class Player
     private void openToken()
     {
         Node temp = locations.get(location);
-        
+
         if (temp.hasTreasure())
         {
             if (temp.getTreasure() != TreasureType.OPENED)
@@ -185,31 +184,40 @@ public class Player
                 {
                     PublicInformation.removeEmerald();
                     PublicInformation.removeUnopened();
-                    cashBalance += 500;
+                    cashBalance += Globals.EMERALD_VALUE;
                     endTurn = true;
                     if (temp.TYPE == NodeType.GOLD_COAST)
                     {
-                        cashBalance += 500;
+                        for (int i = 0; i < Globals.GOLD_COAST_FACTOR; i++)
+                        {
+                            cashBalance += Globals.EMERALD_VALUE;
+                        }
                     }
                 } else if (type == TreasureType.RUBY)
                 {
                     PublicInformation.removeRuby();
                     PublicInformation.removeUnopened();
-                    cashBalance += 1000;
+                    cashBalance += Globals.RUBY_VALUE;
                     endTurn = true;
                     if (temp.TYPE == NodeType.GOLD_COAST)
                     {
-                        cashBalance += 1000;
+                        for (int i = 0; i < Globals.GOLD_COAST_FACTOR; i++)
+                        {
+                            cashBalance += Globals.RUBY_VALUE;
+                        }
                     }
                 } else if (type == TreasureType.TOPAZ)
                 {
                     PublicInformation.removeTopaz();
                     PublicInformation.removeUnopened();
-                    cashBalance += 300;
+                    cashBalance += Globals.TOPAZ_VALUE;
                     endTurn = true;
                     if (temp.TYPE == NodeType.GOLD_COAST)
                     {
-                        cashBalance += 300;
+                        for (int i = 0; i < Globals.GOLD_COAST_FACTOR; i++)
+                        {
+                            cashBalance += Globals.TOPAZ_VALUE;
+                        }
                     }
                 } else if (type == TreasureType.ROBBER)
                 {
@@ -238,7 +246,7 @@ public class Player
                     PublicInformation.removeUnopened();
                     if (temp.TYPE == NodeType.SLAVE_COAST)
                     {
-                        skipTurns = 3;
+                        skipTurns = Globals.SLAVE_COAST_WAIT_TIME;
                     }
                 }
             }
@@ -603,8 +611,9 @@ public class Player
         }
         glEnable(GL_TEXTURE_2D);
     }
-    
-    public void resetCash(){
+
+    public void resetCash()
+    {
         cashBalance = 0;
     }
 
