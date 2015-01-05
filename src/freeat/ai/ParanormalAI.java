@@ -356,36 +356,22 @@ public class ParanormalAI extends AI
                 searchForTreasureWithoutCash(c.horseShoesLeft() + "horseshoes left! ");
                 doEndTurn();
             }
-            else
+            else if ((getCash() >= Globals.TREASURE_BUYING_PRICE) && (c.getRemainingTreasures().size() > 0))
             {
-                writeTextAndNewlineToLog("situation #4: no one is eligible for treasure and I have no cash.");
-
+                writeTextAndNewlineToLog(
+                    "situation #4: No one is eligible for win and I do have money, and there are treasures left.");
                 // Situation #4.
-                // No one is eligible for win and I have no cash.
-                // Check if I am on top of a token.
+                // No one is eligible for win and I do have money, and there are treasures left.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    writeTextAndNewlineToLog("situation #4 continues: my node has a treasure!");
-                    c.decideTryToken();
-                    doEndTurn();
-                }
-                else if (c.totalTreasures() >= 1)
-                {
-                    writeTextAndNewlineToLog("situation #4 continues: there are treasures available!");
-                    moveTowardsClosestTreasure();
-                    doEndTurn();
+                    tryOrBuyToken();
                 }
                 else
                 {
-                    // Situation #5.
-                    // Hopeless situation: There are no treasures.
-                    writeTextAndNewlineToLog("situation #5: hopeless situation!");
-
-                    // Hopeless situation: There are no treasures.
-                    // Win is not possible, so just do some random land movement.
-                    doRandomLandMovement();
-                    doEndTurn();
+                    moveTowardsClosestTreasure(c.robbersLeft() + " robbers left! ");
+                    buyTokenIfItMayBeUsefulAndIHaveExcessCash();
                 }
+                doEndTurn();
             }
             c.endTurn();
         }
