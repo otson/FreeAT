@@ -1005,6 +1005,17 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private Node chooseRandomNodeFromList(ArrayList<Node> nodesArrayList)
+    {
+        if (nodesArrayList.isEmpty())
+        {
+            writeTextAndNewlineToLog("nodesArrayList is empty, returning null!");
+            return null;
+        }
+        return nodesArrayList.get(rand.nextInt(nodesArrayList.size()));
+    }
+
+    /*------------------------------------------------------------------------*/
     private Node chooseFarthestCity(Node originNode, int currentMaxTotalPrice)
     {
         ArrayList<Node> allCitiesArrayList;
