@@ -50,6 +50,11 @@ public class Globals
 
     // Free sea movement amount
     public static final int FREE_SEA_MOVEMENT_LENGTH = 1;
+    
+    // Place specific globals
+    public static final int GOLD_COAST_FACTOR = 2;
+    public static final int SLAVE_COAST_WAIT_TIME = 3;
+    public static final int CAPE_TOWN_BONUS = 5;
 
     // Values based on set Global values, do not modify
     // Dice
