@@ -1176,7 +1176,7 @@ public class ParanormalAI extends AI
             }
             else
             {
-                writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName()
+                writeTextAndNewlineToLogAndDebug(messagePrefix + "I am at " + c.getCurrentNodeName()
                                                  + ", I'm going to " + chosenRoute.getDestination().getName()
                                                  + ", en route to " + targetNode.getName() + ".");
                 executeRoute(chosenRoute); // Do the movement.
