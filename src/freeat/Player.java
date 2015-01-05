@@ -150,17 +150,23 @@ public class Player
     private void throwDice()
     {
         // Safety check before full implementation of Globals.
-        int dice_size;
+        int diceSize;
         if (Globals.DICE_SIZE > 6)
         {
-            dice_size = 6;
+            diceSize = 6;
         } else
         {
-            dice_size = Globals.DICE_SIZE;
+            diceSize = Globals.DICE_SIZE;
         }
-        dice = 1 + (int) (Math.random() * dice_size);
-        // Line below is sufficient after full implementation of Globals.
-        // dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
+
+        dice = 0;
+
+        for (int i = 1; i <= Globals.DICE_COUNT; i++)
+        {
+            dice += 1 + (int) (Math.random() * diceSize);
+            // Line below is sufficient after full implementation of Globals.
+            // dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
+        }
     }
 
     private void openToken()
