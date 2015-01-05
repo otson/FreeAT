@@ -285,17 +285,21 @@ public class ParanormalAI extends AI
 
             // Main game loop begins here.
             // The different situations that I as an AI need to handle:
-            // #1 I am eligible for win (someone else may be eligible too).
-            // #2 I am not eligible for win, but someone else is.
-            // #3 No one is eligible for win and I do have money.
-            // #4 No one is eligible for win and I have no money.
-            // #5 Hopeless situation: There are no treasures.
+            // #1 Great, I am eligible for win (someone else may be eligible too).
+            // #2 Someone else is eligible for win (not me), and I do have money, and there are treasures left.
+            // #3 Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.
+            // #4 No one is eligible for win and I do have money, and there are treasures left.
+            // #5 No one is eligible for win and I have no money, and there are treasures left on this landmass.
+            // #6 Hopeless situation: I have no money, and there are no treasures on this landmass.
+            // #7 Hopeless situation: There are no treasures left anywhere.
+            //
+            // Other situations may be hopeless too, but in situations listed as 'hopeless' above it's also impossible to try tokens to help allies.
             if (c.isEligibleForWin())
             {
                 writeTextAndNewlineToLog("situation #1: I am eligible for win.");
 
                 // Situation #1.
-                // Great, I have Africa's star or a horse shoe found after Africa's star.
+                // Great, I am eligible for win (someone else may be eligible too).
                 // Check which is closest land & sea destination, Cairo or Tangier.
                 int shortestDistanceToCairoWithCurrentCash = getShortestDistanceWithCash(
                     c.getCurrentNode(),
