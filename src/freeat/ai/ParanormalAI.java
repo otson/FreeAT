@@ -1216,9 +1216,29 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandTravelTowards(int targetNodeID)
+    private void doLandSeaTravelTowards(int targetNodeID, String messagePrefix)
     {
-        doLandSeaTravelTowards(c.getNode(targetNodeID));
+        doLandSeaTravelTowards(c.getNode(targetNodeID), messagePrefix);
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void doLandSeaTravelTowards(int targetNodeID)
+    {
+        doLandSeaTravelTowards(targetNodeID, "");
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void doBudgetLandSeaTravelTowards(int targetNodeID)
+    {
+        // Travel to targetNode using the cheapest possible route.
+        // TODO: write the code!
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void doBudgetLandSeaTravelTowards(Node targetNode)
+    {
+        // Travel to targetNode using the cheapest possible route.
+        doBudgetLandSeaTravelTowards(targetNode.ID);
     }
 
     /*------------------------------------------------------------------------*/
