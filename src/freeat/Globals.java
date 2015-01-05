@@ -13,7 +13,6 @@ public class Globals
 {
 
     // player variables
-
     public static final int START_CASH = 3;
 
     // game variables
@@ -55,5 +54,6 @@ public class Globals
     // Values based on set Global values, do not modify
     // Dice
     public static final int MAX_DICE_VALUE = DICE_COUNT * DICE_SIZE;
+    public static final int MAX_SEA_MOVEMENT_COST = (int) Math.ceil(MAX_DICE_VALUE * SEA_ROUTE_PRICE / 2);
 
 }

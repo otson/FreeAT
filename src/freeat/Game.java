@@ -103,7 +103,6 @@ public class Game
                     {
                         for (int x = tempPrice; x < 4; x++)
                         {
-
                             list[j][x].add(new Route(current, tempPrice * 100));
                         }
                     }
@@ -122,6 +121,47 @@ public class Game
                 if (distance < 6)
                 {
                     getNext(current, previous, distance + 1, tempPrice, list);
+                }
+            }
+
+        }
+    }
+    
+    private void getNext_NOT_IMPLEMENTED(Node previous, Node previousPrevious, int distance, int currentPrice, HashMap<Integer, Route> routes)
+    {
+        for (int i = 0; i < previous.getConnections().size(); i++)
+        {
+            int tempPrice = currentPrice;
+            Integer integer = previous.getConnections().get(i);
+            Node current = locations.get(integer);
+            if (current != previousPrevious)
+            {
+                if (current.isCity())
+                {
+                    for (int j = distance; j < Globals.MAX_DICE_VALUE; j++)
+                    {  
+                        for (int x = tempPrice; x < Globals.MAX_SEA_MOVEMENT_COST; x++)
+                        {
+                            //list[j][x].add(new Route(current, tempPrice * 100));
+                            routes.put(new Key(j, x, current.ID).hashCode(), new Route(locations.get(current.ID), x));
+                        }
+                    }
+                } else
+                {
+                    if (current.isSea() && !previous.isSea())
+                    {
+                        tempPrice++;
+
+                    }
+                    for (int x = tempPrice; x < Globals.MAX_SEA_MOVEMENT_COST; x++)
+                    {
+                        //list[distance][x].add(new Route(current, tempPrice * 100));
+                        routes.put(new Key(distance, x, current.ID).hashCode(), new Route(locations.get(current.ID), x));
+                    }
+                }
+                if (distance < Globals.MAX_DICE_VALUE)
+                {
+                    getNext_NOT_IMPLEMENTED(current, previous, distance + 1, tempPrice, routes);
                 }
             }
 
