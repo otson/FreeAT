@@ -926,7 +926,7 @@ public class ParanormalAI extends AI
 
         ArrayList<Route> routesArrayList;
 
-        // routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 2 * TRUE_MAX_ROAD_PRICE), c.getDice());
+        // routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 2 * Globals.SEA_ROUTE_PRICE), c.getDice());
         routesArrayList = c.getMyAvailableRoutes();
 
         ArrayList<Node> treasureCitiesArrayList;
