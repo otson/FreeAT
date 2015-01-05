@@ -196,6 +196,8 @@ public class ParanormalAI extends AI
     public static HashMap<Integer, Landmass> landmassHashMap = new HashMap<>();
 
     int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
+    boolean onAfricaTour = false;
+    Node nextDestinationOfricaTour;
 
     public ParanormalAI()
     {
@@ -985,6 +987,85 @@ public class ParanormalAI extends AI
     private void moveTowardsClosestTreasure()
     {
         moveTowardsClosestTreasure("");
+    }
+
+    /*------------------------------------------------------------------------*/
+    private Node chooseFarthestCity(Node originNode, int currentMaxTotalPrice)
+    {
+        ArrayList<Node> allCitiesArrayList;
+        allCitiesArrayList = c.getAllCities();
+        int chosenDistance = -1;
+        Node chosenNode = null;
+
+        for (Node node : allCitiesArrayList)
+        {
+            int distanceToCurrentNode;
+            distanceToCurrentNode = getShortestDistanceWithCash(originNode, currentMaxTotalPrice);
+
+            if (distanceToCurrentNode >= 0)
+            {
+                if ((chosenDistance < 0) || (chosenDistance < distanceToCurrentNode))
+                {
+                    chosenDistance = distanceToCurrentNode;
+                    chosenNode = node;
+                }
+            }
+        }
+        return chosenNode;
+    }
+
+    /*------------------------------------------------------------------------*/
+    private Node chooseFarthestCity(Node originNode)
+    {
+        return chooseFarthestCity(originNode, getCash());
+    }
+
+    /*------------------------------------------------------------------------*/
+    private Node chooseFarthestCity(int currentMaxTotalPrice)
+    {
+        return chooseFarthestCity(c.getCurrentNode(), currentMaxTotalPrice);
+    }
+
+    /*------------------------------------------------------------------------*/
+    private Node chooseFarthestCity()
+    {
+        return chooseFarthestCity(c.getCurrentNode(), getCash());
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void doAfricaTour()
+    {
+        // TODO: Do the Africa tour.
+        // 1. Choose the farthest city.
+        // 2. Go there using only land movement.
+        // 3. Repeat from 1 upon arrival.
+
+        Node nextDestination;
+
+        if (onAfricaTour)
+        {
+            if (c.getCurrentNode() == nextDestinationOfricaTour)
+            {
+                nextDestinationOfricaTour = chooseFarthestCity(MAX_LAND_ROAD_PRICE);
+            }
+            doLandSeaTravelTowards(nextDestinationOfricaTour, "I'm on Africa Tour en route to " + nextDestinationOfricaTour.getName() + ".");
+        }
+        else
+        {
+            Node chosenNode;
+            chosenNode = chooseFarthestCity(MAX_LAND_ROAD_PRICE);
+
+            if (chosenNode == null)
+            {
+                doRandomLandMovement();
+            }
+            else
+            {
+                nextDestinationOfricaTour = chosenNode;
+                onAfricaTour = true;
+                doAfricaTour();
+            }
+        }
     }
 
     /*------------------------------------------------------------------------*/
