@@ -301,12 +301,8 @@ public class ParanormalAI extends AI
                 // Situation #1.
                 // Great, I am eligible for win (someone else may be eligible too).
                 // Check which is closest land & sea destination, Cairo or Tangier.
-                int shortestDistanceToCairoWithCurrentCash = getShortestDistanceWithCash(
-                    c.getCurrentNode(),
-                    c.getNode(CAIRO_NODE_ID));
-                int shortestDistanceToTangierWithCurrentCash = getShortestDistanceWithCash(
-                    c.getCurrentNode(),
-                    c.getNode(TANGIER_NODE_ID));
+                int shortestDistanceToCairoWithCurrentCash = getShortestDistanceWithCash(c.getNode(CAIRO_NODE_ID));
+                int shortestDistanceToTangierWithCurrentCash = getShortestDistanceWithCash(c.getNode(TANGIER_NODE_ID));
 
                 if (shortestDistanceToCairoWithCurrentCash < shortestDistanceToTangierWithCurrentCash)
                 {
