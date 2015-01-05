@@ -812,6 +812,10 @@ public class ParanormalAI extends AI
     private void moveTowardsClosestTreasure(String messagePrefix)
     {
         // TODO: implement travel to treasure cities also with flights.
+        // TODO: prefer continental treasure cities to island treasure cities,
+        //       until there are no robbers and I have enough money to return to
+        //       a metropol landmass.
+        // TODO: implement money counting and saving behavior for island trips.
 
         c.decideToUseLandOrSeaRoute();
 
