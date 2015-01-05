@@ -128,8 +128,7 @@ public class ParanormalAI extends AI
 
     // ParanormalAI uses money as 0, 1, 2, 3, ...
     // FreetAT uses money as 0, 100, 200, 300, ...
-    public static final int MONEY_SCALE = 100;
-
+    // public static final int MONEY_SCALE = 100;
     // minimum land & sea road price.
     public static final int MIN_ROAD_PRICE = 0;
 
@@ -140,13 +139,15 @@ public class ParanormalAI extends AI
     public static final int MAX_ROAD_PRICE = 1;
 
     // maximum land & sea road price as used by FreeAT.
-    public static final int TRUE_MAX_ROAD_PRICE = MONEY_SCALE * MAX_ROAD_PRICE;
+    // public static final int TRUE_MAX_ROAD_PRICE = MONEY_SCALE * MAX_ROAD_PRICE;
+    public static final int TRUE_MAX_ROAD_PRICE = MAX_ROAD_PRICE;
 
     // flight price as used by ParanormalAI.
     public static final int FLIGHT_PRICE = 3;
 
     // true flight price as used by FreeAT.
-    public static final int TRUE_FLIGHT_PRICE = MONEY_SCALE * FLIGHT_PRICE;
+    // public static final int TRUE_FLIGHT_PRICE = MONEY_SCALE * FLIGHT_PRICE;
+    public static final int TRUE_FLIGHT_PRICE = FLIGHT_PRICE;
 
     // distance to a neighbor node.
     public static final int NEIGHBOR_DISTANCE = 1;
@@ -155,7 +156,8 @@ public class ParanormalAI extends AI
     public static final int MAX_LAND_SEA_TOTAL_PRICE = 6;
 
     // maximum price for land & sea routes as used by FreeAT.
-    public static final int TRUE_MAX_LAND_SEA_TOTAL_PRICE = MONEY_SCALE * MAX_LAND_SEA_TOTAL_PRICE;
+    // public static final int TRUE_MAX_LAND_SEA_TOTAL_PRICE = MONEY_SCALE * MAX_LAND_SEA_TOTAL_PRICE;
+    public static final int TRUE_MAX_LAND_SEA_TOTAL_PRICE = MAX_LAND_SEA_TOTAL_PRICE;
 
     // initial distance from starting node (targetNode).
     public static final int INITIAL_DISTANCE = 0;
@@ -167,7 +169,8 @@ public class ParanormalAI extends AI
     public static final int TOKEN_PRICE = 1;
 
     // price to buy token for FreeAT.
-    public static final int TRUE_TOKEN_PRICE = MONEY_SCALE * TOKEN_PRICE;
+    // public static final int TRUE_TOKEN_PRICE = MONEY_SCALE * TOKEN_PRICE;
+    public static final int TRUE_TOKEN_PRICE = TOKEN_PRICE;
 
     // minimum roll of 1d6.
     public static final float DICE_MIN = 1.0f;
@@ -491,7 +494,8 @@ public class ParanormalAI extends AI
                     System.out.println("error: linkRoute from " + neighborNode.getName() + " to " + originNode.getName() + " is null!");
                 }
 
-                int newCumulativePrice = (cumulativePrice + (linkRoute.getPrice() / MONEY_SCALE));
+                // int newCumulativePrice = (cumulativePrice + (linkRoute.getPrice() / MONEY_SCALE));
+                int newCumulativePrice = cumulativePrice + (linkRoute.getPrice());
 
                 boolean isRecursiveCallNeeded;
                 isRecursiveCallNeeded = neighborParanormalNode.updateDistanceAndPrice(
@@ -684,7 +688,8 @@ public class ParanormalAI extends AI
      \------------------------------------------------------------------------*/
     private int getCash()
     {
-        return c.getMyBalance() / MONEY_SCALE;
+        // return c.getMyBalance() / MONEY_SCALE;
+        return c.getMyBalance();
     }
 
     /*------------------------------------------------------------------------*/
@@ -797,7 +802,8 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private int getRoutePrice(Route route)
     {
-        return route.getPrice() / MONEY_SCALE;
+        // return route.getPrice() / MONEY_SCALE;
+        return route.getPrice();
     }
 
     /*------------------------------------------------------------------------*/
@@ -1108,7 +1114,8 @@ public class ParanormalAI extends AI
         // routesArrayList = c.getMyAvailableRoutes();
         routesArrayList = c.getAvailableRoutes(
             c.getCurrentNode(),
-            Math.min(MONEY_SCALE * currentMaxTotalPrice, 2 * TRUE_MAX_ROAD_PRICE),
+            // Math.min(MONEY_SCALE * currentMaxTotalPrice, 2 * TRUE_MAX_ROAD_PRICE),
+            Math.min(currentMaxTotalPrice, 2 * TRUE_MAX_ROAD_PRICE),
             c.getDice());
 
         if (!(routesArrayList.isEmpty()))

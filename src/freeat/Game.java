@@ -82,7 +82,8 @@ public class Game
                 Node next = locations.get(integer);
                 for (int j = 1; j < 7; j++)
                 {
-                    node.allLists[j][currentPrice].add(new Route(next, currentPrice * 100));
+                    // node.allLists[j][currentPrice].add(new Route(next, currentPrice * 100));
+                    node.allLists[j][currentPrice].add(new Route(next, currentPrice));
                 }
             }
         }
@@ -119,7 +120,8 @@ public class Game
                     {
                         for (int x = tempPrice; x < 4; x++)
                         {
-                            list[j][x].add(new Route(current, tempPrice * 100));
+                            // list[j][x].add(new Route(current, tempPrice * 100));
+                            list[j][x].add(new Route(current, tempPrice));
                         }
                     }
                 } else
@@ -131,7 +133,8 @@ public class Game
                     }
                     for (int x = tempPrice; x < 4; x++)
                     {
-                        list[distance][x].add(new Route(current, tempPrice * 100));
+                        // list[distance][x].add(new Route(current, tempPrice * 100));
+                        list[distance][x].add(new Route(current, tempPrice));
                     }
                 }
                 if (distance < 6)

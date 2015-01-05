@@ -150,7 +150,8 @@ public class Controller
     {
         if (player.isUsePlane())
         {
-            return getAvailableRoutes(player.getCurrentNode(), 300, 1);
+            // return getAvailableRoutes(player.getCurrentNode(), 300, 1);
+            return getAvailableRoutes(player.getCurrentNode(), Globals.PLANE_ROUTE_PRICE, 1);
         }
 
         if (getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice()).isEmpty())
@@ -161,12 +162,14 @@ public class Controller
             }
         }
         // no plane routes
-        return getAvailableRoutes(player.getCurrentNode(), Math.min(200, player.getCashBalance()), player.getDice());
+        // return getAvailableRoutes(player.getCurrentNode(), Math.min(200, player.getCashBalance()), player.getDice());
+        return getAvailableRoutes(player.getCurrentNode(), Math.min(2 * Globals.SEA_ROUTE_PRICE, player.getCashBalance()), player.getDice());
     }
 
     public ArrayList<Route> getAvailableRoutes(Node start, int cash, int dice)
     {
-        if (cash < 100)
+        // if (cash < 100)
+        if (cash < Globals.SEA_ROUTE_PRICE)
         {
             switch (dice)
             {
@@ -183,7 +186,8 @@ public class Controller
                 case 6:
                     return locations.get(start.ID).getDistance6Cost0();
             }
-        } else if (cash < 200)
+        // } else if (cash < 200)
+        } else if (cash < 2 * Globals.SEA_ROUTE_PRICE)
         {
             switch (dice)
             {
@@ -200,7 +204,8 @@ public class Controller
                 case 6:
                     return locations.get(start.ID).getDistance6Cost100();
             }
-        } else if (cash < 300)
+        // } else if (cash < 300)
+        } else if (cash < 3 * Globals.SEA_ROUTE_PRICE)
         {
             switch (dice)
             {
@@ -217,7 +222,8 @@ public class Controller
                 case 6:
                     return locations.get(start.ID).getDistance6Cost200();
             }
-        } else if (cash >= 300)
+        // } else if (cash >= 300)
+        } else if (cash >= 3 * Globals.SEA_ROUTE_PRICE)
         {
             switch (dice)
             {
