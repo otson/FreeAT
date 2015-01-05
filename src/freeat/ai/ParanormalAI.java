@@ -714,7 +714,13 @@ public class ParanormalAI extends AI
 
     private boolean areThereValuableTreasuresLeft()
     {
-        return ((c.rubiesLeft() + c.emeraldsLeft() + c.topazesLeft()) > 0);
+        // Are there left any treasures, which could be useful for me, an opponent or a possible ally?
+        // In other words: Can I make my situation better by buying or trying tokens?
+        if (!(c.isStarFound()))
+        {
+            return true;
+        }
+        return ((c.horseShoesLeft() + c.rubiesLeft() + c.emeraldsLeft() + c.topazesLeft()) > 0);
     }
 
     /*------------------------------------------------------------------------*/
