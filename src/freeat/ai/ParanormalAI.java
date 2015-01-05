@@ -874,7 +874,7 @@ public class ParanormalAI extends AI
 
         if ((chosenRoute == null) || (chosenTreasureCity == null))
         {
-            writeTextAndNewlineToLog("chosenRoute is null, I'll do random land movement!");
+            writeTextAndNewlineToLog("chosenRoute or chosenTreasureCity is null, I'll do random land movement!");
             doRandomLandMovement();
         }
         else
