@@ -830,6 +830,12 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private boolean areThereTreasuresLeft()
+    {
+        return (c.getRemainingTreasures().size() > 0);
+    }
+
+    /*------------------------------------------------------------------------*/
     private boolean areThereTreasuresLeftOnLandmass()
     {
         return areThereTreasuresLeftOnLandmass(getLandmassID());
