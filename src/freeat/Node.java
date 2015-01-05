@@ -135,6 +135,32 @@ public class Node
 
     ArrayList<Route>[][] allLists;
 
+    // new variables to make the game more scalable, not yet in use
+    private ArrayList<Route> planeRoutes = new ArrayList<>();
+    private ArrayList<Route> freeSeaRoutes = new ArrayList<>();
+    private HashMap<Integer, ArrayList<Route>> nonPlaneRoutes;
+
+    // new methods, not yet in use
+    
+    // set plane routes
+    public void setPlaneRoutes()
+    {
+        for (Integer id : planeConnections)
+        {
+            planeRoutes.add(new Route(locations.get(id), Globals.PLANE_ROUTE_PRICE));
+        }
+    }
+    
+    // set free sea routes
+    public void setFreeSeaRoutes(){
+        for(Integer id : connections){
+            Node targetNode = locations.get(id);
+            if((isCity() && targetNode.isSea() || (isSea() && targetNode.isCity()))){
+                freeSeaRoutes.add(new Route(targetNode, 0));
+            }
+        }
+    }
+
     public Node(int id, int x, int y, HashMap<Integer, Node> locations)
     {
 

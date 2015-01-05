@@ -13,19 +13,22 @@ public class Key
 {
     private final int distance;
     private final int price;
+    private final int destination;
 
-    public Key(int distance, int price)
+    public Key(int distance, int price, int destination)
     {
         this.distance = distance;
         this.price = price;
+        this.destination = destination;
     }
 
     @Override
     public int hashCode()
     {
-        int hash = 92821;
-        hash = 7243 * hash + this.distance;
-        hash = 7243 * hash + this.price;
+        int hash = 5;
+        hash = 89 * hash + this.distance;
+        hash = 89 * hash + this.price;
+        hash = 89 * hash + this.destination;
         return hash;
     }
 
@@ -43,6 +46,5 @@ public class Key
         final Key other = (Key) obj;
         return true;
     }
-    
-    
+
 }
