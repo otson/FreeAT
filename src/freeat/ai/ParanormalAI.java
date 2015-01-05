@@ -648,6 +648,33 @@ public class ParanormalAI extends AI
         return getShortestAirDistance(c.getCurrentNode(), targetNode);
     }
 
+    /*------------------------------------------------------------------------*/
+    private int getCheapestPriceToMetropol(Node originNode)
+    // the price of the cheapest route from originNode to any metropol.
+    {
+        int cheapestPriceToMetropol;
+        cheapestPriceToMetropol = -1;
+
+        for (int currentPrice = 0; currentPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentPrice++)
+        {
+            for (int metropolNodeID : METROPOLS_ARRAY)
+            {
+                if (paranormalNodeHashMap.get(originNode.ID).getPriceToTarget(metropolNodeID, currentPrice) >= 0)
+                {
+                    return currentPrice;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getCheapestPriceToMetropol()
+    // the price of the cheapest route from current node to any metropol.
+    {
+        return getCheapestPriceToMetropol(c.getCurrentNode());
+    }
+
     /*-------------------------------------------------------------------------\
      |                                                                         |
      | Global game state reasoning methods.                                    |
