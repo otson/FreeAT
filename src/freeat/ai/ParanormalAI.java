@@ -1064,7 +1064,10 @@ public class ParanormalAI extends AI
             {
                 nextDestinationOfAfricaTour = chooseFarthestCity(MAX_LAND_ROAD_PRICE);
             }
-            doLandSeaTravelTowards(nextDestinationOfAfricaTour, MAX_LAND_ROAD_PRICE, "I'm on Africa Tour en route to " + nextDestinationOfAfricaTour.getName() + ".");
+            doLandSeaTravelTowards(
+                nextDestinationOfAfricaTour,
+                MAX_LAND_ROAD_PRICE,
+                "I'm on Africa Tour en route to " + nextDestinationOfAfricaTour.getName() + ".");
         }
         else
         {
