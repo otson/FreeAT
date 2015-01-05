@@ -42,13 +42,9 @@ public class Player
     private boolean inPirates;
     private boolean stayInCity = false;
     private boolean isWinner;
-    private boolean hasFlown;
     public final int ID;
     private HashMap<Integer, Node> locations;
-    private ArrayList<Integer> visitedThisTurn;
     private String debugString;
-
-    private int movesLeft = 0;
 
     private int skipTurns = 0;
     private Controller controller;
@@ -74,7 +70,6 @@ public class Player
         cashBalance = Globals.START_CASH;
         hasStar = false;
         hasHorseshoeAfterStar = false;
-        hasFlown = false;
         foundCapeTown = false;
         inSahara = false;
         inPirates = true;
@@ -115,8 +110,6 @@ public class Player
         name = ai.getName();
 
         ai.setLocations(locations);
-
-        visitedThisTurn = new ArrayList<>();
         debugString = "Test";
 
     }
