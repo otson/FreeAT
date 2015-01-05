@@ -135,9 +135,6 @@ public class ParanormalAI extends AI
     // minimum land road price.
     public static final int MAX_LAND_ROAD_PRICE = 0;
 
-    // maximum land & sea road price as used by ParanormalAI.
-    public static final int MAX_ROAD_PRICE = 1;
-
     // maximum land & sea road price as used by FreeAT.
     public static final int MAX_ROAD_PRICE = Globals.SEA_ROUTE_PRICE;
 

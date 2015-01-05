@@ -1,11 +1,11 @@
 // flight path class for ParanormalAI.
 package freeat.ai.paranormalai;
 
+import freeat.Globals;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import freeat.Node;
-import freeat.ai.ParanormalAI;
 
 public class FlightPath
 {
@@ -32,6 +32,6 @@ public class FlightPath
         this.routingArrayList.add(routing);
         this.routingLengths.add(routing.nRoadsOrFlights);
         this.minRoutingLength = Collections.min(this.routingLengths);
-        this.minFlightPathPrice = this.minRoutingLength * ParanormalAI.TRUE_FLIGHT_PRICE;
+        this.minFlightPathPrice = this.minRoutingLength * Globals.PLANE_ROUTE_PRICE;
     }
 }
