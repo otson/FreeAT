@@ -165,13 +165,6 @@ public class ParanormalAI extends AI
     // initial price from starting node (targetNode).
     public static final int INITIAL_PRICE = 0;
 
-    // price to buy token for ParanormalAI.
-    public static final int TOKEN_PRICE = 1;
-
-    // price to buy token for FreeAT.
-    // public static final int TRUE_TOKEN_PRICE = MONEY_SCALE * TOKEN_PRICE;
-    public static final int TRUE_TOKEN_PRICE = TOKEN_PRICE;
-
     // minimum roll of 1d6.
     public static final float DICE_MIN = 1.0f;
 
