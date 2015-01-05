@@ -163,10 +163,14 @@ public class Main
             game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
-            render();
-            renderDebugText();
-            Display.update();
-            Display.sync(2);
+            if (Globals.RENDER)
+            {
+                render();
+                renderDebugText();
+                Display.update();
+                Display.sync(Globals.DISPLAY_FRAME_RATE);
+
+            }
             sinceUpdate = System.nanoTime();
             fps++;
             //}
@@ -296,6 +300,5 @@ public class Main
         map.bind();
         glPopAttrib();
     }
-
 
 }
