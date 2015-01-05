@@ -340,10 +340,12 @@ public class ParanormalAI extends AI
                 {
                     if (isThereSpareCash())
                     {
+                        writeTextAndNewlineToLogAndDebug("I have spare cash, I buy token.");
                         c.buyToken();
                     }
                     else
                     {
+                        writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
                         c.decideTryToken();
                     }
                 }
@@ -366,6 +368,7 @@ public class ParanormalAI extends AI
                 // TODO: Play using best-case scenario for me.
                 if (c.getCurrentNode().hasTreasure())
                 {
+                    writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
                     c.decideTryToken();
                 }
                 else
@@ -384,10 +387,12 @@ public class ParanormalAI extends AI
                 {
                     if (isThereSpareCash())
                     {
+                        writeTextAndNewlineToLogAndDebug("I have spare cash, I buy token.");
                         c.buyToken();
                     }
                     else
                     {
+                        writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
                         c.decideTryToken();
                     }
                 }
@@ -409,6 +414,7 @@ public class ParanormalAI extends AI
                 // No one is eligible for win and I have no money, and there are treasures left on this landmass.
                 if (c.getCurrentNode().hasTreasure())
                 {
+                    writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
                     c.decideTryToken();
                 }
                 else
@@ -702,20 +708,36 @@ public class ParanormalAI extends AI
     private int getCheapestPriceToMetropol(Node originNode)
     // the price of the cheapest route from originNode to any metropol.
     {
-        int cheapestPriceToMetropol;
-        cheapestPriceToMetropol = -1;
+        int priceOfChosenRoute;
+        priceOfChosenRoute = -1;
 
         for (int currentPrice = 0; currentPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentPrice++)
         {
             for (int metropolNodeID : METROPOLS_ARRAY)
             {
-                if (paranormalNodeHashMap.get(originNode.ID).getPriceToTarget(metropolNodeID, currentPrice) >= 0)
+                int priceOfCurrentRoute;
+                priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, MAX_LAND_SEA_TOTAL_PRICE);
+                boolean isUpdateNeeded = false;
+
+                if (paranormalNodeHashMap.get(originNode.ID).getPriceToTarget(metropolNodeID, currentPrice) >= 0);
                 {
-                    return currentPrice;
+                    if (priceOfChosenRoute < 0)
+                    {
+                        isUpdateNeeded = true;
+                    }
+                    else if (priceOfChosenRoute > priceOfCurrentRoute)
+                    {
+                        isUpdateNeeded = true;
+                    }
+
+                    if (isUpdateNeeded)
+                    {
+                        priceOfChosenRoute = priceOfCurrentRoute;
+                    }
                 }
             }
         }
-        return -1;
+        return priceOfChosenRoute;
     }
 
     /*------------------------------------------------------------------------*/
@@ -729,8 +751,10 @@ public class ParanormalAI extends AI
 
         for (int metropolNodeID : METROPOLS_ARRAY)
         {
-            int lengthOfCurrentRoute = getShortestDistanceWithCash(c.getNode(metropolNodeID), getCash());
-            int priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, MAX_LAND_SEA_TOTAL_PRICE);
+            int lengthOfCurrentRoute;
+            int priceOfCurrentRoute;
+            lengthOfCurrentRoute = getShortestDistanceWithCash(c.getNode(metropolNodeID), getCash());
+            priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, MAX_LAND_SEA_TOTAL_PRICE);
             boolean isUpdateNeeded = false;
 
             if (priceOfCurrentRoute >= 0)
@@ -743,6 +767,7 @@ public class ParanormalAI extends AI
                 {
                     isUpdateNeeded = true;
                 }
+
                 if (isUpdateNeeded)
                 {
                     lengthOfChosenRoute = lengthOfCurrentRoute;
@@ -798,9 +823,37 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private int getMinTreasureValueWithoutRobbers()
+    {
+        if ((c.emptyLeft() > 0) || (c.horseShoesLeft() > 0))
+        {
+            return 0;
+        }
+        else if (c.topazesLeft() > 0)
+        {
+            return Globals.TOPAZ_VALUE;
+        }
+        else if (c.emeraldsLeft() > 0)
+        {
+            return Globals.EMERALD_VALUE;
+        }
+        else if (c.rubiesLeft() > 0)
+        {
+            return Globals.RUBY_VALUE;
+        }
+        return 0;
+    }
+
+    /*------------------------------------------------------------------------*/
     private int getMinCashAfterBuyingToken()
     {
         return getCash() - Globals.TREASURE_BUYING_PRICE + getMinTreasureValue();
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getMinProbableCashAfterBuyingToken()
+    {
+        return getCash() - Globals.TREASURE_BUYING_PRICE + getMinTreasureValueWithoutRobbers();
     }
 
     /*------------------------------------------------------------------------*/
@@ -1484,7 +1537,7 @@ public class ParanormalAI extends AI
     {
         if (getCheapestPriceToMetropol() >= 0)
         {
-            return (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol());
+            return (getMinProbableCashAfterBuyingToken() >= getCheapestPriceToMetropol());
         }
         else
         {
