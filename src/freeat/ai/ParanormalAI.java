@@ -1282,13 +1282,20 @@ public class ParanormalAI extends AI
         {
             buyTokenIfItMayBeUseful();
         }
-        else if (isAnyOpponentEligibleForWin())
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void tryOrBuyToken()
+    {
+        if (areThereUsefulTreasuresLeft() && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
+        // some excess cash.
         {
-            // Situation #3 Some opponent has Africa's star, and there are horseshoes left.
-            if (c.horseShoesLeft() > 0)
-            {
-                c.buyToken();
-            }
+            buyTokenIfItMayBeUseful();
+        }
+        else
+        // no excess cash.
+        {
+            c.decideTryToken();
         }
     }
 
