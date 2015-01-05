@@ -560,5 +560,15 @@ public class Node
         return nonPlaneRoutes;
     }
 
+    public ArrayList<Route> getPlaneRoutes()
+    {
+        return planeRoutes;
+    }
+
+    public ArrayList<Route> getFreeSeaRoutes()
+    {
+        return freeSeaRoutes;
+    }
+
     
 }
