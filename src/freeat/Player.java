@@ -357,7 +357,6 @@ public class Player
     // Decision
     public void decidetoUsePlane()
     {
-        // if (!getCurrentNode().getPlaneConnections().isEmpty() && cashBalance >= 300)
         if (!getCurrentNode().getPlaneConnections().isEmpty() && cashBalance >= Globals.PLANE_ROUTE_PRICE)
         {
             if (!tryToWinToken && !useLandOrSea)
@@ -379,7 +378,7 @@ public class Player
     // Land, sea, or plane
     public void moveTo(Route destination)
     {
-        //System.out.println("old check result: " + getCurrentNode().getAllLists()[dice][destination.getPrice() / 100].contains(destination));
+        //System.out.println("old check result: " + getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination));
         //System.out.println("New check result: " + controller.getMyAvailableRoutes().contains(destination));
 
         if (useLandOrSea || usePlane)
@@ -390,7 +389,6 @@ public class Player
                 int tempDice = dice;
                 if (usePlane)
                 {
-                    // if (destination.getPrice() != 300)
                     if (destination.getPrice() != Globals.PLANE_ROUTE_PRICE)
                     {
                         System.out.println("Tried to use a non-plane route after selecting to use a plane. Returning...");
@@ -402,15 +400,14 @@ public class Player
                 }
                 if (useLandOrSea)
                 {
-                    // if (destination.getPrice() == 300)
                     if (destination.getPrice() == Globals.PLANE_ROUTE_PRICE)
                     {
                         System.out.println("Tried to use a plane route after selecting to use a land or sea route. Returning...");
                         return;
                     }
                 }
-                // getCurrentNode().getAllLists()[dice][destination.getPrice() / 100].contains(destination)
-                // if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice() / 100].contains(destination)))
+                // getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)
+                // if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)))
                 if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)))
                 {
                     //System.out.println("MOVING!");
@@ -433,7 +430,6 @@ public class Player
                         moved = true;
                         if (PublicInformation.isCapeTownBonus())
                         {
-                            // cashBalance += 500;
                             cashBalance += Globals.CAPE_TOWN_BONUS;;
                             foundCapeTown = true;
                         }
@@ -490,7 +486,6 @@ public class Player
                     System.out.println("Did not move in the moveTo Method.");
                     System.out.println("Route price: " + destination.getPrice());
                     System.out.println("Own balance: " + cashBalance);
-                    // System.out.println("old check result: " + getCurrentNode().getAllLists()[tempDice][destination.getPrice() / 100].contains(destination));
                     System.out.println("old check result: " + getCurrentNode().getAllLists()[tempDice][destination.getPrice()].contains(destination));
                     System.out.println("New check result: " + controller.getAvailableRoutes(controller.getCurrentNode(), cashBalance, dice).contains(destination));
 
@@ -506,10 +501,8 @@ public class Player
             Node temp = locations.get(location);
             if (temp.hasTreasure())
             {
-                // if (cashBalance >= 100)
                 if (cashBalance >= Globals.TREASURE_BUYING_PRICE)
                 {
-                    // cashBalance -= 100;
                     cashBalance -= Globals.TREASURE_BUYING_PRICE;
                     openToken();
                 } else
