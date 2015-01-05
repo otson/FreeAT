@@ -296,8 +296,8 @@ public class ParanormalAI extends AI
             // Other situations may be hopeless too, but in situations listed as 'hopeless' above it's also impossible to try tokens to help allies.
             if (c.isEligibleForWin())
             {
-                writeTextAndNewlineToLog("situation #1: I am eligible for win.");
-
+                writeTextAndNewlineToLog(
+                    "situation #1: Great, I am eligible for win (someone else may be eligible too).");
                 // Situation #1.
                 // Great, I am eligible for win (someone else may be eligible too).
                 // Check which is closest land & sea destination, Cairo or Tangier.
