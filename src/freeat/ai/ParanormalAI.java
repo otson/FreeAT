@@ -962,7 +962,7 @@ public class ParanormalAI extends AI
         ArrayList<Node> treasureCitiesArrayList;
         treasureCitiesArrayList = c.getRemainingTreasures();
 
-        boolean randomChoiceInUse = false;
+        boolean randomChoiceInUse = true;
 
         ArrayList<Route> chosenRoutesArrayList;
         chosenRoutesArrayList = new ArrayList<>();
@@ -981,16 +981,16 @@ public class ParanormalAI extends AI
             for (Node treasureCity : treasureCitiesArrayList)
             {
                 int distanceFromDestinationToTreasureCity;
-                // int cheapestPriceToMetropolFromTreasureCity = getCheapestPriceToMetropol(treasureCity);
-                // distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(
-                //     route.getDestination(),
-                //     treasureCity,
-                //     (getCashAfterRoute(route) - cheapestPriceToMetropolFromTreasureCity));
                 int cheapestPriceToMetropolFromTreasureCity = getCheapestPriceToMetropol(treasureCity);
                 distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(
                     route.getDestination(),
                     treasureCity,
-                    getCash());
+                    (getCashAfterRoute(route) - cheapestPriceToMetropolFromTreasureCity));
+//                int cheapestPriceToMetropolFromTreasureCity = getCheapestPriceToMetropol(treasureCity);
+//                distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(
+//                    route.getDestination(),
+//                    treasureCity,
+//                    getCash());
                 int routePrice = route.getPrice();
                 boolean isUpdateNeeded = false;
                 boolean isBetterRoute = false;
@@ -1003,35 +1003,31 @@ public class ParanormalAI extends AI
                                          + " to any metropol is " + cheapestPriceToMetropolFromTreasureCity
                                          + " GBP.");
 
-                //if (c.robbersLeft() > 0)
                 if (false)
+                // if (c.robbersLeft() > 0)
                 {
                     // If there are robbers left, prefer
                     // metropol landmass destinations.
                     if ((distanceFromDestinationToTreasureCity >= 0) && (cheapestPriceToMetropolFromTreasureCity >= 0))
                     {
-                        if ((shortestDistanceToTreasureCity < 0) || (priceFromChosenTreasureCityToMetropol < 0))
+                        if (shortestDistanceToTreasureCity < 0)
                         {
-                            isUpdateNeeded = true;
-                            isBetterRoute = true;
+                            isUpdateNeeded = isBetterRoute = true;
                         }
                         else if (priceFromChosenTreasureCityToMetropol > cheapestPriceToMetropolFromTreasureCity)
                         {
-                            isUpdateNeeded = true;
-                            isBetterRoute = true;
+                            isUpdateNeeded = isBetterRoute = true;
                         }
                         else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
                                  && (shortestDistanceToTreasureCity > distanceFromDestinationToTreasureCity))
                         {
-                            isUpdateNeeded = true;
-                            isBetterRoute = true;
+                            isUpdateNeeded = isBetterRoute = true;
                         }
                         else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
                                  && (shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
                                  && (chosenPrice > routePrice))
                         {
-                            isUpdateNeeded = true;
-                            isBetterRoute = true;
+                            isUpdateNeeded = isBetterRoute = true;
                         }
                         else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
                                  && (shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
