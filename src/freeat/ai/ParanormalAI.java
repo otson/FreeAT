@@ -1204,6 +1204,12 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private void doLandSeaTravelTowards(Node targetNode, String messagePrefix)
+    {
+        doLandSeaTravelTowards(targetNode, getCash(), messagePrefix);
+    }
+
+    /*------------------------------------------------------------------------*/
     private void doLandSeaTravelTowards(Node targetNode)
     {
         doLandSeaTravelTowards(targetNode, getCash());
