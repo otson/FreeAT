@@ -804,6 +804,63 @@ public class ParanormalAI extends AI
         return getCash() - getRoutePrice(route);
     }
 
+    /*------------------------------------------------------------------------*/
+    private int getLandmassID(int nodeID)
+    {
+        return paranormalNodeHashMap.get(nodeID).getLandmassID();
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getLandmassID(Node node)
+    {
+        return getLandmassID(node.ID);
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getLandmassID()
+    {
+        return getLandmassID(c.getCurrentNode());
+    }
+
+    /*------------------------------------------------------------------------*/
+    private boolean areThereTreasuresLeftOnLandmass(int landmassID)
+    {
+        // TODO: write the code!
+        return true;
+    }
+
+    /*------------------------------------------------------------------------*/
+    private boolean areThereTreasuresLeftOnLandmass()
+    {
+        return areThereTreasuresLeftOnLandmass(getLandmassID());
+    }
+
+    /*------------------------------------------------------------------------*/
+    private ArrayList<Integer> getLandmassesWithMostTreasuresLeft()
+    {
+        ArrayList<Integer> landmassesWithMostTreasuresLeft;
+        landmassesWithMostTreasuresLeft = new ArrayList<>();
+
+        // TODO: write the code!
+        return landmassesWithMostTreasuresLeft;
+    }
+
+    /*------------------------------------------------------------------------*/
+    private ArrayList<Integer> getMetropolLandmasses()
+    {
+        ArrayList<Integer> metropolLandmasses;
+        metropolLandmasses = new ArrayList<>();
+
+        // TODO: write the code!
+        return metropolLandmasses;
+    }
+
+    /*------------------------------------------------------------------------*/
+    private ArrayList<Node> getRemainingTreasuresOnLandmass()
+    {
+        return getRemainingTreasuresOnLandmass(getLandmassID());
+    }
+
     /*-------------------------------------------------------------------------\
      |                                                                         |
      | Movement methods.                                                       |
