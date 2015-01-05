@@ -681,6 +681,12 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private int getMinCashAfterBuyingToken()
+    {
+        return getCash() - Globals.TREASURE_BUYING_PRICE + getMinTreasureValue();
+    }
+
+    /*------------------------------------------------------------------------*/
     private int getMinCashAfterWinningTokenWithDice()
     {
         return getCash() + getMinTreasureValue();
