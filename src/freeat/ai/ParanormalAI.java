@@ -31,7 +31,7 @@ public class ParanormalAI extends AI
 {
 
     // class-level (static) variables.
-    static boolean isLoggingInUse = true;
+    static boolean isLoggingInUse = false;
     static boolean shouldConnectionHashMapGenerationBeLogged = false;
     static boolean shouldLandMassHashMapGenerationBeLogged = false;
 
