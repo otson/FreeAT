@@ -644,17 +644,17 @@ public class ParanormalAI extends AI
         return getShortestAirDistance(c.getCurrentNode(), targetNode);
     }
 
-    /*------------------------------------------------------------------------*/
-    private int getCash()
-    {
-        return c.getMyBalance() / MONEY_SCALE;
-    }
-
     /*-------------------------------------------------------------------------\
      |                                                                         |
      | Global game state reasoning methods.                                    |
      |                                                                         |
      \------------------------------------------------------------------------*/
+    private int getCash()
+    {
+        return c.getMyBalance() / MONEY_SCALE;
+    }
+
+    /*------------------------------------------------------------------------*/
     private int getMinTreasureValue()
     {
         if (c.robbersLeft() > 0)
