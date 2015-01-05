@@ -351,14 +351,14 @@ public class ParanormalAI extends AI
                 // buyTokenIfItMayBeUseful();
                 doEndTurn();
             }
-            else if (isAnyOpponentEligibleForWin())
+            else if (isAnyOpponentEligibleForWin() && (getCash() >= Globals.TREASURE_BUYING_PRICE) && (areThereTreasuresLeft()))
             {
-                writeTextAndNewlineToLog("situation #2: some else is eligible for win but not me.");
-
+                writeTextAndNewlineToLog(
+                    "situation #2: Someone else is eligible for win (not me), and I do have money, and there are treasures left.");
                 // Situation #2.
-                // Someone else is eligible for win and I am not.
-                // Play using best-case scenario for me.
-                moveTowardsClosestTreasure();
+                // Someone else is eligible for win (not me), and I do have money, and there are treasures left.
+                // TODO: Play using best-case scenario for me.
+                moveTowardsClosestTreasure(c.horseShoesLeft() + " horseshoes left! ");
                 buyTokenIfItMayBeUseful();
                 doEndTurn();
             }
