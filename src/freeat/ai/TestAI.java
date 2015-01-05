@@ -6,6 +6,7 @@
 package freeat.ai;
 
 import freeat.Controller;
+import freeat.Globals;
 import freeat.Node;
 import freeat.Route;
 import freeat.TreasureType;
@@ -87,7 +88,7 @@ public class TestAI extends AI
 
     public boolean canBuyTreasure()
     {
-        return c.getMyBalance() >= 100 && c.getCurrentNode().hasTreasure();
+        return c.getMyBalance() >= Globals.TREASURE_BUYING_PRICE && c.getCurrentNode().hasTreasure();
     }
 
     private Route getRouteToTreasure(int maxPrice)
@@ -219,6 +220,11 @@ public class TestAI extends AI
     // return boolean if the parameter node has a land connection to either of the start cities
     private boolean isIsland(Node node){
         return distances.getDistance(node.ID, 1) != -1 && distances.getDistance(node.ID, 2) != -1;
+    }
+    
+    private int getExpectedTreasureValue(){
+        int sum = 0;
+        return sum;
     }
 
 }
