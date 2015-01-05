@@ -139,25 +139,16 @@ public class ParanormalAI extends AI
     public static final int MAX_ROAD_PRICE = 1;
 
     // maximum land & sea road price as used by FreeAT.
-    // public static final int TRUE_MAX_ROAD_PRICE = MONEY_SCALE * MAX_ROAD_PRICE;
-    public static final int TRUE_MAX_ROAD_PRICE = MAX_ROAD_PRICE;
+    public static final int MAX_ROAD_PRICE = Globals.SEA_ROUTE_PRICE;
 
     // flight price as used by ParanormalAI.
     public static final int FLIGHT_PRICE = 3;
-
-    // true flight price as used by FreeAT.
-    // public static final int TRUE_FLIGHT_PRICE = MONEY_SCALE * FLIGHT_PRICE;
-    public static final int TRUE_FLIGHT_PRICE = FLIGHT_PRICE;
 
     // distance to a neighbor node.
     public static final int NEIGHBOR_DISTANCE = 1;
 
     // maximum price for land & sea routes as used by ParanormalAI.
     public static final int MAX_LAND_SEA_TOTAL_PRICE = 6;
-
-    // maximum price for land & sea routes as used by FreeAT.
-    // public static final int TRUE_MAX_LAND_SEA_TOTAL_PRICE = MONEY_SCALE * MAX_LAND_SEA_TOTAL_PRICE;
-    public static final int TRUE_MAX_LAND_SEA_TOTAL_PRICE = MAX_LAND_SEA_TOTAL_PRICE;
 
     // initial distance from starting node (targetNode).
     public static final int INITIAL_DISTANCE = 0;
@@ -481,7 +472,7 @@ public class ParanormalAI extends AI
         //    call recursively each neighboring node if distance there is negative (not yet defined) or greater than current distance.
         ArrayList<Route> routesArrayList = c.getAvailableRoutes(
             originNode,
-            TRUE_MAX_ROAD_PRICE,
+            Globals.SEA_ROUTE_PRICE,
             NEIGHBOR_DISTANCE); // ArrayList of neighboring nodeID's.
 
         cumulativeDistance++;
@@ -567,7 +558,7 @@ public class ParanormalAI extends AI
         ArrayList<Route> routesArrayList;
         routesArrayList = c.getAvailableRoutes(
             originNode,
-            TRUE_MAX_ROAD_PRICE,
+            Globals.SEA_ROUTE_PRICE,
             NEIGHBOR_DISTANCE); // ArrayList of neighboring nodeID's.
 
         Route chosenRoute = null;
@@ -1148,8 +1139,8 @@ public class ParanormalAI extends AI
         // routesArrayList = c.getMyAvailableRoutes();
         routesArrayList = c.getAvailableRoutes(
             c.getCurrentNode(),
-            // Math.min(MONEY_SCALE * currentMaxTotalPrice, 2 * TRUE_MAX_ROAD_PRICE),
-            Math.min(currentMaxTotalPrice, 2 * TRUE_MAX_ROAD_PRICE),
+            // Math.min(MONEY_SCALE * currentMaxTotalPrice, 2 * Globals.SEA_ROUTE_PRICE),
+            Math.min(currentMaxTotalPrice, 2 * Globals.SEA_ROUTE_PRICE),
             c.getDice());
 
         if (!(routesArrayList.isEmpty()))
