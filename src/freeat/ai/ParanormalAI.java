@@ -681,6 +681,12 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private int getMinCashAfterWinningTokenWithDice()
+    {
+        return getCash() + getMinTreasureValue();
+    }
+
+    /*------------------------------------------------------------------------*/
     private void updateZeitgebers()
     {
         if ((c.getMyID() == leaderID))
