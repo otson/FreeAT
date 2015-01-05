@@ -346,14 +346,14 @@ public class ParanormalAI extends AI
                 buyTokenIfItMayBeUseful();
                 doEndTurn();
             }
-            else if (getCash() >= TOKEN_PRICE)
+            else if (isAnyOpponentEligibleForWin() && areThereTreasuresLeftOnLandmass())
             {
-                writeTextAndNewlineToLog("situation #3: No one is eligible for win and I do have money.");
-
+                writeTextAndNewlineToLog(
+                    "situation #3: Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.");
                 // Situation #3.
-                // No one is eligible for win and I do have money.
-                moveTowardsClosestTreasure();
-                buyTokenIfItMayBeUseful();
+                // Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.
+                // TODO: Play using best-case scenario for me.
+                searchForTreasureWithoutCash(c.horseShoesLeft() + "horseshoes left! ");
                 doEndTurn();
             }
             else
