@@ -158,13 +158,14 @@ public class Main
         while (!Display.isCloseRequested())
         {
             start = System.nanoTime();
-            glClear(GL_COLOR_BUFFER_BIT);
+            
             //checkUserInput();
             game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
             if (Globals.RENDER)
             {
+                glClear(GL_COLOR_BUFFER_BIT);
                 render();
                 renderDebugText();
                 Display.update();
@@ -179,7 +180,7 @@ public class Main
 
             if (total > 1000000000)
             {
-                //Display.update();
+                Display.update();
                 Display.setTitle("FPS: " + fps);
                 fps = 0;
                 total = 0;
