@@ -1203,12 +1203,11 @@ public class ParanormalAI extends AI
                 writeTextAndNewlineToLogAndDebug(messagePrefix + "I am at " + c.getCurrentNodeName()
                                                  + ", I'm going to " + chosenRoute.getDestination().getName()
                                                  + ", en route to " + targetNode.getName() + ".");
-                executeRoute(chosenRoute); // Do the movement.
+                executeRoute(chosenRoute);
             }
         }
         else
         {
-
             writeTextAndNewlineToLog("I'm trying to do land & sea travel towards " + targetNode.getName() + ", but routesArrayList is empty! Doing random land move!");
             doRandomLandMovement();
         }
