@@ -869,6 +869,33 @@ public class ParanormalAI extends AI
 
     /*-------------------------------------------------------------------------\
      |                                                                         |
+     | Combined movement & token-trying methods.                               |
+     |                                                                         |
+     \------------------------------------------------------------------------*/
+    private void searchForTreasureWithoutCash(String messagePrefix)
+    {
+        if (c.getCurrentNode().hasTreasure())
+        {
+            writeTextAndNewlineToLog("My node has a treasure!");
+            c.decideTryToken();
+            doEndTurn();
+        }
+        else if (c.totalTreasures() >= 1)
+        {
+            writeTextAndNewlineToLog("There are treasures available somewhere!");
+            moveTowardsClosestTreasure(messagePrefix);
+            doEndTurn();
+        }
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void searchForTreasureWithoutCash()
+    {
+        searchForTreasureWithoutCash("");
+    }
+
+    /*-------------------------------------------------------------------------\
+     |                                                                         |
      | Movement methods.                                                       |
      |                                                                         |
      \------------------------------------------------------------------------*/
