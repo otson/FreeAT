@@ -870,13 +870,12 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private ArrayList<Node> getRemainingTreasuresOnLandmass(int LandmassID)
+    private ArrayList<Node> getRemainingTreasuresOnLandmass(int landmassID)
     {
-        ArrayList<Node> remainingTreasuresOnLandmass;
-        remainingTreasuresOnLandmass = new ArrayList<>();
+        ArrayList<Node> treasureCitiesArrayList;
+        treasureCitiesArrayList = new ArrayList<>();
 
-        // TODO: write the code!
-        return remainingTreasuresOnLandmass;
+        return treasureCitiesArrayList;
     }
 
     /*------------------------------------------------------------------------*/
