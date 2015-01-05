@@ -555,4 +555,10 @@ public class Node
         return this.TYPE == NodeType.SAHARA;
     }
 
+    public HashMap<Integer, ArrayList<Route>> getNonPlaneRoutes()
+    {
+        return nonPlaneRoutes;
+    }
+
+    
 }

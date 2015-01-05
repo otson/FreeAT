@@ -50,7 +50,7 @@ public class Globals
 
     // Free sea movement amount
     public static final int FREE_SEA_MOVEMENT_LENGTH = 1;
-    
+
     // Place specific globals
     public static final int GOLD_COAST_FACTOR = 2;
     public static final int SLAVE_COAST_WAIT_TIME = 3;
@@ -59,6 +59,8 @@ public class Globals
     // Values based on set Global values, do not modify
     // Dice
     public static final int MAX_DICE_VALUE = DICE_COUNT * DICE_SIZE;
+
+    // Sea movement price maximum price
     public static final int MAX_SEA_MOVEMENT_COST = (int) Math.ceil(MAX_DICE_VALUE * SEA_ROUTE_PRICE / 2);
 
 }
