@@ -32,7 +32,7 @@ public class ParanormalAI extends AI
 
     // class-level (static) variables.
     static boolean isLoggingInUse = true;
-    static boolean shouldConnectionHashMapGenerationBeLogged = true;
+    static boolean shouldConnectionHashMapGenerationBeLogged = false;
     static boolean shouldLandMassHashMapGenerationBeLogged = false;
 
     static String paranormalAIStartDateString;
@@ -336,8 +336,15 @@ public class ParanormalAI extends AI
                 // Situation #2.
                 // Someone else is eligible for win (not me), and I do have money, and there are treasures left.
                 // TODO: Play using best-case scenario for me.
-                moveTowardsClosestTreasure(c.horseShoesLeft() + " horseshoes left! ");
-                buyTokenIfItMayBeUseful();
+                if (c.getCurrentNode().hasTreasure())
+                {
+                    c.buyToken();
+                }
+                else
+                {
+                    moveTowardsClosestTreasure(c.horseShoesLeft() + " horseshoes left! ");
+                    buyTokenIfItMayBeUseful();
+                }
                 doEndTurn();
             }
             else if (isAnyOpponentEligibleForWin() && areThereTreasuresLeftOnLandmass())
@@ -347,6 +354,10 @@ public class ParanormalAI extends AI
                 // Situation #3.
                 // Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.
                 // TODO: Play using best-case scenario for me.
+                if (c.getCurrentNode().hasTreasure())
+                {
+                    c.decideTryToken();
+                }
                 searchForTreasureWithoutCash(c.horseShoesLeft() + "horseshoes left! ");
                 doEndTurn();
             }
@@ -358,7 +369,7 @@ public class ParanormalAI extends AI
                 // No one is eligible for win and I do have money, and there are treasures left.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    tryOrBuyToken();
+                    c.buyToken();
                 }
                 else
                 {
@@ -367,21 +378,50 @@ public class ParanormalAI extends AI
                 }
                 doEndTurn();
             }
-            c.endTurn();
-        }
-
-        updateZeitgebers();
-        writeTextAndNewlineToLog("log file " + absFilename + " will be closed next.");
-
-        if (isLoggingInUse)
-        {
-            try
+            else if (areThereTreasuresLeftOnLandmass())
             {
-                bw.close();
+                writeTextAndNewlineToLog(
+                    "situation #5: No one is eligible for win and I have no money, and there are treasures left on this landmass.");
+                // Situation #5.
+                // No one is eligible for win and I have no money, and there are treasures left on this landmass.
+                if (c.getCurrentNode().hasTreasure())
+                {
+                    c.decideTryToken();
+                }
+                searchForTreasureWithoutCash(c.robbersLeft() + " robbers left! ");
+                doEndTurn();
             }
-            catch (IOException ioe)
+            else if ((getCash() < Globals.TREASURE_BUYING_PRICE) && (!(areThereTreasuresLeftOnLandmass())))
             {
-                System.err.println("IOException: " + ioe.getMessage());
+                writeTextAndNewlineToLog(
+                    "situation #6 Hopeless situation: I have no money, and there are no treasures on this landmass.");
+                // #6 Hopeless situation: I have no money, and there are no treasures on this landmass.
+                doAfricaTour();
+                doEndTurn();
+            }
+            else
+            {
+                writeTextAndNewlineToLog(
+                    "situation #7: Hopeless situation: There are no treasures left anywhere.");
+                // #7 Hopeless situation: There are no treasures left anywhere.
+                doAfricaTour();
+                doEndTurn();
+            }
+
+            doEndTurn();
+            updateZeitgebers();
+            writeTextAndNewlineToLog("log file " + absFilename + " will be closed next.");
+
+            if (isLoggingInUse)
+            {
+                try
+                {
+                    bw.close();
+                }
+                catch (IOException ioe)
+                {
+                    System.err.println("IOException: " + ioe.getMessage());
+                }
             }
         }
     }
@@ -904,75 +944,179 @@ public class ParanormalAI extends AI
 
         c.decideToUseLandOrSeaRoute();
 
-        ArrayList<Route> routesArrayList;
-
-        // routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 2 * Globals.SEA_ROUTE_PRICE), c.getDice());
-        routesArrayList = c.getMyAvailableRoutes();
-
-        ArrayList<Node> treasureCitiesArrayList;
-        treasureCitiesArrayList = c.getRemainingTreasures();
-
-        Route chosenRoute = null;
-        Node chosenTreasureCity = null;
-        int shortestDistanceToTreasureCity = -1;
-        int chosenPrice = -1;
-
-        for (Route route : routesArrayList)
+        if (c.getRemainingTreasures().size() >= 1)
         {
-            for (Node treasureCity : treasureCitiesArrayList)
+            ArrayList<Route> routesArrayList;
+
+            // routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 2 * Globals.SEA_ROUTE_PRICE), c.getDice());
+            routesArrayList = c.getMyAvailableRoutes();
+
+            ArrayList<Node> treasureCitiesArrayList;
+            treasureCitiesArrayList = c.getRemainingTreasures();
+
+            boolean randomChoiceInUse = false;
+
+            ArrayList<Route> chosenRoutesArrayList;
+            chosenRoutesArrayList = new ArrayList<>();
+
+            ArrayList<Node> chosenTreasureCitiesArrayList;
+            chosenTreasureCitiesArrayList = new ArrayList<>();
+
+            Route chosenRoute = null;
+            Node chosenTreasureCity = null;
+            int shortestDistanceToTreasureCity = -1;
+            int chosenPrice = -1;
+            int priceFromChosenTreasureCityToMetropol = -1;
+
+            for (Route route : routesArrayList)
             {
-                int distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(route.getDestination(), treasureCity, getCashAfterRoute(route));
-                int routePrice = route.getPrice();
-                boolean isUpdateNeeded = false;
-
-                writeTextAndNewlineToLog("distance from " + route.getDestination().getName()
-                                         + " to " + treasureCity.getName()
-                                         + " is " + distanceFromDestinationToTreasureCity
-                                         + " links.");
-
-                if (distanceFromDestinationToTreasureCity >= 0)
+                for (Node treasureCity : treasureCitiesArrayList)
                 {
-                    if (shortestDistanceToTreasureCity < 0)
+                    int distanceFromDestinationToTreasureCity;
+                    // int cheapestPriceToMetropolFromTreasureCity = getCheapestPriceToMetropol(treasureCity);
+                    // distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(
+                    //     route.getDestination(),
+                    //     treasureCity,
+                    //     (getCashAfterRoute(route) - cheapestPriceToMetropolFromTreasureCity));
+                    int cheapestPriceToMetropolFromTreasureCity = getCheapestPriceToMetropol(treasureCity);
+                    distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(
+                        route.getDestination(),
+                        treasureCity,
+                        getCash());
+                    int routePrice = route.getPrice();
+                    boolean isUpdateNeeded = false;
+                    boolean isBetterRoute = false;
+
+                    writeTextAndNewlineToLog("distance from " + route.getDestination().getName()
+                                             + " to " + treasureCity.getName()
+                                             + " is " + distanceFromDestinationToTreasureCity
+                                             + " links.");
+                    writeTextAndNewlineToLog("cheapest price from " + treasureCity.getName()
+                                             + " to any metropol is " + cheapestPriceToMetropolFromTreasureCity
+                                             + " GBP.");
+
+                    //if (c.robbersLeft() > 0)
+                    if (false)
                     {
-                        isUpdateNeeded = true;
-                    }
-                    else if (shortestDistanceToTreasureCity > distanceFromDestinationToTreasureCity)
-                    {
-                        isUpdateNeeded = true;
-                    }
-                    else if ((shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
-                             && (chosenPrice > routePrice))
-                    {
-                        isUpdateNeeded = true;
+                        // If there are robbers left, prefer
+                        // metropol landmass destinations.
+                        if ((distanceFromDestinationToTreasureCity >= 0) && (cheapestPriceToMetropolFromTreasureCity >= 0))
+                        {
+                            if ((shortestDistanceToTreasureCity < 0) || (priceFromChosenTreasureCityToMetropol < 0))
+                            {
+                                isUpdateNeeded = true;
+                                isBetterRoute = true;
+                            }
+                            else if (priceFromChosenTreasureCityToMetropol > cheapestPriceToMetropolFromTreasureCity)
+                            {
+                                isUpdateNeeded = true;
+                                isBetterRoute = true;
+                            }
+                            else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
+                                     && (shortestDistanceToTreasureCity > distanceFromDestinationToTreasureCity))
+                            {
+                                isUpdateNeeded = true;
+                                isBetterRoute = true;
+                            }
+                            else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
+                                     && (shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
+                                     && (chosenPrice > routePrice))
+                            {
+                                isUpdateNeeded = true;
+                                isBetterRoute = true;
+                            }
+                            else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
+                                     && (shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
+                                     && (chosenPrice == routePrice))
+                            {
+                                isUpdateNeeded = true;
+                            }
+                        }
                     }
                     else
                     {
-                        isUpdateNeeded = false;
+                        // If there are no robbers left, the
+                        // landmass where the treasure city is located
+                        // doesn't matter.
+                        if (distanceFromDestinationToTreasureCity >= 0)
+                        {
+                            if (shortestDistanceToTreasureCity < 0)
+                            {
+                                isUpdateNeeded = true;
+                                isBetterRoute = true;
+                            }
+                            else if (shortestDistanceToTreasureCity > distanceFromDestinationToTreasureCity)
+                            {
+                                isUpdateNeeded = true;
+                                isBetterRoute = true;
+                            }
+                            else if ((shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
+                                     && (chosenPrice > routePrice))
+                            {
+                                isUpdateNeeded = true;
+                                isBetterRoute = true;
+                            }
+                            else if ((shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
+                                     && (chosenPrice == routePrice))
+                            {
+                                isUpdateNeeded = true;
+                            }
+                        }
+                    }
+
+                    if (isUpdateNeeded)
+                    {
+                        if (randomChoiceInUse)
+                        {
+                            if (isBetterRoute)
+                            {
+                                chosenRoutesArrayList.clear();
+                                chosenTreasureCitiesArrayList.clear();
+                            }
+                            chosenRoutesArrayList.add(route);
+                            chosenTreasureCitiesArrayList.add(treasureCity);
+                        }
+                        else
+                        {
+                            chosenRoute = route;
+                            chosenTreasureCity = treasureCity;
+                        }
+                        chosenPrice = routePrice;
+                        shortestDistanceToTreasureCity = distanceFromDestinationToTreasureCity;
                     }
                 }
+            }
 
-                if (isUpdateNeeded)
+            if (randomChoiceInUse)
+            {
+                if ((!(chosenRoutesArrayList.isEmpty()))
+                    && (!(chosenTreasureCitiesArrayList.isEmpty()))
+                    && (chosenRoutesArrayList.size() == chosenTreasureCitiesArrayList.size()))
                 {
-                    chosenRoute = route;
-                    chosenPrice = routePrice;
-                    chosenTreasureCity = treasureCity;
-                    shortestDistanceToTreasureCity = distanceFromDestinationToTreasureCity;
+                    int randomIndex;
+                    randomIndex = rand.nextInt(chosenRoutesArrayList.size());
+                    chosenRoute = chosenRoutesArrayList.get(randomIndex);
+                    chosenTreasureCity = chosenTreasureCitiesArrayList.get(randomIndex);
                 }
             }
-        }
-
-        if ((chosenRoute == null) || (chosenTreasureCity == null))
-        {
-            writeTextAndNewlineToLog("chosenRoute or chosenTreasureCity is null, I'll do random land movement!");
-            doRandomLandMovement();
+            if ((chosenRoute == null) || (chosenTreasureCity == null))
+            {
+                writeTextAndNewlineToLog("chosenRoute or chosenTreasureCity is null, I'll do random land movement!");
+                doRandomLandMovement();
+            }
+            else
+            {
+                writeTextAndNewlineToLogAndDebug(messagePrefix + "I'm taking route to " + chosenRoute.getDestination().getName()
+                                                 + ", en route to " + chosenTreasureCity.getName()
+                                                 + " (" + shortestDistanceToTreasureCity
+                                                 + " links remaining), price " + chosenPrice + " GBP.");
+                executeRoute(chosenRoute);
+            }
         }
         else
         {
-            writeTextAndNewlineToLogAndDebug(messagePrefix + "I'm taking route to " + chosenRoute.getDestination().getName()
-                                             + ", en route to " + chosenTreasureCity.getName()
-                                             + " (" + shortestDistanceToTreasureCity
-                                             + " links remaining), price " + chosenPrice + " GBP.");
-            executeRoute(chosenRoute);
+            // no treasures.
+            doRandomLandMovement();
         }
     }
 
@@ -1263,7 +1407,7 @@ public class ParanormalAI extends AI
         // #2 I am eligible for win, and there are valuable treasures left.
         // #3 Some opponent has Africa's star, and there are horseshoes left.
 
-        if (areThereUsefulTreasuresLeft())
+        if ((c.getCurrentNode().hasTreasure()) && areThereUsefulTreasuresLeft())
         {
             c.buyToken();
         }
@@ -1281,15 +1425,18 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private void tryOrBuyToken()
     {
-        if (areThereUsefulTreasuresLeft() && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
-        // some excess cash.
+        if (c.getCurrentNode().hasTreasure())
         {
-            buyTokenIfItMayBeUseful();
-        }
-        else
-        // no excess cash.
-        {
-            c.decideTryToken();
+            if (areThereUsefulTreasuresLeft() && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
+            // some excess cash.
+            {
+                buyTokenIfItMayBeUseful();
+            }
+            else
+            // no excess cash.
+            {
+                c.decideTryToken();
+            }
         }
     }
 
