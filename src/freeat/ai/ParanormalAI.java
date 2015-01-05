@@ -323,10 +323,10 @@ public class ParanormalAI extends AI
                     winConditionMessage = "w/valid horseshoe! ";
                 }
                 doLandSeaTravelTowards(targetMetropolID, winConditionMessage);
-                // TODO: Implement money counting behavior so that extra money
-                // can be used to buy potentially useful tokens
-                // (gems and horseshoes).
-                // buyTokenIfItMayBeUseful();
+                if (isThereExcessCash())
+                {
+                    buyTokenIfItMayBeUseful();
+                }
                 doEndTurn();
             }
             else if (isAnyOpponentEligibleForWin() && (getCash() >= Globals.TREASURE_BUYING_PRICE) && (areThereTreasuresLeft()))
@@ -338,12 +338,22 @@ public class ParanormalAI extends AI
                 // TODO: Play using best-case scenario for me.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    c.buyToken();
+                    if (isThereSpareCash())
+                    {
+                        c.buyToken();
+                    }
+                    else
+                    {
+                        c.decideTryToken();
+                    }
                 }
                 else
                 {
                     moveTowardsClosestTreasure(c.horseShoesLeft() + " horseshoes left! ");
-                    buyTokenIfItMayBeUseful();
+                    if (isThereSpareCash())
+                    {
+                        buyTokenIfItMayBeUseful();
+                    }
                 }
                 doEndTurn();
             }
@@ -372,12 +382,22 @@ public class ParanormalAI extends AI
                 // No one is eligible for win and I do have money, and there are treasures left.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    c.buyToken();
+                    if (isThereSpareCash())
+                    {
+                        c.buyToken();
+                    }
+                    else
+                    {
+                        c.decideTryToken();
+                    }
                 }
                 else
                 {
                     moveTowardsClosestTreasure(c.robbersLeft() + " robbers left! ");
-                    buyTokenIfItMayBeUsefulAndIHaveExcessCash();
+                    if (isThereSpareCash())
+                    {
+                        buyTokenIfItMayBeUseful();
+                    }
                 }
                 doEndTurn();
             }
@@ -699,6 +719,41 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    // the price of the shortest route from originNode to any metropol.
+    private int getPriceOfFastestRouteToMetropol()
+    {
+        int lengthOfChosenRoute;
+        lengthOfChosenRoute = -1;
+        int priceOfChosenRoute;
+        priceOfChosenRoute = -1;
+
+        for (int metropolNodeID : METROPOLS_ARRAY)
+        {
+            int lengthOfCurrentRoute = getShortestDistanceWithCash(c.getNode(metropolNodeID), getCash());
+            int priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, MAX_LAND_SEA_TOTAL_PRICE);
+            boolean isUpdateNeeded = false;
+
+            if (priceOfCurrentRoute >= 0)
+            {
+                if (lengthOfChosenRoute < 0)
+                {
+                    isUpdateNeeded = true;
+                }
+                else if ((lengthOfChosenRoute == lengthOfCurrentRoute) && (priceOfChosenRoute > priceOfCurrentRoute))
+                {
+                    isUpdateNeeded = true;
+                }
+                if (isUpdateNeeded)
+                {
+                    lengthOfChosenRoute = lengthOfCurrentRoute;
+                    priceOfChosenRoute = priceOfCurrentRoute;
+                }
+            }
+        }
+        return priceOfChosenRoute;
+    }
+    /*------------------------------------------------------------------------*/
+
     private int getCheapestPriceToMetropol()
     // the price of the cheapest route from current node to any metropol.
     {
@@ -1412,11 +1467,28 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void buyTokenIfItMayBeUsefulAndIHaveExcessCash()
+    private boolean isThereExcessCash()
     {
-        if (areThereUsefulTreasuresLeft() && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
+        if (getPriceOfFastestRouteToMetropol() >= 0)
         {
-            buyTokenIfItMayBeUseful();
+            return (getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol());
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*------------------------------------------------------------------------*/
+    private boolean isThereSpareCash()
+    {
+        if (getCheapestPriceToMetropol() >= 0)
+        {
+            return (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol());
+        }
+        else
+        {
+            return false;
         }
     }
 
