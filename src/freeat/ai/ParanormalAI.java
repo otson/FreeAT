@@ -358,7 +358,10 @@ public class ParanormalAI extends AI
                 {
                     c.decideTryToken();
                 }
-                searchForTreasureWithoutCash(c.horseShoesLeft() + "horseshoes left! ");
+                else
+                {
+                    searchForTreasureWithoutCash(c.horseShoesLeft() + "horseshoes left! ");
+                }
                 doEndTurn();
             }
             else if ((getCash() >= Globals.TREASURE_BUYING_PRICE) && (c.getRemainingTreasures().size() > 0))
@@ -388,7 +391,10 @@ public class ParanormalAI extends AI
                 {
                     c.decideTryToken();
                 }
-                searchForTreasureWithoutCash(c.robbersLeft() + " robbers left! ");
+                else
+                {
+                    searchForTreasureWithoutCash(c.robbersLeft() + " robbers left! ");
+                }
                 doEndTurn();
             }
             else if ((getCash() < Globals.TREASURE_BUYING_PRICE) && (!(areThereTreasuresLeftOnLandmass())))
