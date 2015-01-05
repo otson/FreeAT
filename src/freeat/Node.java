@@ -138,7 +138,7 @@ public class Node
     // new variables to make the game more scalable, not yet in use
     private ArrayList<Route> planeRoutes = new ArrayList<>();
     private ArrayList<Route> freeSeaRoutes = new ArrayList<>();
-    private HashMap<Integer, ArrayList<Route>> nonPlaneRoutes;
+    private HashMap<Integer, ArrayList<Route>> nonPlaneRoutes = new HashMap<>();
 
     // new methods, not yet in use
     
@@ -163,7 +163,7 @@ public class Node
 
     public Node(int id, int x, int y, HashMap<Integer, Node> locations)
     {
-
+        
         this.name = String.valueOf(id);
         allLists = new ArrayList[7][4];
         allLists[0][0] = new ArrayList<>();

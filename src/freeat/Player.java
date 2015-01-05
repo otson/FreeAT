@@ -502,7 +502,7 @@ public class Player
 
     public void buyToken()
     {
-        if (!endTurn)
+        if (!endTurn && (!tryToWinToken && !usePlane && !useLandOrSea) || moved)
         {
             Node temp = locations.get(location);
             if (temp.hasTreasure())
