@@ -197,7 +197,7 @@ public class ParanormalAI extends AI
 
     int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
     boolean onAfricaTour = false;
-    Node nextDestinationOfricaTour;
+    Node nextDestinationOfAfricaTour;
 
     public ParanormalAI()
     {
@@ -1054,11 +1054,11 @@ public class ParanormalAI extends AI
 
         if (onAfricaTour)
         {
-            if (c.getCurrentNode() == nextDestinationOfricaTour)
+            if (c.getCurrentNode() == nextDestinationOfAfricaTour)
             {
-                nextDestinationOfricaTour = chooseFarthestCity(MAX_LAND_ROAD_PRICE);
+                nextDestinationOfAfricaTour = chooseFarthestCity(MAX_LAND_ROAD_PRICE);
             }
-            doLandSeaTravelTowards(nextDestinationOfricaTour, "I'm on Africa Tour en route to " + nextDestinationOfricaTour.getName() + ".");
+            doLandSeaTravelTowards(nextDestinationOfAfricaTour, MAX_LAND_ROAD_PRICE, "I'm on Africa Tour en route to " + nextDestinationOfAfricaTour.getName() + ".");
         }
         else
         {
@@ -1071,7 +1071,7 @@ public class ParanormalAI extends AI
             }
             else
             {
-                nextDestinationOfricaTour = chosenNode;
+                nextDestinationOfAfricaTour = chosenNode;
                 onAfricaTour = true;
                 doAfricaTour();
             }
@@ -1100,7 +1100,7 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(Node targetNode, int currentMaxTotalPrice)
+    private void doLandSeaTravelTowards(Node targetNode, int currentMaxTotalPrice, String messagePrefix)
     {
         c.decideToUseLandOrSeaRoute();
 
@@ -1178,6 +1178,12 @@ public class ParanormalAI extends AI
             writeTextAndNewlineToLog("I'm trying to do land & sea travel towards " + targetNode.getName() + ", but routesArrayList is empty! Doing random land move!");
             doRandomLandMovement();
         }
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void doLandSeaTravelTowards(Node targetNode, int currentMaxTotalPrice)
+    {
+        doLandSeaTravelTowards(targetNode, currentMaxTotalPrice, "");
     }
 
     /*------------------------------------------------------------------------*/
