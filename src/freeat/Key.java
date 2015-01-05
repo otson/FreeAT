@@ -13,13 +13,11 @@ public class Key
 {
     private final int distance;
     private final int price;
-    private final int destination;
 
-    public Key(int distance, int price, int destination)
+    public Key(int distance, int price)
     {
         this.distance = distance;
         this.price = price;
-        this.destination = destination;
     }
 
     @Override
@@ -28,7 +26,6 @@ public class Key
         int hash = 5;
         hash = 89 * hash + this.distance;
         hash = 89 * hash + this.price;
-        hash = 89 * hash + this.destination;
         return hash;
     }
 

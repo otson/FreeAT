@@ -433,5 +433,32 @@ public class Controller
         }
         return valuesList;
     }
+    
+    // Not yet implemented
+    
+    public ArrayList<Route> getAllRoutes(Node start, int cash, int dice){
+        HashMap<Integer, ArrayList<Route>> hashMap = start.getNonPlaneRoutes();
+        ArrayList<Route> list = new ArrayList<>();
+        
+        ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
+        list.addAll(landSeaList);
+        
+        if(cash >=Globals.PLANE_ROUTE_PRICE){
+            ArrayList<Route> planeList = start.getPlaneRoutes();
+            list.addAll(planeList);
+        }
+        
+        if(cash == 0){
+            ArrayList<Route> freeSeaList = start.getFreeSeaRoutes();
+            list.addAll(freeSeaList);
+        }
+        
+        
+        return list;
+    }
+    
+    public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED(){
+        return getAllRoutes(getAllCities().get(ID), getMyBalance(), getDice());
+    }
 
 }
