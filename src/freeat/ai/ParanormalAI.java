@@ -8,6 +8,7 @@ package freeat.ai;
 import freeat.Node;
 import freeat.Route;
 import freeat.PublicInformation;
+import freeat.Globals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -654,6 +655,32 @@ public class ParanormalAI extends AI
      | Global game state reasoning methods.                                    |
      |                                                                         |
      \------------------------------------------------------------------------*/
+    private int getMinTreasureValue()
+    {
+        if (c.robbersLeft() > 0)
+        {
+            return -1 * getCash();
+        }
+        else if ((c.emptyLeft() > 0) || (c.horseShoesLeft() > 0))
+        {
+            return 0;
+        }
+        else if (c.topazesLeft() > 0)
+        {
+            return Globals.TOPAZ_VALUE;
+        }
+        else if (c.emeraldsLeft() > 0)
+        {
+            return Globals.EMERALD_VALUE;
+        }
+        else if (c.rubiesLeft() > 0)
+        {
+            return Globals.RUBY_VALUE;
+        }
+        return 0;
+    }
+
+    /*------------------------------------------------------------------------*/
     private void updateZeitgebers()
     {
         if ((c.getMyID() == leaderID))
