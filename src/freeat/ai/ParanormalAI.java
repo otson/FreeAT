@@ -1247,7 +1247,7 @@ public class ParanormalAI extends AI
 
     /*-------------------------------------------------------------------------\
      |                                                                         |
-     | Token buying methods.                                                   |
+     | Token buying and trying methods.                                        |
      |                                                                         |
      \------------------------------------------------------------------------*/
     private void buyTokenIfItMayBeUseful()
@@ -1257,9 +1257,8 @@ public class ParanormalAI extends AI
         // #2 I am eligible for win, and there are valuable treasures left.
         // #3 Some opponent has Africa's star, and there are horseshoes left.
 
-        if (!(isAnyoneEligibleForWin()))
+        if (areThereUsefulTreasuresLeft())
         {
-            // Situation #1. No one has Africa's star.
             c.buyToken();
         }
         else if (c.isEligibleForWin())
