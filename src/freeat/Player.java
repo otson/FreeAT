@@ -5,6 +5,7 @@
  */
 package freeat;
 
+import freeat.Globals;
 import freeat.ai.AI;
 import freeat.ai.DrawNode;
 import freeat.ai.LoomAI;
@@ -155,7 +156,19 @@ public class Player
 
     private void throwDice()
     {
-        dice = 1 + (int) (Math.random() * 6);
+        // Safety check before full implementation of Globals.
+        int dice_size;
+        if (Globals.DICE_SIZE > 6)
+        {
+            dice_size = 6;
+        }
+        else
+        {
+            dice_size = Globals.DICE_SIZE;
+        }
+        dice = 1 + (int) (Math.random() * dice_size);
+        // Line below is sufficient after full implementation of Globals.
+        // dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
     }
 
     private void openToken()
