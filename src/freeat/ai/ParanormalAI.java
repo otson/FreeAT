@@ -189,7 +189,6 @@ public class ParanormalAI extends AI
     public static HashMap<Integer, ParanormalNode> paranormalNodeHashMap = new HashMap<>();
     public static HashMap<Integer, HashMap<Integer, HashMap<Integer, ParanormalNode>>> connectionsHashMap = new HashMap<>();
 
-    int destinationNodeID;
 
     int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
 
