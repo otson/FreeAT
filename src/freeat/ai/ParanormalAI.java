@@ -7,8 +7,8 @@ package freeat.ai;
 
 import freeat.Node;
 import freeat.Route;
-import freeat.PublicInformation;
 import freeat.Globals;
+import freeat.PublicInformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +31,8 @@ public class ParanormalAI extends AI
 {
 
     // class-level (static) variables.
-    static boolean isLoggingInUse = false;
-    static boolean shouldConnectionHashMapGenerationBeLogged = false;
+    static boolean isLoggingInUse = true;
+    static boolean shouldConnectionHashMapGenerationBeLogged = true;
     static boolean shouldLandMassHashMapGenerationBeLogged = false;
 
     static String paranormalAIStartDateString;
@@ -138,14 +138,11 @@ public class ParanormalAI extends AI
     // maximum land & sea road price as used by FreeAT.
     public static final int MAX_ROAD_PRICE = Globals.SEA_ROUTE_PRICE;
 
-    // flight price as used by ParanormalAI.
-    public static final int FLIGHT_PRICE = 3;
-
     // distance to a neighbor node.
     public static final int NEIGHBOR_DISTANCE = 1;
 
     // maximum price for land & sea routes as used by ParanormalAI.
-    public static final int MAX_LAND_SEA_TOTAL_PRICE = 6;
+    public static final int MAX_LAND_SEA_TOTAL_PRICE = Globals.MAX_DICE_VALUE;
 
     // initial distance from starting node (targetNode).
     public static final int INITIAL_DISTANCE = 0;
