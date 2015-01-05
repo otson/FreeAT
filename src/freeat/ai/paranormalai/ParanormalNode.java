@@ -11,9 +11,6 @@ import static freeat.ai.ParanormalAI.*;
 public class ParanormalNode
 {
 
-    private static int nContinentalCities; // number of cities located in the continen (the landmass with most cities).
-    private static int maxLandmassID = -1; // highest used landmassID so far (-1 for not landmassIDs used so far).
-
     private Node node;
     private final HashMap<Integer, HashMap<Integer, Integer>> distanceToTargetHashMap;
     private final HashMap<Integer, HashMap<Integer, Integer>> priceToTargetHashMap;
