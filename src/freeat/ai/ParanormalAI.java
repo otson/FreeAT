@@ -895,7 +895,7 @@ public class ParanormalAI extends AI
             c.decideTryToken();
             doEndTurn();
         }
-        else if (c.totalTreasures() >= 1)
+        else if (c.getRemainingTreasures().size() >= 1)
         {
             writeTextAndNewlineToLog("There are treasures available somewhere!");
             moveTowardsClosestTreasure(messagePrefix);
