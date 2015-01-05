@@ -274,7 +274,14 @@ public class ParanormalNode
 
     public int getDistanceToTarget(int targetNodeID, int currentMaxTotalPrice)
     {
-        return this.distanceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
+        if (currentMaxTotalPrice < 0)
+        {
+            return -1;
+        }
+        else
+        {
+            return this.distanceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
+        }
     }
 
     public int getDistanceToTarget(Node targetNode, int currentMaxTotalPrice)
@@ -284,7 +291,14 @@ public class ParanormalNode
 
     public int getPriceToTarget(int targetNodeID, int currentMaxTotalPrice)
     {
-        return this.priceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
+        if (currentMaxTotalPrice < 0)
+        {
+            return -1;
+        }
+        else
+        {
+            return this.priceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
+        }
     }
 
     public int getPriceToTarget(Node targetNode, int currentMaxTotalPrice)
