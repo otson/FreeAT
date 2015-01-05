@@ -35,7 +35,7 @@ public class Globals
     // Treasure values
     public static final int TOPAZ_VALUE = 3;
     public static final int RUBY_VALUE = 10;
-    public static final int SAPPHIRE_VALUE = 5;
+    public static final int EMERALD_VALUE = 5;
 
     // route prices
     public static final int SEA_ROUTE_PRICE = 1;
