@@ -786,7 +786,7 @@ public class ParanormalAI extends AI
     }
     /*------------------------------------------------------------------------*/
 
-    private boolean areThereValuableTreasuresLeft()
+    private boolean areThereUsefulTreasuresLeft()
     {
         // Are there left any treasures, which could be useful for me, an opponent or a possible ally?
         // In other words: Can I make my situation better by buying or trying tokens?
