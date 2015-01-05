@@ -333,8 +333,22 @@ public class ParanormalAI extends AI
                     }
                 }
 
-                doLandTravelTowards(targetMetropolID);
-                buyTokenIfItMayBeUseful();
+                String winConditionMessage;
+                winConditionMessage = "";
+
+                if (c.hasStar())
+                {
+                    winConditionMessage = "w/Star of Africa! ";
+                }
+                else if (c.hasHorseShoeAfterStar())
+                {
+                    winConditionMessage = "w/valid horseshoe! ";
+                }
+                doLandSeaTravelTowards(targetMetropolID, winConditionMessage);
+                // TODO: Implement money counting behavior so that extra money
+                // can be used to buy potentially useful tokens
+                // (gems and horseshoes).
+                // buyTokenIfItMayBeUseful();
                 doEndTurn();
             }
             else if (isAnyOpponentEligibleForWin())
