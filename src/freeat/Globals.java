@@ -22,7 +22,7 @@ public class Globals
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice
-    public static final int DICE_SIZE = 15;
+    public static final int DICE_SIZE = 12;
     public static final int DICE_COUNT = 1;
 
     // Treasure counts

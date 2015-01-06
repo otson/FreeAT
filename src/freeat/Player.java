@@ -150,24 +150,7 @@ public class Player
 
     private void throwDice()
     {
-        // Safety check before full implementation of Globals.
-        int diceSize;
-        if (Globals.DICE_SIZE > 6)
-        {
-            diceSize = 6;
-        } else
-        {
-            diceSize = Globals.DICE_SIZE;
-        }
-
-        dice = 0;
-
-        for (int i = 0; i < Globals.DICE_COUNT; i++)
-        {
-            dice += 1 + (int) (Math.random() * diceSize);
-            // Line below is sufficient after full implementation of Globals.
-            // dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
-        }
+        dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
     }
 
     private void openToken()
@@ -491,7 +474,7 @@ public class Player
                     }
                 } else
                 {
-                    
+
                     System.out.println("Did not move in the moveTo Method.");
                     System.exit(1);
                 }
