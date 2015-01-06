@@ -340,18 +340,18 @@ public class ParanormalAI extends AI
                 {
                     if (isThereSpareCash())
                     {
-                        writeTextAndNewlineToLogAndDebug("I have spare cash, I buy token.");
+                        writeTextAndNewlineToLogAndDebug("#2: I have spare cash (cash: " + getCash() + " GBP), I buy token.");
                         c.buyToken();
                     }
                     else
                     {
-                        writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
+                        writeTextAndNewlineToLogAndDebug("#2: I don't have spare cash (cash: " + getCash() + " GBP), I try token.");
                         c.decideTryToken();
                     }
                 }
                 else
                 {
-                    moveTowardsClosestTreasure(c.horseShoesLeft() + " horseshoes left! ");
+                    moveTowardsClosestTreasure("#2: " + c.horseShoesLeft() + " horseshoes left! ");
                     if (isThereSpareCash())
                     {
                         buyTokenIfItMayBeUseful();
@@ -368,12 +368,12 @@ public class ParanormalAI extends AI
                 // TODO: Play using best-case scenario for me.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
+                    writeTextAndNewlineToLogAndDebug("#3: I don't have spare cash (cash: " + getCash() + " GBP), I try token.");
                     c.decideTryToken();
                 }
                 else
                 {
-                    searchForTreasureWithoutCash(c.horseShoesLeft() + "horseshoes left! ");
+                    searchForTreasureWithoutCash("#3: " + c.horseShoesLeft() + "horseshoes left! ");
                 }
                 doEndTurn();
             }
@@ -387,18 +387,18 @@ public class ParanormalAI extends AI
                 {
                     if (isThereSpareCash())
                     {
-                        writeTextAndNewlineToLogAndDebug("I have spare cash, I buy token.");
+                        writeTextAndNewlineToLogAndDebug("#4: I have spare cash (cash: " + getCash() + " GBP), I buy token.");
                         c.buyToken();
                     }
                     else
                     {
-                        writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
+                        writeTextAndNewlineToLogAndDebug("#4: I don't have spare cash (cash: " + getCash() + " GBP), I try token.");
                         c.decideTryToken();
                     }
                 }
                 else
                 {
-                    moveTowardsClosestTreasure(c.robbersLeft() + " robbers left! ");
+                    moveTowardsClosestTreasure("#4: " + c.robbersLeft() + " robbers left! ");
                     if (isThereSpareCash())
                     {
                         buyTokenIfItMayBeUseful();
@@ -414,12 +414,12 @@ public class ParanormalAI extends AI
                 // No one is eligible for win and I have no money, and there are treasures left on this landmass.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    writeTextAndNewlineToLogAndDebug("I don't have spare cash, I try token.");
+                    writeTextAndNewlineToLogAndDebug("#5: I don't have spare cash, I try token.");
                     c.decideTryToken();
                 }
                 else
                 {
-                    searchForTreasureWithoutCash(c.robbersLeft() + " robbers left! ");
+                    searchForTreasureWithoutCash("#5: " + c.robbersLeft() + " robbers left! ");
                 }
                 doEndTurn();
             }
@@ -1389,7 +1389,7 @@ public class ParanormalAI extends AI
                 writeTextAndNewlineToLog("Land & sea distance from destination " + routeNode.getName()
                                          + " to " + targetNode.getName()
                                          + " is " + landSeaDistanceFromDestinationToTargetNode
-                                         + " links.");
+                                         + " links (price : " + currentRoute.getPrice() + " GBP");
 
                 boolean isUpdateNeeded = false;
 
@@ -1418,12 +1418,14 @@ public class ParanormalAI extends AI
             {
                 writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
                                          + ", but landDistanceFromChosenNodeToTreasureCity is " + landSeaDistanceFromChosenNodeToTargetNode
-                                         + "! Doing random land move!");
+                                         + "! Cash: " + getCash()
+                                         + " Doing random land move!");
                 doRandomLandMovement();
             }
             else if (chosenRoute == null)
             {
-                writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName() + ", but chosenRoute is null! Doing random land move!");
+                writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
+                                         + ", but chosenRoute is null! Cash: " + getCash() + " Doing random land move!");
                 doRandomLandMovement();
             }
             else
