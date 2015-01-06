@@ -438,8 +438,8 @@ public class Controller
         if (landSeaList == null)
         {
             System.out.println("No available land routes.");
-        }
-        else{
+        } else
+        {
             list.addAll(landSeaList);
         }
         if (cash == 0 && start.getFreeSeaRoutes() != null)
@@ -457,10 +457,37 @@ public class Controller
         return list;
     }
 
+    public ArrayList<Route> getAllNonPlaneRoutes(Node start, int cash, int dice)
+    {
+        HashMap<Integer, ArrayList<Route>> hashMap = start.getNonPlaneRoutes();
+        ArrayList<Route> list = new ArrayList<>();
+        ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
+        if (landSeaList == null)
+        {
+            System.out.println("No available land routes.");
+        } else
+        {
+            list.addAll(landSeaList);
+        }
+        if (cash == 0 && start.getFreeSeaRoutes() != null)
+        {
+            System.out.println("Adding free sea routes to available routes.");
+            list.addAll(start.getFreeSeaRoutes());
+        }
+
+        return list;
+    }
+
     public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED()
     {
-        System.out.println("Values used: nodeID: " + getCurrentNode().ID + " balance: " + Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST) + " dice: " + getDice());
-        return getAllRoutes(getCurrentNode(), Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST), getDice());
+        //System.out.println("Values used: nodeID: " + getCurrentNode().ID + " balance: " + Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST) + " dice: " + getDice());
+        if (player.isUsingFreeSeaRoute())
+        {
+            return player.getCurrentNode().getFreeSeaRoutes();
+        } else
+        {
+            return getAllRoutes(getCurrentNode(), Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST), getDice());
+        }
     }
 
 }

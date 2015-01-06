@@ -46,6 +46,7 @@ public class Player
     public final int ID;
     private HashMap<Integer, Node> locations;
     private String debugString;
+    private boolean usingFreeSeaRoute = false;
 
     private int skipTurns = 0;
     private Controller controller;
@@ -368,56 +369,55 @@ public class Player
     // Land, sea, or plane
     public void moveTo(Route destination)
     {
-        //System.out.println("old check result: " + getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination));
-        //System.out.println("New check result: " + controller.getMyAvailableRoutes().contains(destination));
-
         if (useLandOrSea || usePlane)
         {
 
             if (!moved)
             {
-                int tempDice = dice;
                 if (usePlane)
                 {
-                    if (destination.getPrice() != Globals.PLANE_ROUTE_PRICE)
-                    {
-                        System.out.println("Tried to use a non-plane route after selecting to use a plane. Returning...");
+                    if(!getCurrentNode().getPlaneRoutes().contains(destination)){
+                        System.out.println("Decided to use plane, tried to use non-plane route. Returning...");
                         return;
                     }
-
-                    // redundant?
-                    tempDice = 1;
                 }
                 if (useLandOrSea)
                 {
-                    if (destination.getPrice() == Globals.PLANE_ROUTE_PRICE)
-                    {
-                        System.out.println("Tried to use a plane route after selecting to use a land or sea route. Returning...");
+                    if(getCurrentNode().getPlaneRoutes().contains(destination)){
+                        System.out.println("Decided to use landOrSea, tried to use plane route. Returning...");
                         return;
                     }
                 }
-                // getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)
-                // if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)))
+                
                 ArrayList<Route> availableRoutes = controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
                 if (availableRoutes.contains(destination))
                 {
-                    System.out.println("MOVING!");
+                    
+                    if(getCurrentNode().getFreeSeaRoutes() != null){
+                        if(getCurrentNode().getFreeSeaRoutes().contains(destination)){
+                            usingFreeSeaRoute = true;
+                        }
+                    }
+                    
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
                     if (target.TYPE == NodeType.ROUTE)
                     {
                         this.location = destination.getDestination().ID;
                         moved = true;
+                        usingFreeSeaRoute = false;
                     }
                     if (target.TYPE == NodeType.CITY)
                     {
                         this.location = destination.getDestination().ID;
                         moved = true;
+                        usingFreeSeaRoute = false;
 
                     }
                     if (target.TYPE == NodeType.CAPE_TOWN)
                     {
                         this.location = destination.getDestination().ID;
+                        usingFreeSeaRoute = false;
                         moved = true;
                         if (PublicInformation.isCapeTownBonus())
                         {
@@ -429,6 +429,7 @@ public class Player
                     {
                         this.location = destination.getDestination().ID;
                         moved = true;
+                        usingFreeSeaRoute = false;
                         if (hasHorseshoeAfterStar || hasStar)
                         {
                             isWinner = true;
@@ -439,6 +440,7 @@ public class Player
                     {
                         this.location = destination.getDestination().ID;
                         moved = true;
+                        usingFreeSeaRoute = false;
                         if (hasHorseshoeAfterStar || hasStar)
                         {
                             isWinner = true;
@@ -447,6 +449,7 @@ public class Player
                     if (target.TYPE == NodeType.GOLD_COAST)
                     {
                         this.location = destination.getDestination().ID;
+                        usingFreeSeaRoute = false;
                         moved = true;
 
                     }
@@ -454,6 +457,7 @@ public class Player
                     {
                         this.location = destination.getDestination().ID;
                         moved = true;
+                        usingFreeSeaRoute = false;
                     }
                     if (target.TYPE == NodeType.SEA_ROUTE)
                     {
@@ -464,6 +468,7 @@ public class Player
                     {
                         this.location = destination.getDestination().ID;
                         inSahara = true;
+                        usingFreeSeaRoute = false;
                         moved = true;
                     }
                     if (target.TYPE == NodeType.PIRATES)
@@ -476,7 +481,6 @@ public class Player
                 {
 
                     System.out.println("Did not move in the moveTo Method.");
-                    System.exit(1);
                 }
             }
         }
@@ -599,4 +603,10 @@ public class Player
         cashBalance = 0;
     }
 
+    public boolean isUsingFreeSeaRoute()
+    {
+        return usingFreeSeaRoute;
+    }
+
+    
 }

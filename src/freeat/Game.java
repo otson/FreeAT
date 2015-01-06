@@ -61,10 +61,9 @@ public class Game
         setTreasures();
         setNodeNames();
         setPlayers();
-        //setAllRoutes();
-        setAllRoutesNOT_YET_IMPLEMENTED();
-        //shuffleRouteOrder();
+        setAllRoutes();
     }
+
 
     public final void setAllRoutes()
     {
@@ -72,33 +71,8 @@ public class Game
         int currentPrice = 0;
         for (Node node : locations.values())
         {
-            getNext(node, null, distance, currentPrice, node.getAllLists());
-        }
-        //plane routes
-        for (Node node : locations.values())
-        {
-            currentPrice = 3;
-            for (int i = 0; i < node.getPlaneConnections().size(); i++)
-            {
-
-                Integer integer = node.getPlaneConnections().get(i);
-                Node next = locations.get(integer);
-                for (int j = 1; j < 7; j++)
-                {
-                    // node.allLists[j][currentPrice].add(new Route(next, currentPrice * 100));
-                    node.allLists[j][currentPrice].add(new Route(next, currentPrice));
-                }
-            }
-        }
-    }
-    public final void setAllRoutesNOT_YET_IMPLEMENTED()
-    {
-        int distance = 1;
-        int currentPrice = 0;
-        for (Node node : locations.values())
-        {
             
-            getNext_NOT_IMPLEMENTED(node, null, distance, currentPrice, node.getNonPlaneRoutes());
+            getNext(node, null, distance, currentPrice, node.getNonPlaneRoutes());
         }
         //plane routes, free sea routes
         for (Node node : locations.values())
@@ -108,49 +82,7 @@ public class Game
         }
     }
     
-
-    private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, ArrayList<Route>[][] list)
-    {
-        for (int i = 0; i < previous.getConnections().size(); i++)
-        {
-            int tempPrice = currentPrice;
-            Integer integer = previous.getConnections().get(i);
-            Node current = locations.get(integer);
-            if (current != previousPrevious)
-            {
-                if (current.isCity())
-                {
-                    for (int j = distance; j < 7; j++)
-                    {
-                        for (int x = tempPrice; x < 4; x++)
-                        {
-                            // list[j][x].add(new Route(current, tempPrice * 100));
-                            list[j][x].add(new Route(current, tempPrice));
-                        }
-                    }
-                } else
-                {
-                    if (current.isSea() && !previous.isSea())
-                    {
-                        tempPrice++;
-
-                    }
-                    for (int x = tempPrice; x < 4; x++)
-                    {
-                        // list[distance][x].add(new Route(current, tempPrice * 100));
-                        list[distance][x].add(new Route(current, tempPrice));
-                    }
-                }
-                if (distance < 6)
-                {
-                    getNext(current, previous, distance + 1, tempPrice, list);
-                }
-            }
-
-        }
-    }
-    
-    private void getNext_NOT_IMPLEMENTED(Node previous, Node previousPrevious, int distance, int currentPrice, HashMap<Integer, ArrayList<Route>> routes)
+    private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, HashMap<Integer, ArrayList<Route>> routes)
     {
         for (int i = 0; i < previous.getConnections().size(); i++)
         {
@@ -192,7 +124,7 @@ public class Game
                 }
                 if (distance < Globals.MAX_DICE_VALUE)
                 {
-                    getNext_NOT_IMPLEMENTED(current, previous, distance + 1, tempPrice, routes);
+                    getNext(current, previous, distance + 1, tempPrice, routes);
                 }
             }
 
