@@ -151,7 +151,11 @@ public class Player
 
     private void throwDice()
     {
-        dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
+        dice = 0;
+        for (int i = 0; i < Globals.DICE_COUNT; i++)
+        {
+            dice += 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
+        }
     }
 
     private void openToken()
@@ -376,29 +380,32 @@ public class Player
             {
                 if (usePlane)
                 {
-                    if(!getCurrentNode().getPlaneRoutes().contains(destination)){
+                    if (!getCurrentNode().getPlaneRoutes().contains(destination))
+                    {
                         System.out.println("Decided to use plane, tried to use non-plane route. Returning...");
                         return;
                     }
                 }
                 if (useLandOrSea)
                 {
-                    if(getCurrentNode().getPlaneRoutes().contains(destination)){
+                    if (getCurrentNode().getPlaneRoutes().contains(destination))
+                    {
                         System.out.println("Decided to use landOrSea, tried to use plane route. Returning...");
                         return;
                     }
                 }
-                
 
-                if (controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().contains(destination)  || controller.getMyAvailableFreeRoutes().contains(destination))
+                if (controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().contains(destination) || controller.getMyAvailableFreeRoutes().contains(destination))
                 {
-                    
-                    if(getCurrentNode().getFreeSeaRoutes() != null){
-                        if(getCurrentNode().getFreeSeaRoutes().contains(destination)){
+
+                    if (getCurrentNode().getFreeSeaRoutes() != null)
+                    {
+                        if (getCurrentNode().getFreeSeaRoutes().contains(destination))
+                        {
                             usingFreeSeaRoute = true;
                         }
                     }
-                    
+
                     Node target = destination.getDestination();
                     cashBalance -= destination.getPrice();
                     if (target.TYPE == NodeType.ROUTE)
@@ -608,5 +615,4 @@ public class Player
         return usingFreeSeaRoute;
     }
 
-    
 }
