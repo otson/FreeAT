@@ -1309,8 +1309,6 @@ public class ParanormalAI extends AI
         // 2. Go there using only land movement.
         // 3. Repeat from 1 upon arrival.
 
-        Node nextDestination;
-
         if (onAfricaTour)
         {
             if (c.getCurrentNode() == nextDestinationOfAfricaTour)
