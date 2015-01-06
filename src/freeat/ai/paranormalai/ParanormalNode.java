@@ -12,8 +12,6 @@ public class ParanormalNode
 {
 
     private Node node;
-    private final HashMap<Integer, HashMap<Integer, Integer>> distanceToTargetHashMap;
-    private final HashMap<Integer, HashMap<Integer, Integer>> priceToTargetHashMap;
     private ArrayList<Integer> neighbors;
     private boolean hasAirport;
     private boolean isIslandTreasureCity;      // non-city nodes are never island cities.
@@ -25,29 +23,9 @@ public class ParanormalNode
     private int landmassID;                    // landmass ID number (used for internal purposes).
 
     // constructors.
-    public ParanormalNode(Node node, HashMap<Integer, HashMap<Integer, Integer>> distanceToTargetHashMap, HashMap<Integer, HashMap<Integer, Integer>> PriceToTargetHashMap, ArrayList<Integer> neighbors, Controller c)
-    {
-        this.node = node;
-        this.distanceToTargetHashMap = distanceToTargetHashMap;
-        this.priceToTargetHashMap = PriceToTargetHashMap;
-        this.neighbors = neighbors;
-        this.hasAirport = node.getPlaneConnections().size() > 0;
-        this.isIslandTreasureCity = false;
-        this.isContinentalTreasureCity = false;
-        this.isIslandMetropol = false;
-        this.isContinentalMetropol = false;
-        this.isMetropolLandmass = false;
-        this.nTreasureCitiesOnLandmass = 0;
-        this.landmassID = -1;
-
-        this.fillHashMaps(c);
-    }
-
     public ParanormalNode(Node node, ArrayList<Integer> neighbors, Controller c)
     {
         this.node = node;
-        this.distanceToTargetHashMap = new HashMap<>();
-        this.priceToTargetHashMap = new HashMap<>();
         this.neighbors = neighbors;
         this.hasAirport = node.getPlaneConnections().size() > 0;
         this.isIslandTreasureCity = false;
@@ -57,15 +35,11 @@ public class ParanormalNode
         this.isMetropolLandmass = false;
         this.nTreasureCitiesOnLandmass = 0;
         this.landmassID = -1;
-
-        this.fillHashMaps(c);
     }
 
     public ParanormalNode(Node node, Controller c)
     {
         this.node = node;
-        this.distanceToTargetHashMap = new HashMap<>();
-        this.priceToTargetHashMap = new HashMap<>();
         this.neighbors = new ArrayList<>();
         this.hasAirport = node.getPlaneConnections().size() > 0;
         this.isIslandTreasureCity = false;
@@ -75,8 +49,6 @@ public class ParanormalNode
         this.isMetropolLandmass = false;
         this.nTreasureCitiesOnLandmass = 0;
         this.landmassID = -1;
-
-        this.fillHashMaps(c);
     }
 
     // setters.
@@ -88,7 +60,7 @@ public class ParanormalNode
 
     public void setDistanceToTarget(int targetNodeID, int currentMaxTotalPrice, int distanceToTarget)
     {
-        this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, distanceToTarget);
+        distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, distanceToTarget);
     }
 
     public void setDistanceToTarget(Node targetNode, int currentMaxTotalPrice, int distanceToTarget)
@@ -98,7 +70,7 @@ public class ParanormalNode
 
     public void setPriceToTarget(int targetNodeID, int currentMaxTotalPrice, int priceToTarget)
     {
-        this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, priceToTarget);
+        priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, priceToTarget);
 
         if (priceToTarget == 0)
         {
@@ -160,22 +132,6 @@ public class ParanormalNode
         this.landmassID = landmassID;
     }
 
-    // fillers.
-    private void fillHashMaps(Controller c)
-    {
-        for (int targetNodeID : c.getNodeList().keySet())
-        {
-            this.distanceToTargetHashMap.put(targetNodeID, new HashMap<>());
-            this.priceToTargetHashMap.put(targetNodeID, new HashMap<>());
-
-            for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentMaxTotalPrice++)
-            {
-                this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, -1);
-                this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, -1);
-            }
-        }
-    }
-
     // updaters.
     public boolean updateDistanceAndPrice(int targetNodeID, int currentMaxTotalPrice, int newDistanceToTarget, int newPriceToTarget)
     {
@@ -200,34 +156,34 @@ public class ParanormalNode
                 // TODO: report error!
             }
 
-            if ((this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) != 0)
-                || (this.priceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) != 0))
+            if ((distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID) != 0)
+                || (priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID) != 0))
             {
                 // This is probably not the most elegant solution here...
-                this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
-                this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, 0);
+                distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, 0);
+                priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, 0);
                 hasSomeBenefit = true;
             }
         }
-        else if ((this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice) < 0)
+        else if ((distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID) < 0)
                  && (newPriceToTarget <= currentMaxTotalPrice))
         {
-            this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newDistanceToTarget);
-            this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newPriceToTarget);
+            distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newDistanceToTarget);
+            priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newPriceToTarget);
             hasSomeBenefit = true;
         }
-        else if ((newDistanceToTarget < this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice)) && (newPriceToTarget <= currentMaxTotalPrice))
+        else if ((newDistanceToTarget < distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID)) && (newPriceToTarget <= currentMaxTotalPrice))
         {
-            this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newDistanceToTarget);
-            this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newPriceToTarget);
+            distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newDistanceToTarget);
+            priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newPriceToTarget);
             hasSomeBenefit = true;
         }
-        else if ((newDistanceToTarget == this.distanceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice))
+        else if ((newDistanceToTarget == distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID))
                  && (newPriceToTarget >= 0)
-                 && (newPriceToTarget < this.priceToTargetHashMap.get(targetNodeID).get(currentMaxTotalPrice)))
+                 && (newPriceToTarget < priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID)))
         {
-            this.distanceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newDistanceToTarget);
-            this.priceToTargetHashMap.get(targetNodeID).put(currentMaxTotalPrice, newPriceToTarget);
+            distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newDistanceToTarget);
+            priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newPriceToTarget);
             hasSomeBenefit = true;
         }
         return hasSomeBenefit;
@@ -280,7 +236,7 @@ public class ParanormalNode
         }
         else
         {
-            return this.distanceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
+            return distanceToTargetHashMap.get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE)).get(targetNodeID).get(this.getNode().ID);
         }
     }
 
@@ -297,7 +253,7 @@ public class ParanormalNode
         }
         else
         {
-            return this.priceToTargetHashMap.get(targetNodeID).get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE));
+            return priceToTargetHashMap.get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE)).get(targetNodeID).get(this.getNode().ID);
         }
     }
 

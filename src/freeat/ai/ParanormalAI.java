@@ -171,9 +171,29 @@ public class ParanormalAI extends AI
         CAIRO_NODE_ID, TANGIER_NODE_ID
     };
 
+    /**
+     *
+     */
     public static HashMap<Integer, ParanormalNode> paranormalNodeHashMap = new HashMap<>();
+
+    /**
+     *
+     */
     public static HashMap<Integer, HashMap<Integer, HashMap<Integer, ParanormalNode>>> connectionsHashMap = new HashMap<>();
 
+    /**
+     *
+     */
+    public static HashMap<Integer, HashMap<Integer, HashMap<Integer, Integer>>> distanceToTargetHashMap;
+
+    /**
+     *
+     */
+    public static HashMap<Integer, HashMap<Integer, HashMap<Integer, Integer>>> priceToTargetHashMap;
+
+    /**
+     *
+     */
     public static HashMap<Integer, Landmass> landmassHashMap = new HashMap<>();
 
     int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
@@ -246,6 +266,7 @@ public class ParanormalAI extends AI
 
             if (!(isDistanceDataReady))
             {
+                initializeDistanceAndPriceHashMaps(); // fill the hashmaps with minus 1's.
                 long startTime = System.nanoTime();
 
                 for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentMaxTotalPrice++)
@@ -481,6 +502,31 @@ public class ParanormalAI extends AI
      | Route data generation methods.                                          |
      |                                                                         |
      \------------------------------------------------------------------------*/
+    private void initializeDistanceAndPriceHashMaps()
+    {
+        distanceToTargetHashMap = new HashMap<>();
+        priceToTargetHashMap = new HashMap<>();
+
+        for (int i = 0; i <= MAX_LAND_SEA_TOTAL_PRICE; i++)
+        {
+            distanceToTargetHashMap.put(i, new HashMap<>());
+            priceToTargetHashMap.put(i, new HashMap<>());
+
+            for (int j : c.getNodeList().keySet())
+            {
+                distanceToTargetHashMap.get(i).put(j, new HashMap<>());
+                priceToTargetHashMap.get(i).put(j, new HashMap<>());
+
+                for (int k : c.getNodeList().keySet())
+                {
+                    distanceToTargetHashMap.get(i).get(j).put(k, -1);
+                    priceToTargetHashMap.get(i).get(j).put(k, -1);
+                }
+            }
+        }
+    }
+
+    /*------------------------------------------------------------------------*/
     private void createConnectionsHashMapWithAccumulatedPrice(
         Node originNode,
         Node targetNode,
