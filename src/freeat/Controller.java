@@ -480,10 +480,7 @@ public class Controller
 
     public ArrayList<Route> getAllNonPlaneRoutes(Node start, int cash, int dice)
     {
-        if(isDecideToUsePlane()){
-            System.out.println("No non-plane routes available after deciding to use planes. Returning null.");
-            return null;
-        }
+
         HashMap<Integer, ArrayList<Route>> hashMap = start.getNonPlaneRoutes();
         ArrayList<Route> list = new ArrayList<>();
         ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
