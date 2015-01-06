@@ -1070,7 +1070,7 @@ public class ParanormalAI extends AI
         ArrayList<Node> treasureCitiesArrayList;
         treasureCitiesArrayList = c.getRemainingTreasures();
 
-        boolean randomChoiceInUse = true;
+        boolean randomChoiceInUse = false;
 
         ArrayList<Route> chosenRoutesArrayList;
         chosenRoutesArrayList = new ArrayList<>();
