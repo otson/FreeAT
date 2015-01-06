@@ -56,10 +56,43 @@ public class DistanceListList
         }
 
         // calculate rest of the distances in the Distancelist of method
+        
+        // ArrayList to hold all the thread objects
+        ArrayList<Thread> threadList = new ArrayList<>();
+        int threadCount = 0;
+        
+        // Make a new thread for each node
         for (DistanceList nodesList : distances.values())
         {
-            nodesList.calculateDistances();
+            threadList.add(new Thread(
+                    new Runnable()
+                    {
+                        public void run()
+                        {
+                            nodesList.calculateDistances();
+                        }
+                    })
+            );
+            // start the thread
+            threadList.get(threadCount).start();
+            threadCount++;
         }
+
+        boolean finished = false;
+        // While loop to let every thread finish
+        while (!finished)
+        {
+            finished = true;
+            for (Thread thread : threadList)
+            {
+                if (thread.isAlive())
+                {
+                    finished = false;
+                }
+            }
+        }
+
+        // All threads finished
 
     }
 

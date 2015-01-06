@@ -164,7 +164,7 @@ public class Player
         for (int i = 0; i < Globals.DICE_COUNT; i++)
         {
             dice += 1 + (int) (Math.random() * diceSize);
-            System.out.println("Dice: "+dice);
+            // System.out.println("Dice: "+dice);
             // Line below is sufficient after full implementation of Globals.
             // dice = 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
         }
