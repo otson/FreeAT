@@ -1442,12 +1442,7 @@ public class ParanormalAI extends AI
         c.decideToUseLandOrSeaRoute();
 
         ArrayList<Route> routesArrayList;
-        // routesArrayList = c.getMyAvailableRoutes();
-        routesArrayList = c.getAllRoutes(
-            c.getCurrentNode(),
-            // Math.min(MONEY_SCALE * currentMaxTotalPrice, 2 * Globals.SEA_ROUTE_PRICE),
-            Math.min(currentMaxTotalPrice, 2 * Globals.SEA_ROUTE_PRICE),
-            c.getDice());
+        routesArrayList = c.getMyAvailableRoutes();
 
         if (!(routesArrayList.isEmpty()))
         {
