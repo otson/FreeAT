@@ -716,7 +716,7 @@ public class ParanormalAI extends AI
             for (int metropolNodeID : METROPOLS_ARRAY)
             {
                 int priceOfCurrentRoute;
-                priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, MAX_LAND_SEA_TOTAL_PRICE);
+                priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, currentPrice);
                 boolean isUpdateNeeded = false;
 
                 if (paranormalNodeHashMap.get(originNode.ID).getPriceToTarget(metropolNodeID, currentPrice) >= 0);
