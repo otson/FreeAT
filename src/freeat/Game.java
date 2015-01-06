@@ -161,9 +161,9 @@ public class Game
             {
                 if (current.isCity())
                 {
-                    for (int j = distance; j < Globals.MAX_DICE_VALUE; j++)
+                    for (int j = distance; j <= Globals.MAX_DICE_VALUE; j++)
                     {  
-                        for (int x = tempPrice; x < Globals.MAX_SEA_MOVEMENT_COST; x++)
+                        for (int x = tempPrice; x <= Globals.MAX_SEA_MOVEMENT_COST; x++)
                         {
                             //list[j][x].add(new Route(current, tempPrice * 100));
                             if (routes.get(new Key(j, x).hashCode()) == null)
@@ -179,7 +179,7 @@ public class Game
                     {
                         tempPrice++;
                     }
-                    for (int x = tempPrice; x < Globals.MAX_SEA_MOVEMENT_COST; x++)
+                    for (int x = tempPrice; x <= Globals.MAX_SEA_MOVEMENT_COST; x++)
                     {
                         //list[distance][x].add(new Route(current, tempPrice * 100));
                         if (routes.get(new Key(distance, x).hashCode()) == null)

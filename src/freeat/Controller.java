@@ -461,8 +461,8 @@ public class Controller
 
     public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED()
     {
-        System.out.println("Values used: nodeID: "+getCurrentNode().ID+" balance: "+getMyBalance()+" dice: "+getDice());
-        return getAllRoutes(getCurrentNode(), getMyBalance(), getDice());
+        System.out.println("Values used: nodeID: "+getCurrentNode().ID+" balance: "+Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST)+" dice: "+getDice());
+        return getAllRoutes(getCurrentNode(), Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST), getDice());
     }
 
 }

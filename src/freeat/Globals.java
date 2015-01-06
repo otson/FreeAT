@@ -22,7 +22,7 @@ public class Globals
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice
-    public static final int DICE_SIZE = 6;
+    public static final int DICE_SIZE = 15;
     public static final int DICE_COUNT = 1;
 
     // Treasure counts
@@ -62,5 +62,7 @@ public class Globals
 
     // Sea movement price maximum price
     public static final int MAX_SEA_MOVEMENT_COST = (int) Math.ceil(MAX_DICE_VALUE * SEA_ROUTE_PRICE / 2);
+    
+    public static final int MAX_ROUTE_COST = 3;
 
 }

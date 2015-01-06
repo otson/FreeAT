@@ -25,25 +25,29 @@ public class Test2AI extends AI
     @Override
     public void act()
     {
-        while(!c.isEndTurn()){
-            c.decideToUseLandOrSeaRoute();
-            ArrayList<Route> routes = c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
-            Collections.shuffle(routes);
-            boolean moved = false;
-            for(Route route: routes){
-                System.out.println("Route: "+route.getString());
-                if(route.getPrice() == 0){
+        while (!c.isEndTurn())
+        {
+            if (c.getCurrentNode().hasTreasure())
+            {
+                c.decideTryToken();
+            } else
+            {
+                c.decideToUseLandOrSeaRoute();
+                ArrayList<Route> routes = (ArrayList<Route>) c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().clone();
+                Collections.shuffle(routes);
+                boolean moved = false;
+                for (Route route : routes)
+                {
                     c.moveTo(route);
                     break;
+        
                 }
+                c.endTurn();
             }
-            c.endTurn();
-            if(!moved)
-                System.out.println("Did not move: routes available: "+routes.size());
-            
+
         }
     }
-    
+
     @Override
     public float getR()
     {
@@ -67,5 +71,5 @@ public class Test2AI extends AI
     {
         return "Reitti2Test";
     }
-    
+
 }

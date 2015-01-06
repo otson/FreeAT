@@ -93,7 +93,7 @@ public class Player
                 ai = new ParanormalAI();
                 break;
             case 1:
-                ai = new TestAI();
+                ai = new Test2AI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
