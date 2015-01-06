@@ -331,8 +331,7 @@ public class ParanormalAI extends AI
             // #3 Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.
             // #4 No one is eligible for win and I do have money, and there are treasures left.
             // #5 No one is eligible for win and I have no money, and there are treasures left on this landmass.
-            // #6 Hopeless situation: I have no money, and there are no treasures on this landmass.
-            // #7 Hopeless situation: There are no treasures left anywhere.
+            // #6 Hopeless situation: There are no treasures left anywhere.
             //
             // Other situations may be hopeless too, but in situations listed as 'hopeless' above it's also impossible to try tokens to help allies.
             if (c.isEligibleForWin())
@@ -486,18 +485,10 @@ public class ParanormalAI extends AI
                 }
                 doEndTurn();
             }
-            else if ((getCash() < Globals.TREASURE_BUYING_PRICE) && (!(areThereTreasuresLeftOnLandmass())))
-            {
-                writeTextAndNewlineToLog(
-                    "situation #6 Hopeless situation: I have no money, and there are no treasures on this landmass.");
-                // #6 Hopeless situation: I have no money, and there are no treasures on this landmass.
-                doAfricaTour();
-                doEndTurn();
-            }
             else
             {
                 writeTextAndNewlineToLog(
-                    "situation #7: Hopeless situation: There are no treasures left anywhere.");
+                    "situation #6: Hopeless situation: There are no treasures left anywhere.");
                 // #7 Hopeless situation: There are no treasures left anywhere.
                 doAfricaTour();
                 doEndTurn();
