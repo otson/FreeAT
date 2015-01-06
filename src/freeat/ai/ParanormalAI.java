@@ -1080,9 +1080,10 @@ public class ParanormalAI extends AI
 
         Route chosenRoute = null;
         Node chosenTreasureCity = null;
-        int shortestDistanceToTreasureCity = -1;
-        int chosenPrice = -1;
-        int priceFromChosenTreasureCityToMetropol = -1;
+        int shortestDistanceToTreasureCity;
+        int chosenPrice;
+        int priceFromChosenTreasureCityToMetropol;
+        shortestDistanceToTreasureCity = chosenPrice = priceFromChosenTreasureCityToMetropol = -1;
 
         for (Route route : routesArrayList)
         {
