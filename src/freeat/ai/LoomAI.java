@@ -86,7 +86,7 @@ public class LoomAI extends AI
 
                 c.decideToUseLandOrSeaRoute();
 
-                ArrayList<Route> routesArrayList = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
+                ArrayList<Route> routesArrayList = c.getAllRoutes(c.getCurrentNode(), 0, c.getDice());
                 c.setDebugString("number of routes: " + routesArrayList.size());
                 // System.in.read();
 
