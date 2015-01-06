@@ -437,14 +437,14 @@ public class Controller
         ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
         if (landSeaList == null)
         {
-            System.out.println("No available land routes.");
+            //System.out.println("No available land routes.");
         } else
         {
             list.addAll(landSeaList);
         }
         if (cash == 0 && start.getFreeSeaRoutes() != null)
         {
-            System.out.println("Adding free sea routes to available routes.");
+            //System.out.println("Adding free sea routes to available routes.");
             list.addAll(start.getFreeSeaRoutes());
         }
 
@@ -464,14 +464,14 @@ public class Controller
         ArrayList<Route> landSeaList = hashMap.get(new Key(getDice(), 0).hashCode());
         if (landSeaList == null)
         {
-            System.out.println("No available land routes.");
+            //System.out.println("No available land routes.");
         } else
         {
             list.addAll(landSeaList);
         }
         if (getMyBalance() == 0 && getCurrentNode().getFreeSeaRoutes() != null)
         {
-            System.out.println("Adding free sea routes to available free routes.");
+            //System.out.println("Adding free sea routes to available free routes.");
             list.addAll(getCurrentNode().getFreeSeaRoutes());
         }
 
@@ -485,14 +485,14 @@ public class Controller
         ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
         if (landSeaList == null)
         {
-            System.out.println("No available land routes.");
+            //System.out.println("No available land routes.");
         } else
         {
             list.addAll(landSeaList);
         }
         if (cash == 0 && start.getFreeSeaRoutes() != null)
         {
-            System.out.println("Adding free sea routes to available routes.");
+            //System.out.println("Adding free sea routes to available routes.");
             list.addAll(start.getFreeSeaRoutes());
         }
 

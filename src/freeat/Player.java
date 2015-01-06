@@ -91,7 +91,7 @@ public class Player
         switch (AIType)
         {
             case 0:
-                ai = new ParanormalAI();
+                ai = new TestAI();
                 break;
             case 1:
                 ai = new TestAI();

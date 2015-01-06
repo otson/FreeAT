@@ -13,12 +13,12 @@ public class Globals
 {
 
     // player variables
-    public static final int START_CASH = 3;
+    public static final int START_CASH = 0;
 
     // game variables
     public static final int MAXIMUM_ROUNDS = 150;
     public static final int DISPLAY_FRAME_RATE = 4;
-    public static final boolean RENDER = true;
+    public static final boolean RENDER = false;
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice
@@ -30,13 +30,13 @@ public class Globals
     public static final int RUBY_COUNT = 2;
     public static final int EMERALD_COUNT = 3;
     public static final int TOPAZ_COUNT = 4;
-    public static final int ROBBER_COUNT = 3;
+    public static final int ROBBER_COUNT = 0;
     public static final int HORSESHOE_COUNT = 5;
 
     // Treasure values
-    public static final int TOPAZ_VALUE = 3;
-    public static final int RUBY_VALUE = 10;
-    public static final int EMERALD_VALUE = 5;
+    public static final int TOPAZ_VALUE = 0;
+    public static final int RUBY_VALUE = 0;
+    public static final int EMERALD_VALUE = 0;
 
     // route prices
     public static final int SEA_ROUTE_PRICE = 1;
