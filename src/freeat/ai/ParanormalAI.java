@@ -1266,17 +1266,17 @@ public class ParanormalAI extends AI
         int chosenDistance = -1;
         Node chosenNode = null;
 
-        for (Node node : allCitiesArrayList)
+        for (Node targetNode : allCitiesArrayList)
         {
             int distanceToCurrentNode;
-            distanceToCurrentNode = getShortestDistanceWithCash(originNode, currentMaxTotalPrice);
+            distanceToCurrentNode = getShortestDistanceWithCash(originNode, targetNode, currentMaxTotalPrice);
 
             if (distanceToCurrentNode >= 0)
             {
                 if ((chosenDistance < 0) || (chosenDistance < distanceToCurrentNode))
                 {
                     chosenDistance = distanceToCurrentNode;
-                    chosenNode = node;
+                    chosenNode = targetNode;
                 }
             }
         }
