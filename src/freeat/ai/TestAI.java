@@ -153,7 +153,8 @@ public class TestAI extends AI
         {
             c.concatDebugString(" with the Star or HorseShoe.");
         }
-        ArrayList<Route> routes = c.getAllRoutes(c.getCurrentNode(), maxPrice, c.getDice());
+        //ArrayList<Route> routes = c.getAllRoutes(c.getCurrentNode(), maxPrice, c.getDice());
+        ArrayList<Route> routes = c.getMyAvailableFreeRoutes();
         if (routes == null)
         {
             System.out.println("No routes: null");

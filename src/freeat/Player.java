@@ -94,7 +94,7 @@ public class Player
                 ai = new ParanormalAI();
                 break;
             case 1:
-                ai = new Test2AI();
+                ai = new TestAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
@@ -389,8 +389,8 @@ public class Player
                     }
                 }
                 
-                ArrayList<Route> availableRoutes = controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
-                if (availableRoutes.contains(destination))
+
+                if (controller.getMyAvailableFreeRoutes().contains(destination)  || controller.getMyAvailableFreeRoutes().contains(destination))
                 {
                     
                     if(getCurrentNode().getFreeSeaRoutes() != null){

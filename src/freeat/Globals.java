@@ -13,7 +13,7 @@ public class Globals
 {
 
     // player variables
-    public static final int START_CASH = 2;
+    public static final int START_CASH = 3;
 
     // game variables
     public static final int MAXIMUM_ROUNDS = 150;
