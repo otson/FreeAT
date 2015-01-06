@@ -511,8 +511,8 @@ public class ParanormalAI extends AI
             }
         }
     }
-    /*------------------------------------------------------------------------*/
 
+    /*------------------------------------------------------------------------*/
     private ArrayList<Route> removeRoutesIfNoTreasure(ArrayList<Route> routesArrayList)
     // Returns a shallow copy of `routesArrayList`.
     // The routes stored in the returned ArrayList are still the same as original,
@@ -612,7 +612,6 @@ public class ParanormalAI extends AI
                     System.out.println("error: linkRoute from " + neighborNode.getName() + " to " + originNode.getName() + " is null!");
                 }
 
-                // int newCumulativePrice = (cumulativePrice + (linkRoute.getPrice() / MONEY_SCALE));
                 int newCumulativePrice = cumulativePrice + (linkRoute.getPrice());
 
                 boolean isRecursiveCallNeeded;
@@ -845,8 +844,8 @@ public class ParanormalAI extends AI
         }
         return priceOfChosenRoute;
     }
-    /*------------------------------------------------------------------------*/
 
+    /*------------------------------------------------------------------------*/
     private int getCheapestPriceToMetropol()
     // the price of the cheapest route from current node to any metropol.
     {
@@ -946,8 +945,8 @@ public class ParanormalAI extends AI
             unopenedLeft = c.unopenedLeft();
         }
     }
-    /*------------------------------------------------------------------------*/
 
+    /*------------------------------------------------------------------------*/
     private boolean isNewGame()
     {
         if (c.getMyID() != leaderID)
@@ -986,8 +985,8 @@ public class ParanormalAI extends AI
     {
         return (c.isEligibleForWin() || isAnyOpponentEligibleForWin());
     }
-    /*------------------------------------------------------------------------*/
 
+    /*------------------------------------------------------------------------*/
     private boolean areThereUsefulTreasuresLeft()
     {
         // Are there left any treasures, which could be useful for me, an opponent or a possible ally?
