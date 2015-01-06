@@ -1551,7 +1551,9 @@ public class ParanormalAI extends AI
     {
         if (c.getCurrentNode().hasTreasure())
         {
-            if (areThereUsefulTreasuresLeft() && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
+            if ((getCheapestPriceToMetropol() >= 0)
+                && areThereUsefulTreasuresLeft()
+                && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
             // some excess cash.
             {
                 buyTokenIfItMayBeUseful();
