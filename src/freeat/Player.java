@@ -94,7 +94,7 @@ public class Player
                 ai = new TestAI();
                 break;
             case 1:
-                ai = new TestAI();
+                ai = new ParanormalAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
@@ -614,5 +614,6 @@ public class Player
     {
         return usingFreeSeaRoute;
     }
+
 
 }

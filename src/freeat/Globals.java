@@ -18,7 +18,7 @@ public class Globals
     // game variables
     public static final int MAXIMUM_ROUNDS = 150;
     public static final int DISPLAY_FRAME_RATE = 60;
-    public static final boolean RENDER = true;
+    public static final boolean RENDER = false;
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice
@@ -30,7 +30,7 @@ public class Globals
     public static final int RUBY_COUNT = 2;
     public static final int EMERALD_COUNT = 3;
     public static final int TOPAZ_COUNT = 4;
-    public static final int ROBBER_COUNT = 0;
+    public static final int ROBBER_COUNT = 3;
     public static final int HORSESHOE_COUNT = 5;
 
     // Treasure values
