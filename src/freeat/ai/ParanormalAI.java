@@ -328,9 +328,9 @@ public class ParanormalAI extends AI
             // The different situations that I as an AI need to handle:
             // #1 Great, I am eligible for win (someone else may be eligible too).
             // #2 Someone else is eligible for win (not me), and I do have money, and there are treasures left.
-            // #3 Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.
+            // #3 Someone else is eligible for win (not me), I have no money, and there are treasures left.
             // #4 No one is eligible for win and I do have money, and there are treasures left.
-            // #5 No one is eligible for win and I have no money, and there are treasures left on this landmass.
+            // #5 No one is eligible for win and I have no money, and there are treasures left.
             // #6 Hopeless situation: There are no treasures left anywhere.
             //
             // Other situations may be hopeless too, but in situations listed as 'hopeless' above it's also impossible to try tokens to help allies.
@@ -391,7 +391,7 @@ public class ParanormalAI extends AI
                 }
                 doEndTurn();
             }
-            else if (isAnyOpponentEligibleForWin() && (getCash() >= Globals.TREASURE_BUYING_PRICE) && (areThereTreasuresLeft()))
+            else if (isAnyOpponentEligibleForWin() && (getCash() >= Globals.TREASURE_BUYING_PRICE) && areThereTreasuresLeft())
             {
                 writeTextAndNewlineToLog(
                     "situation #2: Someone else is eligible for win (not me), and I do have money, and there are treasures left.");
@@ -421,12 +421,12 @@ public class ParanormalAI extends AI
                 }
                 doEndTurn();
             }
-            else if (isAnyOpponentEligibleForWin() && areThereTreasuresLeftOnLandmass())
+            else if (isAnyOpponentEligibleForWin() && areThereTreasuresLeft())
             {
                 writeTextAndNewlineToLog(
-                    "situation #3: Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.");
+                    "situation #3: Someone else is eligible for win (not me), I have no money, and there are treasures left.");
                 // Situation #3.
-                // Someone else is eligible for win (not me), I have no money, and there are treasures on this landmass.
+                // Someone else is eligible for win (not me), I have no money, and there are treasures left.
                 // TODO: Play using best-case scenario for me.
                 if (c.getCurrentNode().hasTreasure())
                 {
@@ -439,7 +439,7 @@ public class ParanormalAI extends AI
                 }
                 doEndTurn();
             }
-            else if ((getCash() >= Globals.TREASURE_BUYING_PRICE) && (c.getRemainingTreasures().size() > 0))
+            else if ((getCash() >= Globals.TREASURE_BUYING_PRICE) && areThereTreasuresLeft())
             {
                 writeTextAndNewlineToLog(
                     "situation #4: No one is eligible for win and I do have money, and there are treasures left.");
@@ -468,12 +468,12 @@ public class ParanormalAI extends AI
                 }
                 doEndTurn();
             }
-            else if (areThereTreasuresLeftOnLandmass())
+            else if (areThereTreasuresLeft())
             {
                 writeTextAndNewlineToLog(
-                    "situation #5: No one is eligible for win and I have no money, and there are treasures left on this landmass.");
+                    "situation #5: No one is eligible for win and I have no money, and there are treasures left.");
                 // Situation #5.
-                // No one is eligible for win and I have no money, and there are treasures left on this landmass.
+                // No one is eligible for win and I have no money, and there are treasures left.
                 if (c.getCurrentNode().hasTreasure())
                 {
                     writeTextAndNewlineToLogAndDebug("#5: I don't have spare cash, I try token.");
@@ -489,7 +489,7 @@ public class ParanormalAI extends AI
             {
                 writeTextAndNewlineToLog(
                     "situation #6: Hopeless situation: There are no treasures left anywhere.");
-                // #7 Hopeless situation: There are no treasures left anywhere.
+                // #6 Hopeless situation: There are no treasures left anywhere.
                 doAfricaTour();
                 doEndTurn();
             }
@@ -1030,22 +1030,9 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private boolean areThereTreasuresLeftOnLandmass(int landmassID)
-    {
-        // TODO: write the code!
-        return true;
-    }
-
-    /*------------------------------------------------------------------------*/
     private boolean areThereTreasuresLeft()
     {
         return (c.getRemainingTreasures().size() > 0);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private boolean areThereTreasuresLeftOnLandmass()
-    {
-        return areThereTreasuresLeftOnLandmass(getLandmassID());
     }
 
     /*------------------------------------------------------------------------*/
