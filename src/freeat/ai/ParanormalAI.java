@@ -22,6 +22,7 @@ import java.io.IOException;
 
 // Paranormal AI's own imports.
 import freeat.ai.paranormalai.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -171,9 +172,29 @@ public class ParanormalAI extends AI
         CAIRO_NODE_ID, TANGIER_NODE_ID
     };
 
-    public static HashMap<Integer, ParanormalNode> paranormalNodeHashMap = new HashMap<>();
-    public static HashMap<Integer, HashMap<Integer, HashMap<Integer, ParanormalNode>>> connectionsHashMap = new HashMap<>();
+    /**
+     *
+     */
+    public static ConcurrentHashMap<Integer, ParanormalNode> paranormalNodeHashMap = new ConcurrentHashMap<>();
 
+    /**
+     *
+     */
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ParanormalNode>>> connectionsHashMap = new ConcurrentHashMap<>();
+
+    /**
+     *
+     */
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> distanceToTargetHashMap;
+
+    /**
+     *
+     */
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> priceToTargetHashMap;
+
+    /**
+     *
+     */
     public static HashMap<Integer, Landmass> landmassHashMap = new HashMap<>();
 
     int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
@@ -246,18 +267,60 @@ public class ParanormalAI extends AI
 
             if (!(isDistanceDataReady))
             {
+                initializeDistanceAndPriceHashMaps(); // fill the hashmaps with minus 1's.
                 long startTime = System.nanoTime();
+
+                ArrayList<Thread> threadArrayList;
+                threadArrayList = new ArrayList<>();
+                int threadCount;
+                threadCount = 0;
 
                 for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentMaxTotalPrice++)
                 {
+                    if (!(connectionsHashMap.containsKey(currentMaxTotalPrice)))
+                    {
+                        connectionsHashMap.put(
+                            currentMaxTotalPrice,
+                            new ConcurrentHashMap<>());
+                    }
+
+                    final int tempCurrentMaxTotalPrice = currentMaxTotalPrice;
+
                     for (int targetNodeID : c.getNodeList().keySet())
                     {
-                        writeTextAndNewlineToLog(
-                            "computing routes to " + c.getNode(targetNodeID).getName() + ".");
-                        createConnectionsHashMap(targetNodeID, currentMaxTotalPrice);
+                        final int tempTargetNodeID = targetNodeID;
+
+                        // Create a new thread for each targetNode (targetNodeID).
+                        threadArrayList.add(new Thread(
+                            new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    createConnectionsHashMap(tempTargetNodeID, tempCurrentMaxTotalPrice);
+                                }
+                            })
+                        );
+                        // Start the recently created thread.
+                        threadArrayList.get(threadCount).start();
+                        threadCount++;
+                    }
+
+                    boolean finished = false;
+                    while (!(finished))
+                    {
+                        finished = true;
+                        for (Thread thread : threadArrayList)
+                        {
+                            if (thread.isAlive())
+                            {
+                                finished = false;
+                            }
+                        }
                     }
                 }
                 writeTextAndNewlineToLog("Time to compute connections hash map: " + (System.nanoTime() - startTime) / 1000000 + " ms.");
+                System.out.println("Time to compute connections hash map: " + (System.nanoTime() - startTime) / 1000000 + " ms.");
                 isDistanceDataReady = true;
             }
 
@@ -323,10 +386,10 @@ public class ParanormalAI extends AI
                     winConditionMessage = "w/valid horseshoe! ";
                 }
                 doLandSeaTravelTowards(targetMetropolID, winConditionMessage);
-                // TODO: Implement money counting behavior so that extra money
-                // can be used to buy potentially useful tokens
-                // (gems and horseshoes).
-                // buyTokenIfItMayBeUseful();
+                if (isThereExcessCash())
+                {
+                    buyTokenIfItMayBeUseful();
+                }
                 doEndTurn();
             }
             else if (isAnyOpponentEligibleForWin() && (getCash() >= Globals.TREASURE_BUYING_PRICE) && (areThereTreasuresLeft()))
@@ -338,12 +401,24 @@ public class ParanormalAI extends AI
                 // TODO: Play using best-case scenario for me.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    c.buyToken();
+                    if (isThereSpareCash())
+                    {
+                        writeTextAndNewlineToLogAndDebug("#2: I have spare cash (cash: " + getCash() + " GBP), I buy token.");
+                        c.buyToken();
+                    }
+                    else
+                    {
+                        writeTextAndNewlineToLogAndDebug("#2: I don't have spare cash (cash: " + getCash() + " GBP), I try token.");
+                        c.decideTryToken();
+                    }
                 }
                 else
                 {
-                    moveTowardsClosestTreasure(c.horseShoesLeft() + " horseshoes left! ");
-                    buyTokenIfItMayBeUseful();
+                    moveTowardsClosestTreasure("#2: " + c.horseShoesLeft() + " horseshoes left! ");
+                    if (isThereSpareCash())
+                    {
+                        buyTokenIfItMayBeUseful();
+                    }
                 }
                 doEndTurn();
             }
@@ -356,11 +431,12 @@ public class ParanormalAI extends AI
                 // TODO: Play using best-case scenario for me.
                 if (c.getCurrentNode().hasTreasure())
                 {
+                    writeTextAndNewlineToLogAndDebug("#3: I don't have spare cash (cash: " + getCash() + " GBP), I try token.");
                     c.decideTryToken();
                 }
                 else
                 {
-                    searchForTreasureWithoutCash(c.horseShoesLeft() + "horseshoes left! ");
+                    searchForTreasureWithoutCash("#3: " + c.horseShoesLeft() + "horseshoes left! ");
                 }
                 doEndTurn();
             }
@@ -372,12 +448,24 @@ public class ParanormalAI extends AI
                 // No one is eligible for win and I do have money, and there are treasures left.
                 if (c.getCurrentNode().hasTreasure())
                 {
-                    c.buyToken();
+                    if (isThereSpareCash())
+                    {
+                        writeTextAndNewlineToLogAndDebug("#4: I have spare cash (cash: " + getCash() + " GBP), I buy token.");
+                        c.buyToken();
+                    }
+                    else
+                    {
+                        writeTextAndNewlineToLogAndDebug("#4: I don't have spare cash (cash: " + getCash() + " GBP), I try token.");
+                        c.decideTryToken();
+                    }
                 }
                 else
                 {
-                    moveTowardsClosestTreasure(c.robbersLeft() + " robbers left! ");
-                    buyTokenIfItMayBeUsefulAndIHaveExcessCash();
+                    moveTowardsClosestTreasure("#4: " + c.robbersLeft() + " robbers left! ");
+                    if (isThereSpareCash())
+                    {
+                        buyTokenIfItMayBeUseful();
+                    }
                 }
                 doEndTurn();
             }
@@ -389,11 +477,12 @@ public class ParanormalAI extends AI
                 // No one is eligible for win and I have no money, and there are treasures left on this landmass.
                 if (c.getCurrentNode().hasTreasure())
                 {
+                    writeTextAndNewlineToLogAndDebug("#5: I don't have spare cash, I try token.");
                     c.decideTryToken();
                 }
                 else
                 {
-                    searchForTreasureWithoutCash(c.robbersLeft() + " robbers left! ");
+                    searchForTreasureWithoutCash("#5: " + c.robbersLeft() + " robbers left! ");
                 }
                 doEndTurn();
             }
@@ -431,8 +520,8 @@ public class ParanormalAI extends AI
             }
         }
     }
-
     /*------------------------------------------------------------------------*/
+
     private ArrayList<Route> removeRoutesIfNoTreasure(ArrayList<Route> routesArrayList)
     // Returns a shallow copy of `routesArrayList`.
     // The routes stored in the returned ArrayList are still the same as original,
@@ -455,6 +544,31 @@ public class ParanormalAI extends AI
      | Route data generation methods.                                          |
      |                                                                         |
      \------------------------------------------------------------------------*/
+    private void initializeDistanceAndPriceHashMaps()
+    {
+        distanceToTargetHashMap = new ConcurrentHashMap<>();
+        priceToTargetHashMap = new ConcurrentHashMap<>();
+
+        for (int i = 0; i <= MAX_LAND_SEA_TOTAL_PRICE; i++)
+        {
+            distanceToTargetHashMap.put(i, new ConcurrentHashMap<>());
+            priceToTargetHashMap.put(i, new ConcurrentHashMap<>());
+
+            for (int j : c.getNodeList().keySet())
+            {
+                distanceToTargetHashMap.get(i).put(j, new ConcurrentHashMap<>());
+                priceToTargetHashMap.get(i).put(j, new ConcurrentHashMap<>());
+
+                for (int k : c.getNodeList().keySet())
+                {
+                    distanceToTargetHashMap.get(i).get(j).put(k, -1);
+                    priceToTargetHashMap.get(i).get(j).put(k, -1);
+                }
+            }
+        }
+    }
+
+    /*------------------------------------------------------------------------*/
     private void createConnectionsHashMapWithAccumulatedPrice(
         Node originNode,
         Node targetNode,
@@ -472,24 +586,13 @@ public class ParanormalAI extends AI
                 + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
         }
 
-        if (!(connectionsHashMap.containsKey(originNode.ID)))
-        {
-            connectionsHashMap.put(originNode.ID, new HashMap<>());
-        }
+        connectionsHashMap.get(currentMaxTotalPrice).putIfAbsent(
+            targetNode.ID,
+            new ConcurrentHashMap<>());
 
-        if (!(connectionsHashMap.get(originNode.ID).containsKey(targetNode.ID)))
-        {
-            connectionsHashMap.get(originNode.ID).put(
-                targetNode.ID,
-                new HashMap<>());
-        }
-
-        if (!(connectionsHashMap.get(originNode.ID).get(targetNode.ID).containsKey(currentMaxTotalPrice)))
-        {
-            connectionsHashMap.get(originNode.ID).get(targetNode.ID).put(
-                currentMaxTotalPrice,
-                paranormalNodeHashMap.get(originNode.ID));
-        }
+        connectionsHashMap.get(currentMaxTotalPrice).get(targetNode.ID).putIfAbsent(
+            originNode.ID,
+            paranormalNodeHashMap.get(originNode.ID));
 
         ParanormalNode pNode;
         pNode = paranormalNodeHashMap.get(originNode.ID);
@@ -682,23 +785,77 @@ public class ParanormalAI extends AI
     private int getCheapestPriceToMetropol(Node originNode)
     // the price of the cheapest route from originNode to any metropol.
     {
-        int cheapestPriceToMetropol;
-        cheapestPriceToMetropol = -1;
+        int priceOfChosenRoute;
+        priceOfChosenRoute = -1;
 
         for (int currentPrice = 0; currentPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentPrice++)
         {
             for (int metropolNodeID : METROPOLS_ARRAY)
             {
-                if (paranormalNodeHashMap.get(originNode.ID).getPriceToTarget(metropolNodeID, currentPrice) >= 0)
+                int priceOfCurrentRoute;
+                priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, currentPrice);
+                boolean isUpdateNeeded = false;
+
+                if (paranormalNodeHashMap.get(originNode.ID).getPriceToTarget(metropolNodeID, currentPrice) >= 0);
                 {
-                    return currentPrice;
+                    if (priceOfChosenRoute < 0)
+                    {
+                        isUpdateNeeded = true;
+                    }
+                    else if (priceOfChosenRoute > priceOfCurrentRoute)
+                    {
+                        isUpdateNeeded = true;
+                    }
+
+                    if (isUpdateNeeded)
+                    {
+                        priceOfChosenRoute = priceOfCurrentRoute;
+                    }
                 }
             }
         }
-        return -1;
+        return priceOfChosenRoute;
     }
 
     /*------------------------------------------------------------------------*/
+    // the price of the shortest route from originNode to any metropol.
+    private int getPriceOfFastestRouteToMetropol()
+    {
+        int lengthOfChosenRoute;
+        lengthOfChosenRoute = -1;
+        int priceOfChosenRoute;
+        priceOfChosenRoute = -1;
+
+        for (int metropolNodeID : METROPOLS_ARRAY)
+        {
+            int lengthOfCurrentRoute;
+            int priceOfCurrentRoute;
+            lengthOfCurrentRoute = getShortestDistanceWithCash(c.getNode(metropolNodeID), getCash());
+            priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, MAX_LAND_SEA_TOTAL_PRICE);
+            boolean isUpdateNeeded = false;
+
+            if (priceOfCurrentRoute >= 0)
+            {
+                if (lengthOfChosenRoute < 0)
+                {
+                    isUpdateNeeded = true;
+                }
+                else if ((lengthOfChosenRoute == lengthOfCurrentRoute) && (priceOfChosenRoute > priceOfCurrentRoute))
+                {
+                    isUpdateNeeded = true;
+                }
+
+                if (isUpdateNeeded)
+                {
+                    lengthOfChosenRoute = lengthOfCurrentRoute;
+                    priceOfChosenRoute = priceOfCurrentRoute;
+                }
+            }
+        }
+        return priceOfChosenRoute;
+    }
+    /*------------------------------------------------------------------------*/
+
     private int getCheapestPriceToMetropol()
     // the price of the cheapest route from current node to any metropol.
     {
@@ -743,9 +900,37 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private int getMinTreasureValueWithoutRobbers()
+    {
+        if ((c.emptyLeft() > 0) || (c.horseShoesLeft() > 0))
+        {
+            return 0;
+        }
+        else if (c.topazesLeft() > 0)
+        {
+            return Globals.TOPAZ_VALUE;
+        }
+        else if (c.emeraldsLeft() > 0)
+        {
+            return Globals.EMERALD_VALUE;
+        }
+        else if (c.rubiesLeft() > 0)
+        {
+            return Globals.RUBY_VALUE;
+        }
+        return 0;
+    }
+
+    /*------------------------------------------------------------------------*/
     private int getMinCashAfterBuyingToken()
     {
         return getCash() - Globals.TREASURE_BUYING_PRICE + getMinTreasureValue();
+    }
+
+    /*------------------------------------------------------------------------*/
+    private int getMinProbableCashAfterBuyingToken()
+    {
+        return getCash() - Globals.TREASURE_BUYING_PRICE + getMinTreasureValueWithoutRobbers();
     }
 
     /*------------------------------------------------------------------------*/
@@ -962,7 +1147,7 @@ public class ParanormalAI extends AI
         ArrayList<Node> treasureCitiesArrayList;
         treasureCitiesArrayList = c.getRemainingTreasures();
 
-        boolean randomChoiceInUse = true;
+        boolean randomChoiceInUse = false;
 
         ArrayList<Route> chosenRoutesArrayList;
         chosenRoutesArrayList = new ArrayList<>();
@@ -972,9 +1157,10 @@ public class ParanormalAI extends AI
 
         Route chosenRoute = null;
         Node chosenTreasureCity = null;
-        int shortestDistanceToTreasureCity = -1;
-        int chosenPrice = -1;
-        int priceFromChosenTreasureCityToMetropol = -1;
+        int shortestDistanceToTreasureCity;
+        int chosenPrice;
+        int priceFromChosenTreasureCityToMetropol;
+        shortestDistanceToTreasureCity = chosenPrice = priceFromChosenTreasureCityToMetropol = -1;
 
         for (Route route : routesArrayList)
         {
@@ -1157,17 +1343,17 @@ public class ParanormalAI extends AI
         int chosenDistance = -1;
         Node chosenNode = null;
 
-        for (Node node : allCitiesArrayList)
+        for (Node targetNode : allCitiesArrayList)
         {
             int distanceToCurrentNode;
-            distanceToCurrentNode = getShortestDistanceWithCash(originNode, currentMaxTotalPrice);
+            distanceToCurrentNode = getShortestDistanceWithCash(originNode, targetNode, currentMaxTotalPrice);
 
             if (distanceToCurrentNode >= 0)
             {
                 if ((chosenDistance < 0) || (chosenDistance < distanceToCurrentNode))
                 {
                     chosenDistance = distanceToCurrentNode;
-                    chosenNode = node;
+                    chosenNode = targetNode;
                 }
             }
         }
@@ -1199,8 +1385,6 @@ public class ParanormalAI extends AI
         // 1. Choose the farthest city.
         // 2. Go there using only land movement.
         // 3. Repeat from 1 upon arrival.
-
-        Node nextDestination;
 
         if (onAfricaTour)
         {
@@ -1281,7 +1465,7 @@ public class ParanormalAI extends AI
                 writeTextAndNewlineToLog("Land & sea distance from destination " + routeNode.getName()
                                          + " to " + targetNode.getName()
                                          + " is " + landSeaDistanceFromDestinationToTargetNode
-                                         + " links.");
+                                         + " links (price : " + currentRoute.getPrice() + " GBP");
 
                 boolean isUpdateNeeded = false;
 
@@ -1310,12 +1494,14 @@ public class ParanormalAI extends AI
             {
                 writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
                                          + ", but landDistanceFromChosenNodeToTreasureCity is " + landSeaDistanceFromChosenNodeToTargetNode
-                                         + "! Doing random land move!");
+                                         + "! Cash: " + getCash()
+                                         + " Doing random land move!");
                 doRandomLandMovement();
             }
             else if (chosenRoute == null)
             {
-                writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName() + ", but chosenRoute is null! Doing random land move!");
+                writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
+                                         + ", but chosenRoute is null! Cash: " + getCash() + " Doing random land move!");
                 doRandomLandMovement();
             }
             else
@@ -1412,11 +1598,28 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void buyTokenIfItMayBeUsefulAndIHaveExcessCash()
+    private boolean isThereExcessCash()
     {
-        if (areThereUsefulTreasuresLeft() && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
+        if (getPriceOfFastestRouteToMetropol() >= 0)
         {
-            buyTokenIfItMayBeUseful();
+            return (getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol());
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*------------------------------------------------------------------------*/
+    private boolean isThereSpareCash()
+    {
+        if (getCheapestPriceToMetropol() >= 0)
+        {
+            return (getMinProbableCashAfterBuyingToken() >= getCheapestPriceToMetropol());
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -1425,7 +1628,9 @@ public class ParanormalAI extends AI
     {
         if (c.getCurrentNode().hasTreasure())
         {
-            if (areThereUsefulTreasuresLeft() && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
+            if ((getCheapestPriceToMetropol() >= 0)
+                && areThereUsefulTreasuresLeft()
+                && (getMinCashAfterBuyingToken() >= getCheapestPriceToMetropol()))
             // some excess cash.
             {
                 buyTokenIfItMayBeUseful();
