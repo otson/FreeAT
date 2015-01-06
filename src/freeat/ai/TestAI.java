@@ -53,7 +53,7 @@ public class TestAI extends AI
             {
                 c.decideToUseLandOrSeaRoute();
                 Route route;
-                
+
                 if (!c.isEligibleForWin())
                 {
                     route = getRouteToTreasure(0);
@@ -115,12 +115,12 @@ public class TestAI extends AI
         } else
         {
             int candidateDistance = distances.getDistance(c.getCurrentNode().ID, nodeCandidate.ID);
-            
+
             // find the route with shortest distance
             for (Node node : treasures)
             {
                 // distance is shorter than the candidate and longer than -1, it becomes the new candidate
-                if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1 &&  distances.getDistance(c.getCurrentNode().ID, node.ID) < candidateDistance)
+                if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1 && distances.getDistance(c.getCurrentNode().ID, node.ID) < candidateDistance)
                 {
                     nodeCandidate = node;
                     candidateDistance = distances.getDistance(c.getCurrentNode().ID, node.ID);
@@ -134,7 +134,7 @@ public class TestAI extends AI
 
     private Route getRouteToStart(int maxPrice)
     {
-        
+
         int distanceToCairo = distances.getDistance(c.getCurrentNode().ID, 1);
         int distanceToTangier = distances.getDistance(c.getCurrentNode().ID, 2);
         if (distanceToCairo < distanceToTangier)
@@ -148,6 +148,7 @@ public class TestAI extends AI
 
     private Route getRouteTo(int to, int maxPrice)
     {
+        //System.out.println("At: " + c.getCurrentNodeName());
         c.setDebugString(" Heading towards: " + c.getNodeList().get(to).getName());
         if (c.isEligibleForWin())
         {
@@ -169,19 +170,27 @@ public class TestAI extends AI
         }
 
         // Use the first route as the first candidate
-        Route routeCandidate = routes.get(0);
-
-        // distance from route's destination to the wanted to node
-        int distanceCandidate = distances.getDistance(routeCandidate.getDestination().ID, to);
-
-        for (Route route : routes)
+        Route routeCandidate;
+        if (!routes.isEmpty())
         {
-            // check if the the route in the list has shorter distance to target
-            if (distances.getDistance(route.getDestination().ID, to) < distanceCandidate)
+
+            routeCandidate = routes.get(0);
+
+            // distance from route's destination to the wanted to node
+            int distanceCandidate = distances.getDistance(routeCandidate.getDestination().ID, to);
+
+            for (Route route : routes)
             {
-                routeCandidate = route;
-                distanceCandidate = distances.getDistance(route.getDestination().ID, to);
+                // check if the the route in the list has shorter distance to target
+                if (distances.getDistance(route.getDestination().ID, to) < distanceCandidate)
+                {
+                    routeCandidate = route;
+                    distanceCandidate = distances.getDistance(route.getDestination().ID, to);
+                }
             }
+        }
+        else{
+            routeCandidate = c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().get(0);
         }
         //System.out.println("Selected route distance: "+distanceCandidate);
         return routeCandidate;
@@ -217,13 +226,15 @@ public class TestAI extends AI
     {
         return "ReittiTest";
     }
-    
+
     // return boolean if the parameter node has a land connection to either of the start cities
-    private boolean isIsland(Node node){
+    private boolean isIsland(Node node)
+    {
         return distances.getDistance(node.ID, 1) != -1 && distances.getDistance(node.ID, 2) != -1;
     }
-    
-    private int getExpectedTreasureValue(){
+
+    private int getExpectedTreasureValue()
+    {
         int sum = 0;
         return sum;
     }
