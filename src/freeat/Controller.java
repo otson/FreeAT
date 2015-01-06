@@ -437,12 +437,16 @@ public class Controller
         ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
         if (landSeaList == null)
         {
-            System.out.println("LandSeaList is null");
-            System.out.println("Start: " + start.ID + " cash: " + cash + " dice: " + dice);
-            System.exit(1);
+            System.out.println("No available land routes.");
         }
-        
-        list.addAll(landSeaList);
+        else{
+            list.addAll(landSeaList);
+        }
+        if (cash == 0 && start.getFreeSeaRoutes() != null)
+        {
+            System.out.println("Adding free sea routes to available routes.");
+            list.addAll(start.getFreeSeaRoutes());
+        }
 
         if (cash >= Globals.PLANE_ROUTE_PRICE)
         {
@@ -450,18 +454,12 @@ public class Controller
             list.addAll(planeList);
         }
 
-        if (cash == 0)
-        {
-            ArrayList<Route> freeSeaList = start.getFreeSeaRoutes();
-            list.addAll(freeSeaList);
-        }
-
         return list;
     }
 
     public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED()
     {
-        System.out.println("Values used: nodeID: "+getCurrentNode().ID+" balance: "+Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST)+" dice: "+getDice());
+        System.out.println("Values used: nodeID: " + getCurrentNode().ID + " balance: " + Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST) + " dice: " + getDice());
         return getAllRoutes(getCurrentNode(), Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST), getDice());
     }
 
