@@ -64,7 +64,7 @@ public class RouteAI extends AI
                 
                 
                 
-                ArrayList<Route> possibleRoutes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
+                ArrayList<Route> possibleRoutes = c.getMyAvailableFreeRoutes();
                 Route selectedRoute = possibleRoutes.get(0);
                 int selectedRouteDist = distances.getDistance(selectedRoute.getDestination().ID, target);
                 for (Route tempRoute : possibleRoutes)
@@ -113,7 +113,7 @@ public class RouteAI extends AI
                     }
 
                     // find the best route
-                    ArrayList<Route> possibleRoutes = c.getAvailableRoutes(c.getCurrentNode(), 0, c.getDice());
+                    ArrayList<Route> possibleRoutes = c.getMyAvailableFreeRoutes();
                     Route selectedRoute = possibleRoutes.get(0);
                     if (containsNode(possibleRoutes, selectedNode))
                     {

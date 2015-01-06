@@ -362,7 +362,7 @@ public class ParanormalAI extends AI
                     writeTextAndNewlineToLogAndDebug("error in Cairo-Tangier distance check.");
                     ArrayList<Route> routesArrayList;
                     // routesArrayList = c.getAllRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 100), c.getDice());
-                    routesArrayList = c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
+                    routesArrayList = c.getMyAvailableRoutes();
                     if (routesArrayList.isEmpty())
                     {
                         doEndTurn();
@@ -1142,7 +1142,7 @@ public class ParanormalAI extends AI
         ArrayList<Route> routesArrayList;
 
         // routesArrayList = c.getAllRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 2 * Globals.SEA_ROUTE_PRICE), c.getDice());
-        routesArrayList = c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
+        routesArrayList = c.getMyAvailableRoutes();
 
         ArrayList<Node> treasureCitiesArrayList;
         treasureCitiesArrayList = c.getRemainingTreasures();
@@ -1420,7 +1420,7 @@ public class ParanormalAI extends AI
     {
         c.decideToUseLandOrSeaRoute();
 
-        if (c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().isEmpty())
+        if (c.getMyAvailableRoutes().isEmpty())
         {
             writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName() + " and I have no available routes.");
         }
@@ -1428,7 +1428,7 @@ public class ParanormalAI extends AI
         {
             ArrayList<Route> routesArrayList;
             // routesArrayList = c.getAllRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), MAX_LAND_ROAD_PRICE), c.getDice());
-            routesArrayList = c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
+            routesArrayList = c.getMyAvailableRoutes();
             Route route;
             route = routesArrayList.get(0);
             writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName() + " and I take the first available route to " + route.getDestination().getName() + ".");
@@ -1442,7 +1442,7 @@ public class ParanormalAI extends AI
         c.decideToUseLandOrSeaRoute();
 
         ArrayList<Route> routesArrayList;
-        // routesArrayList = c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
+        // routesArrayList = c.getMyAvailableRoutes();
         routesArrayList = c.getAllRoutes(
             c.getCurrentNode(),
             // Math.min(MONEY_SCALE * currentMaxTotalPrice, 2 * Globals.SEA_ROUTE_PRICE),

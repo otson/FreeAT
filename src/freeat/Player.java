@@ -395,7 +395,7 @@ public class Player
                     }
                 }
 
-                if (controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().contains(destination) || controller.getMyAvailableFreeRoutes().contains(destination))
+                if (controller.getMyAvailableRoutes().contains(destination) || controller.getMyAvailableFreeRoutes().contains(destination))
                 {
 
                     if (getCurrentNode().getFreeSeaRoutes() != null)

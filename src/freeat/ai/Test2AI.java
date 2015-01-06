@@ -33,7 +33,7 @@ public class Test2AI extends AI
             } else
             {
                 c.decideToUseLandOrSeaRoute();
-                ArrayList<Route> routes = (ArrayList<Route>) c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().clone();
+                ArrayList<Route> routes = (ArrayList<Route>) c.getMyAvailableRoutes().clone();
                 Collections.shuffle(routes);
                 boolean moved = false;
                 for (Route route : routes)

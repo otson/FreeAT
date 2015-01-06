@@ -190,7 +190,7 @@ public class TestAI extends AI
             }
         }
         else{
-            routeCandidate = c.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().get(0);
+            routeCandidate = c.getMyAvailableRoutes().get(0);
         }
         //System.out.println("Selected route distance: "+distanceCandidate);
         return routeCandidate;

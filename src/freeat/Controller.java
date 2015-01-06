@@ -147,101 +147,6 @@ public class Controller
         return player.isHasHorseshoeAfterStar();
     }
 
-    public ArrayList<Route> getMyAvailableRoutes()
-    {
-        if (player.isUsePlane())
-        {
-            return getAvailableRoutes(player.getCurrentNode(), Globals.PLANE_ROUTE_PRICE, 1);
-        }
-
-        if (getAvailableRoutes(player.getCurrentNode(), player.getCashBalance(), player.getDice()).isEmpty())
-        {
-            if (isDecideToTryWinToken() || isDecideToUseLandOrSea() || isDecideToUsePlane())
-            {
-                player.forceEndTurn();
-            }
-        }
-        // no plane routes
-        return getAvailableRoutes(player.getCurrentNode(), Math.min(2 * Globals.SEA_ROUTE_PRICE, player.getCashBalance()), player.getDice());
-    }
-
-    public ArrayList<Route> getAvailableRoutes(Node start, int cash, int dice)
-    {
-        if (cash < Globals.SEA_ROUTE_PRICE)
-        {
-            switch (dice)
-            {
-                case 1:
-                    return locations.get(start.ID).getDistance1Cost0();
-                case 2:
-                    return locations.get(start.ID).getDistance2Cost0();
-                case 3:
-                    return locations.get(start.ID).getDistance3Cost0();
-                case 4:
-                    return locations.get(start.ID).getDistance4Cost0();
-                case 5:
-                    return locations.get(start.ID).getDistance5Cost0();
-                case 6:
-                    return locations.get(start.ID).getDistance6Cost0();
-            }
-        } else if (cash < 2 * Globals.SEA_ROUTE_PRICE)
-        {
-            switch (dice)
-            {
-                case 1:
-                    return locations.get(start.ID).getDistance1Cost100();
-                case 2:
-                    return locations.get(start.ID).getDistance2Cost100();
-                case 3:
-                    return locations.get(start.ID).getDistance3Cost100();
-                case 4:
-                    return locations.get(start.ID).getDistance4Cost100();
-                case 5:
-                    return locations.get(start.ID).getDistance5Cost100();
-                case 6:
-                    return locations.get(start.ID).getDistance6Cost100();
-            }
-        } else if (cash < 3 * Globals.SEA_ROUTE_PRICE)
-        {
-            switch (dice)
-            {
-                case 1:
-                    return locations.get(start.ID).getDistance1Cost200();
-                case 2:
-                    return locations.get(start.ID).getDistance2Cost200();
-                case 3:
-                    return locations.get(start.ID).getDistance3Cost200();
-                case 4:
-                    return locations.get(start.ID).getDistance4Cost200();
-                case 5:
-                    return locations.get(start.ID).getDistance5Cost200();
-                case 6:
-                    return locations.get(start.ID).getDistance6Cost200();
-            }
-        } else if (cash >= 3 * Globals.SEA_ROUTE_PRICE)
-        {
-            switch (dice)
-            {
-                case 1:
-                    return locations.get(start.ID).getDistance1Cost300();
-                case 2:
-                    return locations.get(start.ID).getDistance2Cost300();
-                case 3:
-                    return locations.get(start.ID).getDistance3Cost300();
-                case 4:
-                    return locations.get(start.ID).getDistance4Cost300();
-                case 5:
-                    return locations.get(start.ID).getDistance5Cost300();
-                case 6:
-                    return locations.get(start.ID).getDistance6Cost300();
-            }
-        }
-        System.out.println("cash: " + cash + " dice: " + dice);
-        System.out.println("No destinations found, error...");
-        return null;
-
-    }
-
     public boolean isDecideToUsePlane()
     {
         return player.isUsePlane();
@@ -500,7 +405,7 @@ public class Controller
         return list;
     }
 
-    public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED()
+    public ArrayList<Route> getMyAvailableRoutes()
     {
         if (player.isUsingFreeSeaRoute())
         {
