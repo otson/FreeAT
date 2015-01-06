@@ -2,7 +2,6 @@
 package freeat.ai.paranormalai;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import freeat.Controller;
 import freeat.Node;

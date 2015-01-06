@@ -22,6 +22,7 @@ import java.io.IOException;
 
 // Paranormal AI's own imports.
 import freeat.ai.paranormalai.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -174,22 +175,22 @@ public class ParanormalAI extends AI
     /**
      *
      */
-    public static HashMap<Integer, ParanormalNode> paranormalNodeHashMap = new HashMap<>();
+    public static ConcurrentHashMap<Integer, ParanormalNode> paranormalNodeHashMap = new ConcurrentHashMap<>();
 
     /**
      *
      */
-    public static HashMap<Integer, HashMap<Integer, HashMap<Integer, ParanormalNode>>> connectionsHashMap = new HashMap<>();
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ParanormalNode>>> connectionsHashMap = new ConcurrentHashMap<>();
 
     /**
      *
      */
-    public static HashMap<Integer, HashMap<Integer, HashMap<Integer, Integer>>> distanceToTargetHashMap;
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> distanceToTargetHashMap;
 
     /**
      *
      */
-    public static HashMap<Integer, HashMap<Integer, HashMap<Integer, Integer>>> priceToTargetHashMap;
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> priceToTargetHashMap;
 
     /**
      *
@@ -269,16 +270,57 @@ public class ParanormalAI extends AI
                 initializeDistanceAndPriceHashMaps(); // fill the hashmaps with minus 1's.
                 long startTime = System.nanoTime();
 
+                ArrayList<Thread> threadArrayList;
+                threadArrayList = new ArrayList<>();
+                int threadCount;
+                threadCount = 0;
+
                 for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentMaxTotalPrice++)
                 {
+                    if (!(connectionsHashMap.containsKey(currentMaxTotalPrice)))
+                    {
+                        connectionsHashMap.put(
+                            currentMaxTotalPrice,
+                            new ConcurrentHashMap<>());
+                    }
+
+                    final int tempCurrentMaxTotalPrice = currentMaxTotalPrice;
+
                     for (int targetNodeID : c.getNodeList().keySet())
                     {
-                        writeTextAndNewlineToLog(
-                            "computing routes to " + c.getNode(targetNodeID).getName() + ".");
-                        createConnectionsHashMap(targetNodeID, currentMaxTotalPrice);
+                        final int tempTargetNodeID = targetNodeID;
+
+                        // Create a new thread for each targetNode (targetNodeID).
+                        threadArrayList.add(new Thread(
+                            new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    createConnectionsHashMap(tempTargetNodeID, tempCurrentMaxTotalPrice);
+                                }
+                            })
+                        );
+                        // Start the recently created thread.
+                        threadArrayList.get(threadCount).start();
+                        threadCount++;
+                    }
+
+                    boolean finished = false;
+                    while (!(finished))
+                    {
+                        finished = true;
+                        for (Thread thread : threadArrayList)
+                        {
+                            if (thread.isAlive())
+                            {
+                                finished = false;
+                            }
+                        }
                     }
                 }
                 writeTextAndNewlineToLog("Time to compute connections hash map: " + (System.nanoTime() - startTime) / 1000000 + " ms.");
+                System.out.println("Time to compute connections hash map: " + (System.nanoTime() - startTime) / 1000000 + " ms.");
                 isDistanceDataReady = true;
             }
 
@@ -478,8 +520,8 @@ public class ParanormalAI extends AI
             }
         }
     }
-
     /*------------------------------------------------------------------------*/
+
     private ArrayList<Route> removeRoutesIfNoTreasure(ArrayList<Route> routesArrayList)
     // Returns a shallow copy of `routesArrayList`.
     // The routes stored in the returned ArrayList are still the same as original,
@@ -504,18 +546,18 @@ public class ParanormalAI extends AI
      \------------------------------------------------------------------------*/
     private void initializeDistanceAndPriceHashMaps()
     {
-        distanceToTargetHashMap = new HashMap<>();
-        priceToTargetHashMap = new HashMap<>();
+        distanceToTargetHashMap = new ConcurrentHashMap<>();
+        priceToTargetHashMap = new ConcurrentHashMap<>();
 
         for (int i = 0; i <= MAX_LAND_SEA_TOTAL_PRICE; i++)
         {
-            distanceToTargetHashMap.put(i, new HashMap<>());
-            priceToTargetHashMap.put(i, new HashMap<>());
+            distanceToTargetHashMap.put(i, new ConcurrentHashMap<>());
+            priceToTargetHashMap.put(i, new ConcurrentHashMap<>());
 
             for (int j : c.getNodeList().keySet())
             {
-                distanceToTargetHashMap.get(i).put(j, new HashMap<>());
-                priceToTargetHashMap.get(i).put(j, new HashMap<>());
+                distanceToTargetHashMap.get(i).put(j, new ConcurrentHashMap<>());
+                priceToTargetHashMap.get(i).put(j, new ConcurrentHashMap<>());
 
                 for (int k : c.getNodeList().keySet())
                 {
@@ -544,24 +586,13 @@ public class ParanormalAI extends AI
                 + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
         }
 
-        if (!(connectionsHashMap.containsKey(originNode.ID)))
-        {
-            connectionsHashMap.put(originNode.ID, new HashMap<>());
-        }
+        connectionsHashMap.get(currentMaxTotalPrice).putIfAbsent(
+            targetNode.ID,
+            new ConcurrentHashMap<>());
 
-        if (!(connectionsHashMap.get(originNode.ID).containsKey(targetNode.ID)))
-        {
-            connectionsHashMap.get(originNode.ID).put(
-                targetNode.ID,
-                new HashMap<>());
-        }
-
-        if (!(connectionsHashMap.get(originNode.ID).get(targetNode.ID).containsKey(currentMaxTotalPrice)))
-        {
-            connectionsHashMap.get(originNode.ID).get(targetNode.ID).put(
-                currentMaxTotalPrice,
-                paranormalNodeHashMap.get(originNode.ID));
-        }
+        connectionsHashMap.get(currentMaxTotalPrice).get(targetNode.ID).putIfAbsent(
+            originNode.ID,
+            paranormalNodeHashMap.get(originNode.ID));
 
         ParanormalNode pNode;
         pNode = paranormalNodeHashMap.get(originNode.ID);
