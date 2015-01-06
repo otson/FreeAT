@@ -418,5 +418,9 @@ public class Controller
             return getAllNonPlaneRoutes(getCurrentNode(), Math.min(getMyBalance(), Globals.MAX_SEA_MOVEMENT_COST), getDice());
         }
     }
+    
+    public boolean isUsingFreeSeaRoute(){
+        return player.isUsingFreeSeaRoute();
+    }
 
 }
