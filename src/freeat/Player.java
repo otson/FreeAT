@@ -415,7 +415,8 @@ public class Player
                 }
                 // getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)
                 // if (cashBalance >= destination.getPrice() && (controller.getMyAvailableRoutes().contains(destination) || getCurrentNode().getAllLists()[dice][destination.getPrice()].contains(destination)))
-                if (controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED().contains(destination))
+                ArrayList<Route> availableRoutes = controller.getMyAvailableRoutes_NOT_YET_IMPLEMENTED();
+                if (availableRoutes.contains(destination))
                 {
                     System.out.println("MOVING!");
                     Node target = destination.getDestination();
@@ -490,12 +491,9 @@ public class Player
                     }
                 } else
                 {
+                    
                     System.out.println("Did not move in the moveTo Method.");
-                    System.out.println("Route price: " + destination.getPrice());
-                    System.out.println("Own balance: " + cashBalance);
-                    System.out.println("old check result: " + getCurrentNode().getAllLists()[tempDice][destination.getPrice()].contains(destination));
-                    System.out.println("New check result: " + controller.getAvailableRoutes(controller.getCurrentNode(), cashBalance, dice).contains(destination));
-
+                    System.exit(1);
                 }
             }
         }

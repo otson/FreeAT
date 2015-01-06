@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import freeat.Route;
 import java.util.Collection;
+import org.lwjgl.util.mapped.MappedHelper;
 
 /**
  *
@@ -433,24 +434,16 @@ public class Controller
     {
         HashMap<Integer, ArrayList<Route>> hashMap = start.getNonPlaneRoutes();
         ArrayList<Route> list = new ArrayList<>();
-        System.out.println("here");
         ArrayList<Route> landSeaList = hashMap.get(new Key(dice, cash).hashCode());
-        System.out.println("Hashmap size: " + hashMap.size());
-//        for(ArrayList<Route> array: hashMap.values()){
-//            for(Route route : array){
-//                System.out.println(route.getString());
-//            }
-//        }
         if (landSeaList == null)
         {
             System.out.println("LandSeaList is null");
-        } else
-        {
-            System.out.println("LandSeaList is not null");
+            System.out.println("Start: " + start.ID + " cash: " + cash + " dice: " + dice);
+            System.exit(1);
         }
-        System.out.println("Start: "+start.ID + " cash: " + cash + " dice: " + dice);
-        list.addAll(landSeaList);
         
+        list.addAll(landSeaList);
+
         if (cash >= Globals.PLANE_ROUTE_PRICE)
         {
             ArrayList<Route> planeList = start.getPlaneRoutes();
@@ -468,8 +461,8 @@ public class Controller
 
     public ArrayList<Route> getMyAvailableRoutes_NOT_YET_IMPLEMENTED()
     {
-        System.out.println("ID: " + getAllCities().get(ID).ID + " balance: " + getMyBalance() + "dice : " + getDice());
-        return getAllRoutes(getAllCities().get(ID), getMyBalance(), getDice());
+        System.out.println("Values used: nodeID: "+getCurrentNode().ID+" balance: "+getMyBalance()+" dice: "+getDice());
+        return getAllRoutes(getCurrentNode(), getMyBalance(), getDice());
     }
 
 }
