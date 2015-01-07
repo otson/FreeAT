@@ -69,6 +69,83 @@ public class Globals
     // mean of dice value.
     public static final float MEAN_DICE_VALUE = DICE_COUNT * ((float) (SINGLE_DICE_MIN_VALUE + SINGLE_DICE_MAX_VALUE) / 2);
 
+    static int N_DICE_EVENTS = (int) Math.pow(DICE_SIZE, DICE_COUNT);
+
+    long startTime = System.nanoTime();
+
+    static int[] outcomesArray = throwManyDice();
+    static int[] occurrencesArray = countOccurrences(outcomesArray);
+
+    private static int[] throwManyDice()
+    {
+        int outcomesArray[] = new int[N_DICE_EVENTS];
+
+        // initialize outcomesArray.
+        for (int i = 0; i < outcomesArray.length; i++)
+        {
+            outcomesArray[i] = 0;
+        }
+
+        for (int diceIndex = 1; diceIndex <= DICE_COUNT; diceIndex++)
+        {
+            int arrayIndex = 0;
+
+            while (arrayIndex < N_DICE_EVENTS)
+            {
+                for (int diceOutcome = SINGLE_DICE_MIN_VALUE; diceOutcome <= SINGLE_DICE_MAX_VALUE; diceOutcome++)
+                {
+                    for (int repeatCount = 0; repeatCount < Math.pow(DICE_SIZE, diceIndex - 1); repeatCount++)
+                    {
+                        outcomesArray[arrayIndex++] += diceOutcome;
+                    }
+                }
+            }
+        }
+
+        // printOutcomes(outcomesArray);
+        return outcomesArray;
+    }
+
+    private static int[] countOccurrences(int[] array)
+    {
+        int occurrencesArray[] = new int[MAX_DICE_VALUE + 1];
+
+        // initialize occurrencesArray.
+        for (int i = 0; i < occurrencesArray.length; i++)
+        {
+            occurrencesArray[i] = 0;
+        }
+
+        for (int i = 0; i < outcomesArray.length; i++)
+        {
+            int outcome = outcomesArray[i];
+            occurrencesArray[outcome]++;
+        }
+
+        // printOccurrences(occurrencesArray);
+        // System.exit(0);
+        // ArrayList<Integer> numberOfOccurrences = new ArrayList<>(Collections.nCopies(N_DICE_EVENTS, 0));
+        return occurrencesArray;
+    }
+
+    private static void printOutcomes(int[] outcomesArray)
+    {
+        for (int i = 0; i < outcomesArray.length; i++)
+        {
+            System.out.println("outcome (" + i + "): " + outcomesArray[i]);
+        }
+    }
+
+    private static void printOccurrences(int[] occurrencesArray)
+    {
+        for (int i = 0; i < occurrencesArray.length; i++)
+        {
+            System.out.println("outcome " + i + " occurs " + occurrencesArray[i] + " times.");
+        }
+    }
+
+    //System.out.println("Time to compute connections hash map: " + (System.nanoTime() - startTime) / 1000000) + " ms.");
+    //System.exit(0);
     private static float computeDiceSD()
     {
         int diceCount = 3;
@@ -84,7 +161,7 @@ public class Globals
             {
                 result += list.get(i);
             }
-            System.out.println("Result: " + result);
+            // System.out.println("Result: " + result);
 
             //increase one dice size here, go through all possible dice combinations
             for (int i = 0; i < list.size(); i++)
@@ -97,8 +174,8 @@ public class Globals
                 }
             }
         }
-        System.exit(0);
-        
+
+        // System.exit(0);
         // compute the standard deviation of dice value.
         float sumOfSquaredDeviations = 0;
         for (float i = SINGLE_DICE_MIN_VALUE; i <= SINGLE_DICE_MAX_VALUE; i++)
@@ -107,7 +184,7 @@ public class Globals
         }
         return DICE_COUNT * (sumOfSquaredDeviations / DICE_SIZE);
     }
-    
+
     public static final float SD_DICE_VALUE = computeDiceSD();
 
     // treasure opening with dice minimum value
