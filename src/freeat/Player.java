@@ -154,7 +154,7 @@ public class Player
         dice = 0;
         for (int i = 0; i < Globals.DICE_COUNT; i++)
         {
-            dice += 1 + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
+            dice += Globals.SINGLE_DICE_MIN_VALUE + (int) (Math.random() * Globals.DICE_SIZE); // after full implementation of Globals.
         }
     }
 
