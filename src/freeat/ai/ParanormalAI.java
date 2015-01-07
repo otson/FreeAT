@@ -1129,6 +1129,14 @@ public class ParanormalAI extends AI
 
         for (Route route : routesArrayList)
         {
+            // until implementation of free searoads, disable free searoads.
+            if ((getCash() == 0)
+                && (!(c.getCurrentNode().isSea()))
+                && route.getDestination().isSea())
+            {
+                continue;
+            }
+
             for (Node treasureCity : treasureCitiesArrayList)
             {
                 int distanceFromDestinationToTreasureCity;
@@ -1416,6 +1424,14 @@ public class ParanormalAI extends AI
 
             for (Route currentRoute : routesArrayList)
             {
+                // until implementation of free searoads, disable free searoads.
+                if ((getCash() == 0)
+                    && (!(c.getCurrentNode().isSea()))
+                    && currentRoute.getDestination().isSea())
+                {
+                    continue;
+                }
+
                 Node routeNode;
                 routeNode = currentRoute.getDestination();
 
