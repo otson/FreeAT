@@ -22,7 +22,9 @@ public class Globals
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice
-    public static final int DICE_SIZE = 6;
+    public static final int SINGLE_DICE_MIN_VALUE = 1;
+    public static final int SINGLE_DICE_MAX_VALUE = 6;
+
     public static final int DICE_COUNT = 1;
 
     // Treasure counts
@@ -32,6 +34,8 @@ public class Globals
     public static final int TOPAZ_COUNT = 4;
     public static final int ROBBER_COUNT = 3;
     public static final int HORSESHOE_COUNT = 5;
+
+    public static final int NUMBER_OF_TREASURE_TYPES = 7;
 
     // Treasure values
     public static final int TOPAZ_VALUE = 3;
@@ -45,9 +49,6 @@ public class Globals
     // treasure buying price
     public static final int TREASURE_BUYING_PRICE = 1;
 
-    // treasure opening with dice minimum value
-    public static final int DICE_VALUE_TO_OPEN_TOKEN = (int) (DICE_SIZE * DICE_COUNT * 0.75);
-
     // Free sea movement amount
     public static final int FREE_SEA_MOVEMENT_LENGTH = 1;
 
@@ -58,11 +59,32 @@ public class Globals
 
     // Values based on set Global values, do not modify
     // Dice
+    public static final int DICE_SIZE = SINGLE_DICE_MAX_VALUE - SINGLE_DICE_MIN_VALUE + 1;
+    public static final int MIN_DICE_VALUE = DICE_COUNT * SINGLE_DICE_MIN_VALUE;
     public static final int MAX_DICE_VALUE = DICE_COUNT * DICE_SIZE;
+
+    // mean of dice value.
+    public static final float MEAN_DICE_VALUE = DICE_COUNT * ((SINGLE_DICE_MIN_VALUE + SINGLE_DICE_MAX_VALUE) / 2);
+
+    private static float computeDiceSD()
+    {
+        // compute the standard deviation of dice value.
+        float sumOfSquaredDeviations = 0;
+        for (float i = SINGLE_DICE_MIN_VALUE; i <= SINGLE_DICE_MAX_VALUE; i++)
+        {
+            sumOfSquaredDeviations += Math.pow((i - MEAN_DICE_VALUE), 2);
+        }
+        return DICE_COUNT * (sumOfSquaredDeviations / DICE_SIZE);
+    }
+
+    public static final float SD_DICE_VALUE = computeDiceSD();
+
+    // treasure opening with dice minimum value
+    public static final int DICE_VALUE_TO_OPEN_TOKEN = (int) (MAX_DICE_VALUE * 0.75);
 
     // Sea movement price maximum price
     public static final int MAX_SEA_MOVEMENT_COST = (int) Math.ceil(MAX_DICE_VALUE * SEA_ROUTE_PRICE / 2);
-    
+
     public static final int MAX_ROUTE_COST = 3;
 
 }
