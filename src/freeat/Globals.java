@@ -5,9 +5,6 @@
  */
 package freeat;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  *
  * @author otso
