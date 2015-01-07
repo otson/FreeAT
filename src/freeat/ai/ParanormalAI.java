@@ -287,13 +287,9 @@ public class ParanormalAI extends AI
 
                         // Create a new thread for each targetNode (targetNodeID).
                         threadArrayList.add(new Thread(
-                            new Runnable()
+                            () ->
                             {
-                                @Override
-                                public void run()
-                                {
-                                    createConnectionsHashMap(tempTargetNodeID, tempCurrentMaxTotalPrice);
-                                }
+                                createConnectionsHashMap(tempTargetNodeID, tempCurrentMaxTotalPrice);
                             })
                         );
                         // Start the recently created thread.
