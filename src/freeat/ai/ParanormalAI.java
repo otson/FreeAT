@@ -142,23 +142,11 @@ public class ParanormalAI extends AI
     // distance to a neighbor node.
     public static final int NEIGHBOR_DISTANCE = 1;
 
-    // maximum price for land & sea routes as used by ParanormalAI.
-    public static final int MAX_LAND_SEA_TOTAL_PRICE = Globals.MAX_DICE_VALUE;
-
     // initial distance from starting node (targetNode).
     public static final int INITIAL_DISTANCE = 0;
 
     // initial price from starting node (targetNode).
     public static final int INITIAL_PRICE = 0;
-
-    // minimum roll of 1d6.
-    public static final float DICE_MIN = 1.0f;
-
-    // maximum roll of 1d6.
-    public static final float DICE_MAX = 6.0f;
-
-    // average roll of 1d6.
-    public static final float DICE_AVG = (DICE_MIN + DICE_MAX) / 2;
 
     // Cairo node ID.
     public static final int CAIRO_NODE_ID = 1;
@@ -275,7 +263,7 @@ public class ParanormalAI extends AI
                 int threadCount;
                 threadCount = 0;
 
-                for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentMaxTotalPrice++)
+                for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= Globals.MAX_SEA_MOVEMENT_COST; currentMaxTotalPrice++)
                 {
                     if (!(connectionsHashMap.containsKey(currentMaxTotalPrice)))
                     {
@@ -540,7 +528,7 @@ public class ParanormalAI extends AI
         distanceToTargetHashMap = new ConcurrentHashMap<>();
         priceToTargetHashMap = new ConcurrentHashMap<>();
 
-        for (int i = 0; i <= MAX_LAND_SEA_TOTAL_PRICE; i++)
+        for (int i = 0; i <= Globals.MAX_SEA_MOVEMENT_COST; i++)
         {
             distanceToTargetHashMap.put(i, new ConcurrentHashMap<>());
             priceToTargetHashMap.put(i, new ConcurrentHashMap<>());
@@ -778,7 +766,7 @@ public class ParanormalAI extends AI
         int priceOfChosenRoute;
         priceOfChosenRoute = -1;
 
-        for (int currentPrice = 0; currentPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentPrice++)
+        for (int currentPrice = 0; currentPrice <= Globals.MAX_SEA_MOVEMENT_COST; currentPrice++)
         {
             for (int metropolNodeID : METROPOLS_ARRAY)
             {
@@ -821,7 +809,7 @@ public class ParanormalAI extends AI
             int lengthOfCurrentRoute;
             int priceOfCurrentRoute;
             lengthOfCurrentRoute = getShortestDistanceWithCash(c.getNode(metropolNodeID), getCash());
-            priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, MAX_LAND_SEA_TOTAL_PRICE);
+            priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, Globals.MAX_SEA_MOVEMENT_COST);
             boolean isUpdateNeeded = false;
 
             if (priceOfCurrentRoute >= 0)

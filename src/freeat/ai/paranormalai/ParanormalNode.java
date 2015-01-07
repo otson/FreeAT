@@ -3,8 +3,9 @@ package freeat.ai.paranormalai;
 
 import java.util.ArrayList;
 
-import freeat.Controller;
 import freeat.Node;
+import freeat.Globals;
+import freeat.Controller;
 import static freeat.ai.ParanormalAI.*;
 
 public class ParanormalNode
@@ -200,7 +201,7 @@ public class ParanormalNode
     {
         boolean isChanged = updateDistanceAndPrice(targetNodeID, currentMaxTotalPrice, newDistanceToTarget, newPriceToTarget);
 
-        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; i++)
+        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= Globals.MAX_SEA_MOVEMENT_COST; i++)
         {
             updateDistanceAndPrice(targetNodeID, i, newDistanceToTarget, newPriceToTarget);
         }
@@ -214,7 +215,7 @@ public class ParanormalNode
     {
         boolean isChanged = updateDistanceAndPrice(targetNode.ID, currentMaxTotalPrice, newDistanceToTarget, newPriceToTarget);
 
-        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; i++)
+        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= Globals.MAX_SEA_MOVEMENT_COST; i++)
         {
             updateDistanceAndPrice(targetNode.ID, i, newDistanceToTarget, newPriceToTarget);
         }
@@ -235,7 +236,7 @@ public class ParanormalNode
         }
         else
         {
-            return distanceToTargetHashMap.get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE)).get(targetNodeID).get(this.getNode().ID);
+            return distanceToTargetHashMap.get(Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).get(targetNodeID).get(this.getNode().ID);
         }
     }
 
@@ -252,7 +253,7 @@ public class ParanormalNode
         }
         else
         {
-            return priceToTargetHashMap.get(Math.min(currentMaxTotalPrice, MAX_LAND_SEA_TOTAL_PRICE)).get(targetNodeID).get(this.getNode().ID);
+            return priceToTargetHashMap.get(Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).get(targetNodeID).get(this.getNode().ID);
         }
     }
 
