@@ -555,15 +555,15 @@ public class ParanormalAI extends AI
         int cumulativePrice,
         int currentMaxTotalPrice)
     {
-        if (shouldConnectionHashMapGenerationBeLogged)
-        {
-            writeTextAndNewlineToLog(
-                "originNode: " + originNode.getName()
-                + ", targetNode: " + targetNode.getName()
-                + ", cumulativeDistance: " + cumulativeDistance
-                + ", cumulativePrice: " + cumulativePrice
-                + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
-        }
+//        if (shouldConnectionHashMapGenerationBeLogged)
+//        {
+//            writeTextAndNewlineToLog(
+//                "originNode: " + originNode.getName()
+//                + ", targetNode: " + targetNode.getName()
+//                + ", cumulativeDistance: " + cumulativeDistance
+//                + ", cumulativePrice: " + cumulativePrice
+//                + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
+//        }
 
         connectionsHashMap.get(currentMaxTotalPrice).putIfAbsent(
             targetNode.ID,
