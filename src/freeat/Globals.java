@@ -72,13 +72,24 @@ public class Globals
     static int N_DICE_EVENTS = (int) Math.pow(DICE_SIZE, DICE_COUNT);
 
     // long startTime = System.nanoTime();
+    // outcome of each dice throwing event.
     public static final int[] OUTCOMES = throwManyDice();
+
+    // numbers of occurrences of each outcome in OUTCOMES.
     public static final int[] OCCURRENCES = countOccurrences(OUTCOMES);
+
+    // probabilities of each outcome.
     public static final float[] PROBABILITIES = computeProbabilities(OCCURRENCES);
+
+    // cumulative probabilities of each outcome.
     public static final float[] SAME_OR_LOWER_PROBABILITIES = computeCumulativeProbabilitiesUp(PROBABILITIES);
     public static final float[] SAME_OR_HIGHER_PROBABILITIES = computeCumulativeProbabilitiesDown(PROBABILITIES);
 
-    public static final float SD_DICE_VALUE = computeDiceSD();
+    // variance of dice.
+    public static final float DICE_VAR = computeDiceVariance(PROBABILITIES, MEAN_DICE_VALUE);
+
+    // standard deviation of dice.
+    public static final float DICE_SD = (float) Math.sqrt(DICE_VAR);
 
     private static int[] throwManyDice()
     {
@@ -179,6 +190,22 @@ public class Globals
 
         // printProbabilities(sameOrHigherProbabilitiesArray);
         return sameOrHigherProbabilitiesArray;
+    }
+
+    private static float computeDiceVariance(float[] probabalitiesArray, float mean)
+    {
+        // compute the variance of dice (a random variable).
+
+        float diceVariance = 0;
+
+        for (int i = 0; i < probabalitiesArray.length; i++)
+        {
+            diceVariance += probabalitiesArray[i] * Math.pow((i - mean), 2);
+        }
+
+        // System.out.println("variance is " + diceVariance);
+        // System.out.println("standard deviation is " + (float) Math.sqrt(diceVariance) + " .");
+        return diceVariance;
     }
 
     private static void printOutcomes(int[] outcomesArray)
