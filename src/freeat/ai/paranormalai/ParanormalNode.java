@@ -296,4 +296,15 @@ public class ParanormalNode
     {
         return this.landmassID;
     }
+
+    public float getMaxTimeToTarget(int targetNodeID, int currentMaxTotalPrice)
+    {
+        return (float) distanceToTargetHashMap.get(Globals.MAX_SEA_MOVEMENT_COST).get(targetNodeID).get(this.getNode().ID);
+    }
+
+    public float getMaxTimeToTarget(Node targetNode, int currentMaxTotalPrice)
+    {
+        return getMaxTimeToTarget(targetNode.ID, currentMaxTotalPrice);
+    }
+
 }
