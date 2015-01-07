@@ -72,10 +72,11 @@ public class Globals
     static int N_DICE_EVENTS = (int) Math.pow(DICE_SIZE, DICE_COUNT);
 
     // long startTime = System.nanoTime();
-
     public static final int[] OUTCOMES_ARRAY = throwManyDice();
     public static final int[] OCCURRENCES_ARRAY = countOccurrences(OUTCOMES_ARRAY);
     public static final float[] PROBABILITIES_ARRAY = computeProbabilities(OCCURRENCES_ARRAY);
+    public static final float[] SAME_OR_LOWER_PROBABILITIES_ARRAY = computeCumulativeProbabilitiesUp(PROBABILITIES_ARRAY);
+    public static final float[] SAMER_OR_HIGHER_PROBABILITIES_ARRAY = computeCumulativeProbabilitiesDown(PROBABILITIES_ARRAY);
 
     public static final float SD_DICE_VALUE = computeDiceSD();
 
@@ -148,6 +149,36 @@ public class Globals
         // printProbabilities(probabilitiesArray);
         // System.exit(0);
         return probabilitiesArray;
+    }
+
+    private static float[] computeCumulativeProbabilitiesUp(float[] probabilitiesArray)
+    {
+        float[] sameOrLowerProbabilitiesArray = new float[probabilitiesArray.length];
+        float cumulativeSum = 0;
+
+        for (int i = 0; i < sameOrLowerProbabilitiesArray.length; i++)
+        {
+            cumulativeSum += probabilitiesArray[i];
+            sameOrLowerProbabilitiesArray[i] = cumulativeSum;
+        }
+
+        // printProbabilities(sameOrLowerProbabilitiesArray);
+        return sameOrLowerProbabilitiesArray;
+    }
+
+    private static float[] computeCumulativeProbabilitiesDown(float[] probabilitiesArray)
+    {
+        float[] sameOrHigherProbabilitiesArray = new float[probabilitiesArray.length];
+        float cumulativeSum = 0;
+
+        for (int i = sameOrHigherProbabilitiesArray.length - 1; i >= 0; i--)
+        {
+            cumulativeSum += probabilitiesArray[i];
+            sameOrHigherProbabilitiesArray[i] = cumulativeSum;
+        }
+
+        // printProbabilities(sameOrHigherProbabilitiesArray);
+        return sameOrHigherProbabilitiesArray;
     }
 
     private static void printOutcomes(int[] outcomesArray)
