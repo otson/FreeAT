@@ -5,6 +5,9 @@
  */
 package freeat;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  *
  * @author otso
@@ -68,6 +71,34 @@ public class Globals
 
     private static float computeDiceSD()
     {
+        int diceCount = 3;
+        int diceMinValue = 1;
+        int diceMax = 6;
+        ArrayList<Integer> list = new ArrayList<Integer>(Collections.nCopies(diceCount, diceMinValue));
+        boolean throwingDice = true;
+        while (throwingDice)
+        {
+            throwingDice = false;
+            int result = 0;
+            for (int i = 0; i < diceCount; i++)
+            {
+                result += list.get(i);
+            }
+            System.out.println("Result: " + result);
+
+            //increase one dice size here, go through all possible dice combinations
+            for (int i = 0; i < list.size(); i++)
+            {
+                if (list.get(i) < diceMax)
+                {
+                    list.set(i, list.get(i) + 1);
+                    throwingDice = true;
+                    break;
+                }
+            }
+        }
+        System.exit(0);
+        
         // compute the standard deviation of dice value.
         float sumOfSquaredDeviations = 0;
         for (float i = SINGLE_DICE_MIN_VALUE; i <= SINGLE_DICE_MAX_VALUE; i++)
@@ -76,7 +107,7 @@ public class Globals
         }
         return DICE_COUNT * (sumOfSquaredDeviations / DICE_SIZE);
     }
-
+    
     public static final float SD_DICE_VALUE = computeDiceSD();
 
     // treasure opening with dice minimum value
