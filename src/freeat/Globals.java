@@ -71,13 +71,17 @@ public class Globals
 
     static int N_DICE_EVENTS = (int) Math.pow(DICE_SIZE, DICE_COUNT);
 
-    long startTime = System.nanoTime();
+    // long startTime = System.nanoTime();
 
-    static int[] outcomesArray = throwManyDice();
-    static int[] occurrencesArray = countOccurrences(outcomesArray);
+    public static final int[] OUTCOMES_ARRAY = throwManyDice();
+    public static final int[] OCCURRENCES_ARRAY = countOccurrences(OUTCOMES_ARRAY);
+    public static final float[] PROBABILITIES_ARRAY = computeProbabilities(OCCURRENCES_ARRAY);
+
+    public static final float SD_DICE_VALUE = computeDiceSD();
 
     private static int[] throwManyDice()
     {
+        // long startTime = System.nanoTime();
         int outcomesArray[] = new int[N_DICE_EVENTS];
 
         // initialize outcomesArray.
@@ -103,11 +107,14 @@ public class Globals
         }
 
         // printOutcomes(outcomesArray);
+        // System.out.println("Time to compute all dice outcomes: " + (System.nanoTime() - startTime) / 1000000 + " ms.");
         return outcomesArray;
     }
 
-    private static int[] countOccurrences(int[] array)
+    private static int[] countOccurrences(int[] outcomesArray)
     {
+        // long startTime = System.nanoTime();
+
         int occurrencesArray[] = new int[MAX_DICE_VALUE + 1];
 
         // initialize occurrencesArray.
@@ -125,7 +132,22 @@ public class Globals
         // printOccurrences(occurrencesArray);
         // System.exit(0);
         // ArrayList<Integer> numberOfOccurrences = new ArrayList<>(Collections.nCopies(N_DICE_EVENTS, 0));
+        // System.out.println("Time to compute all dice outcomes: " + (System.nanoTime() - startTime) / 1000000 + " ms.");
         return occurrencesArray;
+    }
+
+    private static float[] computeProbabilities(int[] occurrencesArray)
+    {
+        float probabilitiesArray[] = new float[occurrencesArray.length];
+
+        for (int i = 0; i < probabilitiesArray.length; i++)
+        {
+            probabilitiesArray[i] = (float) occurrencesArray[i] / N_DICE_EVENTS;
+        }
+
+        // printProbabilities(probabilitiesArray);
+        // System.exit(0);
+        return probabilitiesArray;
     }
 
     private static void printOutcomes(int[] outcomesArray)
@@ -141,6 +163,14 @@ public class Globals
         for (int i = 0; i < occurrencesArray.length; i++)
         {
             System.out.println("outcome " + i + " occurs " + occurrencesArray[i] + " times.");
+        }
+    }
+
+    private static void printProbabilities(float[] probabilitiesArray)
+    {
+        for (int i = 0; i < probabilitiesArray.length; i++)
+        {
+            System.out.println("outcome " + i + " probability is " + probabilitiesArray[i] + " .");
         }
     }
 
