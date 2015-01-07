@@ -246,8 +246,7 @@ public class Globals
         return DICE_COUNT * (sumOfSquaredDeviations / DICE_SIZE);
     }
 
-    public static final float SD_DICE_VALUE = computeDiceSD();
-
+    // public static final float SD_DICE_VALUE = computeDiceSD();
     // treasure opening with dice minimum value
     public static final int DICE_VALUE_TO_OPEN_TOKEN = (int) (MAX_DICE_VALUE * 0.75);
 
