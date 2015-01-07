@@ -16,7 +16,7 @@ public class Globals
 {
 
     // player variables
-    public static final int START_CASH = 3;
+    public static final int START_CASH = 0;
 
     // game variables
     public static final int MAXIMUM_ROUNDS = 150;
@@ -26,7 +26,7 @@ public class Globals
 
     // dice
     public static final int SINGLE_DICE_MIN_VALUE = 1;
-    public static final int SINGLE_DICE_MAX_VALUE = 6;
+    public static final int SINGLE_DICE_MAX_VALUE = 4;
 
     public static final int DICE_COUNT = 1;
 
