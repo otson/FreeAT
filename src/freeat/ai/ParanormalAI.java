@@ -188,9 +188,12 @@ public class ParanormalAI extends AI
     /**
      *
      */
-    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> minimumTravelTimeHashMap;
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Float>>> minimumTravelTimeHashMap;
+
+    /**
+     *
+     */
     public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Float>>> averageTravelTimeHashMap;
-    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> maximumTravelTimeHashMap;
 
     int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
     boolean onAfricaTour = false;
@@ -576,9 +579,6 @@ public class ParanormalAI extends AI
             originNode.ID,
             paranormalNodeHashMap.get(originNode.ID));
 
-        ParanormalNode pNode;
-        pNode = paranormalNodeHashMap.get(originNode.ID);
-
         // 0: start from node, cumulative price = 0.
         //    call recursively each neighboring node if distance there is negative (not yet defined) or greater than current distance.
         ArrayList<Route> routesArrayList = c.getAllRoutes(
@@ -665,8 +665,7 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private Route getLinkRoute(Node originNode, Node targetNode)
     {
-        ArrayList<Route> routesArrayList;
-        routesArrayList = c.getAllRoutes(
+        ArrayList<Route> routesArrayList = c.getAllRoutes(
             originNode,
             Globals.SEA_ROUTE_PRICE,
             NEIGHBOR_DISTANCE); // ArrayList of neighboring nodeID's.
@@ -766,8 +765,7 @@ public class ParanormalAI extends AI
     private int getCheapestPriceToMetropol(Node originNode)
     // the price of the cheapest route from originNode to any metropol.
     {
-        int priceOfChosenRoute;
-        priceOfChosenRoute = -1;
+        int priceOfChosenRoute = -1;
 
         for (int currentPrice = 0; currentPrice <= Globals.MAX_SEA_MOVEMENT_COST; currentPrice++)
         {
@@ -802,17 +800,16 @@ public class ParanormalAI extends AI
     // the price of the shortest route from originNode to any metropol.
     private int getPriceOfFastestRouteToMetropol()
     {
-        int lengthOfChosenRoute;
-        lengthOfChosenRoute = -1;
-        int priceOfChosenRoute;
-        priceOfChosenRoute = -1;
+        int lengthOfChosenRoute = -1;
+        int priceOfChosenRoute = -1;
 
         for (int metropolNodeID : METROPOLS_ARRAY)
         {
-            int lengthOfCurrentRoute;
-            int priceOfCurrentRoute;
-            lengthOfCurrentRoute = getShortestDistanceWithCash(c.getNode(metropolNodeID), getCash());
-            priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, Globals.MAX_SEA_MOVEMENT_COST);
+            int lengthOfCurrentRoute = getShortestDistanceWithCash(
+                c.getNode(metropolNodeID),
+                getCash());
+
+            int priceOfCurrentRoute = paranormalNodeHashMap.get(c.getCurrentNode().ID).getPriceToTarget(metropolNodeID, Globals.MAX_SEA_MOVEMENT_COST);
             boolean isUpdateNeeded = false;
 
             if (priceOfCurrentRoute >= 0)
@@ -850,7 +847,6 @@ public class ParanormalAI extends AI
      \------------------------------------------------------------------------*/
     private int getCash()
     {
-        // return c.getMyBalance() / MONEY_SCALE;
         return c.getMyBalance();
     }
 
@@ -1029,8 +1025,7 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private ArrayList<Integer> getLandmassesWithMostTreasuresLeft()
     {
-        ArrayList<Integer> landmassesWithMostTreasuresLeft;
-        landmassesWithMostTreasuresLeft = new ArrayList<>();
+        ArrayList<Integer> landmassesWithMostTreasuresLeft = new ArrayList<>();
 
         // TODO: write the code!
         return landmassesWithMostTreasuresLeft;
@@ -1107,28 +1102,19 @@ public class ParanormalAI extends AI
 
         c.decideToUseLandOrSeaRoute();
 
-        ArrayList<Route> routesArrayList;
-
-        // routesArrayList = c.getAllRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), 2 * Globals.SEA_ROUTE_PRICE), c.getDice());
-        routesArrayList = c.getMyAvailableRoutes();
-
-        ArrayList<Node> treasureCitiesArrayList;
-        treasureCitiesArrayList = c.getRemainingTreasures();
+        ArrayList<Route> routesArrayList = c.getMyAvailableRoutes();
+        ArrayList<Node> treasureCitiesArrayList = c.getRemainingTreasures();
 
         boolean randomChoiceInUse = false;
 
-        ArrayList<Route> chosenRoutesArrayList;
-        chosenRoutesArrayList = new ArrayList<>();
-
-        ArrayList<Node> chosenTreasureCitiesArrayList;
-        chosenTreasureCitiesArrayList = new ArrayList<>();
+        ArrayList<Route> chosenRoutesArrayList = new ArrayList<>();
+        ArrayList<Node> chosenTreasureCitiesArrayList = new ArrayList<>();
 
         Route chosenRoute = null;
         Node chosenTreasureCity = null;
-        int shortestDistanceToTreasureCity;
-        int chosenPrice;
-        int priceFromChosenTreasureCityToMetropol;
-        shortestDistanceToTreasureCity = chosenPrice = priceFromChosenTreasureCityToMetropol = -1;
+        int shortestDistanceToTreasureCity = -1;
+        int chosenPrice = -1;
+        int priceFromChosenTreasureCityToMetropol = -1;
 
         for (Route route : routesArrayList)
         {
@@ -1259,8 +1245,7 @@ public class ParanormalAI extends AI
                 && (!(chosenTreasureCitiesArrayList.isEmpty()))
                 && (chosenRoutesArrayList.size() == chosenTreasureCitiesArrayList.size()))
             {
-                int randomIndex;
-                randomIndex = rand.nextInt(chosenRoutesArrayList.size());
+                int randomIndex = rand.nextInt(chosenRoutesArrayList.size());
                 chosenRoute = chosenRoutesArrayList.get(randomIndex);
                 chosenTreasureCity = chosenTreasureCitiesArrayList.get(randomIndex);
             }
@@ -1314,15 +1299,16 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private Node chooseFarthestCity(Node originNode, int currentMaxTotalPrice)
     {
-        ArrayList<Node> allCitiesArrayList;
-        allCitiesArrayList = c.getAllCities();
+        ArrayList<Node> allCitiesArrayList = c.getAllCities();
         int chosenDistance = -1;
         Node chosenNode = null;
 
         for (Node targetNode : allCitiesArrayList)
         {
-            int distanceToCurrentNode;
-            distanceToCurrentNode = getShortestDistanceWithCash(originNode, targetNode, currentMaxTotalPrice);
+            int distanceToCurrentNode = getShortestDistanceWithCash(
+                originNode,
+                targetNode,
+                currentMaxTotalPrice);
 
             if (distanceToCurrentNode >= 0)
             {
@@ -1375,8 +1361,7 @@ public class ParanormalAI extends AI
         }
         else
         {
-            Node chosenNode;
-            chosenNode = chooseFarthestCity(MAX_LAND_ROAD_PRICE);
+            Node chosenNode = chooseFarthestCity(MAX_LAND_ROAD_PRICE);
 
             if (chosenNode == null)
             {
@@ -1402,11 +1387,8 @@ public class ParanormalAI extends AI
         }
         else
         {
-            ArrayList<Route> routesArrayList;
-            // routesArrayList = c.getAllRoutes(c.getCurrentNode(), Math.min(c.getMyBalance(), MAX_LAND_ROAD_PRICE), c.getDice());
-            routesArrayList = c.getMyAvailableRoutes();
-            Route route;
-            route = routesArrayList.get(0);
+            ArrayList<Route> routesArrayList = c.getMyAvailableRoutes();
+            Route route = routesArrayList.get(0);
             writeTextAndNewlineToLogAndDebug("I am at " + c.getCurrentNodeName() + " and I take the first available route to " + route.getDestination().getName() + ".");
             executeRoute(route);
         }
