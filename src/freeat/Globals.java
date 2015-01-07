@@ -86,7 +86,7 @@ public class Globals
             outcomesArray[i] = 0;
         }
 
-        for (int diceIndex = 1; diceIndex <= DICE_COUNT; diceIndex++)
+        for (int diceIndex = 0; diceIndex < DICE_COUNT; diceIndex++)
         {
             int arrayIndex = 0;
 
@@ -94,7 +94,7 @@ public class Globals
             {
                 for (int diceOutcome = SINGLE_DICE_MIN_VALUE; diceOutcome <= SINGLE_DICE_MAX_VALUE; diceOutcome++)
                 {
-                    for (int repeatCount = 0; repeatCount < Math.pow(DICE_SIZE, diceIndex - 1); repeatCount++)
+                    for (int repeatCount = 0; repeatCount < Math.pow(DICE_SIZE, diceIndex); repeatCount++)
                     {
                         outcomesArray[arrayIndex++] += diceOutcome;
                     }
