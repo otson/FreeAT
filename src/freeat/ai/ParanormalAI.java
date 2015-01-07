@@ -185,6 +185,13 @@ public class ParanormalAI extends AI
      */
     public static HashMap<Integer, Landmass> landmassHashMap = new HashMap<>();
 
+    /**
+     *
+     */
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> minimumTravelTimeHashMap;
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Float>>> averageTravelTimeHashMap;
+    public static ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Integer>>> maximumTravelTimeHashMap;
+
     int targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())];
     boolean onAfricaTour = false;
     Node nextDestinationOfAfricaTour;
