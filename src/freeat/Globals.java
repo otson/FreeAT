@@ -61,10 +61,10 @@ public class Globals
     // Dice
     public static final int DICE_SIZE = SINGLE_DICE_MAX_VALUE - SINGLE_DICE_MIN_VALUE + 1;
     public static final int MIN_DICE_VALUE = DICE_COUNT * SINGLE_DICE_MIN_VALUE;
-    public static final int MAX_DICE_VALUE = DICE_COUNT * DICE_SIZE;
+    public static final int MAX_DICE_VALUE = DICE_COUNT * SINGLE_DICE_MAX_VALUE;
 
     // mean of dice value.
-    public static final float MEAN_DICE_VALUE = DICE_COUNT * ((SINGLE_DICE_MIN_VALUE + SINGLE_DICE_MAX_VALUE) / 2);
+    public static final float MEAN_DICE_VALUE = DICE_COUNT * ((float) (SINGLE_DICE_MIN_VALUE + SINGLE_DICE_MAX_VALUE) / 2);
 
     private static float computeDiceSD()
     {
