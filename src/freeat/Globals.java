@@ -72,11 +72,11 @@ public class Globals
     static int N_DICE_EVENTS = (int) Math.pow(DICE_SIZE, DICE_COUNT);
 
     // long startTime = System.nanoTime();
-    public static final int[] OUTCOMES_ARRAY = throwManyDice();
-    public static final int[] OCCURRENCES_ARRAY = countOccurrences(OUTCOMES_ARRAY);
-    public static final float[] PROBABILITIES_ARRAY = computeProbabilities(OCCURRENCES_ARRAY);
-    public static final float[] SAME_OR_LOWER_PROBABILITIES_ARRAY = computeCumulativeProbabilitiesUp(PROBABILITIES_ARRAY);
-    public static final float[] SAMER_OR_HIGHER_PROBABILITIES_ARRAY = computeCumulativeProbabilitiesDown(PROBABILITIES_ARRAY);
+    public static final int[] OUTCOMES = throwManyDice();
+    public static final int[] OCCURRENCES = countOccurrences(OUTCOMES);
+    public static final float[] PROBABILITIES = computeProbabilities(OCCURRENCES);
+    public static final float[] SAME_OR_LOWER_PROBABILITIES = computeCumulativeProbabilitiesUp(PROBABILITIES);
+    public static final float[] SAME_OR_HIGHER_PROBABILITIES = computeCumulativeProbabilitiesDown(PROBABILITIES);
 
     public static final float SD_DICE_VALUE = computeDiceSD();
 
