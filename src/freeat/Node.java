@@ -156,7 +156,7 @@ public class Node
     public void setFreeSeaRoutes(){
         for(Integer id : connections){
             Node targetNode = locations.get(id);
-            if((isCity() && targetNode.isSea() || (isSea() && targetNode.isCity()))){
+            if((isCity() && targetNode.isSea()) || (isSea() && targetNode.isCity()) || ((isSea() && targetNode.isSea()))){
                 freeSeaRoutes.add(new Route(targetNode, 0));
             }
         }
