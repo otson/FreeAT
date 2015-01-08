@@ -1298,6 +1298,32 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private boolean isFreeSeaRoute(Node originNode, Node targetNode, int cash)
+    {
+        return ((cash == 0)
+                && (!(originNode.isSea()))
+                && targetNode.isSea());
+    }
+
+    /*------------------------------------------------------------------------*/
+    private boolean isFreeSeaRoute(Node originNode, Node targetNode)
+    {
+        return isFreeSeaRoute(originNode, targetNode, getCash());
+    }
+
+    /*------------------------------------------------------------------------*/
+    private boolean isFreeSeaRoute(Node targetNode, int cash)
+    {
+        return isFreeSeaRoute(c.getCurrentNode(), targetNode, cash);
+    }
+
+    /*------------------------------------------------------------------------*/
+    private boolean isFreeSeaRoute(Node targetNode)
+    {
+        return isFreeSeaRoute(c.getCurrentNode(), targetNode, getCash());
+    }
+
+    /*------------------------------------------------------------------------*/
     private Node chooseRandomNodeFromList(ArrayList<Node> nodesArrayList)
     {
         if (nodesArrayList.isEmpty())
