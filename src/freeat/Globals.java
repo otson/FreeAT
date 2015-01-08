@@ -23,7 +23,7 @@ public class Globals
 
     // dice
     public static final int SINGLE_DICE_MIN_VALUE = 1;
-    public static final int SINGLE_DICE_MAX_VALUE = 4;
+    public static final int SINGLE_DICE_MAX_VALUE = 6;
 
     public static final int DICE_COUNT = 1;
 
