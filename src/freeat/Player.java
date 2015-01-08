@@ -9,6 +9,7 @@ import freeat.Globals;
 import freeat.ai.AI;
 import freeat.ai.DrawNode;
 import freeat.ai.LoomAI;
+import freeat.ai.DumbAI;
 import freeat.ai.NormalAI;
 import freeat.ai.ParanormalAI;
 import freeat.ai.RouteAI;
@@ -94,7 +95,7 @@ public class Player
                 ai = new TestAI();
                 break;
             case 1:
-                ai = new ParanormalAI();
+                ai = new DumbAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"
