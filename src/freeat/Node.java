@@ -38,111 +38,12 @@ public class Node
 
     private String name;
 
-    //Routes that cost 0
-    //Distance of 1
-    private ArrayList<Route> distance1Cost0 = new ArrayList<>();
-
-    //Routes that cost 0
-    //Distance of 2
-    private ArrayList<Route> distance2Cost0 = new ArrayList<>();
-
-    //Routes that cost 0
-    //Distance of 3
-    private ArrayList<Route> distance3Cost0 = new ArrayList<>();
-
-    //Routes that cost 0
-    //Distance of 4
-    private ArrayList<Route> distance4Cost0 = new ArrayList<>();
-
-    //Routes that cost 0
-    //Distance of 5
-    private ArrayList<Route> distance5Cost0 = new ArrayList<>();
-
-    //Routes that cost 0
-    //Distance of 6
-    private ArrayList<Route> distance6Cost0 = new ArrayList<>();
-
-    //Routes that cost 100 or less
-    //Distance of 1
-    private ArrayList<Route> distance1Cost100 = new ArrayList<>();
-
-    //Routes that cost 100 or less
-    //Distance of 2
-    private ArrayList<Route> distance2Cost100 = new ArrayList<>();
-
-    //Routes that cost 100 or less
-    //Distance of 3
-    private ArrayList<Route> distance3Cost100 = new ArrayList<>();
-
-    //Routes that cost 100 or less
-    //Distance of 4
-    private ArrayList<Route> distance4Cost100 = new ArrayList<>();
-
-    //Routes that cost 100 or less
-    //Distance of 5
-    private ArrayList<Route> distance5Cost100 = new ArrayList<>();
-
-    //Routes that cost 100 or less
-    //Distance of 6
-    private ArrayList<Route> distance6Cost100 = new ArrayList<>();
-
-    //Routes that cost 200 or less
-    //Distance of 1
-    private ArrayList<Route> distance1Cost200 = new ArrayList<>();
-
-    //Routes that cost 200 or less
-    //Distance of 2
-    private ArrayList<Route> distance2Cost200 = new ArrayList<>();
-
-    //Routes that cost 200 or less
-    //Distance of 3
-    private ArrayList<Route> distance3Cost200 = new ArrayList<>();
-
-    //Routes that cost 200 or less
-    //Distance of 4
-    private ArrayList<Route> distance4Cost200 = new ArrayList<>();
-
-    //Routes that cost 200 or less
-    //Distance of 5
-    private ArrayList<Route> distance5Cost200 = new ArrayList<>();
-
-    //Routes that cost 200 or less
-    //Distance of 6
-    private ArrayList<Route> distance6Cost200 = new ArrayList<>();
-
-    //Routes that cost 300 or less
-    //Distance of 1
-    private ArrayList<Route> distance1Cost300 = new ArrayList<>();
-
-    //Routes that cost 300 or less
-    //Distance of 2
-    private ArrayList<Route> distance2Cost300 = new ArrayList<>();
-
-    //Routes that cost 300 or less
-    //Distance of 3
-    private ArrayList<Route> distance3Cost300 = new ArrayList<>();
-
-    //Routes that cost 300 or less
-    //Distance of 4
-    private ArrayList<Route> distance4Cost300 = new ArrayList<>();
-
-    //Routes that cost 300 or less
-    //Distance of 5
-    private ArrayList<Route> distance5Cost300 = new ArrayList<>();
-
-    //Routes that cost 300 or less
-    //Distance of 6
-    private ArrayList<Route> distance6Cost300 = new ArrayList<>();
-
-    ArrayList<Route>[][] allLists;
-
     // new variables to make the game more scalable, not yet in use
     private ArrayList<Route> planeRoutes = new ArrayList<>();
     private ArrayList<Route> freeSeaRoutes = new ArrayList<>();
     private HashMap<Integer, ArrayList<Route>> nonPlaneRoutes = new HashMap<>();
 
     // new methods, not yet in use
-    
     // set plane routes
     public void setPlaneRoutes()
     {
@@ -151,12 +52,15 @@ public class Node
             planeRoutes.add(new Route(locations.get(id), Globals.PLANE_ROUTE_PRICE));
         }
     }
-    
+
     // set free sea routes
-    public void setFreeSeaRoutes(){
-        for(Integer id : connections){
+    public void setFreeSeaRoutes()
+    {
+        for (Integer id : connections)
+        {
             Node targetNode = locations.get(id);
-            if((isCity() && targetNode.isSea()) || (isSea() && targetNode.isCity()) || ((isSea() && targetNode.isSea()))){
+            if ((isCity() && targetNode.isSea()) || (isSea() && targetNode.isCity()) || ((isSea() && targetNode.isSea())))
+            {
                 freeSeaRoutes.add(new Route(targetNode, 0));
             }
         }
@@ -164,43 +68,8 @@ public class Node
 
     public Node(int id, int x, int y, HashMap<Integer, Node> locations)
     {
-        
+
         this.name = String.valueOf(id);
-        allLists = new ArrayList[7][4];
-        allLists[0][0] = new ArrayList<>();
-        allLists[0][1] = new ArrayList<>();
-        allLists[0][2] = new ArrayList<>();
-        allLists[0][3] = new ArrayList<>();
-
-        allLists[1][0] = distance1Cost0;
-        allLists[1][1] = distance1Cost100;
-        allLists[1][2] = distance1Cost200;
-        allLists[1][3] = distance1Cost300;
-
-        allLists[2][0] = distance2Cost0;
-        allLists[2][1] = distance2Cost100;
-        allLists[2][2] = distance2Cost200;
-        allLists[2][3] = distance2Cost300;
-
-        allLists[3][0] = distance3Cost0;
-        allLists[3][1] = distance3Cost100;
-        allLists[3][2] = distance3Cost200;
-        allLists[3][3] = distance3Cost300;
-
-        allLists[4][0] = distance4Cost0;
-        allLists[4][1] = distance4Cost100;
-        allLists[4][2] = distance4Cost200;
-        allLists[4][3] = distance4Cost300;
-
-        allLists[5][0] = distance5Cost0;
-        allLists[5][1] = distance5Cost100;
-        allLists[5][2] = distance5Cost200;
-        allLists[5][3] = distance5Cost300;
-
-        allLists[6][0] = distance6Cost0;
-        allLists[6][1] = distance6Cost100;
-        allLists[6][2] = distance6Cost200;
-        allLists[6][3] = distance6Cost300;
 
         this.ID = id;
         this.x = x;
@@ -391,131 +260,6 @@ public class Node
         return planeConnections;
     }
 
-    public ArrayList<Route> getDistance1Cost0()
-    {
-        return distance1Cost0;
-    }
-
-    public ArrayList<Route> getDistance2Cost0()
-    {
-        return distance2Cost0;
-    }
-
-    public ArrayList<Route> getDistance3Cost0()
-    {
-        return distance3Cost0;
-    }
-
-    public ArrayList<Route> getDistance4Cost0()
-    {
-        return distance4Cost0;
-    }
-
-    public ArrayList<Route> getDistance5Cost0()
-    {
-        return distance5Cost0;
-    }
-
-    public ArrayList<Route> getDistance6Cost0()
-    {
-        return distance6Cost0;
-    }
-
-    public ArrayList<Route> getDistance1Cost100()
-    {
-        return distance1Cost100;
-    }
-
-    public ArrayList<Route> getDistance2Cost100()
-    {
-        return distance2Cost100;
-    }
-
-    public ArrayList<Route> getDistance3Cost100()
-    {
-        return distance3Cost100;
-    }
-
-    public ArrayList<Route> getDistance4Cost100()
-    {
-        return distance4Cost100;
-    }
-
-    public ArrayList<Route> getDistance5Cost100()
-    {
-        return distance5Cost100;
-    }
-
-    public ArrayList<Route> getDistance6Cost100()
-    {
-        return distance6Cost100;
-    }
-
-    public ArrayList<Route> getDistance1Cost200()
-    {
-        return distance1Cost200;
-    }
-
-    public ArrayList<Route> getDistance2Cost200()
-    {
-        return distance2Cost200;
-    }
-
-    public ArrayList<Route> getDistance3Cost200()
-    {
-        return distance3Cost200;
-    }
-
-    public ArrayList<Route> getDistance4Cost200()
-    {
-        return distance4Cost200;
-    }
-
-    public ArrayList<Route> getDistance5Cost200()
-    {
-        return distance5Cost200;
-    }
-
-    public ArrayList<Route> getDistance6Cost200()
-    {
-        return distance6Cost200;
-    }
-
-    public ArrayList<Route> getDistance1Cost300()
-    {
-        return distance1Cost300;
-    }
-
-    public ArrayList<Route> getDistance2Cost300()
-    {
-        return distance2Cost300;
-    }
-
-    public ArrayList<Route> getDistance3Cost300()
-    {
-        return distance3Cost300;
-    }
-
-    public ArrayList<Route> getDistance4Cost300()
-    {
-        return distance4Cost300;
-    }
-
-    public ArrayList<Route> getDistance5Cost300()
-    {
-        return distance5Cost300;
-    }
-
-    public ArrayList<Route> getDistance6Cost300()
-    {
-        return distance6Cost300;
-    }
-
-    public ArrayList<Route>[][] getAllLists()
-    {
-        return allLists;
-    }
-
     public boolean isCity()
     {
         return ID == 1 || ID == 2 || (ID > 100 && ID < 200);
@@ -571,37 +315,14 @@ public class Node
         return freeSeaRoutes;
     }
 
-    void shuffleArrays()
+    public void shuffleArrays()
     {
-        Collections.shuffle(distance1Cost0);
-        Collections.shuffle(distance2Cost0);
-        Collections.shuffle(distance3Cost0);
-        Collections.shuffle(distance4Cost0);
-        Collections.shuffle(distance5Cost0);
-        Collections.shuffle(distance6Cost0);
-        
-        Collections.shuffle(distance1Cost100);
-        Collections.shuffle(distance2Cost100);
-        Collections.shuffle(distance3Cost100);
-        Collections.shuffle(distance4Cost100);
-        Collections.shuffle(distance5Cost100);
-        Collections.shuffle(distance6Cost100);
-        
-        Collections.shuffle(distance1Cost200);
-        Collections.shuffle(distance2Cost200);
-        Collections.shuffle(distance3Cost200);
-        Collections.shuffle(distance4Cost200);
-        Collections.shuffle(distance5Cost200);
-        Collections.shuffle(distance6Cost200);
-        
-        Collections.shuffle(distance1Cost300);
-        Collections.shuffle(distance2Cost300);
-        Collections.shuffle(distance3Cost300);
-        Collections.shuffle(distance4Cost300);
-        Collections.shuffle(distance5Cost300);
-        Collections.shuffle(distance6Cost300);
-        
+        Collections.shuffle(planeRoutes);
+        for (ArrayList<Route> array : nonPlaneRoutes.values())
+        {
+            Collections.shuffle(array);
+        }
+        Collections.shuffle(freeSeaRoutes);
     }
 
-    
 }

@@ -20,6 +20,7 @@ public class Globals
     public static final int DISPLAY_FRAME_RATE = 6;
     public static final boolean RENDER =  false;
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
+    public static final boolean SHUFFLE_ROUTE_ARRAYS = false;
 
     // dice
     public static final int SINGLE_DICE_MIN_VALUE = 1;

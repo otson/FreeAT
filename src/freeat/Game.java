@@ -46,6 +46,8 @@ public class Game
     private ArrayList<Player> players;
     private boolean running = true;
     private int[] winCount = new int[PublicInformation.PLAYER_COUNT];
+    private int[] avgTurnsToWin = new int[PublicInformation.PLAYER_COUNT];
+    private long[] totalTurnsToWin = new long[PublicInformation.PLAYER_COUNT];
     private int turnCount = 0;
     private int totalWins = 0;
     private int totalDraws = 0;
@@ -62,7 +64,7 @@ public class Game
         setNodeNames();
         setPlayers();
         setAllRoutes();
-        
+
         // print all possible routes from all nodes
 //        int totalRoutes = 0;
 //        for (Node node : locations.values())
@@ -456,12 +458,17 @@ public class Game
             if (PublicInformation.isWinner())
             {
                 winCount[PublicInformation.getWinner()]++;
+                totalTurnsToWin[PublicInformation.getWinner()] += turnCount;
                 totalWins++;
                 if (winCount[PublicInformation.getWinner()] % 1 == 0)
                 {
                     for (int i = 0; i < PublicInformation.PLAYER_COUNT; i++)
                     {
-                        System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " (" + (float) winCount[i] * 100 / totalWins + "%) ");
+                        System.out.print("Player " + i + " " + PublicInformation.getName(i) + " wins: " + winCount[i] + " (" + (float) winCount[i] * 100 / totalWins + "%)");
+                        if (winCount[i] > 0)
+                        {
+                            System.out.print(" avg turns to win: " + (float) totalTurnsToWin[i] / winCount[i] + ". \t");
+                        }
                     }
                     System.out.print("Draws: " + totalDraws + " (" + (float) totalDraws * 100 / totalWins + "%) ");
                     System.out.println("");
@@ -487,6 +494,10 @@ public class Game
         setPlayers();
         setTreasures();
         TestAI.count = 1;
+        if (Globals.SHUFFLE_ROUTE_ARRAYS)
+        {
+            shuffleRouteOrder();
+        }
 
         running = true;
     }
@@ -494,21 +505,6 @@ public class Game
     public ArrayList<Player> getPlayers()
     {
         return players;
-    }
-
-    private void printRoutes()
-    {
-
-        for (Node node : locations.values())
-        {
-            for (int i = 1; i < 7; i++)
-            {
-                for (Route route : node.getAllLists()[i][0])
-                {
-                    System.out.println("Route from: " + node.ID + " to " + route.getDestination().ID + ". Price: " + route.getPrice() + " length: " + i);
-                }
-            }
-        }
     }
 
     void renderAINodes()
