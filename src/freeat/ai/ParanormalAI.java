@@ -860,6 +860,8 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private int getMinTreasureValue()
     {
+        // If there are robbers left, the minimum treasure value is
+        // (-1) * current cash.
         if (c.robbersLeft() > 0)
         {
             return -1 * getCash();
@@ -886,6 +888,8 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private int getMinTreasureValueWithoutRobbers()
     {
+        // The minimum treasure value without taking robbers into count,
+        // should always be a non-negative integer.
         if ((c.emptyLeft() > 0) || (c.horseShoesLeft() > 0))
         {
             return 0;
@@ -949,6 +953,7 @@ public class ParanormalAI extends AI
         }
         else
         {
+            // Check zeitgebers.
             return ((lastLeaderNode != c.getCurrentNode())
                     || (isStarFound && (!(c.isStarFound())))
                     || (rubiesLeft > c.rubiesLeft())
@@ -1201,23 +1206,36 @@ public class ParanormalAI extends AI
                     {
                         if (distanceFromChosenDestinationToTreasureCity < 0)
                         {
+                            // If chosen route is not valid,
+                            // any valid route is better.
                             isUpdateNeeded = true;
                             isBetterRoute = true;
                         }
                         else if (distanceFromCurrentDestinationToTreasureCity < distanceFromChosenDestinationToTreasureCity)
                         {
+                            // If current destination has shorter distance to
+                            // treasure city than chosen destination, current
+                            // route is better.
                             isUpdateNeeded = true;
                             isBetterRoute = true;
                         }
                         else if ((distanceFromChosenDestinationToTreasureCity == distanceFromCurrentDestinationToTreasureCity)
                                  && (currentRoutePrice < chosenRoutePrice))
                         {
+                            // If current destination and chosen destination
+                            // have the same distance to nearest treasure city
+                            // and current route is cheaper than chosen route,
+                            // current route is better.
                             isUpdateNeeded = true;
                             isBetterRoute = true;
                         }
                         else if ((distanceFromChosenDestinationToTreasureCity == distanceFromCurrentDestinationToTreasureCity)
                                  && (chosenRoutePrice == currentRoutePrice))
                         {
+                            // If current destination and chosen destination
+                            // have the same distance to nearest treasure city
+                            // and both have the same price, they are equally
+                            // good.
                             isUpdateNeeded = true;
                         }
                     }
