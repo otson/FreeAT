@@ -58,10 +58,10 @@ public class TestAI extends AI
                 {
                     if (isTreasuresOnMainLand())
                     {
-                        route = getRouteToTreasure(1);
+                        route = getRouteToTreasure(0);
                     } else
                     {
-                        route = getRouteToTreasure(0);
+                        route = getRouteToTreasure(1);
                     }
                 } else
                 {
@@ -100,7 +100,9 @@ public class TestAI extends AI
 
     private Route getRouteToTreasure(int maxPrice)
     {
+        
         ArrayList<Node> treasures = c.getRemainingTreasures();
+        
         // find the closest node with treasure
         // find first accessible node with treasure
         Node nodeCandidate = null;
@@ -165,7 +167,7 @@ public class TestAI extends AI
         ArrayList<Route> routes;
         if (maxPrice == 0)
         {
-            routes = c.getMyAvailableFreeRoutes();
+            routes = c.getMyAvailableFreeRoutesNoSea();
         } else
         {
             routes = c.getMyAvailableRoutes();

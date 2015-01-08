@@ -92,10 +92,10 @@ public class Player
         switch (AIType)
         {
             case 0:
-                ai = new ParanormalAI();
+                ai = new DumbAI();
                 break;
             case 1:
-                ai = new DumbAI();
+                ai = new TestAI();
                 break;
             default:
                 System.out.println("number of AIIdentifications (" + nAITypes + ") is greater number of cases in Player.java\n"

@@ -382,6 +382,22 @@ public class Controller
 
         return list;
     }
+    
+    public ArrayList<Route> getMyAvailableFreeRoutesNoSea()
+    {
+        HashMap<Integer, ArrayList<Route>> hashMap = getCurrentNode().getNonPlaneRoutes();
+        ArrayList<Route> list = new ArrayList<>();
+        ArrayList<Route> landSeaList = hashMap.get(new Key(getDice(), 0).hashCode());
+        if (landSeaList == null)
+        {
+            //System.out.println("No available land routes.");
+        } else
+        {
+            list.addAll(landSeaList);
+        }
+
+        return list;
+    }
 
     public ArrayList<Route> getAllNonPlaneRoutes(Node start, int cash, int dice)
     {
