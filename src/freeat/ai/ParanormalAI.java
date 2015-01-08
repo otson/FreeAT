@@ -32,6 +32,7 @@ public class ParanormalAI extends AI
 {
 
     // class-level (static) variables.
+    static boolean isMultithreadingInUse = true;
     static boolean isLoggingInUse = false;
     static boolean shouldConnectionHashMapGenerationBeLogged = false;
     static boolean shouldLandMassHashMapGenerationBeLogged = false;
@@ -282,34 +283,44 @@ public class ParanormalAI extends AI
                             new ConcurrentHashMap<>());
                     }
 
-                    final int tempCurrentMaxTotalPrice = currentMaxTotalPrice;
-
-                    for (int targetNodeID : c.getNodeList().keySet())
+                    if (isMultithreadingInUse)
                     {
-                        final int tempTargetNodeID = targetNodeID;
+                        final int tempCurrentMaxTotalPrice = currentMaxTotalPrice;
 
-                        // Create a new thread for each targetNode (targetNodeID).
-                        threadArrayList.add(new Thread(
-                            () ->
-                            {
-                                createConnectionsHashMap(tempTargetNodeID, tempCurrentMaxTotalPrice);
-                            })
-                        );
-                        // Start the recently created thread.
-                        threadArrayList.get(threadCount).start();
-                        threadCount++;
-                    }
-
-                    boolean finished = false;
-                    while (!(finished))
-                    {
-                        finished = true;
-                        for (Thread thread : threadArrayList)
+                        for (int targetNodeID : c.getNodeList().keySet())
                         {
-                            if (thread.isAlive())
+                            final int tempTargetNodeID = targetNodeID;
+
+                            // Create a new thread for each targetNode (targetNodeID).
+                            threadArrayList.add(new Thread(
+                                () ->
+                                {
+                                    createConnectionsHashMap(tempTargetNodeID, tempCurrentMaxTotalPrice);
+                                })
+                            );
+                            // Start the recently created thread.
+                            threadArrayList.get(threadCount).start();
+                            threadCount++;
+                        }
+
+                        boolean finished = false;
+                        while (!(finished))
+                        {
+                            finished = true;
+                            for (Thread thread : threadArrayList)
                             {
-                                finished = false;
+                                if (thread.isAlive())
+                                {
+                                    finished = false;
+                                }
                             }
+                        }
+                    }
+                    else
+                    {
+                        for (int targetNodeID : c.getNodeList().keySet())
+                        {
+                            createConnectionsHashMap(targetNodeID, currentMaxTotalPrice);
                         }
                     }
                 }
@@ -561,15 +572,18 @@ public class ParanormalAI extends AI
         int cumulativePrice,
         int currentMaxTotalPrice)
     {
-//        if (shouldConnectionHashMapGenerationBeLogged)
-//        {
-//            writeTextAndNewlineToLog(
-//                "originNode: " + originNode.getName()
-//                + ", targetNode: " + targetNode.getName()
-//                + ", cumulativeDistance: " + cumulativeDistance
-//                + ", cumulativePrice: " + cumulativePrice
-//                + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
-//        }
+        if (!(isMultithreadingInUse))
+        {
+            if (shouldConnectionHashMapGenerationBeLogged)
+            {
+                writeTextAndNewlineToLog(
+                    "originNode: " + originNode.getName()
+                    + ", targetNode: " + targetNode.getName()
+                    + ", cumulativeDistance: " + cumulativeDistance
+                    + ", cumulativePrice: " + cumulativePrice
+                    + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
+            }
+        }
 
         connectionsHashMap.get(currentMaxTotalPrice).putIfAbsent(
             targetNode.ID,
