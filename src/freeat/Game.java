@@ -62,8 +62,24 @@ public class Game
         setNodeNames();
         setPlayers();
         setAllRoutes();
+        
+        // print all possible routes from all nodes
+//        int totalRoutes = 0;
+//        for (Node node : locations.values())
+//        {
+//            //System.out.println("---Going through all routes for node: "+node.ID+" ---");
+//            for (ArrayList<Route> array : node.getNonPlaneRoutes().values())
+//            {
+//                totalRoutes+=array.size();
+//                //System.out.println("---Going through one array---");
+//                for(Route route : array){
+//                    //System.out.println("Route Start: "+node.ID+" "+route.getString());
+//                }
+//            }
+//        }
+//        System.out.println("Total routes: "+totalRoutes);
+//        System.exit(0);
     }
-
 
     public final void setAllRoutes()
     {
@@ -71,7 +87,7 @@ public class Game
         int currentPrice = 0;
         for (Node node : locations.values())
         {
-            
+
             getNext(node, null, distance, currentPrice, node.getNonPlaneRoutes());
         }
         //plane routes, free sea routes
@@ -81,7 +97,7 @@ public class Game
             node.setFreeSeaRoutes();
         }
     }
-    
+
     private void getNext(Node previous, Node previousPrevious, int distance, int currentPrice, HashMap<Integer, ArrayList<Route>> routes)
     {
         for (int i = 0; i < previous.getConnections().size(); i++)
@@ -94,7 +110,7 @@ public class Game
                 if (current.isCity())
                 {
                     for (int j = distance; j <= Globals.MAX_DICE_VALUE; j++)
-                    {  
+                    {
                         for (int x = tempPrice; x <= Globals.MAX_SEA_MOVEMENT_COST; x++)
                         {
                             //list[j][x].add(new Route(current, tempPrice * 100));
@@ -115,10 +131,10 @@ public class Game
                     {
                         //list[distance][x].add(new Route(current, tempPrice * 100));
                         if (routes.get(new Key(distance, x).hashCode()) == null)
-                            {
-                                routes.put(new Key(distance, x).hashCode(), new ArrayList<>());
-                            }
-                        
+                        {
+                            routes.put(new Key(distance, x).hashCode(), new ArrayList<>());
+                        }
+
                         routes.get(new Key(distance, x).hashCode()).add(new Route(locations.get(current.ID), tempPrice));
                     }
                 }
@@ -505,7 +521,8 @@ public class Game
 
     private void shuffleRouteOrder()
     {
-        for(Node node: locations.values()){
+        for (Node node : locations.values())
+        {
             node.shuffleArrays();
         }
     }
