@@ -31,7 +31,7 @@ public class DistanceListList
         this.nodeList = nodeList;
         doFloydWarshallAlgorithm();
         doFloydWarshallAlgorithmWithoutSea();
-        System.exit(0);
+        //System.exit(0);
 
         // Give all the nodes in the list a list of all the other nodes, with a starting distance of -1 (not reachable)
         for (Node node : nodeList.values())
@@ -211,7 +211,7 @@ public class DistanceListList
         System.out.println("Distance from 1 to 103: " + dist(1, 103));
     }
 
-    private int dist(int from, int to)
+    public int dist(int from, int to)
     {
         return distancesWithSea.get(new Key(from, to).hashCode());
     }
@@ -221,7 +221,7 @@ public class DistanceListList
         distancesWithSea.put(new Key(from, to).hashCode(), distance);
     }
 
-    private int distNoSea(int from, int to)
+    public int distNoSea(int from, int to)
     {
         return distancesWithoutSea.get(new Key(from, to).hashCode());
     }
@@ -288,5 +288,15 @@ public class DistanceListList
 
         System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
         System.out.println("Distance from 1 to 103 no sea: " + distNoSea(1, 103));
+    }
+
+    public int dist(int ID, int ID0, int maxPrice)
+    {   
+        if(maxPrice == 0){
+            return distancesWithoutSea.get(new Key(ID, ID0).hashCode());
+        }
+        else{
+            return distancesWithSea.get(new Key(ID, ID0).hashCode());
+        }
     }
 }

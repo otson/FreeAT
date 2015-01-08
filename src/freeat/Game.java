@@ -364,32 +364,32 @@ public class Game
 
         int[] treasures = new int[Node.CITY_COUNT];
         int current = 0;
-        for (int i = 0; i < STAR_OF_AFRICA_COUNT; i++)
+        for (int i = 0; i < Globals.STAR_OF_AFRICA_COUNT; i++)
         {
             treasures[current] = TreasureType.STAR_OF_AFRICA;
             current++;
         }
-        for (int i = 0; i < RUBY_COUNT; i++)
+        for (int i = 0; i < Globals.RUBY_COUNT; i++)
         {
             treasures[current] = TreasureType.RUBY;
             current++;
         }
-        for (int i = 0; i < EMERALD_COUNT; i++)
+        for (int i = 0; i < Globals.EMERALD_COUNT; i++)
         {
             treasures[current] = TreasureType.EMERALD;
             current++;
         }
-        for (int i = 0; i < TOPAZ_COUNT; i++)
+        for (int i = 0; i < Globals.TOPAZ_COUNT; i++)
         {
             treasures[current] = TreasureType.TOPAZ;
             current++;
         }
-        for (int i = 0; i < ROBBER_COUNT; i++)
+        for (int i = 0; i < Globals.ROBBER_COUNT; i++)
         {
             treasures[current] = TreasureType.ROBBER;
             current++;
         }
-        for (int i = 0; i < HORSESHOE_COUNT; i++)
+        for (int i = 0; i < Globals.HORSESHOE_COUNT; i++)
         {
             treasures[current] = TreasureType.HORSESHOE;
             current++;

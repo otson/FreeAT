@@ -17,18 +17,18 @@ public class Globals
 
     // game variables
     public static final int MAXIMUM_ROUNDS = 150;
-    public static final int DISPLAY_FRAME_RATE = 60;
-    public static final boolean RENDER = false;
+    public static final int DISPLAY_FRAME_RATE = 10;
+    public static final boolean RENDER = true;
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
 
     // dice
     public static final int SINGLE_DICE_MIN_VALUE = 1;
-    public static final int SINGLE_DICE_MAX_VALUE = 6;
+    public static final int SINGLE_DICE_MAX_VALUE = 1;
 
     public static final int DICE_COUNT = 1;
 
     // Treasure counts
-    public static final int STAR_OF_AFRICA_COUNT = 1;
+    public static final int STAR_OF_AFRICA_COUNT = 0;
     public static final int RUBY_COUNT = 2;
     public static final int EMERALD_COUNT = 3;
     public static final int TOPAZ_COUNT = 4;
