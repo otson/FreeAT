@@ -3,6 +3,7 @@ package freeat.ai.normalaiNode;
 import freeat.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /*
@@ -18,14 +19,18 @@ public class DistanceListList
 {
 
     private HashMap<Integer, DistanceList> distances = new HashMap<>();
+    
     private HashMap<Integer, Node> nodeList;
-    private HashMap<Integer, Integer> distancesWithKey = new HashMap<>();
+    private HashMap<Integer, Integer> distancesWithSea = new HashMap<>();
+    private HashMap<Integer, Integer> distancesWithoutSea = new HashMap<>();
 
     public DistanceListList(HashMap<Integer, Node> nodeList)
     {
 
         this.nodeList = nodeList;
-        //doFloydWarshallAlgorithm();
+        doFloydWarshallAlgorithm();
+        doFloydWarshallAlgorithmWithoutSea();
+        System.exit(0);
 
         // Give all the nodes in the list a list of all the other nodes, with a starting distance of -1 (not reachable)
         for (Node node : nodeList.values())
@@ -98,7 +103,7 @@ public class DistanceListList
                 }
             }
         }
-        System.out.println("HashMap size: " + distancesWithKey.size());
+        System.out.println("HashMap size: " + distancesWithSea.size());
 
         // All threads finished
     }
@@ -167,21 +172,21 @@ public class DistanceListList
         {
             for (Integer integer2 : nodeList.keySet())
             {
-                distancesWithKey.putIfAbsent(new Key(integer, integer2).hashCode(), 9999);
+                distancesWithSea.putIfAbsent(new Key(integer, integer2).hashCode(), 9999);
             }
         }
 
         // distance to self is 0
         for (Integer integer : nodeList.keySet())
         {
-            distancesWithKey.put(new Key(integer, integer).hashCode(), 0);
+            distancesWithSea.put(new Key(integer, integer).hashCode(), 0);
         }
 
         for (Node node : nodeList.values())
         {
             for (Integer connection : node.getConnections())
             {
-                distancesWithKey.put(new Key(node.ID, connection).hashCode(), 1);
+                distancesWithSea.put(new Key(node.ID, connection).hashCode(), 1);
             }
         }
 
@@ -203,17 +208,79 @@ public class DistanceListList
 
         System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
         System.out.println("Distance from 2 to 120: " + dist(2, 120));
-        System.out.println("Distance from 1 to 120: " + dist(2, 102));
-        System.exit(0);
+        System.out.println("Distance from 1 to 120: " + dist(1, 120));
     }
 
     private int dist(int from, int to)
     {
-        return distancesWithKey.get(new Key(from, to).hashCode());
+        return distancesWithSea.get(new Key(from, to).hashCode());
     }
 
     private void setDist(int from, int to, int distance)
     {
-        distancesWithKey.put(new Key(from, to).hashCode(), distance);
+        distancesWithSea.put(new Key(from, to).hashCode(), distance);
+    }
+    
+    private int distNoSea(int from, int to)
+    {
+        return distancesWithoutSea.get(new Key(from, to).hashCode());
+    }
+
+    private void setDistNoSea(int from, int to, int distance)
+    {
+        distancesWithoutSea.put(new Key(from, to).hashCode(), distance);
+    }
+
+    private void doFloydWarshallAlgorithmWithoutSea()
+    {
+        long start = System.nanoTime();
+        // init distances (9999 initial value)
+        Set<Integer> set = nodeList.keySet();
+        for (Integer integer : nodeList.keySet())
+        {
+            for (Integer integer2 : nodeList.keySet())
+            {
+                distancesWithoutSea.put(new Key(integer, integer2).hashCode(), 9999);
+            }
+        }
+
+        // distance to self is 0
+        for (Integer integer : nodeList.keySet())
+        {
+            distancesWithoutSea.put(new Key(integer, integer).hashCode(), 0);
+        }
+
+        for (Node node : nodeList.values())
+        {
+            if (!node.isSea())
+            {
+                for (Integer connection : node.getConnections())
+                {
+                    if (!nodeList.get(connection).isSea())
+                    {
+                        distancesWithoutSea.put(new Key(node.ID, connection).hashCode(), 1);
+                    }
+                }
+            }
+        }
+
+        for (int k : set)
+        {
+            for (int i : set)
+            {
+                for (int j : set)
+                {
+                    if (distNoSea(i, j) > distNoSea(i, k) + distNoSea(k, j))
+                    {
+                        setDistNoSea(i, j, distNoSea(i, k) + distNoSea(k, j));
+                    }
+                }
+
+            }
+        }
+
+        System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
+        System.out.println("Distance from 2 to 120 no sea: " + distNoSea(2, 120));
+        System.out.println("Distance from 1 to 120 no sea: " + distNoSea(1, 120));
     }
 }
