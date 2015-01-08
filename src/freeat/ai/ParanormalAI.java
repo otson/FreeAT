@@ -128,9 +128,6 @@ public class ParanormalAI extends AI
         }
     }
 
-    // ParanormalAI uses money as 0, 1, 2, 3, ...
-    // FreetAT uses money as 0, 100, 200, 300, ...
-    // public static final int MONEY_SCALE = 100;
     // minimum land & sea road price.
     public static final int MIN_ROAD_PRICE = 0;
 
@@ -624,12 +621,18 @@ public class ParanormalAI extends AI
 
                 if (isRecursiveCallNeeded)
                 {
-                    createConnectionsHashMapWithAccumulatedPrice( // call recursively.
-                        neighborNode, // neighbor node as the new origin node.
-                        targetNode, // keep the same target node.
-                        cumulativeDistance, // cumulative distance has already been incremented.
-                        newCumulativePrice, // new cumulative price.
-                        currentMaxTotalPrice); // keep original max total price.
+                    // call recursively.
+                    // neighbor node as the new origin node.
+                    // keep the same target node.
+                    // cumulative distance has already been incremented.
+                    // new cumulative price is in newCumulativePrice.
+                    // keep the original maximum total price.
+                    createConnectionsHashMapWithAccumulatedPrice(
+                        neighborNode,
+                        targetNode,
+                        cumulativeDistance,
+                        newCumulativePrice,
+                        currentMaxTotalPrice);
                 }
             }
         }
@@ -748,10 +751,10 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private int getShortestAirDistance(Node originNode, Node C, int cash)
+    private int getShortestAirDistance(Node originNode, Node targetNode, int cash)
     // shortest flight distance with given cash from _current_ node to _target_ node.
     {
-        return getShortestAirDistance(originNode.ID, originNode.ID, cash);
+        return getShortestAirDistance(originNode.ID, targetNode.ID, cash);
     }
 
     /*------------------------------------------------------------------------*/
@@ -1000,7 +1003,6 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private int getRoutePrice(Route route)
     {
-        // return route.getPrice() / MONEY_SCALE;
         return route.getPrice();
     }
 
@@ -1110,7 +1112,6 @@ public class ParanormalAI extends AI
         // TODO: prefer continental treasure cities to island treasure cities,
         //       until there are no robbers and I have enough money to return to
         //       a metropol landmass.
-        // TODO: implement money counting and saving behavior for island trips.
 
         c.decideToUseLandOrSeaRoute();
 
@@ -1533,20 +1534,6 @@ public class ParanormalAI extends AI
     private void doLandSeaTravelTowards(int targetNodeID)
     {
         doLandSeaTravelTowards(targetNodeID, "");
-    }
-
-    /*------------------------------------------------------------------------*/
-    private void doBudgetLandSeaTravelTowards(int targetNodeID)
-    {
-        // Travel to targetNode using the cheapest possible route.
-        // TODO: write the code!
-    }
-
-    /*------------------------------------------------------------------------*/
-    private void doBudgetLandSeaTravelTowards(Node targetNode)
-    {
-        // Travel to targetNode using the cheapest possible route.
-        doBudgetLandSeaTravelTowards(targetNode.ID);
     }
 
     /*------------------------------------------------------------------------*/
