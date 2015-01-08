@@ -595,29 +595,25 @@ public class ParanormalAI extends AI
 
         // 0: start from node, cumulative price = 0.
         //    call recursively each neighboring node if distance there is negative (not yet defined) or greater than current distance.
-        ArrayList<Route> routesArrayList = c.getAllRoutes(
-            originNode,
-            Globals.SEA_ROUTE_PRICE,
-            NEIGHBOR_DISTANCE); // ArrayList of neighboring nodeID's.
+        ArrayList<Integer> neighborIDSArrayList = originNode.getConnections();
 
         cumulativeDistance++;
 
-        for (Route route : routesArrayList)
+        for (int neighborNodeID : neighborIDSArrayList)
         {
-            Node neighborNode = route.getDestination();
+            Node neighborNode = c.getNode(neighborNodeID);
 
             if (neighborNode != originNode)
             {
                 ParanormalNode neighborParanormalNode = getParanormalNode(neighborNode);
 
-                Route linkRoute = getLinkRoute(neighborNode, originNode);
+                int linkRoutePrice = getLinkRoutePrice(neighborNode, originNode);
 
-                if (linkRoute == null)
+                if (linkRoutePrice < 0)
                 {
                     System.out.println("error: linkRoute from " + neighborNode.getName() + " to " + originNode.getName() + " is null!");
                 }
-
-                int newCumulativePrice = cumulativePrice + (linkRoute.getPrice());
+                int newCumulativePrice = cumulativePrice + linkRoutePrice;
 
                 boolean isRecursiveCallNeeded;
                 isRecursiveCallNeeded = neighborParanormalNode.updateDistanceAndPrice(
@@ -677,24 +673,21 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private Route getLinkRoute(Node originNode, Node targetNode)
+    private int getLinkRoutePrice(Node originNode, Node targetNode)
     {
-        ArrayList<Route> routesArrayList = c.getAllRoutes(
-            originNode,
-            Globals.SEA_ROUTE_PRICE,
-            NEIGHBOR_DISTANCE); // ArrayList of neighboring nodeID's.
-
-        Route chosenRoute = null;
-
-        // TODO: add check for land & sea link routes!
-        for (Route route : routesArrayList)
+        if (originNode.hasConnection(targetNode.ID))
         {
-            if (route.getDestination() == targetNode)
+            if ((!(originNode.isSea())) && targetNode.isSea())
             {
-                chosenRoute = route;
+                return Globals.SEA_ROUTE_PRICE;
             }
+            return MAX_LAND_ROAD_PRICE;
         }
-        return chosenRoute;
+        else if (originNode.hasPlaneConnection(targetNode.ID))
+        {
+            return Globals.PLANE_ROUTE_PRICE;
+        }
+        return -1;
     }
 
     /*------------------------------------------------------------------------*/
