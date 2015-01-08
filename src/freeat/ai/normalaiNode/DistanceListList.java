@@ -2,6 +2,7 @@ package freeat.ai.normalaiNode;
 
 import freeat.Node;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +20,7 @@ public class DistanceListList
 {
 
     private HashMap<Integer, DistanceList> distances = new HashMap<>();
-    
+
     private HashMap<Integer, Node> nodeList;
     private HashMap<Integer, Integer> distancesWithSea = new HashMap<>();
     private HashMap<Integer, Integer> distancesWithoutSea = new HashMap<>();
@@ -207,8 +208,7 @@ public class DistanceListList
         }
 
         System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
-        System.out.println("Distance from 2 to 120: " + dist(2, 120));
-        System.out.println("Distance from 1 to 120: " + dist(1, 120));
+        System.out.println("Distance from 1 to 103: " + dist(1, 103));
     }
 
     private int dist(int from, int to)
@@ -220,7 +220,7 @@ public class DistanceListList
     {
         distancesWithSea.put(new Key(from, to).hashCode(), distance);
     }
-    
+
     private int distNoSea(int from, int to)
     {
         return distancesWithoutSea.get(new Key(from, to).hashCode());
@@ -278,9 +278,15 @@ public class DistanceListList
 
             }
         }
+        for (Integer key : distancesWithoutSea.keySet())
+        {
+            if (distancesWithoutSea.get(key) == 9999)
+            {
+                distancesWithoutSea.put(key, -1);
+            }
+        }
 
         System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
-        System.out.println("Distance from 2 to 120 no sea: " + distNoSea(2, 120));
-        System.out.println("Distance from 1 to 120 no sea: " + distNoSea(1, 120));
+        System.out.println("Distance from 1 to 103 no sea: " + distNoSea(1, 103));
     }
 }
