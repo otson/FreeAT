@@ -1119,8 +1119,8 @@ public class ParanormalAI extends AI
 
         Route chosenRoute = null;
         Node chosenTreasureCity = null;
-        int shortestDistanceToTreasureCity = -1;
-        int chosenPrice = -1;
+        int distanceFromChosenDestinationToTreasureCity = -1;
+        int chosenRoutePrice = -1;
         int priceFromChosenTreasureCityToMetropol = -1;
 
         for (Route route : routesArrayList)
@@ -1135,24 +1135,24 @@ public class ParanormalAI extends AI
 
             for (Node treasureCity : treasureCitiesArrayList)
             {
-                int distanceFromDestinationToTreasureCity;
+                int distanceFromCurrentDestinationToTreasureCity;
                 int cheapestPriceToMetropolFromTreasureCity = getCheapestPriceToMetropol(treasureCity);
-                distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(
+                distanceFromCurrentDestinationToTreasureCity = getShortestDistanceWithCash(
                     route.getDestination(),
                     treasureCity,
                     (getCashAfterRoute(route) - cheapestPriceToMetropolFromTreasureCity));
 //                int cheapestPriceToMetropolFromTreasureCity = getCheapestPriceToMetropol(treasureCity);
-//                distanceFromDestinationToTreasureCity = getShortestDistanceWithCash(
+//                distanceFromCurrentDestinationToTreasureCity = getShortestDistanceWithCash(
 //                    route.getDestination(),
 //                    treasureCity,
 //                    getCash());
-                int routePrice = route.getPrice();
+                int currentRoutePrice = route.getPrice();
                 boolean isUpdateNeeded = false;
                 boolean isBetterRoute = false;
 
                 writeTextAndNewlineToLog("distance from " + route.getDestination().getName()
                                          + " to " + treasureCity.getName()
-                                         + " is " + distanceFromDestinationToTreasureCity
+                                         + " is " + distanceFromCurrentDestinationToTreasureCity
                                          + " links.");
                 writeTextAndNewlineToLog("cheapest price from " + treasureCity.getName()
                                          + " to any metropol is " + cheapestPriceToMetropolFromTreasureCity
@@ -1163,9 +1163,9 @@ public class ParanormalAI extends AI
                 {
                     // If there are robbers left, prefer
                     // metropol landmass destinations.
-                    if ((distanceFromDestinationToTreasureCity >= 0) && (cheapestPriceToMetropolFromTreasureCity >= 0))
+                    if ((distanceFromCurrentDestinationToTreasureCity >= 0) && (cheapestPriceToMetropolFromTreasureCity >= 0))
                     {
-                        if (shortestDistanceToTreasureCity < 0)
+                        if (distanceFromChosenDestinationToTreasureCity < 0)
                         {
                             isUpdateNeeded = isBetterRoute = true;
                         }
@@ -1174,19 +1174,19 @@ public class ParanormalAI extends AI
                             isUpdateNeeded = isBetterRoute = true;
                         }
                         else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
-                                 && (shortestDistanceToTreasureCity > distanceFromDestinationToTreasureCity))
+                                 && (distanceFromChosenDestinationToTreasureCity > distanceFromCurrentDestinationToTreasureCity))
                         {
                             isUpdateNeeded = isBetterRoute = true;
                         }
                         else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
-                                 && (shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
-                                 && (chosenPrice > routePrice))
+                                 && (distanceFromChosenDestinationToTreasureCity == distanceFromCurrentDestinationToTreasureCity)
+                                 && (chosenRoutePrice > currentRoutePrice))
                         {
                             isUpdateNeeded = isBetterRoute = true;
                         }
                         else if ((priceFromChosenTreasureCityToMetropol == cheapestPriceToMetropolFromTreasureCity)
-                                 && (shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
-                                 && (chosenPrice == routePrice))
+                                 && (distanceFromChosenDestinationToTreasureCity == distanceFromCurrentDestinationToTreasureCity)
+                                 && (chosenRoutePrice == currentRoutePrice))
                         {
                             isUpdateNeeded = true;
                         }
@@ -1197,26 +1197,26 @@ public class ParanormalAI extends AI
                     // If there are no robbers left, the
                     // landmass where the treasure city is located
                     // doesn't matter.
-                    if (distanceFromDestinationToTreasureCity >= 0)
+                    if (distanceFromCurrentDestinationToTreasureCity >= 0)
                     {
-                        if (shortestDistanceToTreasureCity < 0)
+                        if (distanceFromChosenDestinationToTreasureCity < 0)
                         {
                             isUpdateNeeded = true;
                             isBetterRoute = true;
                         }
-                        else if (shortestDistanceToTreasureCity > distanceFromDestinationToTreasureCity)
+                        else if (distanceFromCurrentDestinationToTreasureCity < distanceFromChosenDestinationToTreasureCity)
                         {
                             isUpdateNeeded = true;
                             isBetterRoute = true;
                         }
-                        else if ((shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
-                                 && (chosenPrice > routePrice))
+                        else if ((distanceFromChosenDestinationToTreasureCity == distanceFromCurrentDestinationToTreasureCity)
+                                 && (currentRoutePrice < chosenRoutePrice))
                         {
                             isUpdateNeeded = true;
                             isBetterRoute = true;
                         }
-                        else if ((shortestDistanceToTreasureCity == distanceFromDestinationToTreasureCity)
-                                 && (chosenPrice == routePrice))
+                        else if ((distanceFromChosenDestinationToTreasureCity == distanceFromCurrentDestinationToTreasureCity)
+                                 && (chosenRoutePrice == currentRoutePrice))
                         {
                             isUpdateNeeded = true;
                         }
@@ -1240,8 +1240,8 @@ public class ParanormalAI extends AI
                         chosenRoute = route;
                         chosenTreasureCity = treasureCity;
                     }
-                    chosenPrice = routePrice;
-                    shortestDistanceToTreasureCity = distanceFromDestinationToTreasureCity;
+                    chosenRoutePrice = currentRoutePrice;
+                    distanceFromChosenDestinationToTreasureCity = distanceFromCurrentDestinationToTreasureCity;
                 }
             }
         }
@@ -1266,8 +1266,8 @@ public class ParanormalAI extends AI
         {
             writeTextAndNewlineToLogAndDebug(messagePrefix + "I'm taking route to " + chosenRoute.getDestination().getName()
                                              + ", en route to " + chosenTreasureCity.getName()
-                                             + " (" + shortestDistanceToTreasureCity
-                                             + " links remaining), price " + chosenPrice + " GBP.");
+                                             + " (" + distanceFromChosenDestinationToTreasureCity
+                                             + " links remaining), price " + chosenRoutePrice + " GBP.");
             executeRoute(chosenRoute);
         }
     }
