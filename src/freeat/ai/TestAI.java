@@ -51,11 +51,12 @@ public class TestAI extends AI
                 c.decideTryToken();
             } else
             {
-                c.decideToUseLandOrSeaRoute();
+
                 Route route;
 
                 if (!c.isEligibleForWin())
                 {
+                    c.decideToUseLandOrSeaRoute();
                     if (isTreasuresOnMainLand())
                     {
                         route = getRouteToTreasure(0);
@@ -65,7 +66,16 @@ public class TestAI extends AI
                     }
                 } else
                 {
-                    route = getRouteToStart(1);
+                    if (shouldFlyToStart())
+                    {
+                        c.decidetoUsePlane();
+                        route = getPlaneRouteToStart();
+
+                    } else
+                    {   
+                        c.decideToUseLandOrSeaRoute();
+                        route = getRouteToStart(1);
+                    }
 
                 }
 
@@ -100,9 +110,9 @@ public class TestAI extends AI
 
     private Route getRouteToTreasure(int maxPrice)
     {
-        
+
         ArrayList<Node> treasures = c.getRemainingTreasures();
-        
+
         // find the closest node with treasure
         // find first accessible node with treasure
         Node nodeCandidate = null;
@@ -247,7 +257,7 @@ public class TestAI extends AI
             for (Node node : c.getRemainingTreasures())
             {
                 if (distances.distNoSea(node.ID, 1) > -1)
-                {   
+                {
                     //System.out.println("Treasure left");
                     return true;
                 }
@@ -292,6 +302,41 @@ public class TestAI extends AI
     {
         int sum = 0;
         return sum;
+    }
+
+    private boolean shouldFlyToStart()
+    {
+
+        if (c.getCurrentNode().getPlaneRoutes().isEmpty() || c.getMyBalance() < Globals.PLANE_ROUTE_PRICE)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private Route getPlaneRouteToStart()
+    {
+        Route route = c.getCurrentNode().getPlaneRoutes().get(0);
+        int distanceToStart = distances.dist(route.getDestination().ID, 1, 1);
+        if (distances.dist(route.getDestination().ID, 2, 1) < distanceToStart)
+        {
+            distanceToStart = distances.dist(route.getDestination().ID, 1, 2);
+        }
+        for (Route plane : c.getCurrentNode().getPlaneRoutes())
+        {
+            if (distances.dist(plane.getDestination().ID, 1, 1) < distanceToStart)
+            {
+                route = plane;
+                distanceToStart = distances.dist(plane.getDestination().ID, 1, 1);
+            }
+            if (distances.dist(plane.getDestination().ID, 2, 1) < distanceToStart)
+            {
+                route = plane;
+                distanceToStart = distances.dist(plane.getDestination().ID, 2, 1);
+            }
+
+        }
+        return route;
     }
 
 }

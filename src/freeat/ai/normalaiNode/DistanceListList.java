@@ -29,8 +29,10 @@ public class DistanceListList
     {
 
         this.nodeList = nodeList;
+        long start = System.nanoTime();
         doFloydWarshallAlgorithm();
         doFloydWarshallAlgorithmWithoutSea();
+        System.out.println("Time using FloydWarshall algorithm: " + (System.nanoTime() - start) / 1000000 + " ms.");
         //System.exit(0);
 
         // Give all the nodes in the list a list of all the other nodes, with a starting distance of -1 (not reachable)
@@ -206,9 +208,6 @@ public class DistanceListList
 
             }
         }
-
-        System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
-        System.out.println("Distance from 1 to 103: " + dist(1, 103));
     }
 
     public int dist(int from, int to)
@@ -286,8 +285,7 @@ public class DistanceListList
             }
         }
 
-        System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
-        System.out.println("Distance from 1 to 103 no sea: " + distNoSea(1, 103));
+        
     }
 
     public int dist(int ID, int ID0, int maxPrice)
