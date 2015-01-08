@@ -25,7 +25,7 @@ public class DistanceListList
     {
 
         this.nodeList = nodeList;
-        doFloydWarshallAlgorithm();
+        //doFloydWarshallAlgorithm();
 
         // Give all the nodes in the list a list of all the other nodes, with a starting distance of -1 (not reachable)
         for (Node node : nodeList.values())
@@ -56,9 +56,7 @@ public class DistanceListList
                 // check that the route is free
                 if (!(currentNode.isCity() && destNode.isSea()))
                 {
-                    //nodeDistances.put(destination, 1);
-
-                    distancesWithKey.putIfAbsent(new Key(currentNode.ID, destNode.ID).hashCode(), 1);
+                    nodeDistances.put(destination, 1);
                 }
 
             }
@@ -73,18 +71,18 @@ public class DistanceListList
         // Make a new thread for each node
         for (DistanceList nodesList : distances.values())
         {
-//            threadList.add(new Thread(
-//                    new Runnable()
-//                    {
-//                        public void run()
-//                        {
-//            nodesList.calculateDistances(distancesWithKey);
-//                        }
-//                    })
-//            );
-//            // start the thread
-//            threadList.get(threadCount).start();
-//            threadCount++;
+            threadList.add(new Thread(
+                    new Runnable()
+                    {
+                        public void run()
+                        {
+                            nodesList.calculateDistances();
+                        }
+                    })
+            );
+            // start the thread
+            threadList.get(threadCount).start();
+            threadCount++;
         }
 
         boolean finished = false;
@@ -187,21 +185,20 @@ public class DistanceListList
             }
         }
 
+        for (int k : nodeList.keySet())
+        {
 
-
-        for (int k : nodeList.keySet()){
-            
-                for (int i : nodeList.keySet())
+            for (int i : nodeList.keySet())
+            {
+                for (int j : nodeList.keySet())
                 {
-                    for (int j : nodeList.keySet())
+                    if (dist(i, j) > dist(i, k) + dist(k, j))
                     {
-                        if (dist(i, j) > dist(i, k) + dist(k, j))
-                        {
-                            setDist(i, j, dist(i, k) + dist(k, j));
-                        }
+                        setDist(i, j, dist(i, k) + dist(k, j));
                     }
-                
                 }
+
+            }
         }
 
         System.out.println("Time: " + (System.nanoTime() - start) / 1000000 + " ms.");
