@@ -56,10 +56,17 @@ public class TestAI extends AI
 
                 if (!c.isEligibleForWin())
                 {
-                    route = getRouteToTreasure(0);
+                    if (isTreasuresOnMainLand())
+                    {
+                        route = getRouteToTreasure(1);
+                    } else
+                    {
+                        route = getRouteToTreasure(0);
+                    }
                 } else
                 {
-                    route = getRouteToStart(0);
+                    route = getRouteToStart(1);
+
                 }
 
                 c.moveTo(route);
@@ -101,7 +108,7 @@ public class TestAI extends AI
         {
 
             // if found a route longer than -1, it's valid candidate
-            if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1)
+            if (distances.dist(c.getCurrentNode().ID, node.ID, maxPrice) > -1)
             {
                 nodeCandidate = node;
                 break;
@@ -114,16 +121,16 @@ public class TestAI extends AI
             return getRouteTo(targetNode, 0);
         } else
         {
-            int candidateDistance = distances.getDistance(c.getCurrentNode().ID, nodeCandidate.ID);
+            int candidateDistance = distances.dist(c.getCurrentNode().ID, nodeCandidate.ID, maxPrice);
 
             // find the route with shortest distance
             for (Node node : treasures)
             {
                 // distance is shorter than the candidate and longer than -1, it becomes the new candidate
-                if (distances.getDistance(c.getCurrentNode().ID, node.ID) > -1 && distances.getDistance(c.getCurrentNode().ID, node.ID) < candidateDistance)
+                if (distances.dist(c.getCurrentNode().ID, node.ID, maxPrice) > -1 && distances.dist(c.getCurrentNode().ID, node.ID, maxPrice) < candidateDistance)
                 {
                     nodeCandidate = node;
-                    candidateDistance = distances.getDistance(c.getCurrentNode().ID, node.ID);
+                    candidateDistance = distances.dist(c.getCurrentNode().ID, node.ID, maxPrice);
                 }
             }
 
@@ -135,8 +142,8 @@ public class TestAI extends AI
     private Route getRouteToStart(int maxPrice)
     {
 
-        int distanceToCairo = distances.getDistance(c.getCurrentNode().ID, 1);
-        int distanceToTangier = distances.getDistance(c.getCurrentNode().ID, 2);
+        int distanceToCairo = distances.dist(c.getCurrentNode().ID, 1, maxPrice);
+        int distanceToTangier = distances.dist(c.getCurrentNode().ID, 2, maxPrice);
         if (distanceToCairo < distanceToTangier)
         {
             return getRouteTo(1, maxPrice);
@@ -155,7 +162,15 @@ public class TestAI extends AI
             c.concatDebugString(" with the Star or HorseShoe.");
         }
         //ArrayList<Route> routes = c.getAllRoutes(c.getCurrentNode(), maxPrice, c.getDice());
-        ArrayList<Route> routes = c.getMyAvailableFreeRoutes();
+        ArrayList<Route> routes;
+        if (maxPrice == 0)
+        {
+            routes = c.getMyAvailableFreeRoutes();
+        } else
+        {
+            routes = c.getMyAvailableRoutes();
+        }
+
         if (routes == null)
         {
             System.out.println("No routes: null");
@@ -171,30 +186,73 @@ public class TestAI extends AI
 
         // Use the first route as the first candidate
         Route routeCandidate;
-        if (!routes.isEmpty())
+        if (maxPrice == 0)
         {
-
-            routeCandidate = routes.get(0);
-
-            // distance from route's destination to the wanted to node
-            int distanceCandidate = distances.getDistance(routeCandidate.getDestination().ID, to);
-
-            for (Route route : routes)
+            if (!routes.isEmpty())
             {
-                // check if the the route in the list has shorter distance to target
-                if (distances.getDistance(route.getDestination().ID, to) < distanceCandidate)
+
+                routeCandidate = routes.get(0);
+
+                // distance from route's destination to the wanted to node
+                int distanceCandidate = distances.distNoSea(routeCandidate.getDestination().ID, to);
+
+                for (Route route : routes)
                 {
-                    routeCandidate = route;
-                    distanceCandidate = distances.getDistance(route.getDestination().ID, to);
+                    // check if the the route in the list has shorter distance to target
+                    if (distances.distNoSea(route.getDestination().ID, to) < distanceCandidate)
+                    {
+                        routeCandidate = route;
+                        distanceCandidate = distances.distNoSea(route.getDestination().ID, to);
+                    }
                 }
+            } else
+            {
+                routeCandidate = c.getMyAvailableRoutes().get(0);
             }
-        }
-        else{
-            routeCandidate = c.getMyAvailableRoutes().get(0);
+        } else
+        {
+            if (!routes.isEmpty())
+            {
+
+                routeCandidate = routes.get(0);
+
+                // distance from route's destination to the wanted to node
+                int distanceCandidate = distances.dist(routeCandidate.getDestination().ID, to);
+
+                for (Route route : routes)
+                {
+                    // check if the the route in the list has shorter distance to target
+                    if (distances.dist(route.getDestination().ID, to) < distanceCandidate)
+                    {
+                        routeCandidate = route;
+                        distanceCandidate = distances.dist(route.getDestination().ID, to);
+                    }
+                }
+            } else
+            {
+                routeCandidate = c.getMyAvailableRoutes().get(0);
+            }
         }
         //System.out.println("Selected route distance: "+distanceCandidate);
         return routeCandidate;
 
+    }
+
+    public boolean isTreasuresOnMainLand()
+    {
+        if (!c.getRemainingTreasures().isEmpty())
+        {
+            for (Node node : c.getRemainingTreasures())
+            {
+                if (distances.distNoSea(node.ID, 1) > -1)
+                {   
+                    //System.out.println("Treasure left");
+                    return true;
+                }
+            }
+        }
+        //System.out.println("No treasure left");
+        return false;
     }
 
     private void initDistances(Controller c)
@@ -228,11 +286,6 @@ public class TestAI extends AI
     }
 
     // return boolean if the parameter node has a land connection to either of the start cities
-    private boolean isIsland(Node node)
-    {
-        return distances.getDistance(node.ID, 1) != -1 && distances.getDistance(node.ID, 2) != -1;
-    }
-
     private int getExpectedTreasureValue()
     {
         int sum = 0;
