@@ -72,7 +72,7 @@ public class TestAI extends AI
                         route = getPlaneRouteToStart();
 
                     } else
-                    {   
+                    {
                         c.decideToUseLandOrSeaRoute();
                         route = getRouteToStart(1);
                     }
@@ -306,8 +306,11 @@ public class TestAI extends AI
 
     private boolean shouldFlyToStart()
     {
-
         if (c.getCurrentNode().getPlaneRoutes().isEmpty() || c.getMyBalance() < Globals.PLANE_ROUTE_PRICE)
+        {
+            return false;
+        }
+        if (GetPlaneAdvantageToStart() < Globals.MAX_DICE_VALUE)
         {
             return false;
         }
@@ -337,6 +340,22 @@ public class TestAI extends AI
 
         }
         return route;
+    }
+
+    private int GetPlaneAdvantageToStart()
+    {
+        Route route = c.getCurrentNode().getPlaneRoutes().get(0);
+        int distanceGained = distances.dist(route.getDestination().ID, c.getCurrentNode().ID, 1);
+
+        for (Route plane : c.getCurrentNode().getPlaneRoutes())
+        {
+            if (distances.dist(plane.getDestination().ID, 1, 1) < distanceGained)
+            {
+                distanceGained = distances.dist(plane.getDestination().ID, c.getCurrentNode().ID, 1);
+            }
+
+        }
+        return distanceGained;
     }
 
 }
