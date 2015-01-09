@@ -14,13 +14,6 @@ public class ParanormalNode
     private Node node;
     private ArrayList<Integer> neighbors;
     private boolean hasAirport;
-    private boolean isIslandTreasureCity;      // non-city nodes are never island cities.
-    private boolean isContinentalTreasureCity; // non-city nodes are never continental cities.
-    private boolean isIslandMetropol;          // a metropol located a not located in the landmass with most treasure cities.
-    private boolean isContinentalMetropol;     // a metropol located in the landmass with most treasure cities.
-    private boolean isMetropolLandmass;        // is the node located in a landmass with 1 or more metropols?
-    private int nTreasureCitiesOnLandmass;     // total number of treasure cities on the same landmass (including the node itself).
-    private int landmassID;                    // landmass ID number (used for internal purposes).
 
     // constructors.
     public ParanormalNode(Node node, ArrayList<Integer> neighbors, Controller c)
@@ -28,13 +21,6 @@ public class ParanormalNode
         this.node = node;
         this.neighbors = neighbors;
         this.hasAirport = node.getPlaneConnections().size() > 0;
-        this.isIslandTreasureCity = false;
-        this.isContinentalTreasureCity = false;
-        this.isIslandMetropol = false;
-        this.isContinentalMetropol = false;
-        this.isMetropolLandmass = false;
-        this.nTreasureCitiesOnLandmass = 0;
-        this.landmassID = -1;
     }
 
     public ParanormalNode(Node node, Controller c)
@@ -42,13 +28,6 @@ public class ParanormalNode
         this.node = node;
         this.neighbors = new ArrayList<>();
         this.hasAirport = node.getPlaneConnections().size() > 0;
-        this.isIslandTreasureCity = false;
-        this.isContinentalTreasureCity = false;
-        this.isIslandMetropol = false;
-        this.isContinentalMetropol = false;
-        this.isMetropolLandmass = false;
-        this.nTreasureCitiesOnLandmass = 0;
-        this.landmassID = -1;
     }
 
     // setters.
@@ -60,7 +39,7 @@ public class ParanormalNode
 
     public void setDistanceToTarget(int targetNodeID, int currentMaxTotalPrice, int distanceToTarget)
     {
-        distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, distanceToTarget);
+        distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode(), distanceToTarget);
     }
 
     public void setDistanceToTarget(Node targetNode, int currentMaxTotalPrice, int distanceToTarget)
@@ -68,33 +47,15 @@ public class ParanormalNode
         setDistanceToTarget(targetNode.ID, currentMaxTotalPrice, distanceToTarget);
     }
 
-    public void setPriceToTarget(int targetNodeID, int currentMaxTotalPrice, int priceToTarget)
+    public void setPriceToTarget(
+        int targetNodeID,
+        int currentMaxTotalPrice,
+        int priceToTarget)
     {
-        priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, priceToTarget);
-
-        if (priceToTarget == 0)
-        {
-            int lowerLandmassID = -1;
-
-            if ((this.landmassID > 0) && (paranormalNodeHashMap.get(targetNodeID).getLandmassID() > 0))
-            {
-                lowerLandmassID = Math.min(this.landmassID, paranormalNodeHashMap.get(targetNodeID).getLandmassID());
-            }
-            else if (this.landmassID > 0)
-            {
-                lowerLandmassID = this.landmassID;
-            }
-            else if (paranormalNodeHashMap.get(targetNodeID).getLandmassID() > 0)
-            {
-                lowerLandmassID = paranormalNodeHashMap.get(targetNodeID).getLandmassID();
-            }
-
-            if (lowerLandmassID > 0)
-            {
-                this.landmassID = lowerLandmassID;
-                // paranormalNodeHashMap.get(targetNodeID).setLandmassID(lowerLandmassID);
-            }
-        }
+        priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+            this.getNode().ID,
+            targetNodeID,
+            currentMaxTotalPrice).hashCode(), priceToTarget);
     }
 
     public void setPriceToTarget(Node targetNode, int currentMaxTotalPrice, int PriceToTarget)
@@ -105,31 +66,6 @@ public class ParanormalNode
     public void setNeighbors(ArrayList<Integer> neighbors)
     {
         this.neighbors = neighbors;
-    }
-
-    public void isIslandTreasureCity(boolean isIslandTreasureCity)
-    {
-        this.isIslandTreasureCity = isIslandTreasureCity;
-    }
-
-    public void setIsContinentalTreasureCity(boolean setIsContinentalTreasureCity)
-    {
-        this.isContinentalTreasureCity = setIsContinentalTreasureCity;
-    }
-
-    public void setIsIslandMetropol(boolean isIslandMetropol)
-    {
-        this.isIslandMetropol = isIslandMetropol;
-    }
-
-    public void setIsContinentalMetropol(boolean isContinentalMetropol)
-    {
-        this.isContinentalMetropol = isContinentalMetropol;
-    }
-
-    public void setLandmassID(int landmassID)
-    {
-        this.landmassID = landmassID;
     }
 
     // updaters.
@@ -156,34 +92,62 @@ public class ParanormalNode
                 // TODO: report error!
             }
 
-            if ((distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID) != 0)
-                || (priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID) != 0))
+            if ((distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()) != 0)
+                || (priceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()) != 0))
             {
                 // This is probably not the most elegant solution here...
-                distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, 0);
-                priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, 0);
+                distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode(), 0);
+                priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode(), 0);
                 hasSomeBenefit = true;
             }
         }
-        else if ((distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID) < 0)
+        else if ((distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()) < 0)
                  && (newPriceToTarget <= currentMaxTotalPrice))
         {
-            distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newDistanceToTarget);
-            priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newPriceToTarget);
+            distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice).hashCode(),
+                newDistanceToTarget);
+            priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice).hashCode(),
+                newPriceToTarget);
             hasSomeBenefit = true;
         }
-        else if ((newDistanceToTarget < distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID)) && (newPriceToTarget <= currentMaxTotalPrice))
+        else if ((newDistanceToTarget < distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(
+            this.getNode().ID,
+            targetNodeID,
+            currentMaxTotalPrice).hashCode()))
+                 && (newPriceToTarget <= currentMaxTotalPrice))
         {
-            distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newDistanceToTarget);
-            priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newPriceToTarget);
+            distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice).hashCode(),
+                newDistanceToTarget);
+            priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice).hashCode(),
+                newPriceToTarget);
             hasSomeBenefit = true;
         }
-        else if ((newDistanceToTarget == distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID))
+        else if ((newDistanceToTarget == distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()))
                  && (newPriceToTarget >= 0)
-                 && (newPriceToTarget < priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).get(this.getNode().ID)))
+                 && (newPriceToTarget < priceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode())))
         {
-            distanceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newDistanceToTarget);
-            priceToTargetHashMap.get(currentMaxTotalPrice).get(targetNodeID).put(this.getNode().ID, newPriceToTarget);
+            distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice).hashCode(),
+                newDistanceToTarget);
+            priceToTargetWithoutFreeSearoutesHashMap.put(
+                new Key3(this.getNode().ID,
+                    targetNodeID,
+                    currentMaxTotalPrice).hashCode(),
+                newPriceToTarget);
             hasSomeBenefit = true;
         }
         return hasSomeBenefit;
@@ -236,7 +200,11 @@ public class ParanormalNode
         }
         else
         {
-            return distanceToTargetHashMap.get(Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).get(targetNodeID).get(this.getNode().ID);
+            return distanceToTargetWithoutFreeSearoutesHashMap.get(
+                new Key3(
+                    this.getNode().ID,
+                    targetNodeID,
+                    Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).hashCode());
         }
     }
 
@@ -253,7 +221,7 @@ public class ParanormalNode
         }
         else
         {
-            return priceToTargetHashMap.get(Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).get(targetNodeID).get(this.getNode().ID);
+            return priceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).hashCode());
         }
     }
 
@@ -272,39 +240,13 @@ public class ParanormalNode
         return this.hasAirport;
     }
 
-    public boolean getIsIslandTreasureCity()
-    {
-        return this.isIslandTreasureCity;
-    }
-
-    public boolean getIsContinentalTreasureCity()
-    {
-        return this.isContinentalTreasureCity;
-    }
-
-    public boolean getIsIslandMetropol()
-    {
-        return this.isIslandMetropol;
-    }
-
-    public boolean getIsContinentalMetropol()
-    {
-        return this.isContinentalMetropol;
-    }
-
-    public int getLandmassID()
-    {
-        return this.landmassID;
-    }
-
     public float getMaxTimeToTarget(int targetNodeID, int currentMaxTotalPrice)
     {
-        return (float) distanceToTargetHashMap.get(Globals.MAX_SEA_MOVEMENT_COST).get(targetNodeID).get(this.getNode().ID);
+        return (float) distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, Globals.MAX_SEA_MOVEMENT_COST).hashCode());
     }
 
     public float getMaxTimeToTarget(Node targetNode, int currentMaxTotalPrice)
     {
         return getMaxTimeToTarget(targetNode.ID, currentMaxTotalPrice);
     }
-
 }
