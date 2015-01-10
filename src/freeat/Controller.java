@@ -45,6 +45,11 @@ public class Controller
     {
         return PublicInformation.getBalance(playedID);
     }
+    
+    public boolean isUsingFreeSeaRoute(int playedID)
+    {
+        return PublicInformation.isUsingFreeSeaRoute(playedID);
+    }
 
     public int getLocation(int playedID)
     {
