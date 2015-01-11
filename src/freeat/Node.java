@@ -262,12 +262,12 @@ public class Node
 
     public boolean isCity()
     {
-        return ID == 1 || ID == 2 || (ID > 100 && ID < 200);
+        return ID == NodeType.CAIRO || ID == NodeType.TANGIER || ID == NodeType.CITY;
     }
 
     public boolean isSea()
     {
-        return ID > 500;
+        return ID == NodeType.SEA_ROUTE || ID == NodeType.PIRATES;
     }
 
     public String getName()
@@ -323,6 +323,45 @@ public class Node
             Collections.shuffle(array);
         }
         Collections.shuffle(freeSeaRoutes);
+    }
+
+    public void setType(String type)
+    {
+        switch (type)
+        {
+            case "CAIRO":
+                this.TYPE = NodeType.CAIRO;
+                break;
+            case "TANGIER":
+                this.TYPE = NodeType.TANGIER;
+                break;
+            case "CITY":
+                this.TYPE = NodeType.CITY;
+                CITY_COUNT++;
+                break;
+            case "CAPETOWN":
+                this.TYPE = NodeType.CAPE_TOWN;
+                break;
+            case "SLAVECOAST":
+                this.TYPE = NodeType.SLAVE_COAST;
+                break;
+            case "GOLDCOAST":
+                this.TYPE = NodeType.GOLD_COAST;
+                break;
+            case "ROUTE":
+                this.TYPE = NodeType.ROUTE;
+                break;
+            case "SEAROUTE":
+                this.TYPE = NodeType.SEA_ROUTE;
+                break;
+            case "SAHARA":
+                this.TYPE = NodeType.SAHARA;
+                break;
+            case "PIRATES":
+                this.TYPE = NodeType.PIRATES;
+                break;
+
+        }
     }
 
 }
