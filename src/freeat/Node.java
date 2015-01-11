@@ -262,12 +262,12 @@ public class Node
 
     public boolean isCity()
     {
-        return ID == 1 || ID == 2 || (ID > 100 && ID < 200);
+        return this.TYPE == NodeType.CITY || this.TYPE == NodeType.SLAVE_COAST || this.TYPE == NodeType.GOLD_COAST || this.TYPE == NodeType.CAPE_TOWN || isStartCity();
     }
 
     public boolean isSea()
     {
-        return ID > 500;
+        return this.TYPE == NodeType.SEA_ROUTE || this.TYPE == NodeType.PIRATES;
     }
 
     public String getName()
