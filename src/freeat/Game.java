@@ -55,9 +55,11 @@ public class Game
 
     public Game()
     {
+
         locations = new HashMap<>();
         players = new ArrayList<>();
         getLocations();
+        setNodeTypes();
         getConnections();
         getPlaneConnections();
         setTreasures();
@@ -222,6 +224,42 @@ public class Game
 
     }
 
+    private static void setNodeTypes()
+    {
+        BufferedReader br = null;
+        try
+        {
+            br = new BufferedReader(new FileReader(Main.NODE_TYPES));
+            String line = br.readLine();
+            while (line != null)
+            {
+                String[] values = line.split(" ");
+                if (values.length == 2)
+                {
+                    locations.get(Integer.parseInt(values[0].trim())).setType(values[1]);
+                    //System.out.println("Setting node "+locations.get(Integer.parseInt(values[0].trim())).ID+" to type: "+values[1]);
+                }
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } finally
+        {
+            try
+            {
+                br.close();
+            } catch (IOException ex)
+            {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
     private void getConnections()
     {
         BufferedReader br = null;
@@ -354,13 +392,20 @@ public class Game
 
     private void setTreasures()
     {
-        PublicInformation.setEmeraldTotal(EMERALD_COUNT);
-        PublicInformation.setHorseShoesTotal(HORSESHOE_COUNT);
-        PublicInformation.setRobberTotal(ROBBER_COUNT);
-        PublicInformation.setRubyTotal(RUBY_COUNT);
-        PublicInformation.setTopazTotal(TOPAZ_COUNT);
+        int totalTreasures = Node.CITY_COUNT;
+        int emeralds = (int) (totalTreasures * Globals.EMERALD_PERCENTAGE + 0.5f);
+        int horseShoes = (int) (totalTreasures * Globals.HORSESHOE_PERCENTAGE + 0.5f);
+        int topazes = (int) (totalTreasures * Globals.TOPAZ_PERCENTAGE + 0.5f);
+        int rubies = (int) (totalTreasures * Globals.RUBY_PERCENTAGE + 0.5f);
+        int robbers = (int) (totalTreasures * Globals.ROBBER_PERCENTAGE + 0.5f);
+
+        PublicInformation.setEmeraldTotal(emeralds);
+        PublicInformation.setHorseShoesTotal(horseShoes);
+        PublicInformation.setRobberTotal(robbers);
+        PublicInformation.setRubyTotal(rubies);
+        PublicInformation.setTopazTotal(topazes);
         PublicInformation.setUnOpenedLeft(Node.CITY_COUNT);
-        PublicInformation.setEmptyTotal(Node.CITY_COUNT - EMERALD_COUNT - HORSESHOE_COUNT - ROBBER_COUNT - RUBY_COUNT - TOPAZ_COUNT - STAR_OF_AFRICA_COUNT);
+        PublicInformation.setEmptyTotal(Node.CITY_COUNT - emeralds - horseShoes - topazes - rubies - robbers - Globals.STAR_OF_AFRICA_COUNT);
 
         PublicInformation.setTreasureTotal(Node.CITY_COUNT);
 
@@ -371,36 +416,45 @@ public class Game
             treasures[current] = TreasureType.STAR_OF_AFRICA;
             current++;
         }
-        for (int i = 0; i < Globals.RUBY_COUNT; i++)
+        for (int i = 0; i < rubies; i++)
         {
             treasures[current] = TreasureType.RUBY;
             current++;
         }
-        for (int i = 0; i < Globals.EMERALD_COUNT; i++)
+        for (int i = 0; i < emeralds; i++)
         {
             treasures[current] = TreasureType.EMERALD;
             current++;
         }
-        for (int i = 0; i < Globals.TOPAZ_COUNT; i++)
+        for (int i = 0; i < topazes; i++)
         {
             treasures[current] = TreasureType.TOPAZ;
             current++;
         }
-        for (int i = 0; i < Globals.ROBBER_COUNT; i++)
+        for (int i = 0; i < robbers; i++)
         {
             treasures[current] = TreasureType.ROBBER;
             current++;
         }
-        for (int i = 0; i < Globals.HORSESHOE_COUNT; i++)
+        for (int i = 0; i < horseShoes; i++)
         {
             treasures[current] = TreasureType.HORSESHOE;
             current++;
         }
 
         treasures = ShuffleArray(treasures);
+        ArrayList<Node> valuesList = new ArrayList<>(locations.values());
+        for (int i = 0; i < valuesList.size(); i++)
+        {
+            if (!valuesList.get(i).isTreasureCity())
+            {
+                valuesList.remove(i);
+                i--;
+            }
+        }
         for (int i = 0; i < treasures.length; i++)
         {
-            Node temp = locations.get(i + 101);
+            Node temp = valuesList.get(i);
             temp.setTreasure(treasures[i]);
         }
     }

@@ -77,49 +77,49 @@ public class Node
         this.locations = locations;
         connections = new ArrayList<>();
         planeConnections = new ArrayList<>();
-        if (ID == 1)
-        {
-            TYPE = NodeType.CAIRO;
-        }
-        if (ID == 2)
-        {
-            TYPE = NodeType.TANGIER;
-        }
-        if (ID > 100 && ID < 200)
-        {
-            TYPE = NodeType.CITY;
-            CITY_COUNT++;
-        }
-        if (ID > 200 && ID < 400)
-        {
-            TYPE = NodeType.ROUTE;
-        }
-        if (ID == 400)
-        {
-            TYPE = NodeType.SAHARA;
-        }
-        if (ID > 500 && ID < 600)
-        {
-            TYPE = NodeType.SEA_ROUTE;
-        }
-
-        if (ID == 601 || ID == 602)
-        {
-            TYPE = NodeType.PIRATES;
-        }
-
-        if (ID == 123)
-        {
-            TYPE = NodeType.SLAVE_COAST;
-        }
-        if (ID == 125)
-        {
-            TYPE = NodeType.GOLD_COAST;
-        }
-        if (ID == 120)
-        {
-            TYPE = NodeType.CAPE_TOWN;
-        }
+//        if (ID == 1)
+//        {
+//            TYPE = NodeType.CAIRO;
+//        }
+//        if (ID == 2)
+//        {
+//            TYPE = NodeType.TANGIER;
+//        }
+//        if (ID > 100 && ID < 200)
+//        {
+//            TYPE = NodeType.CITY;
+//            CITY_COUNT++;
+//        }
+//        if (ID > 200 && ID < 400)
+//        {
+//            TYPE = NodeType.ROUTE;
+//        }
+//        if (ID == 400)
+//        {
+//            TYPE = NodeType.SAHARA;
+//        }
+//        if (ID > 500 && ID < 600)
+//        {
+//            TYPE = NodeType.SEA_ROUTE;
+//        }
+//
+//        if (ID == 601 || ID == 602)
+//        {
+//            TYPE = NodeType.PIRATES;
+//        }
+//
+//        if (ID == 123)
+//        {
+//            TYPE = NodeType.SLAVE_COAST;
+//        }
+//        if (ID == 125)
+//        {
+//            TYPE = NodeType.GOLD_COAST;
+//        }
+//        if (ID == 120)
+//        {
+//            TYPE = NodeType.CAPE_TOWN;
+//        }
     }
 
     public void addConnection(Integer connection)
@@ -259,15 +259,19 @@ public class Node
     {
         return planeConnections;
     }
+    public boolean isTreasureCity()
+    {
+        return isCity() && !isStartCity();
+    }
 
     public boolean isCity()
     {
-        return ID == 1 || ID == 2 || (ID > 100 && ID < 200);
+        return this.TYPE == NodeType.CITY || this.TYPE == NodeType.SLAVE_COAST || this.TYPE == NodeType.GOLD_COAST || this.TYPE == NodeType.CAPE_TOWN || isStartCity();
     }
 
     public boolean isSea()
     {
-        return ID > 500;
+        return this.TYPE == NodeType.SEA_ROUTE || this.TYPE == NodeType.PIRATES;
     }
 
     public String getName()
@@ -323,6 +327,53 @@ public class Node
             Collections.shuffle(array);
         }
         Collections.shuffle(freeSeaRoutes);
+    }
+
+    public void setType(String type)
+    {
+        switch (type)
+        {
+            case "SAHARA":
+                this.TYPE = NodeType.SAHARA;
+                break;
+
+            case "CAIRO":
+                this.TYPE = NodeType.CAIRO;
+                break;
+
+            case "TANGIER":
+                this.TYPE = NodeType.TANGIER;
+                break;
+
+            case "ROUTE":
+                this.TYPE = NodeType.ROUTE;
+                break;
+
+            case "SEAROUTE":
+                this.TYPE = NodeType.SEA_ROUTE;
+                break;
+
+            case "CITY":
+                this.TYPE = NodeType.CITY;
+                CITY_COUNT++;
+                break;
+
+            case "PIRATES":
+                this.TYPE = NodeType.PIRATES;
+                break;
+
+            case "CAPETOWN":
+                this.TYPE = NodeType.CAPE_TOWN;
+                break;
+
+            case "SLAVECOAST":
+                this.TYPE = NodeType.SLAVE_COAST;
+                break;
+
+            case "GOLDCOAST":
+                this.TYPE = NodeType.GOLD_COAST;
+                break;
+        }
     }
 
 }
