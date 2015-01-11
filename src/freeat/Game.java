@@ -55,7 +55,7 @@ public class Game
 
     public Game()
     {
-        
+
         locations = new HashMap<>();
         players = new ArrayList<>();
         getLocations();
@@ -223,7 +223,7 @@ public class Game
         }
 
     }
-    
+
     private static void setNodeTypes()
     {
         BufferedReader br = null;
@@ -393,13 +393,12 @@ public class Game
     private void setTreasures()
     {
         int totalTreasures = Node.CITY_COUNT;
-        int emeralds = (int) (totalTreasures*Globals.EMERALD_PERCENTAGE+0.5f);
-        int horseShoes = (int) (totalTreasures*Globals.HORSESHOE_PERCENTAGE+0.5f);
-        int topazes = (int) (totalTreasures*Globals.TOPAZ_PERCENTAGE+0.5f);
-        int rubies = (int) (totalTreasures*Globals.RUBY_PERCENTAGE+0.5f);
-        int robbers = (int) (totalTreasures*Globals.ROBBER_PERCENTAGE+0.5f);
- 
-        
+        int emeralds = (int) (totalTreasures * Globals.EMERALD_PERCENTAGE + 0.5f);
+        int horseShoes = (int) (totalTreasures * Globals.HORSESHOE_PERCENTAGE + 0.5f);
+        int topazes = (int) (totalTreasures * Globals.TOPAZ_PERCENTAGE + 0.5f);
+        int rubies = (int) (totalTreasures * Globals.RUBY_PERCENTAGE + 0.5f);
+        int robbers = (int) (totalTreasures * Globals.ROBBER_PERCENTAGE + 0.5f);
+
         PublicInformation.setEmeraldTotal(emeralds);
         PublicInformation.setHorseShoesTotal(horseShoes);
         PublicInformation.setRobberTotal(robbers);
@@ -444,9 +443,18 @@ public class Game
         }
 
         treasures = ShuffleArray(treasures);
+        ArrayList<Node> valuesList = new ArrayList<>(locations.values());
+        for (int i = 0; i < valuesList.size(); i++)
+        {
+            if (!valuesList.get(i).isTreasureCity())
+            {
+                valuesList.remove(i);
+                i--;
+            }
+        }
         for (int i = 0; i < treasures.length; i++)
         {
-            Node temp = locations.get(i + 101);
+            Node temp = valuesList.get(i);
             temp.setTreasure(treasures[i]);
         }
     }

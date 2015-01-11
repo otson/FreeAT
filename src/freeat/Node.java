@@ -259,6 +259,10 @@ public class Node
     {
         return planeConnections;
     }
+    public boolean isTreasureCity()
+    {
+        return isCity() && !isStartCity();
+    }
 
     public boolean isCity()
     {
