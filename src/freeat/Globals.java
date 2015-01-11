@@ -38,7 +38,7 @@ public class Globals
     public static final int ROBBER_COUNT = 3;
     public static final int HORSESHOE_COUNT = 5;
 
-    // Treasure counts
+    // Treasure percentages
     public static final float RUBY_PERCENTAGE = 2/30f;
     public static final float EMERALD_PERCENTAGE = 3/30f;
     public static final float TOPAZ_PERCENTAGE = 4/30f;
