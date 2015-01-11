@@ -434,7 +434,7 @@ public class ParanormalAI extends AI
                     winConditionMessage = "w/valid horseshoe! ";
                 }
                 // Follow worst-case scenario.
-                doLandSeaTravelTowards(targetMetropolID, winConditionMessage, maxTimeToTargetHashMap);
+                doLandSeaTravelTowards(targetMetropolID, winConditionMessage, meanTimeToTargetHashMap);
                 if (isThereExcessCash())
                 {
                     buyTokenIfItMayBeUseful();
