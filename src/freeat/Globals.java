@@ -18,7 +18,7 @@ public class Globals
     // game variables
     public static final int MAXIMUM_ROUNDS = 150;
     public static final int DISPLAY_FRAME_RATE = 6;
-    public static final boolean RENDER =  false;
+    public static final boolean RENDER = false;
     public static final boolean OUTPUT_WINS_TO_CONSOLE = true;
     public static final boolean SHUFFLE_ROUTE_ARRAYS = false;
 
@@ -28,13 +28,22 @@ public class Globals
 
     public static final int DICE_COUNT = 1;
 
-    // Treasure counts
+    // Treasure counts 
+    
+    // Currently not in use, use the percentages instead
     public static final int STAR_OF_AFRICA_COUNT = 1;
     public static final int RUBY_COUNT = 2;
     public static final int EMERALD_COUNT = 3;
     public static final int TOPAZ_COUNT = 4;
     public static final int ROBBER_COUNT = 3;
     public static final int HORSESHOE_COUNT = 5;
+
+    // Treasure counts
+    public static final float RUBY_PERCENTAGE = 2/30f;
+    public static final float EMERALD_PERCENTAGE = 3/30f;
+    public static final float TOPAZ_PERCENTAGE = 4/30f;
+    public static final float ROBBER_PERCENTAGE = 3/30f;
+    public static final float HORSESHOE_PERCENTAGE = 5/30f;
 
     public static final int NUMBER_OF_TREASURE_TYPES = 7;
 
