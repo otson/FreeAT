@@ -67,6 +67,10 @@ public class Globals
     public static final int SLAVE_COAST_WAIT_TIME = 3;
     public static final int CAPE_TOWN_BONUS = 5;
 
+    // expected turns in problem nodes.
+    public static final int EXPECTED_TURNS_IN_SAHARA = 3;
+    public static final int EXPECTED_TURNS_WITH_PIRATES = 3;
+
     // Values based on set Global values, do not modify
     // Dice
     public static final int DICE_SIZE = SINGLE_DICE_MAX_VALUE - SINGLE_DICE_MIN_VALUE + 1;

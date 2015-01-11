@@ -13,6 +13,7 @@ import freeat.PublicInformation;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.concurrent.ConcurrentHashMap;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -139,7 +140,8 @@ public class ParanormalAI extends AI
     public static final int NEIGHBOR_DISTANCE = 1;
 
     // maximum price for land & sea routes as used by ParanormalAI.
-    public static final int MAX_LAND_SEA_TOTAL_PRICE = 6;
+    public static final int MAX_ROUTING_PRICE = 18; // for real runs.
+    // public static final int MAX_ROUTING_PRICE = 5; // for testing.
 
     // min dice value x 2.
     public static final int MIN_DICE_VALUE_X_2 = 2 * Globals.MIN_DICE_VALUE;
@@ -303,7 +305,7 @@ public class ParanormalAI extends AI
                 ArrayList<Thread> threadArrayList = new ArrayList<>();
                 int threadCount = 0;
 
-                for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= MAX_LAND_SEA_TOTAL_PRICE; currentMaxTotalPrice++)
+                for (int currentMaxTotalPrice = 0; currentMaxTotalPrice <= MAX_ROUTING_PRICE; currentMaxTotalPrice++)
                 {
                     if (isMultithreadingInUse)
                     {
@@ -317,14 +319,14 @@ public class ParanormalAI extends AI
                             threadArrayList.add(new Thread(
                                 () ->
                                 {
-                                    createConnectionsHashMap(tempTargetNodeID,
-                                        tempCurrentMaxTotalPrice,
-                                        minTimeToTargetHashMap,
-                                        minTimePriceToTargetHashMap);
-                                    createConnectionsHashMap(tempTargetNodeID,
-                                        tempCurrentMaxTotalPrice,
-                                        maxTimeToTargetHashMap,
-                                        maxTimePriceToTargetHashMap);
+//                                    createConnectionsHashMap(tempTargetNodeID,
+//                                        tempCurrentMaxTotalPrice,
+//                                        minTimeToTargetHashMap,
+//                                        minTimePriceToTargetHashMap);
+//                                    createConnectionsHashMap(tempTargetNodeID,
+//                                        tempCurrentMaxTotalPrice,
+//                                        maxTimeToTargetHashMap,
+//                                        maxTimePriceToTargetHashMap);
                                     createConnectionsHashMap(tempTargetNodeID,
                                         tempCurrentMaxTotalPrice,
                                         meanTimeToTargetHashMap,
@@ -353,14 +355,14 @@ public class ParanormalAI extends AI
                     {
                         for (int targetNodeID : c.getNodeList().keySet())
                         {
-                            createConnectionsHashMap(targetNodeID,
-                                currentMaxTotalPrice,
-                                minTimeToTargetHashMap,
-                                minTimePriceToTargetHashMap);
-                            createConnectionsHashMap(targetNodeID,
-                                currentMaxTotalPrice,
-                                maxTimeToTargetHashMap,
-                                maxTimePriceToTargetHashMap);
+//                            createConnectionsHashMap(targetNodeID,
+//                                currentMaxTotalPrice,
+//                                minTimeToTargetHashMap,
+//                                minTimePriceToTargetHashMap);
+//                            createConnectionsHashMap(targetNodeID,
+//                                currentMaxTotalPrice,
+//                                maxTimeToTargetHashMap,
+//                                maxTimePriceToTargetHashMap);
                             createConnectionsHashMap(targetNodeID,
                                 currentMaxTotalPrice,
                                 meanTimeToTargetHashMap,
@@ -390,9 +392,9 @@ public class ParanormalAI extends AI
                 // Situation #1.
                 // Great, I am eligible for win (someone else may be eligible too).
                 // Check which is closest land & sea destination, Cairo or Tangier.
-                // Follow worst-case scenario.
-                int meanTimeToCairoWithCurrentCash = getMaxTimeToTarget(c.getNode(CAIRO_NODE_ID), c.isUsingFreeSeaRoute());
-                int meanTimeToTangierWithCurrentCash = getMaxTimeToTarget(c.getNode(TANGIER_NODE_ID), c.isUsingFreeSeaRoute());
+                // Follow average-case scenario.
+                int meanTimeToCairoWithCurrentCash = getMeanTimeToTarget(c.getNode(CAIRO_NODE_ID), c.isUsingFreeSeaRoute());
+                int meanTimeToTangierWithCurrentCash = getMeanTimeToTarget(c.getNode(TANGIER_NODE_ID), c.isUsingFreeSeaRoute());
 
                 if (meanTimeToCairoWithCurrentCash < meanTimeToTangierWithCurrentCash)
                 {
@@ -434,7 +436,7 @@ public class ParanormalAI extends AI
                     winConditionMessage = "w/valid horseshoe! ";
                 }
                 // Follow average-case scenario.
-                doLandSeaTravelTowards(targetMetropolID, winConditionMessage, meanTimeToTargetHashMap);
+                doLandSeaTravelTowards(targetMetropolID, winConditionMessage, meanTimeToTargetHashMap, meanTimePriceToTargetHashMap);
                 if (isThereExcessCash())
                 {
                     buyTokenIfItMayBeUseful();
@@ -456,7 +458,8 @@ public class ParanormalAI extends AI
                     // Follow average-case scenario.
                     moveTowardsClosestTreasureInTime(
                         "#2: " + c.horseShoesLeft() + " horseshoes left! ",
-                        meanTimeToTargetHashMap);
+                        meanTimeToTargetHashMap,
+                        meanTimePriceToTargetHashMap);
                     buyTokenIfItMayBeUseful();
                 }
                 doEndTurn();
@@ -478,7 +481,8 @@ public class ParanormalAI extends AI
                     // Follow average-case scenario.
                     searchForTreasureWithoutCash(
                         "#3: " + c.horseShoesLeft() + "horseshoes left! ",
-                        meanTimeToTargetHashMap);
+                        meanTimeToTargetHashMap,
+                        meanTimePriceToTargetHashMap);
                 }
                 doEndTurn();
             }
@@ -497,7 +501,8 @@ public class ParanormalAI extends AI
                     // Follow average-case scenario.
                     moveTowardsClosestTreasureInTime(
                         "#4: " + c.robbersLeft() + " robbers left! ",
-                        meanTimeToTargetHashMap);
+                        meanTimeToTargetHashMap,
+                        meanTimePriceToTargetHashMap);
                     buyTokenIfItMayBeUseful();
                 }
                 doEndTurn();
@@ -518,7 +523,8 @@ public class ParanormalAI extends AI
                     // Follow average-case scenario.
                     searchForTreasureWithoutCash(
                         "#5: " + c.robbersLeft() + " robbers left! ",
-                        meanTimeToTargetHashMap);
+                        meanTimeToTargetHashMap,
+                        meanTimePriceToTargetHashMap);
                 }
                 doEndTurn();
             }
@@ -560,21 +566,25 @@ public class ParanormalAI extends AI
         {
             for (int j : c.getNodeList().keySet())
             {
-                for (int k = 0; k <= MAX_LAND_SEA_TOTAL_PRICE; k++)
+                for (int k = 0; k <= MAX_ROUTING_PRICE; k++)
                 {
-                    minTimePriceToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
-                    maxTimePriceToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
-                    meanTimePriceToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
-                    minTimeToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
-                    maxTimeToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
-                    meanTimeToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
+//                    minTimeToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
+//                    minTimeToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
+//
+//                    maxTimeToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
+//                    maxTimeToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
 
-                    minTimePriceToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
-                    maxTimePriceToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
-                    meanTimePriceToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
-                    minTimeToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
-                    maxTimeToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
+                    meanTimeToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
                     meanTimeToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
+
+//                    minTimePriceToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
+//                    minTimePriceToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
+//
+//                    maxTimePriceToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
+//                    maxTimePriceToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
+                    meanTimePriceToTargetHashMap.put(new Key4(i, j, k, true).hashCode(), -1);
+                    meanTimePriceToTargetHashMap.put(new Key4(i, j, k, false).hashCode(), -1);
+
                 }
             }
         }
@@ -595,12 +605,15 @@ public class ParanormalAI extends AI
         {
             if (shouldConnectionHashMapGenerationBeLogged)
             {
+                float timeUnitsInTurns = convertTimeUnitsToTurns(cumulativeTime);
                 writeTextAndNewlineToLog(
                     "originNode: " + originNode.getName()
                     + ", targetNode: " + targetNode.getName()
-                    + ", cumulativeTime: " + cumulativeTime
-                    + ", cumulativePrice: " + cumulativePrice
-                    + ", currentMaxTotalPrice: " + currentMaxTotalPrice);
+                    + ", " + cumulativeTime + " time units, "
+                    + timeUnitsInTurns + " turns, "
+                    + "cumulativePrice: " + cumulativePrice
+                    + ", currentMaxTotalPrice: " + currentMaxTotalPrice
+                    + ", free searoute: " + isUsingFreeSearoute);
             }
         }
 
@@ -614,18 +627,18 @@ public class ParanormalAI extends AI
         // 0: start from node, cumulative price = 0.
         //    call recursively each neighboring node if distance there is negative (not yet defined) or greater than current distance.
         ArrayList<Integer> neighborIDSArrayList = originNode.getConnections();
+        ArrayList<Integer> planeConnectionsArrayList = originNode.getPlaneConnections();
 
         for (int neighborNodeID : neighborIDSArrayList)
         {
             Node neighborNode = c.getNode(neighborNodeID);
+            ParanormalNode neighborParanormalNode = getParanormalNode(neighborNode);
 
             if (neighborNode != originNode)
             {
-                ParanormalNode neighborParanormalNode = getParanormalNode(neighborNode);
-
                 if (isSearouteStart(originNode, neighborNode))
                 {
-                    // OK, the route is a ship departure.
+                    // OK, the currentRoute is a ship departure.
                     // Both free searoute and non-free searoute must be
                     // taken into account.
 
@@ -634,7 +647,7 @@ public class ParanormalAI extends AI
                         int newCumulativeTime;
                         boolean newIsUsingFreeSearoute = true;
 
-                        newCumulativeTime = cumulativeTime + 1;
+                        newCumulativeTime = cumulativeTime + ONE_LINK_TIME_UNITS_FOR_MIN_DICE;
 
                         boolean isRecursiveCallNeeded = neighborParanormalNode.updateTimeAndPrice(
                             targetNode,
@@ -752,22 +765,23 @@ public class ParanormalAI extends AI
                     }
 
                     boolean newIsUsingFreeSearoute;
+                    int newCumulativePrice;
 
                     if (isSearouteEnd(originNode, neighborNode))
                     {
                         newIsUsingFreeSearoute = false;
+                        newCumulativePrice = cumulativePrice;
                     }
                     else
                     {
                         newIsUsingFreeSearoute = isUsingFreeSearoute;
+                        int linkRoutePrice = getLinkRoutePrice(neighborNode, originNode);
+                        if (linkRoutePrice < 0)
+                        {
+                            System.out.println("error: linkRoute from " + neighborNode.getName() + " to " + originNode.getName() + " is null!");
+                        }
+                        newCumulativePrice = cumulativePrice + linkRoutePrice;
                     }
-
-                    int linkRoutePrice = getLinkRoutePrice(neighborNode, originNode);
-                    if (linkRoutePrice < 0)
-                    {
-                        System.out.println("error: linkRoute from " + neighborNode.getName() + " to " + originNode.getName() + " is null!");
-                    }
-                    int newCumulativePrice = cumulativePrice + linkRoutePrice;
 
                     boolean isRecursiveCallNeeded = neighborParanormalNode.updateTimeAndPrice(
                         targetNode,
@@ -796,6 +810,49 @@ public class ParanormalAI extends AI
                             timeHashMap,
                             priceHashMap);
                     }
+
+                }
+            }
+        }
+        for (int neighborNodeID : planeConnectionsArrayList)
+        {
+            Node neighborNode = c.getNode(neighborNodeID);
+            ParanormalNode neighborParanormalNode = getParanormalNode(neighborNode);
+
+            if (neighborNode != originNode)
+            {
+                // OK, this is a plane link.
+
+                int newCumulativeTime = cumulativeTime + ONE_LINK_TIME_UNITS_FOR_MIN_DICE;
+                boolean newIsUsingFreeSearoute = false;
+                int newCumulativePrice = cumulativePrice + Globals.PLANE_ROUTE_PRICE;
+
+                boolean isRecursiveCallNeeded = neighborParanormalNode.updateTimeAndPrice(
+                    targetNode,
+                    currentMaxTotalPrice,
+                    newIsUsingFreeSearoute,
+                    newCumulativeTime,
+                    newCumulativePrice,
+                    timeHashMap,
+                    priceHashMap);
+
+                if (isRecursiveCallNeeded)
+                {
+                    // call recursively.
+                    // neighbor node as the new origin node.
+                    // keep the same target node.
+                    // cumulative distance has already been incremented.
+                    // new cumulative price is in newCumulativePrice.
+                    // keep the original maximum total price.
+                    createConnectionsHashMapWithAccumulatedPrice(
+                        neighborNode,
+                        targetNode,
+                        newCumulativeTime,
+                        newCumulativePrice,
+                        currentMaxTotalPrice,
+                        newIsUsingFreeSearoute,
+                        timeHashMap,
+                        priceHashMap);
                 }
             }
         }
@@ -924,74 +981,116 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private int getMinTimeToTarget(int originNodeID, int targetNodeID, int cash, boolean isUsingFreeSearoute)
-    // get minimum time with given cash from _origin_ node to _target_ node.
+    private int getPriceToTarget(
+        int originNodeID,
+        int targetNodeID,
+        int cash,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
-        return getTimeToTarget(originNodeID, targetNodeID, cash, isUsingFreeSearoute, minTimeToTargetHashMap);
+        return paranormalNodeHashMap.get(originNodeID).getPriceToTarget(targetNodeID, cash, isUsingFreeSearoute, timeHashMap);
     }
 
     /*------------------------------------------------------------------------*/
-    private int getMinTimeToTarget(Node originNode, Node targetNode, int cash, boolean isUsingFreeSearoute)
-    // get minimum time with given cash from _origin_ node to _target_ node.
+    private int getPriceToTarget(
+        Node originNode,
+        Node targetNode,
+        int cash,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
-        return getMinTimeToTarget(originNode.ID, targetNode.ID, cash, isUsingFreeSearoute);
+        return getPriceToTarget(originNode.ID, targetNode.ID, cash, isUsingFreeSearoute, timeHashMap);
     }
 
     /*------------------------------------------------------------------------*/
-    private int getMinTimeToTarget(Node originNode, Node targetNode, boolean isUsingFreeSearoute)
-    // get minimum time with current cash from _origin_ node to _target_ node.
+    private int getPriceToTarget(
+        int targetNodeID,
+        int cash,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
-        return getMinTimeToTarget(originNode, targetNode, getCash(), isUsingFreeSearoute);
+        return getPriceToTarget(c.getCurrentNode().ID, targetNodeID, cash, isUsingFreeSearoute, timeHashMap);
     }
 
     /*------------------------------------------------------------------------*/
-    private int getMinTimeToTarget(Node targetNode, int cash, boolean isUsingFreeSearoute)
-    // get minimum time with given cash from _current_ node to _target_ node.
+    private int getPriceToTarget(
+        Node targetNode,
+        int cash,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
-        return getMinTimeToTarget(c.getCurrentNode().ID, targetNode.ID, cash, isUsingFreeSearoute);
+        return getPriceToTarget(targetNode.ID, cash, isUsingFreeSearoute, timeHashMap);
     }
 
-    /*------------------------------------------------------------------------*/
-    private int getMinTimeToTarget(Node targetNode, boolean isUsingFreeSearoute)
-    // get minimum time with current cash from _current_ node to _target_ node.
-    {
-        return getMinTimeToTarget(c.getCurrentNode(), targetNode, isUsingFreeSearoute);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getMaxTimeToTarget(int originNodeID, int targetNodeID, int cash, boolean isUsingFreeSearoute)
-    // get maximum time with given cash from _origin_ node to _target_ node.
-    {
-        return getTimeToTarget(originNodeID, targetNodeID, cash, isUsingFreeSearoute, maxTimeToTargetHashMap);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getMaxTimeToTarget(Node originNode, Node targetNode, int cash, boolean isUsingFreeSearoute)
-    // get maximum time with given cash from _origin_ node to _target_ node.
-    {
-        return getMaxTimeToTarget(originNode.ID, targetNode.ID, cash, isUsingFreeSearoute);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getMaxTimeToTarget(Node originNode, Node targetNode, boolean isUsingFreeSearoute)
-    // get maximum time with current cash from _origin_ node to _target_ node.
-    {
-        return getMaxTimeToTarget(originNode, targetNode, getCash(), isUsingFreeSearoute);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getMaxTimeToTarget(Node targetNode, int cash, boolean isUsingFreeSearoute)
-    // get maximum time with given cash from _current_ node to _target_ node.
-    {
-        return getMaxTimeToTarget(c.getCurrentNode().ID, targetNode.ID, cash, isUsingFreeSearoute);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getMaxTimeToTarget(Node targetNode, boolean isUsingFreeSearoute)
-    // get maximum time with current cash from _current_ node to _target_ node.
-    {
-        return getMaxTimeToTarget(c.getCurrentNode(), targetNode, isUsingFreeSearoute);
-    }
+//    /*------------------------------------------------------------------------*/
+//    private int getMinTimeToTarget(int originNodeID, int targetNodeID, int cash, boolean isUsingFreeSearoute)
+//    // get minimum time with given cash from _origin_ node to _target_ node.
+//    {
+//        return getTimeToTarget(originNodeID, targetNodeID, cash, isUsingFreeSearoute, minTimeToTargetHashMap);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMinTimeToTarget(Node originNode, Node targetNode, int cash, boolean isUsingFreeSearoute)
+//    // get minimum time with given cash from _origin_ node to _target_ node.
+//    {
+//        return getMinTimeToTarget(originNode.ID, targetNode.ID, cash, isUsingFreeSearoute);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMinTimeToTarget(Node originNode, Node targetNode, boolean isUsingFreeSearoute)
+//    // get minimum time with current cash from _origin_ node to _target_ node.
+//    {
+//        return getMinTimeToTarget(originNode, targetNode, getCash(), isUsingFreeSearoute);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMinTimeToTarget(Node targetNode, int cash, boolean isUsingFreeSearoute)
+//    // get minimum time with given cash from _current_ node to _target_ node.
+//    {
+//        return getMinTimeToTarget(c.getCurrentNode().ID, targetNode.ID, cash, isUsingFreeSearoute);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMinTimeToTarget(Node targetNode, boolean isUsingFreeSearoute)
+//    // get minimum time with current cash from _current_ node to _target_ node.
+//    {
+//        return getMinTimeToTarget(c.getCurrentNode(), targetNode, isUsingFreeSearoute);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMaxTimeToTarget(int originNodeID, int targetNodeID, int cash, boolean isUsingFreeSearoute)
+//    // get maximum time with given cash from _origin_ node to _target_ node.
+//    {
+//        return getTimeToTarget(originNodeID, targetNodeID, cash, isUsingFreeSearoute, maxTimeToTargetHashMap);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMaxTimeToTarget(Node originNode, Node targetNode, int cash, boolean isUsingFreeSearoute)
+//    // get maximum time with given cash from _origin_ node to _target_ node.
+//    {
+//        return getMaxTimeToTarget(originNode.ID, targetNode.ID, cash, isUsingFreeSearoute);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMaxTimeToTarget(Node originNode, Node targetNode, boolean isUsingFreeSearoute)
+//    // get maximum time with current cash from _origin_ node to _target_ node.
+//    {
+//        return getMaxTimeToTarget(originNode, targetNode, getCash(), isUsingFreeSearoute);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMaxTimeToTarget(Node targetNode, int cash, boolean isUsingFreeSearoute)
+//    // get maximum time with given cash from _current_ node to _target_ node.
+//    {
+//        return getMaxTimeToTarget(c.getCurrentNode().ID, targetNode.ID, cash, isUsingFreeSearoute);
+//    }
+//
+//    /*------------------------------------------------------------------------*/
+//    private int getMaxTimeToTarget(Node targetNode, boolean isUsingFreeSearoute)
+//    // get maximum time with current cash from _current_ node to _target_ node.
+//    {
+//        return getMaxTimeToTarget(c.getCurrentNode(), targetNode, isUsingFreeSearoute);
+//    }
 
     /*------------------------------------------------------------------------*/
     private int getMeanTimeToTarget(int originNodeID, int targetNodeID, int cash, boolean isUsingFreeSearoute)
@@ -1029,7 +1128,7 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    // the price of the shortest route from originNode to any metropol.
+    // the price of the shortest currentRoute from originNode to any metropol.
     private int getPriceOfFastestRouteToMetropol(ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
         int timeOfChosenRoute = -1;
@@ -1058,7 +1157,7 @@ public class ParanormalAI extends AI
                 {
                     isUpdateNeeded = true;
                 }
-                else if ((timeOfChosenRoute == timeOfCurrentRoute) && (priceOfChosenRoute > priceOfCurrentRoute))
+                else if ((timeOfCurrentRoute == timeOfChosenRoute) && (priceOfCurrentRoute < priceOfChosenRoute))
                 {
                     isUpdateNeeded = true;
                 }
@@ -1230,15 +1329,9 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private int getRoutePrice(Route route)
-    {
-        return route.getPrice();
-    }
-
-    /*------------------------------------------------------------------------*/
     private int getCashAfterRoute(Route route)
     {
-        return getCash() - getRoutePrice(route);
+        return getCash() - route.getPrice();
     }
 
     /*------------------------------------------------------------------------*/
@@ -1254,7 +1347,8 @@ public class ParanormalAI extends AI
      \------------------------------------------------------------------------*/
     private void searchForTreasureWithoutCash(
         String messagePrefix,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
         if (c.getCurrentNode().hasTreasure())
         {
@@ -1265,7 +1359,7 @@ public class ParanormalAI extends AI
         else if (c.getRemainingTreasures().size() >= 1)
         {
             writeTextAndNewlineToLog("There are treasures available somewhere!");
-            moveTowardsClosestTreasureInTime(messagePrefix, timeHashMap);
+            moveTowardsClosestTreasureInTime(messagePrefix, timeHashMap, priceHashMap);
             doEndTurn();
         }
         else
@@ -1276,9 +1370,10 @@ public class ParanormalAI extends AI
 
     /*------------------------------------------------------------------------*/
     private void searchForTreasureWithoutCash(
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        searchForTreasureWithoutCash("", timeHashMap);
+        searchForTreasureWithoutCash("", timeHashMap, priceHashMap);
     }
 
     /*-------------------------------------------------------------------------\
@@ -1288,13 +1383,54 @@ public class ParanormalAI extends AI
      \------------------------------------------------------------------------*/
     private void moveTowardsClosestTreasureInTime(
         String messagePrefix,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap,
+        boolean isInitialCheck)
     {
-        // TODO: implement travel to treasure cities also with flights.
+        ArrayList<Route> routesArrayList;
+        int cashAvailableForRoute;
 
-        c.decideToUseLandOrSeaRoute();
+        if (getCash() <= Globals.TREASURE_BUYING_PRICE)
+        {
+            cashAvailableForRoute = getCash();
+        }
+        else
+        {
+            if (c.isDecideToUsePlane())
+            {
+                cashAvailableForRoute = Globals.PLANE_ROUTE_PRICE;
+            }
+            else if ((getCash() >= (5 * Globals.TREASURE_BUYING_PRICE))
+                     && (getCash() >= 5 * Globals.SEA_ROUTE_PRICE)
+                     && (getCash() >= 1 * Globals.PLANE_ROUTE_PRICE))
+            {
+                cashAvailableForRoute = Math.max(Globals.SEA_ROUTE_PRICE, Globals.PLANE_ROUTE_PRICE);
+            }
+            else
+            {
+                cashAvailableForRoute = Math.min(Globals.SEA_ROUTE_PRICE, Globals.PLANE_ROUTE_PRICE);
+            }
+        }
 
-        ArrayList<Route> routesArrayList = c.getMyAvailableRoutes();
+        if (isInitialCheck)
+        {
+            // Save treasure buying price if there's more cash available.
+            routesArrayList = c.getAllRoutes(c.getCurrentNode(), cashAvailableForRoute, (int) Math.ceil(Globals.MEAN_DICE_VALUE));
+        }
+        else
+        {
+            int dice = c.getDice();
+            routesArrayList = c.getMyAvailableRoutes();
+
+            ArrayList<Route> cheapRoutesArrayList;
+            cheapRoutesArrayList = routesArrayList.stream().filter(p -> p.getPrice() <= cashAvailableForRoute).collect(Collectors.toCollection(() -> new ArrayList<Route>()));
+
+            if (!(cheapRoutesArrayList.isEmpty()))
+            {
+                routesArrayList = cheapRoutesArrayList;
+            }
+        }
+
         ArrayList<Node> treasureCitiesArrayList = c.getRemainingTreasures();
 
         boolean randomChoiceInUse = false;
@@ -1307,31 +1443,64 @@ public class ParanormalAI extends AI
         int timeFromChosenDestinationToTreasureCity = -1;
         int chosenRoutePrice = -1;
 
-        for (Route route : routesArrayList)
+        for (Route currentRoute : routesArrayList)
         {
             for (Node treasureCity : treasureCitiesArrayList)
             {
-                int timeFromCurrentDestinationToTreasureCity = getTimeToTarget(
-                    route.getDestination(),
+//                int timeFromCurrentDestinationToTreasureCity = getTimeToTarget(currentRoute.getDestination(),
+//                    treasureCity,
+//                    getCash() - currentRoute.getPrice(),
+//                    isFreeSearoute(currentRoute),
+//                    timeHashMap);
+
+                int cashAvailableForTravel = getCash() - currentRoute.getPrice();
+
+                if (cashAvailableForTravel > Globals.TREASURE_BUYING_PRICE)
+                {
+                    cashAvailableForTravel -= Globals.TREASURE_BUYING_PRICE;
+                }
+
+                int timeFromCurrentDestinationToTreasureCity = getTimeToTarget(currentRoute.getDestination(),
                     treasureCity,
-                    getCashAfterRoute(route),
-                    isFreeSearoute(route),
+                    cashAvailableForTravel,
+                    isFreeSearoute(currentRoute),
                     timeHashMap);
-                int currentRoutePrice = route.getPrice();
+//                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
+//                    treasureCity,
+//                    getCash() - currentRoute.getPrice(),
+//                    isFreeSearoute(currentRoute),
+//                    priceHashMap);
+                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
+                    treasureCity,
+                    cashAvailableForTravel,
+                    isFreeSearoute(currentRoute),
+                    priceHashMap);
+
+                if (currentRoute.getDestination().isSahara())
+                {
+                    timeFromCurrentDestinationToTreasureCity += Globals.EXPECTED_TURNS_IN_SAHARA;
+                }
+                else if (currentRoute.getDestination().isPirate())
+                {
+                    timeFromCurrentDestinationToTreasureCity += Globals.EXPECTED_TURNS_WITH_PIRATES;
+                }
+
                 boolean isUpdateNeeded = false;
                 boolean isBetterRoute = false;
 
-                writeTextAndNewlineToLog("time from " + route.getDestination().getName()
+                float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromCurrentDestinationToTreasureCity);
+                writeTextAndNewlineToLog("time from " + currentRoute.getDestination().getName()
                                          + " to " + treasureCity.getName()
-                                         + " is " + timeFromCurrentDestinationToTreasureCity
-                                         + " turns.");
+                                         + " is " + timeFromCurrentDestinationToTreasureCity + " time units, "
+                                         + timeUnitsInTurns + " turns, "
+                                         + "price: " + currentRoute.getPrice() + " GBP.");
 
                 if (timeFromCurrentDestinationToTreasureCity >= 0)
                 {
                     if (timeFromChosenDestinationToTreasureCity < 0)
                     {
-                        // If chosen route is not valid,
-                        // any valid route is better.
+                        // If chosen currentRoute is not valid,
+                        // any valid currentRoute is better.
                         isUpdateNeeded = true;
                         isBetterRoute = true;
                     }
@@ -1339,7 +1508,7 @@ public class ParanormalAI extends AI
                     {
                         // If current destination has shorter distance to
                         // treasure city than chosen destination, current
-                        // route is better.
+                        // currentRoute is better.
                         isUpdateNeeded = true;
                         isBetterRoute = true;
                     }
@@ -1348,13 +1517,13 @@ public class ParanormalAI extends AI
                     {
                         // If current destination and chosen destination
                         // have the same distance to nearest treasure city
-                        // and current route is cheaper than chosen route,
-                        // current route is better.
+                        // and current currentRoute is cheaper than chosen currentRoute,
+                        // current currentRoute is better.
                         isUpdateNeeded = true;
                         isBetterRoute = true;
                     }
                     else if ((timeFromChosenDestinationToTreasureCity == timeFromCurrentDestinationToTreasureCity)
-                             && (chosenRoutePrice == currentRoutePrice))
+                             && (currentRoutePrice == chosenRoutePrice))
                     {
                         // If current destination and chosen destination
                         // have the same distance to nearest treasure city
@@ -1373,12 +1542,12 @@ public class ParanormalAI extends AI
                             chosenRoutesArrayList.clear();
                             chosenTreasureCitiesArrayList.clear();
                         }
-                        chosenRoutesArrayList.add(route);
+                        chosenRoutesArrayList.add(currentRoute);
                         chosenTreasureCitiesArrayList.add(treasureCity);
                     }
                     else
                     {
-                        chosenRoute = route;
+                        chosenRoute = currentRoute;
                         chosenTreasureCity = treasureCity;
                     }
                     chosenRoutePrice = currentRoutePrice;
@@ -1410,8 +1579,37 @@ public class ParanormalAI extends AI
                                              + ", en route to " + chosenTreasureCity.getName()
                                              + " (" + timeFromChosenDestinationToTreasureCity
                                              + " timeUnits/" + timeUnitsInTurns + " turns remaining), price " + chosenRoutePrice + " GBP.");
-            executeRoute(chosenRoute);
+
+            if (isInitialCheck)
+            {
+                // TODO: Do correct check for route type,
+                // do not assume difference in price!
+                if (chosenRoute.getPrice() == Globals.PLANE_ROUTE_PRICE)
+                {
+                    c.decidetoUsePlane();
+                }
+                else
+                {
+                    c.decideToUseLandOrSeaRoute();
+                }
+                isInitialCheck = false;
+                moveTowardsClosestTreasureInTime(messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
+            }
+            else
+            {
+                executeRoute(chosenRoute);
+            }
         }
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void moveTowardsClosestTreasureInTime(
+        String messagePrefix,
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
+    {
+        boolean isInitialCheck = true;
+        moveTowardsClosestTreasureInTime("", timeHashMap, priceHashMap, isInitialCheck);
     }
 
     /*------------------------------------------------------------------------*/
@@ -1419,7 +1617,7 @@ public class ParanormalAI extends AI
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        moveTowardsClosestTreasureInTime("", timeHashMap);
+        moveTowardsClosestTreasureInTime("", timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
@@ -1499,7 +1697,7 @@ public class ParanormalAI extends AI
                 targetNode,
                 currentMaxTotalPrice,
                 isUsingFreeSeaRoute,
-                maxTimeToTargetHashMap);
+                meanTimeToTargetHashMap);
             if (timeFromCurrentNode >= 0)
             {
                 if ((chosenDistance < 0) || (chosenDistance < timeFromCurrentNode))
@@ -1544,11 +1742,14 @@ public class ParanormalAI extends AI
             {
                 nextDestinationOfAfricaTour = chooseFarthestCity(MAX_LAND_ROAD_PRICE, c.isUsingFreeSeaRoute());
             }
+            boolean isInitialCheck = true;
             doLandSeaTravelTowards(
                 nextDestinationOfAfricaTour,
                 MAX_LAND_ROAD_PRICE,
                 "I'm on Africa Tour en route to " + nextDestinationOfAfricaTour.getName() + ".",
-                maxTimeToTargetHashMap);
+                meanTimeToTargetHashMap,
+                meanTimePriceToTargetHashMap,
+                isInitialCheck);
         }
         else
         {
@@ -1594,60 +1795,156 @@ public class ParanormalAI extends AI
         Node targetNode,
         int currentMaxTotalPrice,
         String messagePrefix,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap,
+        boolean isInitialCheck)
     {
-        c.decideToUseLandOrSeaRoute();
+        boolean randomChoiceInUse = false;
+
+        ArrayList<Route> chosenRoutesArrayList = new ArrayList<>();
 
         ArrayList<Route> routesArrayList;
-        routesArrayList = c.getMyAvailableRoutes();
+
+        if (isInitialCheck)
+        {
+            routesArrayList = c.getAllRoutes(c.getCurrentNode(), getCash(), (int) Math.ceil(Globals.MEAN_DICE_VALUE));
+        }
+        else
+        {
+            routesArrayList = c.getMyAvailableRoutes();
+        }
 
         if (!(routesArrayList.isEmpty()))
         {
             Route chosenRoute = null;
-            int landSeaDistanceFromChosenNodeToTargetNode = -1;
+            int timeFromChosenDestinationToTargetNode = -1;
+            int chosenRoutePrice = -1;
 
             for (Route currentRoute : routesArrayList)
             {
                 Node routeNode;
                 routeNode = currentRoute.getDestination();
 
-                int timeFromDestinationToTargetNode;
-                boolean isFreeSeaRoute = isFreeSearoute(currentRoute);
-                timeFromDestinationToTargetNode = getTimeToTarget(routeNode, targetNode, getCash(), isFreeSeaRoute, timeHashMap);
+//                int timeFromCurrentDestinationToTargetNode = getTimeToTarget(currentRoute.getDestination(),
+//                    targetNode,
+//                    getCash() - currentRoute.getPrice(),
+//                    isFreeSearoute(currentRoute),
+//                    timeHashMap);
+                int timeFromCurrentDestinationToTargetNode = getTimeToTarget(currentRoute.getDestination(),
+                    targetNode,
+                    getCash(),
+                    isFreeSearoute(currentRoute),
+                    timeHashMap);
+//                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
+//                    targetNode,
+//                    getCash() - currentRoute.getPrice(),
+//                    isFreeSearoute(currentRoute),
+//                    priceHashMap);
+                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
+                    targetNode,
+                    getCash(),
+                    isFreeSearoute(currentRoute),
+                    priceHashMap);
 
-                float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromDestinationToTargetNode);
+                if (currentRoute.getDestination().isSahara())
+                {
+                    timeFromCurrentDestinationToTargetNode += Globals.EXPECTED_TURNS_IN_SAHARA;
+                }
+                else if (currentRoute.getDestination().isPirate())
+                {
+                    timeFromCurrentDestinationToTargetNode += Globals.EXPECTED_TURNS_WITH_PIRATES;
+                }
+
+                float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromCurrentDestinationToTargetNode);
                 writeTextAndNewlineToLog("Time from destination " + routeNode.getName()
                                          + " to " + targetNode.getName()
-                                         + " is " + timeFromDestinationToTargetNode
+                                         + " is " + timeFromCurrentDestinationToTargetNode
                                          + " time units (" + timeUnitsInTurns + " turns, price : " + currentRoute.getPrice() + " GBP)");
 
                 boolean isUpdateNeeded = false;
+                boolean isBetterRoute = false;
 
-                if (timeFromDestinationToTargetNode >= 0)
+                if (timeFromCurrentDestinationToTargetNode >= 0)
                 {
-                    if (landSeaDistanceFromChosenNodeToTargetNode < 0)
+                    if (timeFromChosenDestinationToTargetNode < 0)
+                    {
+                        // If chosen currentRoute is not valid,
+                        // any valid currentRoute is better.
+                        isUpdateNeeded = true;
+                        isBetterRoute = true;
+                    }
+                    else if (timeFromCurrentDestinationToTargetNode < timeFromChosenDestinationToTargetNode)
+                    {
+                        // If current destination has shorter distance to
+                        // treasure city than chosen destination, current
+                        // currentRoute is better.
+                        isUpdateNeeded = true;
+                        isBetterRoute = true;
+                    }
+                    else if ((timeFromCurrentDestinationToTargetNode == timeFromChosenDestinationToTargetNode)
+                             && (currentRoutePrice < chosenRoutePrice))
+                    {
+                        // If current destination and chosen destination
+                        // have the same distance to nearest treasure city
+                        // and current currentRoute is cheaper than chosen currentRoute,
+                        // current currentRoute is better.
+                        isUpdateNeeded = true;
+                        isBetterRoute = true;
+                    }
+                    else if ((timeFromCurrentDestinationToTargetNode == timeFromChosenDestinationToTargetNode)
+                             && (currentRoutePrice == chosenRoutePrice))
+                    {
+                        // If current destination and chosen destination
+                        // have the same distance to nearest treasure city
+                        // and both have the same price, they are equally
+                        // good.
+                        isUpdateNeeded = true;
+                    }
+                }
+
+                if (isUpdateNeeded)
+                {
+                    if (randomChoiceInUse)
+                    {
+                        if (isBetterRoute)
+                        {
+                            chosenRoutesArrayList.clear();
+                        }
+                        chosenRoutesArrayList.add(currentRoute);
+                    }
+                    else
+                    {
+                        chosenRoute = currentRoute;
+                    }
+                    chosenRoutePrice = currentRoutePrice;
+                    timeFromChosenDestinationToTargetNode = timeFromCurrentDestinationToTargetNode;
+                }
+
+                if (timeFromCurrentDestinationToTargetNode >= 0)
+                {
+                    if (timeFromChosenDestinationToTargetNode < 0)
                     {
                         isUpdateNeeded = true;
                     }
                     else
                     {
-                        isUpdateNeeded = (timeFromDestinationToTargetNode < landSeaDistanceFromChosenNodeToTargetNode);
+                        isUpdateNeeded = (timeFromCurrentDestinationToTargetNode < timeFromChosenDestinationToTargetNode);
                     }
                 }
 
                 if (isUpdateNeeded)
                 {
                     chosenRoute = currentRoute;
-                    landSeaDistanceFromChosenNodeToTargetNode = timeFromDestinationToTargetNode;
+                    timeFromChosenDestinationToTargetNode = timeFromCurrentDestinationToTargetNode;
                     writeTextAndNewlineToLog("The destination node of chosenRoute is " + chosenRoute.getDestination().getName() + ".");
-                    writeTextAndNewlineToLog("landDistanceFromChosenNodeToTreasureCity is " + landSeaDistanceFromChosenNodeToTargetNode + ".");
+                    writeTextAndNewlineToLog("landDistanceFromChosenNodeToTreasureCity is " + timeFromChosenDestinationToTargetNode + ".");
                 }
             }
 
-            if (landSeaDistanceFromChosenNodeToTargetNode < 0)
+            if (timeFromChosenDestinationToTargetNode < 0)
             {
                 writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
-                                         + ", but landDistanceFromChosenNodeToTreasureCity is " + landSeaDistanceFromChosenNodeToTargetNode
+                                         + ", but timeFromChosenDestinationToTargetNode is " + timeFromChosenDestinationToTargetNode
                                          + "! Cash: " + getCash()
                                          + " Doing random land move!");
                 doRandomLandMovement();
@@ -1660,10 +1957,31 @@ public class ParanormalAI extends AI
             }
             else
             {
-                writeTextAndNewlineToLogAndDebug(messagePrefix + "I am at " + c.getCurrentNodeName()
-                                                 + ", I'm going to " + chosenRoute.getDestination().getName()
-                                                 + ", en route to " + targetNode.getName() + ".");
-                executeRoute(chosenRoute);
+                float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromChosenDestinationToTargetNode);
+                writeTextAndNewlineToLogAndDebug(messagePrefix + "I'm taking route to " + chosenRoute.getDestination().getName()
+                                                 + ", en route to " + targetNode.getName()
+                                                 + " (" + timeFromChosenDestinationToTargetNode
+                                                 + " timeUnits/" + timeUnitsInTurns + " turns remaining), price " + chosenRoutePrice + " GBP.");
+
+                if (isInitialCheck)
+                {
+                    // TODO: Do correct check for route type,
+                    // do not assume difference in price!
+                    if (chosenRoute.getPrice() == Globals.PLANE_ROUTE_PRICE)
+                    {
+                        c.decidetoUsePlane();
+                    }
+                    else
+                    {
+                        c.decideToUseLandOrSeaRoute();
+                    }
+                    isInitialCheck = false;
+                    doLandSeaTravelTowards(targetNode, currentMaxTotalPrice, messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
+                }
+                else
+                {
+                    executeRoute(chosenRoute);
+                }
             }
         }
         else
@@ -1677,43 +1995,50 @@ public class ParanormalAI extends AI
     private void doLandSeaTravelTowards(
         Node targetNode,
         int currentMaxTotalPrice,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(targetNode, currentMaxTotalPrice, "", timeHashMap);
+        boolean isInitialCheck = true;
+        doLandSeaTravelTowards(targetNode, currentMaxTotalPrice, "", timeHashMap, priceHashMap, isInitialCheck);
     }
 
     /*------------------------------------------------------------------------*/
     private void doLandSeaTravelTowards(
         Node targetNode,
         String messagePrefix,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(targetNode, getCash(), messagePrefix, timeHashMap);
+        boolean isInitialCheck = true;
+        doLandSeaTravelTowards(targetNode, getCash(), messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
     }
 
     /*------------------------------------------------------------------------*/
     private void doLandSeaTravelTowards(
         Node targetNode,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(targetNode, getCash(), timeHashMap);
+        doLandSeaTravelTowards(targetNode, getCash(), timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
     private void doLandSeaTravelTowards(
         int targetNodeID,
         String messagePrefix,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(c.getNode(targetNodeID), messagePrefix, timeHashMap);
+        doLandSeaTravelTowards(c.getNode(targetNodeID), messagePrefix, timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
     private void doLandSeaTravelTowards(
         int targetNodeID,
-        ConcurrentHashMap<Integer, Integer> timeHashMap)
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(targetNodeID, "", timeHashMap);
+        doLandSeaTravelTowards(targetNodeID, "", timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
@@ -1753,13 +2078,17 @@ public class ParanormalAI extends AI
     /*------------------------------------------------------------------------*/
     private boolean isThereExcessCash()
     {
-        if ((getPriceOfFastestRouteToMetropol(minTimeToTargetHashMap) >= 0)
-            || (getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap) >= 0)
-            || (getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap) >= 0))
+//        if ((getPriceOfFastestRouteToMetropol(minTimeToTargetHashMap) >= 0)
+//            || (getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap) >= 0)
+//            || (getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap) >= 0))
+//        {
+//            return ((getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol(minTimeToTargetHashMap))
+//                    && (getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap))
+//                    && (getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap)));
+//        }
+        if (getPriceOfFastestRouteToMetropol(meanTimeToTargetHashMap) >= 0)
         {
-            return ((getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol(minTimeToTargetHashMap))
-                    && (getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap))
-                    && (getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol(maxTimeToTargetHashMap)));
+            return (getMinCashAfterBuyingToken() >= getPriceOfFastestRouteToMetropol(meanTimeToTargetHashMap));
         }
         else
         {

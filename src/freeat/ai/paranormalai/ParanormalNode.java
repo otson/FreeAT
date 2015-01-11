@@ -264,7 +264,7 @@ public class ParanormalNode
             timeHashMap,
             priceHashMap);
 
-        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= Globals.MAX_SEA_MOVEMENT_COST; i++)
+        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= MAX_ROUTING_PRICE; i++)
         {
             ParanormalNode.this.updateTimeAndPrice(
                 targetNodeID,
@@ -296,7 +296,7 @@ public class ParanormalNode
             timeHashMap,
             priceHashMap);
 
-        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= Globals.MAX_SEA_MOVEMENT_COST; i++)
+        for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= MAX_ROUTING_PRICE; i++)
         {
             ParanormalNode.this.updateTimeAndPrice(
                 targetNode.ID,
@@ -332,7 +332,7 @@ public class ParanormalNode
                 new Key4(
                     this.getNode().ID,
                     targetNodeID,
-                    Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST),
+                    Math.min(currentMaxTotalPrice, MAX_ROUTING_PRICE),
                     isUsingFreeSearoute).hashCode());
         }
     }
@@ -362,7 +362,7 @@ public class ParanormalNode
                 get(new Key4(
                         this.getNode().ID,
                         targetNodeID,
-                        Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST),
+                        Math.min(currentMaxTotalPrice, MAX_ROUTING_PRICE),
                         isUsingFreeSearoute).hashCode());
         }
     }
