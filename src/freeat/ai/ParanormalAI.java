@@ -433,7 +433,7 @@ public class ParanormalAI extends AI
                 {
                     winConditionMessage = "w/valid horseshoe! ";
                 }
-                // Follow worst-case scenario.
+                // Follow average-case scenario.
                 doLandSeaTravelTowards(targetMetropolID, winConditionMessage, meanTimeToTargetHashMap);
                 if (isThereExcessCash())
                 {
@@ -453,10 +453,10 @@ public class ParanormalAI extends AI
                 }
                 else
                 {
-                    // Follow best-case scenario.
+                    // Follow average-case scenario.
                     moveTowardsClosestTreasureInTime(
                         "#2: " + c.horseShoesLeft() + " horseshoes left! ",
-                        minTimeToTargetHashMap);
+                        meanTimeToTargetHashMap);
                     buyTokenIfItMayBeUseful();
                 }
                 doEndTurn();
@@ -475,10 +475,10 @@ public class ParanormalAI extends AI
                 }
                 else
                 {
-                    // Follow best-case scenario.
+                    // Follow average-case scenario.
                     searchForTreasureWithoutCash(
                         "#3: " + c.horseShoesLeft() + "horseshoes left! ",
-                        minTimeToTargetHashMap);
+                        meanTimeToTargetHashMap);
                 }
                 doEndTurn();
             }
