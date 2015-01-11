@@ -30,13 +30,13 @@ public class Globals
 
     // Treasure counts 
     
-    // Currently not in use, use the percentages instead
+    // Currently not in use (except fot star of africa), use the percentages instead
     public static final int STAR_OF_AFRICA_COUNT = 1;
-    public static final int RUBY_COUNT = 2;
-    public static final int EMERALD_COUNT = 3;
-    public static final int TOPAZ_COUNT = 4;
-    public static final int ROBBER_COUNT = 3;
-    public static final int HORSESHOE_COUNT = 5;
+//    public static final int RUBY_COUNT = 2;
+//    public static final int EMERALD_COUNT = 3;
+//    public static final int TOPAZ_COUNT = 4;
+//    public static final int ROBBER_COUNT = 3;
+//    public static final int HORSESHOE_COUNT = 5;
 
     // Treasure percentages
     public static final float RUBY_PERCENTAGE = 2/30f;
