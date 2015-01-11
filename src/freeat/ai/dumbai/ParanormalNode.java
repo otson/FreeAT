@@ -13,13 +13,6 @@ public class ParanormalNode
     private Node node;
     private ArrayList<Integer> neighbors;
     private boolean hasAirport;
-    private boolean isIslandTreasureCity;      // non-city nodes are never island cities.
-    private boolean isContinentalTreasureCity; // non-city nodes are never continental cities.
-    private boolean isIslandMetropol;          // a metropol located a not located in the landmass with most treasure cities.
-    private boolean isContinentalMetropol;     // a metropol located in the landmass with most treasure cities.
-    private boolean isMetropolLandmass;        // is the node located in a landmass with 1 or more metropols?
-    private int nTreasureCitiesOnLandmass;     // total number of treasure cities on the same landmass (including the node itself).
-    private int landmassID;                    // landmass ID number (used for internal purposes).
 
     // constructors.
     public ParanormalNode(Node node, ArrayList<Integer> neighbors, Controller c)
@@ -27,13 +20,6 @@ public class ParanormalNode
         this.node = node;
         this.neighbors = neighbors;
         this.hasAirport = node.getPlaneConnections().size() > 0;
-        this.isIslandTreasureCity = false;
-        this.isContinentalTreasureCity = false;
-        this.isIslandMetropol = false;
-        this.isContinentalMetropol = false;
-        this.isMetropolLandmass = false;
-        this.nTreasureCitiesOnLandmass = 0;
-        this.landmassID = -1;
     }
 
     public ParanormalNode(Node node, Controller c)
@@ -41,13 +27,6 @@ public class ParanormalNode
         this.node = node;
         this.neighbors = new ArrayList<>();
         this.hasAirport = node.getPlaneConnections().size() > 0;
-        this.isIslandTreasureCity = false;
-        this.isContinentalTreasureCity = false;
-        this.isIslandMetropol = false;
-        this.isContinentalMetropol = false;
-        this.isMetropolLandmass = false;
-        this.nTreasureCitiesOnLandmass = 0;
-        this.landmassID = -1;
     }
 
     // setters.
@@ -80,31 +59,6 @@ public class ParanormalNode
     public void setNeighbors(ArrayList<Integer> neighbors)
     {
         this.neighbors = neighbors;
-    }
-
-    public void isIslandTreasureCity(boolean isIslandTreasureCity)
-    {
-        this.isIslandTreasureCity = isIslandTreasureCity;
-    }
-
-    public void setIsContinentalTreasureCity(boolean setIsContinentalTreasureCity)
-    {
-        this.isContinentalTreasureCity = setIsContinentalTreasureCity;
-    }
-
-    public void setIsIslandMetropol(boolean isIslandMetropol)
-    {
-        this.isIslandMetropol = isIslandMetropol;
-    }
-
-    public void setIsContinentalMetropol(boolean isContinentalMetropol)
-    {
-        this.isContinentalMetropol = isContinentalMetropol;
-    }
-
-    public void setLandmassID(int landmassID)
-    {
-        this.landmassID = landmassID;
     }
 
     // updaters.
@@ -170,31 +124,6 @@ public class ParanormalNode
     public boolean getHasAiport()
     {
         return this.hasAirport;
-    }
-
-    public boolean getIsIslandTreasureCity()
-    {
-        return this.isIslandTreasureCity;
-    }
-
-    public boolean getIsContinentalTreasureCity()
-    {
-        return this.isContinentalTreasureCity;
-    }
-
-    public boolean getIsIslandMetropol()
-    {
-        return this.isIslandMetropol;
-    }
-
-    public boolean getIsContinentalMetropol()
-    {
-        return this.isContinentalMetropol;
-    }
-
-    public int getLandmassID()
-    {
-        return this.landmassID;
     }
 
     public float getMaxTimeToTarget(int targetNodeID, int currentMaxTotalPrice)

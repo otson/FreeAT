@@ -848,24 +848,6 @@ public class DumbAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private int getLandmassID(int nodeID)
-    {
-        return paranormalNodeHashMap.get(nodeID).getLandmassID();
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getLandmassID(Node node)
-    {
-        return getLandmassID(node.ID);
-    }
-
-    /*------------------------------------------------------------------------*/
-    private int getLandmassID()
-    {
-        return getLandmassID(c.getCurrentNode());
-    }
-
-    /*------------------------------------------------------------------------*/
     private boolean areThereTreasuresLeft()
     {
         return (c.getRemainingTreasures().size() > 0);
@@ -897,12 +879,6 @@ public class DumbAI extends AI
         treasureCitiesArrayList = new ArrayList<>();
 
         return treasureCitiesArrayList;
-    }
-
-    /*------------------------------------------------------------------------*/
-    private ArrayList<Node> getRemainingTreasuresOnLandmass()
-    {
-        return getRemainingTreasuresOnLandmass(getLandmassID());
     }
 
     /*-------------------------------------------------------------------------\
