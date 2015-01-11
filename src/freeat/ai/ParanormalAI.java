@@ -391,18 +391,18 @@ public class ParanormalAI extends AI
                 // Great, I am eligible for win (someone else may be eligible too).
                 // Check which is closest land & sea destination, Cairo or Tangier.
                 // Follow worst-case scenario.
-                int maxTimeToCairoWithCurrentCash = getMaxTimeToTarget(c.getNode(CAIRO_NODE_ID), c.isUsingFreeSeaRoute());
-                int maxTimeToTangierWithCurrentCash = getMaxTimeToTarget(c.getNode(TANGIER_NODE_ID), c.isUsingFreeSeaRoute());
+                int meanTimeToCairoWithCurrentCash = getMaxTimeToTarget(c.getNode(CAIRO_NODE_ID), c.isUsingFreeSeaRoute());
+                int meanTimeToTangierWithCurrentCash = getMaxTimeToTarget(c.getNode(TANGIER_NODE_ID), c.isUsingFreeSeaRoute());
 
-                if (maxTimeToCairoWithCurrentCash < maxTimeToTangierWithCurrentCash)
+                if (meanTimeToCairoWithCurrentCash < meanTimeToTangierWithCurrentCash)
                 {
                     targetMetropolID = CAIRO_NODE_ID;   // Target metropol is Cairo.
                 }
-                else if (maxTimeToCairoWithCurrentCash > maxTimeToTangierWithCurrentCash)
+                else if (meanTimeToCairoWithCurrentCash > meanTimeToTangierWithCurrentCash)
                 {
                     targetMetropolID = TANGIER_NODE_ID; // Target metropol is Tangier.
                 }
-                else if (maxTimeToCairoWithCurrentCash == maxTimeToTangierWithCurrentCash)
+                else if (meanTimeToCairoWithCurrentCash == meanTimeToTangierWithCurrentCash)
                 {
                     targetMetropolID = METROPOLS_ARRAY[(int) (Math.random())]; // Target metropol is randomly chosen between Cairo and Tangier.
                 }
