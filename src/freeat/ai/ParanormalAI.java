@@ -155,13 +155,13 @@ public class ParanormalAI extends AI
     public static final int DICE_LCM = MIN_DICE_VALUE_X_2 * MAX_DICE_VALUE_X_2 * MEAN_DICE_VALUE_X_2;
 
     // number of time units needed for one link in worst case (lowest dice outcome).
-    public static final int ONE_LINK_TIME_UNITS_FOR_MIN_DICE = DICE_LCM / MIN_DICE_VALUE_X_2; // 2*12*7/2 = 84 time units for 1d6 (not real LCM).
+    public static final int ONE_LINK_TIME_UNITS_FOR_MIN_DICE = 2 * DICE_LCM / MIN_DICE_VALUE_X_2;   // 2(2*12*7)/2 = 168 time units for 1d6 (not real LCM).
 
     // number of time units needed for one link in best case (highest dice outcome).
-    public static final int ONE_LINK_TIME_UNITS_FOR_MAX_DICE = DICE_LCM / MAX_DICE_VALUE_X_2; // 2*12*7/7 = 24 time units for 1d6 (not real LCM).
+    public static final int ONE_LINK_TIME_UNITS_FOR_MAX_DICE = 2 * DICE_LCM / MAX_DICE_VALUE_X_2;   // 2(2*12*7)/12 = 28 time units for 1d6 (not real LCM).
 
     // number of time units needed for one link in best case (highest dice outcome).
-    public static final int ONE_LINK_TIME_UNITS_FOR_MEAN_DICE = DICE_LCM / MEAN_DICE_VALUE_X_2; // 2*12*7/12 = 14 time units for 1d6 (not real LCM).
+    public static final int ONE_LINK_TIME_UNITS_FOR_MEAN_DICE = 2 * DICE_LCM / MEAN_DICE_VALUE_X_2; // 2(2*12*7)/7 = 48 time units for 1d6 (not real LCM).
 
     // initial distance from starting node (targetNode).
     public static final int INITIAL_DISTANCE = 0;
