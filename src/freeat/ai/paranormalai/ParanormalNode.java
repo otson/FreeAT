@@ -2,6 +2,7 @@
 package freeat.ai.paranormalai;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import freeat.Node;
 import freeat.Globals;
@@ -37,30 +38,49 @@ public class ParanormalNode
         this.hasAirport = this.node.getPlaneConnections().size() > 0;
     }
 
-    public void setDistanceToTarget(int targetNodeID, int currentMaxTotalPrice, int distanceToTarget)
+    public void setTimeToTarget(
+        int targetNodeID,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        int timeToTarget,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
-        distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode(), distanceToTarget);
+        timeHashMap.
+            put(new Key4(this.getNode().ID, targetNodeID, currentMaxTotalPrice, isUsingFreeSearoute).hashCode(), timeToTarget);
     }
 
-    public void setDistanceToTarget(Node targetNode, int currentMaxTotalPrice, int distanceToTarget)
+    public void setTimeToTarget(
+        Node targetNode,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        int timeToTarget,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
-        setDistanceToTarget(targetNode.ID, currentMaxTotalPrice, distanceToTarget);
+        setTimeToTarget(targetNode.ID, currentMaxTotalPrice, isUsingFreeSearoute, timeToTarget, timeHashMap);
     }
 
     public void setPriceToTarget(
         int targetNodeID,
         int currentMaxTotalPrice,
-        int priceToTarget)
+        boolean isUsingFreeSearoute,
+        int priceToTarget,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+        priceHashMap.put(new Key4(
             this.getNode().ID,
             targetNodeID,
-            currentMaxTotalPrice).hashCode(), priceToTarget);
+            currentMaxTotalPrice,
+            isUsingFreeSearoute).hashCode(), priceToTarget);
     }
 
-    public void setPriceToTarget(Node targetNode, int currentMaxTotalPrice, int PriceToTarget)
+    public void setPriceToTarget(
+        Node targetNode,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        int PriceToTarget,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        setPriceToTarget(targetNode.ID, currentMaxTotalPrice, PriceToTarget);
+        setPriceToTarget(targetNode.ID, currentMaxTotalPrice, isUsingFreeSearoute, PriceToTarget, priceHashMap);
     }
 
     public void setNeighbors(ArrayList<Integer> neighbors)
@@ -69,13 +89,23 @@ public class ParanormalNode
     }
 
     // updaters.
-    public boolean updateDistanceAndPrice(int targetNodeID, int currentMaxTotalPrice, int newDistanceToTarget, int newPriceToTarget)
+    public boolean updateTimeAndPrice(
+        int targetNodeID,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        int newTimeToTarget,
+        int newPriceToTarget,
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
         boolean hasSomeBenefit = false;
 
-        if ((newDistanceToTarget < 0) || (newPriceToTarget < 0))
+        if ((newTimeToTarget < 0)
+            || (newPriceToTarget < 0)
+            || (newPriceToTarget > currentMaxTotalPrice))
         {
-            // TODO: report error! Updated distance must a real distance, and update price must be a real price!
+            // Invalid values (time and price must be non-negative and
+            // price must be less or equal to currentMaxTotalPrice).
             return false;
         }
         else if (paranormalNodeHashMap.get(this.node.ID).node.ID == targetNodeID)
@@ -83,7 +113,7 @@ public class ParanormalNode
             // OK, were updating the distance to the same node.
             // If newDistanceToTarget != 0 , there might be a bug somewhere.
             // If newPriceToTarget != 0, there might be a somewhere.
-            if (newDistanceToTarget > 0)
+            if (newTimeToTarget > 0)
             {
                 // TODO: report error!
             }
@@ -92,96 +122,190 @@ public class ParanormalNode
                 // TODO: report error!
             }
 
-            if ((distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()) != 0)
-                || (priceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()) != 0))
+            if ((timeHashMap.get(new Key4(this.getNode().ID, targetNodeID, currentMaxTotalPrice, isUsingFreeSearoute).hashCode()) != 0)
+                || (priceHashMap.
+                get(new Key4(this.getNode().ID, targetNodeID, currentMaxTotalPrice, isUsingFreeSearoute).hashCode()) != 0))
             {
                 // This is probably not the most elegant solution here...
-                distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode(), 0);
-                priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode(), 0);
+                timeHashMap.
+                    put(new Key4(
+                            this.getNode().ID,
+                            targetNodeID,
+                            currentMaxTotalPrice,
+                            isUsingFreeSearoute).hashCode(), 0);
+                priceHashMap.
+                    put(new Key4(
+                            this.getNode().ID,
+                            targetNodeID,
+                            currentMaxTotalPrice,
+                            isUsingFreeSearoute).hashCode(), 0);
                 hasSomeBenefit = true;
             }
         }
-        else if ((distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()) < 0)
-                 && (newPriceToTarget <= currentMaxTotalPrice))
+        else if (newTimeToTarget <= 0)
         {
-            distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+            // 0 is valid time only if origin and target are the same node.
+            // Negatime value is never accepted for time
+            // (it would mean traveling backwards in time).
+            return false;
+        }
+        else if (timeHashMap.get(
+            new Key4(
                 this.getNode().ID,
                 targetNodeID,
-                currentMaxTotalPrice).hashCode(),
-                newDistanceToTarget);
-            priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode()) < 0)
+        {
+            // OK, there was no time from origin to target.
+            // Any value greater than 0 is accepted.
+            timeHashMap.put(new Key4(
                 this.getNode().ID,
                 targetNodeID,
-                currentMaxTotalPrice).hashCode(),
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode(),
+                newTimeToTarget);
+            priceHashMap.put(new Key4(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode(),
                 newPriceToTarget);
             hasSomeBenefit = true;
         }
-        else if ((newDistanceToTarget < distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(
-            this.getNode().ID,
-            targetNodeID,
-            currentMaxTotalPrice).hashCode()))
-                 && (newPriceToTarget <= currentMaxTotalPrice))
+        else if (newTimeToTarget < timeHashMap.get(
+            new Key4(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode()))
         {
-            distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+            // OK, new time is shorter than old time.
+            timeHashMap.put(new Key4(
                 this.getNode().ID,
                 targetNodeID,
-                currentMaxTotalPrice).hashCode(),
-                newDistanceToTarget);
-            priceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode(),
+                newTimeToTarget);
+            priceHashMap.put(new Key4(
                 this.getNode().ID,
                 targetNodeID,
-                currentMaxTotalPrice).hashCode(),
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode(),
                 newPriceToTarget);
             hasSomeBenefit = true;
         }
-        else if ((newDistanceToTarget == distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode()))
-                 && (newPriceToTarget >= 0)
-                 && (newPriceToTarget < priceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, currentMaxTotalPrice).hashCode())))
-        {
-            distanceToTargetWithoutFreeSearoutesHashMap.put(new Key3(
+        else if ((newTimeToTarget == timeHashMap.get(
+            new Key4(
                 this.getNode().ID,
                 targetNodeID,
-                currentMaxTotalPrice).hashCode(),
-                newDistanceToTarget);
-            priceToTargetWithoutFreeSearoutesHashMap.put(
-                new Key3(this.getNode().ID,
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode()))
+                 && (newPriceToTarget == priceHashMap.get(
+                new Key4(
+                    this.getNode().ID,
                     targetNodeID,
-                    currentMaxTotalPrice).hashCode(),
+                    currentMaxTotalPrice,
+                    isUsingFreeSearoute).hashCode())))
+        {
+            // OK, new time is the same as old one but
+            // new price is cheaper.
+            timeHashMap.put(new Key4(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode(),
+                newTimeToTarget);
+            priceHashMap.put(new Key4(
+                this.getNode().ID,
+                targetNodeID,
+                currentMaxTotalPrice,
+                isUsingFreeSearoute).hashCode(),
                 newPriceToTarget);
             hasSomeBenefit = true;
         }
         return hasSomeBenefit;
     }
 
-    public boolean updateDistanceAndPrice(Node targetNode, int currentMaxTotalPrice, int newDistanceToTarget, int newPriceToTarget)
+    public boolean updateTimeAndPrice(
+        Node targetNode,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        int newTimeToTarget,
+        int newPriceToTarget,
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
+
     {
-        return updateDistanceAndPrice(targetNode.ID, currentMaxTotalPrice, newDistanceToTarget, newPriceToTarget);
+        return ParanormalNode.this.updateTimeAndPrice(
+            targetNode.ID,
+            currentMaxTotalPrice,
+            isUsingFreeSearoute,
+            newTimeToTarget,
+            newPriceToTarget,
+            timeHashMap,
+            priceHashMap);
     }
 
-    public boolean updateDistanceAndPriceForCurrentAndHigherPrices(int targetNodeID,
+    public boolean updateTimeAndPriceForCurrentAndHigherPrices(
+        int targetNodeID,
         int currentMaxTotalPrice,
-        int newDistanceToTarget,
-        int newPriceToTarget)
+        boolean isUsingFreeSearoute,
+        int newTimeToTarget,
+        int newPriceToTarget,
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        boolean isChanged = updateDistanceAndPrice(targetNodeID, currentMaxTotalPrice, newDistanceToTarget, newPriceToTarget);
+        boolean isChanged = ParanormalNode.this.updateTimeAndPrice(
+            targetNodeID,
+            currentMaxTotalPrice,
+            isUsingFreeSearoute,
+            newTimeToTarget,
+            newPriceToTarget,
+            timeHashMap,
+            priceHashMap);
 
         for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= Globals.MAX_SEA_MOVEMENT_COST; i++)
         {
-            updateDistanceAndPrice(targetNodeID, i, newDistanceToTarget, newPriceToTarget);
+            ParanormalNode.this.updateTimeAndPrice(
+                targetNodeID,
+                i,
+                isUsingFreeSearoute,
+                newTimeToTarget,
+                newPriceToTarget,
+                timeHashMap,
+                priceHashMap);
         }
         return isChanged;
     }
 
-    public boolean updateDistanceAndPriceForCurrentAndHigherPrices(Node targetNode,
+    public boolean updateTimeAndPriceForCurrentAndHigherPrices(
+        Node targetNode,
         int currentMaxTotalPrice,
-        int newDistanceToTarget,
-        int newPriceToTarget)
+        boolean isUsingFreeSearoute,
+        int newTimeToTarget,
+        int newPriceToTarget,
+        ConcurrentHashMap<Integer, Integer> timeHashMap,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        boolean isChanged = updateDistanceAndPrice(targetNode.ID, currentMaxTotalPrice, newDistanceToTarget, newPriceToTarget);
+        boolean isChanged = ParanormalNode.this.updateTimeAndPrice(
+            targetNode.ID,
+            currentMaxTotalPrice,
+            isUsingFreeSearoute,
+            newTimeToTarget,
+            newPriceToTarget,
+            timeHashMap,
+            priceHashMap);
 
         for (int i = currentMaxTotalPrice + 1; currentMaxTotalPrice <= Globals.MAX_SEA_MOVEMENT_COST; i++)
         {
-            updateDistanceAndPrice(targetNode.ID, i, newDistanceToTarget, newPriceToTarget);
+            ParanormalNode.this.updateTimeAndPrice(
+                targetNode.ID,
+                i,
+                isUsingFreeSearoute,
+                newTimeToTarget,
+                newPriceToTarget,
+                timeHashMap,
+                priceHashMap);
         }
         return isChanged;
     }
@@ -192,7 +316,11 @@ public class ParanormalNode
         return this.node;
     }
 
-    public int getDistanceToTarget(int targetNodeID, int currentMaxTotalPrice)
+    public int getTimeToTarget(
+        int targetNodeID,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
         if (currentMaxTotalPrice < 0)
         {
@@ -200,20 +328,29 @@ public class ParanormalNode
         }
         else
         {
-            return distanceToTargetWithoutFreeSearoutesHashMap.get(
-                new Key3(
+            return timeHashMap.get(
+                new Key4(
                     this.getNode().ID,
                     targetNodeID,
-                    Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).hashCode());
+                    Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST),
+                    isUsingFreeSearoute).hashCode());
         }
     }
 
-    public int getDistanceToTarget(Node targetNode, int currentMaxTotalPrice)
+    public int getTimeToTarget(
+        Node targetNode,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> timeHashMap)
     {
-        return getDistanceToTarget(targetNode.ID, currentMaxTotalPrice);
+        return getTimeToTarget(targetNode.ID, currentMaxTotalPrice, isUsingFreeSearoute, timeHashMap);
     }
 
-    public int getPriceToTarget(int targetNodeID, int currentMaxTotalPrice)
+    public int getPriceToTarget(
+        int targetNodeID,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
         if (currentMaxTotalPrice < 0)
         {
@@ -221,13 +358,22 @@ public class ParanormalNode
         }
         else
         {
-            return priceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST)).hashCode());
+            return priceHashMap.
+                get(new Key4(
+                        this.getNode().ID,
+                        targetNodeID,
+                        Math.min(currentMaxTotalPrice, Globals.MAX_SEA_MOVEMENT_COST),
+                        isUsingFreeSearoute).hashCode());
         }
     }
 
-    public int getPriceToTarget(Node targetNode, int currentMaxTotalPrice)
+    public int getPriceToTarget(
+        Node targetNode,
+        int currentMaxTotalPrice,
+        boolean isUsingFreeSearoute,
+        ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        return getPriceToTarget(targetNode.ID, currentMaxTotalPrice);
+        return getPriceToTarget(targetNode.ID, currentMaxTotalPrice, isUsingFreeSearoute, priceHashMap);
     }
 
     public ArrayList<Integer> getNeighbors()
@@ -238,15 +384,5 @@ public class ParanormalNode
     public boolean getHasAiport()
     {
         return this.hasAirport;
-    }
-
-    public float getMaxTimeToTarget(int targetNodeID, int currentMaxTotalPrice)
-    {
-        return (float) distanceToTargetWithoutFreeSearoutesHashMap.get(new Key3(this.getNode().ID, targetNodeID, Globals.MAX_SEA_MOVEMENT_COST).hashCode());
-    }
-
-    public float getMaxTimeToTarget(Node targetNode, int currentMaxTotalPrice)
-    {
-        return getMaxTimeToTarget(targetNode.ID, currentMaxTotalPrice);
     }
 }
