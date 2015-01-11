@@ -55,9 +55,11 @@ public class Game
 
     public Game()
     {
+        
         locations = new HashMap<>();
         players = new ArrayList<>();
         getLocations();
+        setNodeTypes();
         getConnections();
         getPlaneConnections();
         setTreasures();
@@ -200,6 +202,42 @@ public class Game
                 if (values.length == 2)
                 {
                     locations.get(Integer.parseInt(values[0].trim())).setName(values[1].replace("_", " "));
+                }
+                line = br.readLine();
+            }
+        } catch (FileNotFoundException ex)
+        {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        } finally
+        {
+            try
+            {
+                br.close();
+            } catch (IOException ex)
+            {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+    
+    private static void setNodeTypes()
+    {
+        BufferedReader br = null;
+        try
+        {
+            br = new BufferedReader(new FileReader(Main.NODE_TYPES));
+            String line = br.readLine();
+            while (line != null)
+            {
+                String[] values = line.split(" ");
+                if (values.length == 2)
+                {
+                    locations.get(Integer.parseInt(values[0].trim())).setType(values[1]);
+                    //System.out.println("Setting node "+locations.get(Integer.parseInt(values[0].trim())).ID+" to type: "+values[1]);
                 }
                 line = br.readLine();
             }

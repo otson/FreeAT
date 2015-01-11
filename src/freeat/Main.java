@@ -71,7 +71,7 @@ public class Main
     public static final String CONNECTIONS_FILE = "src\\res\\coordinates\\connections.txt";
     public static final String PLANE_CONNECTIONS_FILE = "src\\res\\coordinates\\planeConnections.txt";
     public static final String NODE_NAMES = "src\\res\\coordinates\\nodeNames.txt";
-
+    public static final String NODE_TYPES = "src\\res\\coordinates\\types.txt";
     static int vboHandle;
     static int texHandle;
     static int vertices = 4;
@@ -88,6 +88,7 @@ public class Main
     public static Texture map;
 
     private static UnicodeFont font;
+    
 
     public static void main(String[] args)
     {
