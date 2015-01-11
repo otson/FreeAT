@@ -24,6 +24,7 @@ public class PublicInformation
     private static boolean[] inSahara = new boolean[PLAYER_COUNT];
     private static boolean[] inPirates = new boolean[PLAYER_COUNT];
     private static boolean[] isWinner = new boolean[PLAYER_COUNT];
+    private static boolean[] isUsingFreeSeaRoute = new boolean[PLAYER_COUNT];
 
     private static String[] playerNames = new String[PLAYER_COUNT];
 
@@ -87,6 +88,7 @@ public class PublicInformation
             foundCapeTown[player.ID] = player.isFoundCapeTown();
             isWinner[player.ID] = player.isWinner();
             playerNames[player.ID] = player.getName();
+            isUsingFreeSeaRoute[player.ID] = player.isUsingFreeSeaRoute();
         }
     }
 
@@ -232,6 +234,11 @@ public class PublicInformation
     public static void setRobberTotal(int robberTotal)
     {
         PublicInformation.robberTotal = robberTotal;
+    }
+
+    static boolean isUsingFreeSeaRoute(int playerID)
+    {
+        return isUsingFreeSeaRoute[playerID];
     }
 
     public int getTreasuresLeft()
