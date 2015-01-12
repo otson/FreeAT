@@ -686,8 +686,8 @@ public class ParanormalAI extends AI
                         else
                         {
                             // Crash!
-                            timeHashMap = priceHashMap = null;
                             newCumulativeTime = -1;
+                            System.exit(1);
                         }
 
                         int newCumulativePrice = cumulativePrice + Globals.SEA_ROUTE_PRICE;
@@ -748,8 +748,8 @@ public class ParanormalAI extends AI
                         else
                         {
                             // Crash!
-                            timeHashMap = priceHashMap = null;
                             newCumulativeTime = -1;
+                            System.exit(1);
                         }
                     }
 
