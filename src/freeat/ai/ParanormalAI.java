@@ -140,7 +140,7 @@ public class ParanormalAI extends AI
     public static final int NEIGHBOR_DISTANCE = 1;
 
     // maximum price for land & sea routes as used by ParanormalAI.
-    public static final int MAX_ROUTING_PRICE = 18; // for real runs.
+    public static final int MAX_ROUTING_PRICE = 18; // for the real thing.
     // public static final int MAX_ROUTING_PRICE = 5; // for testing.
 
     // min dice value x 2.
@@ -413,14 +413,9 @@ public class ParanormalAI extends AI
                     writeTextAndNewlineToLogAndDebug("error in Cairo-Tangier travel time check.");
                     ArrayList<Route> routesArrayList;
                     routesArrayList = c.getMyAvailableRoutes();
-                    if (routesArrayList.isEmpty())
-                    {
-                        doEndTurn();
-                    }
-                    else
+                    if (!(routesArrayList.isEmpty()))
                     {
                         executeRoute(routesArrayList.get(0));
-                        doEndTurn();
                     }
                 }
 
@@ -441,7 +436,6 @@ public class ParanormalAI extends AI
                 {
                     buyTokenIfItMayBeUseful();
                 }
-                doEndTurn();
             }
             else if (isAnyOpponentEligibleForWin() && (getCash() >= Globals.TREASURE_BUYING_PRICE) && areThereTreasuresLeft())
             {
@@ -462,7 +456,6 @@ public class ParanormalAI extends AI
                         meanTimePriceToTargetHashMap);
                     buyTokenIfItMayBeUseful();
                 }
-                doEndTurn();
             }
             else if (isAnyOpponentEligibleForWin() && areThereTreasuresLeft())
             {
@@ -484,7 +477,6 @@ public class ParanormalAI extends AI
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
                 }
-                doEndTurn();
             }
             else if ((getCash() >= Globals.TREASURE_BUYING_PRICE) && areThereTreasuresLeft())
             {
@@ -505,7 +497,6 @@ public class ParanormalAI extends AI
                         meanTimePriceToTargetHashMap);
                     buyTokenIfItMayBeUseful();
                 }
-                doEndTurn();
             }
             else if (areThereTreasuresLeft())
             {
@@ -526,7 +517,6 @@ public class ParanormalAI extends AI
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
                 }
-                doEndTurn();
             }
             else
             {
@@ -534,7 +524,6 @@ public class ParanormalAI extends AI
                     "situation #6: Hopeless situation: There are no treasures left anywhere.");
                 // #6 Hopeless situation: There are no treasures left anywhere.
                 doAfricaTour();
-                doEndTurn();
             }
 
             doEndTurn();
@@ -1354,13 +1343,11 @@ public class ParanormalAI extends AI
         {
             writeTextAndNewlineToLog("My node has a treasure!");
             c.decideTryToken();
-            doEndTurn();
         }
         else if (c.getRemainingTreasures().size() >= 1)
         {
             writeTextAndNewlineToLog("There are treasures available somewhere!");
             moveTowardsClosestTreasureInTime(messagePrefix, timeHashMap, priceHashMap);
-            doEndTurn();
         }
         else
         {
@@ -1488,12 +1475,7 @@ public class ParanormalAI extends AI
                 boolean isUpdateNeeded = false;
                 boolean isBetterRoute = false;
 
-                float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromCurrentDestinationToTreasureCity);
-                writeTextAndNewlineToLog("time from " + currentRoute.getDestination().getName()
-                                         + " to " + treasureCity.getName()
-                                         + " is " + timeFromCurrentDestinationToTreasureCity + " time units, "
-                                         + timeUnitsInTurns + " turns, "
-                                         + "price: " + currentRoute.getPrice() + " GBP.");
+                printCurrentRoutingDataToLog(currentRoute, treasureCity, timeFromCurrentDestinationToTreasureCity);
 
                 if (timeFromCurrentDestinationToTreasureCity >= 0)
                 {
@@ -1574,12 +1556,6 @@ public class ParanormalAI extends AI
         }
         else
         {
-            float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromChosenDestinationToTreasureCity);
-            writeTextAndNewlineToLogAndDebug(messagePrefix + "I'm taking route to " + chosenRoute.getDestination().getName()
-                                             + ", en route to " + chosenTreasureCity.getName()
-                                             + " (" + timeFromChosenDestinationToTreasureCity
-                                             + " timeUnits/" + timeUnitsInTurns + " turns remaining), price " + chosenRoutePrice + " GBP.");
-
             if (isInitialCheck)
             {
                 // TODO: Do correct check for route type,
@@ -1597,6 +1573,7 @@ public class ParanormalAI extends AI
             }
             else
             {
+                printChosenRoutingDataToLogAndDebug(chosenRoute, chosenTreasureCity, timeFromChosenDestinationToTreasureCity);
                 executeRoute(chosenRoute);
             }
         }
@@ -1855,11 +1832,7 @@ public class ParanormalAI extends AI
                     timeFromCurrentDestinationToTargetNode += Globals.EXPECTED_TURNS_WITH_PIRATES;
                 }
 
-                float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromCurrentDestinationToTargetNode);
-                writeTextAndNewlineToLog("Time from destination " + routeNode.getName()
-                                         + " to " + targetNode.getName()
-                                         + " is " + timeFromCurrentDestinationToTargetNode
-                                         + " time units (" + timeUnitsInTurns + " turns, price : " + currentRoute.getPrice() + " GBP)");
+                printCurrentRoutingDataToLog(currentRoute, targetNode, timeFromCurrentDestinationToTargetNode);
 
                 boolean isUpdateNeeded = false;
                 boolean isBetterRoute = false;
@@ -1935,34 +1908,32 @@ public class ParanormalAI extends AI
                 if (isUpdateNeeded)
                 {
                     chosenRoute = currentRoute;
-                    timeFromChosenDestinationToTargetNode = timeFromCurrentDestinationToTargetNode;
-                    writeTextAndNewlineToLog("The destination node of chosenRoute is " + chosenRoute.getDestination().getName() + ".");
-                    writeTextAndNewlineToLog("landDistanceFromChosenNodeToTreasureCity is " + timeFromChosenDestinationToTargetNode + ".");
+                    printCurrentRoutingDataToLog(chosenRoute, targetNode, timeFromChosenDestinationToTargetNode);
                 }
             }
 
             if (timeFromChosenDestinationToTargetNode < 0)
             {
-                writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
-                                         + ", but timeFromChosenDestinationToTargetNode is " + timeFromChosenDestinationToTargetNode
-                                         + "! Cash: " + getCash()
-                                         + " Doing random land move!");
+                writeTextAndNewlineToLog(
+                    "I'm trying to do land travel towards "
+                    + targetNode.getName()
+                    + ", but timeFromChosenDestinationToTargetNode is "
+                    + timeFromChosenDestinationToTargetNode
+                    + "! Cash: " + getCash()
+                    + " Doing random land move!");
                 doRandomLandMovement();
             }
             else if (chosenRoute == null)
             {
-                writeTextAndNewlineToLog("I'm trying to do land travel towards " + targetNode.getName()
-                                         + ", but chosenRoute is null! Cash: " + getCash() + " Doing random land move!");
+                writeTextAndNewlineToLog(
+                    "I'm trying to do land travel towards "
+                    + targetNode.getName()
+                    + ", but chosenRoute is null! Cash: "
+                    + getCash() + " Doing random land move!");
                 doRandomLandMovement();
             }
             else
             {
-                float timeUnitsInTurns = convertTimeUnitsToTurns(timeFromChosenDestinationToTargetNode);
-                writeTextAndNewlineToLogAndDebug(messagePrefix + "I'm taking route to " + chosenRoute.getDestination().getName()
-                                                 + ", en route to " + targetNode.getName()
-                                                 + " (" + timeFromChosenDestinationToTargetNode
-                                                 + " timeUnits/" + timeUnitsInTurns + " turns remaining), price " + chosenRoutePrice + " GBP.");
-
                 if (isInitialCheck)
                 {
                     // TODO: Do correct check for route type,
@@ -1980,13 +1951,17 @@ public class ParanormalAI extends AI
                 }
                 else
                 {
+                    printChosenRoutingDataToLogAndDebug(chosenRoute, targetNode, timeFromChosenDestinationToTargetNode);
                     executeRoute(chosenRoute);
                 }
             }
         }
         else
         {
-            writeTextAndNewlineToLog("I'm trying to do land & sea travel towards " + targetNode.getName() + ", but routesArrayList is empty! Doing random land move!");
+            writeTextAndNewlineToLog(
+                "I'm trying to do land & sea travel towards "
+                + targetNode.getName()
+                + ", but routesArrayList is empty! Doing random land move!");
             doRandomLandMovement();
         }
     }
@@ -2171,4 +2146,85 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
+    private void printChosenRoutingDataToLog(Route route, Node targetNode, int timeDestinationToTargetNode)
+    {
+        float timeUnitsInTurns = convertTimeUnitsToTurns(timeDestinationToTargetNode);
+        String freeSeaRouteString;
+        if (isFreeSearoute(route))
+        {
+            freeSeaRouteString = "FREE searoute, ";
+        }
+        else
+        {
+            freeSeaRouteString = "";
+        }
+        writeTextAndNewlineToLog("Heading to " + targetNode.getName()
+                                 + " via " + route.getDestination().getName()
+                                 + ". Remaining " + timeDestinationToTargetNode
+                                 + " time units / " + timeUnitsInTurns + " turns, "
+                                 + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void printChosenRoutingDataToLogAndDebug(Route route, Node targetNode, int timeDestinationToTargetNode)
+    {
+        float timeUnitsInTurns = convertTimeUnitsToTurns(timeDestinationToTargetNode);
+        String freeSeaRouteString;
+        if (isFreeSearoute(route))
+        {
+            freeSeaRouteString = "FREE searoute, ";
+        }
+        else
+        {
+            freeSeaRouteString = "";
+        }
+
+        writeTextAndNewlineToLogAndDebug("Heading to " + targetNode.getName()
+                                         + " via " + route.getDestination().getName()
+                                         + ". Remaining " + timeDestinationToTargetNode
+                                         + " time units / " + timeUnitsInTurns + " turns, "
+                                         + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void printCurrentRoutingDataToLog(Route route, Node targetNode, int timeDestinationToTargetNode)
+    {
+        float timeUnitsInTurns = convertTimeUnitsToTurns(timeDestinationToTargetNode);
+        String freeSeaRouteString;
+        if (isFreeSearoute(route))
+        {
+            freeSeaRouteString = "FREE searoute, ";
+        }
+        else
+        {
+            freeSeaRouteString = "";
+        }
+
+        writeTextAndNewlineToLog("Time from destination " + route.getDestination().getName()
+                                 + " to " + targetNode.getName()
+                                 + " is " + timeDestinationToTargetNode
+                                 + " time units (" + timeUnitsInTurns + " turns, "
+                                 + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+    }
+
+    /*------------------------------------------------------------------------*/
+    private void printCurrentRoutingDataToLogAndDebug(Route route, Node targetNode, int timeDestinationToTargetNode)
+    {
+        float timeUnitsInTurns = convertTimeUnitsToTurns(timeDestinationToTargetNode);
+        String freeSeaRouteString;
+        if (isFreeSearoute(route))
+        {
+            freeSeaRouteString = "FREE searoute, ";
+        }
+        else
+        {
+            freeSeaRouteString = "";
+        }
+
+        writeTextAndNewlineToLogAndDebug("Time from destination " + route.getDestination().getName()
+                                         + " to " + targetNode.getName()
+                                         + " is " + timeDestinationToTargetNode
+                                         + " time units (" + timeUnitsInTurns + " turns, "
+                                         + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+    }
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import freeat.Node;
-import freeat.Globals;
 import freeat.Controller;
 import static freeat.ai.ParanormalAI.*;
 
