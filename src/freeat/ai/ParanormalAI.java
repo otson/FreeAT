@@ -1407,7 +1407,7 @@ public class ParanormalAI extends AI
         else
         {
             int dice = c.getDice();
-            routesArrayList = c.getMyAvailableRoutes();
+            routesArrayList = (ArrayList<Route>) c.getMyAvailableRoutes().clone();
 
             ArrayList<Route> cheapRoutesArrayList;
             cheapRoutesArrayList = routesArrayList.stream().filter(p -> p.getPrice() <= cashAvailableForRoute).collect(Collectors.toCollection(() -> new ArrayList<Route>()));
