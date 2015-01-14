@@ -690,14 +690,12 @@ public class ParanormalAI extends AI
                             System.exit(1);
                         }
 
-                        int newCumulativePrice = cumulativePrice + Globals.SEA_ROUTE_PRICE;
-
                         boolean isRecursiveCallNeeded = neighborParanormalNode.updateTimeAndPrice(
                             targetNode,
                             currentMaxTotalPrice,
                             newIsUsingFreeSearoute,
                             newCumulativeTime,
-                            newCumulativePrice,
+                            cumulativePrice,
                             timeHashMap,
                             priceHashMap);
 
@@ -713,7 +711,7 @@ public class ParanormalAI extends AI
                                 neighborNode,
                                 targetNode,
                                 newCumulativeTime,
-                                newCumulativePrice,
+                                cumulativePrice,
                                 currentMaxTotalPrice,
                                 newIsUsingFreeSearoute,
                                 timeHashMap,
@@ -759,7 +757,16 @@ public class ParanormalAI extends AI
                     if (isSearouteEnd(originNode, neighborNode))
                     {
                         newIsUsingFreeSearoute = false;
-                        newCumulativePrice = cumulativePrice;
+
+                        if (isUsingFreeSearoute)
+                        {
+                            newCumulativePrice = cumulativePrice;
+                        }
+                        else
+                        {
+                            // End in searching is actually the start.
+                            newCumulativePrice = cumulativePrice + Globals.SEA_ROUTE_PRICE;
+                        }
                     }
                     else
                     {
