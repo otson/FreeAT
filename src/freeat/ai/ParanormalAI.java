@@ -1767,7 +1767,7 @@ public class ParanormalAI extends AI
                     continue;
                 }
 
-                int currentRoutePrice = currentRoute.getPrice() + priceFromCurrentDestinationToTreasureCity;
+                int currentRoutePrice = currentRoute.getPrice() + priceFromCurrentDestinationToTargetNode;
 
                 if (currentRoute.getDestination().isSahara())
                 {
