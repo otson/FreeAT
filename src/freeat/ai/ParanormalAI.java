@@ -1546,7 +1546,7 @@ public class ParanormalAI extends AI
             }
             else
             {
-                printChosenRoutingDataToLogAndDebug(chosenRoute, chosenTreasureCity, timeFromChosenDestinationToTreasureCity);
+                printChosenItineraryToLogAndDebug(chosenRoute, chosenTreasureCity, timeFromChosenDestinationToTreasureCity);
                 executeRoute(chosenRoute);
             }
         }
@@ -1924,7 +1924,7 @@ public class ParanormalAI extends AI
                 }
                 else
                 {
-                    printChosenRoutingDataToLogAndDebug(chosenRoute, targetNode, timeFromChosenDestinationToTargetNode);
+                    printChosenItineraryToLogAndDebug(chosenRoute, targetNode, timeFromChosenDestinationToTargetNode);
                     executeRoute(chosenRoute);
                 }
             }
@@ -2119,7 +2119,7 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void printChosenRoutingDataToLog(Route route, Node targetNode, int timeDestinationToTargetNode)
+    private void printChosenItineraryToLog(Route route, Node targetNode, int timeDestinationToTargetNode)
     {
         float timeUnitsInTurns = convertTimeUnitsToTurns(timeDestinationToTargetNode);
         String freeSeaRouteString;
@@ -2139,7 +2139,7 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void printChosenRoutingDataToLogAndDebug(Route route, Node targetNode, int timeDestinationToTargetNode)
+    private void printChosenItineraryToLogAndDebug(Route route, Node targetNode, int timeDestinationToTargetNode)
     {
         float timeUnitsInTurns = convertTimeUnitsToTurns(timeDestinationToTargetNode);
         String freeSeaRouteString;
