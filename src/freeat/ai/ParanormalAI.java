@@ -472,7 +472,7 @@ public class ParanormalAI extends AI
                 else
                 {
                     // Follow average-case scenario.
-                    searchForTreasureWithoutCash(
+                    moveTowardsClosestTreasureInTime(
                         "#3: " + c.horseShoesLeft() + "horseshoes left! ",
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
@@ -512,7 +512,7 @@ public class ParanormalAI extends AI
                 else
                 {
                     // Follow average-case scenario.
-                    searchForTreasureWithoutCash(
+                    moveTowardsClosestTreasureInTime(
                         "#5: " + c.robbersLeft() + " robbers left! ",
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
@@ -1327,40 +1327,6 @@ public class ParanormalAI extends AI
     private boolean areThereTreasuresLeft()
     {
         return (c.getRemainingTreasures().size() > 0);
-    }
-
-    /*-------------------------------------------------------------------------\
-     |                                                                         |
-     | Combined movement & token-trying methods.                               |
-     |                                                                         |
-     \------------------------------------------------------------------------*/
-    private void searchForTreasureWithoutCash(
-        String messagePrefix,
-        ConcurrentHashMap<Integer, Integer> timeHashMap,
-        ConcurrentHashMap<Integer, Integer> priceHashMap)
-    {
-        if (c.getCurrentNode().hasTreasure())
-        {
-            writeTextAndNewlineToLog("My node has a treasure!");
-            c.decideTryToken();
-        }
-        else if (c.getRemainingTreasures().size() >= 1)
-        {
-            writeTextAndNewlineToLog("There are treasures available somewhere!");
-            moveTowardsClosestTreasureInTime(messagePrefix, timeHashMap, priceHashMap);
-        }
-        else
-        {
-            doRandomLandMovement();
-        }
-    }
-
-    /*------------------------------------------------------------------------*/
-    private void searchForTreasureWithoutCash(
-        ConcurrentHashMap<Integer, Integer> timeHashMap,
-        ConcurrentHashMap<Integer, Integer> priceHashMap)
-    {
-        searchForTreasureWithoutCash("", timeHashMap, priceHashMap);
     }
 
     /*-------------------------------------------------------------------------\
