@@ -154,7 +154,7 @@ public class ParanormalAI extends AI
 
     // least common multiple for 1/DICE_MAX and MEAN_DICE_VALUE, 42 for 1d6.
     // TODO: compute the LCM!
-    public static final int DICE_LCM = MIN_DICE_VALUE_X_2 * MAX_DICE_VALUE_X_2 * MEAN_DICE_VALUE_X_2;
+    public static final int DICE_LCM = MIN_DICE_VALUE_X_2 * MAX_DICE_VALUE_X_2 * MEAN_DICE_VALUE_X_2; // 168 for 1d6.
 
     // number of time units needed for one link in worst case (lowest dice outcome).
     public static final int ONE_LINK_TIME_UNITS_FOR_MIN_DICE = 2 * DICE_LCM / MIN_DICE_VALUE_X_2;   // 2(2*12*7)/2 = 168 time units for 1d6 (not real LCM).
