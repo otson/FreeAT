@@ -437,7 +437,7 @@ public class ParanormalAI extends AI
                     buyTokenIfItMayBeUseful();
                 }
             }
-            else if (isAnyOpponentEligibleForWin() && (getCash() >= Globals.TREASURE_BUYING_PRICE) && areThereTreasuresLeft())
+            else if (isAnyOpponentEligibleForWin() && areThereTreasuresLeft() && (getCash() >= Globals.TREASURE_BUYING_PRICE))
             {
                 writeTextAndNewlineToLog(
                     "situation #2: Someone else is eligible for win (not me), and I do have money (" + getCash() + " GBP), and there are treasures left.");
@@ -478,7 +478,7 @@ public class ParanormalAI extends AI
                         meanTimePriceToTargetHashMap);
                 }
             }
-            else if ((getCash() >= Globals.TREASURE_BUYING_PRICE) && areThereTreasuresLeft())
+            else if (areThereTreasuresLeft() && (getCash() >= Globals.TREASURE_BUYING_PRICE))
             {
                 writeTextAndNewlineToLog(
                     "situation #4: No one is eligible for win and I do have money (" + getCash() + " GBP), and there are treasures left.");
