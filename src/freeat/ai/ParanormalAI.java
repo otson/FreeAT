@@ -1740,29 +1740,29 @@ public class ParanormalAI extends AI
 
             for (Route currentRoute : routesArrayList)
             {
-                Node routeNode;
-                routeNode = currentRoute.getDestination();
-
-//                int timeFromCurrentDestinationToTargetNode = getTimeToTarget(currentRoute.getDestination(),
-//                    targetNode,
-//                    getCash() - currentRoute.getPrice(),
-//                    isFreeSearoute(currentRoute),
-//                    timeHashMap);
                 int timeFromCurrentDestinationToTargetNode = getTimeToTarget(currentRoute.getDestination(),
                     targetNode,
-                    getCash(),
+                    getCash() - currentRoute.getPrice(),
                     isFreeSearoute(currentRoute),
                     timeHashMap);
-//                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
-//                    targetNode,
-//                    getCash() - currentRoute.getPrice(),
-//                    isFreeSearoute(currentRoute),
-//                    priceHashMap);
-                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
+
+                if (timeFromCurrentDestinationToTargetNode < 0)
+                {
+                    continue;
+                }
+
+                int priceFromCurrentDestinationToTargetNode = getPriceToTarget(currentRoute.getDestination(),
                     targetNode,
-                    getCash(),
+                    getCash() - currentRoute.getPrice(),
                     isFreeSearoute(currentRoute),
                     priceHashMap);
+
+                if (priceFromCurrentDestinationToTargetNode < 0)
+                {
+                    continue;
+                }
+
+                int currentRoutePrice = currentRoute.getPrice() + priceFromCurrentDestinationToTreasureCity;
 
                 if (currentRoute.getDestination().isSahara())
                 {
@@ -1833,23 +1833,19 @@ public class ParanormalAI extends AI
                     chosenRoutePrice = currentRoutePrice;
                     timeFromChosenDestinationToTargetNode = timeFromCurrentDestinationToTargetNode;
                 }
+            }
 
-                if (timeFromCurrentDestinationToTargetNode >= 0)
+            if (randomChoiceInUse)
+            {
+                if (!(chosenRoutesArrayList.isEmpty()))
                 {
-                    if (timeFromChosenDestinationToTargetNode < 0)
-                    {
-                        isUpdateNeeded = true;
-                    }
-                    else
-                    {
-                        isUpdateNeeded = (timeFromCurrentDestinationToTargetNode < timeFromChosenDestinationToTargetNode);
-                    }
+                    int randomIndex = rand.nextInt(chosenRoutesArrayList.size());
+                    chosenRoute = chosenRoutesArrayList.get(randomIndex);
                 }
-
-                if (isUpdateNeeded)
+                else
                 {
-                    chosenRoute = currentRoute;
-                    printCurrentRoutingDataToLog(chosenRoute, targetNode, timeFromChosenDestinationToTargetNode);
+                    System.out.println("Bug in moveTowardsClosestTreasureInTime!");
+                    System.out.println("chosenRoutesArrayList: " + chosenRoutesArrayList);
                 }
             }
 
