@@ -1350,27 +1350,7 @@ public class ParanormalAI extends AI
         ArrayList<Route> routesArrayList;
         int cashAvailableForRoute;
 
-        if (getCash() <= Globals.TREASURE_BUYING_PRICE)
-        {
-            cashAvailableForRoute = getCash();
-        }
-        else
-        {
-            if (c.isDecideToUsePlane())
-            {
-                cashAvailableForRoute = Globals.PLANE_ROUTE_PRICE;
-            }
-            else if ((getCash() >= (5 * Globals.TREASURE_BUYING_PRICE))
-                     && (getCash() >= 5 * Globals.SEA_ROUTE_PRICE)
-                     && (getCash() >= 1 * Globals.PLANE_ROUTE_PRICE))
-            {
-                cashAvailableForRoute = Math.max(Globals.SEA_ROUTE_PRICE, Globals.PLANE_ROUTE_PRICE);
-            }
-            else
-            {
-                cashAvailableForRoute = Math.min(Globals.SEA_ROUTE_PRICE, Globals.PLANE_ROUTE_PRICE);
-            }
-        }
+        cashAvailableForRoute = getCash();
 
         if (isInitialCheck)
         {
@@ -1379,16 +1359,7 @@ public class ParanormalAI extends AI
         }
         else
         {
-            int dice = c.getDice();
-            routesArrayList = (ArrayList<Route>) c.getMyAvailableRoutes().clone();
-
-            ArrayList<Route> cheapRoutesArrayList;
-            cheapRoutesArrayList = routesArrayList.stream().filter(p -> p.getPrice() <= cashAvailableForRoute).collect(Collectors.toCollection(() -> new ArrayList<Route>()));
-
-            if (!(cheapRoutesArrayList.isEmpty()))
-            {
-                routesArrayList = cheapRoutesArrayList;
-            }
+            routesArrayList = c.getMyAvailableRoutes();
         }
 
         ArrayList<Node> treasureCitiesArrayList = c.getRemainingTreasures();
@@ -1407,34 +1378,31 @@ public class ParanormalAI extends AI
         {
             for (Node treasureCity : treasureCitiesArrayList)
             {
-//                int timeFromCurrentDestinationToTreasureCity = getTimeToTarget(currentRoute.getDestination(),
-//                    treasureCity,
-//                    getCash() - currentRoute.getPrice(),
-//                    isFreeSearoute(currentRoute),
-//                    timeHashMap);
-
-                int cashAvailableForTravel = getCash() - currentRoute.getPrice();
-
-                if (cashAvailableForTravel > Globals.TREASURE_BUYING_PRICE)
-                {
-                    cashAvailableForTravel -= Globals.TREASURE_BUYING_PRICE;
-                }
+                int cashAvailableForTravel = cashAvailableForRoute - currentRoute.getPrice();
 
                 int timeFromCurrentDestinationToTreasureCity = getTimeToTarget(currentRoute.getDestination(),
                     treasureCity,
                     cashAvailableForTravel,
                     isFreeSearoute(currentRoute),
                     timeHashMap);
-//                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
-//                    treasureCity,
-//                    getCash() - currentRoute.getPrice(),
-//                    isFreeSearoute(currentRoute),
-//                    priceHashMap);
-                int currentRoutePrice = currentRoute.getPrice() + getPriceToTarget(currentRoute.getDestination(),
+
+                if (timeFromCurrentDestinationToTreasureCity < 0)
+                {
+                    continue;
+                }
+
+                int priceFromCurrentDestinationToTreasureCity = getPriceToTarget(currentRoute.getDestination(),
                     treasureCity,
                     cashAvailableForTravel,
                     isFreeSearoute(currentRoute),
                     priceHashMap);
+
+                if (priceFromCurrentDestinationToTreasureCity < 0)
+                {
+                    continue;
+                }
+
+                int completeRoutePrice = currentRoute.getPrice() + priceFromCurrentDestinationToTreasureCity;
 
                 if (currentRoute.getDestination().isSahara())
                 {
@@ -1450,12 +1418,12 @@ public class ParanormalAI extends AI
 
                 printCurrentRoutingDataToLog(currentRoute, treasureCity, timeFromCurrentDestinationToTreasureCity);
 
-                if (timeFromCurrentDestinationToTreasureCity >= 0)
+                if ((timeFromCurrentDestinationToTreasureCity >= 0) && (completeRoutePrice >= 0))
                 {
-                    if (timeFromChosenDestinationToTreasureCity < 0)
+                    if ((timeFromChosenDestinationToTreasureCity < 0) || (chosenRoutePrice < 0))
                     {
-                        // If chosen currentRoute is not valid,
-                        // any valid currentRoute is better.
+                        // If chosen route is not valid,
+                        // any valid route is better.
                         isUpdateNeeded = true;
                         isBetterRoute = true;
                     }
@@ -1463,12 +1431,12 @@ public class ParanormalAI extends AI
                     {
                         // If current destination has shorter distance to
                         // treasure city than chosen destination, current
-                        // currentRoute is better.
+                        // route is better.
                         isUpdateNeeded = true;
                         isBetterRoute = true;
                     }
-                    else if ((timeFromChosenDestinationToTreasureCity == timeFromCurrentDestinationToTreasureCity)
-                             && (currentRoutePrice < chosenRoutePrice))
+                    else if ((timeFromCurrentDestinationToTreasureCity == timeFromChosenDestinationToTreasureCity)
+                             && (completeRoutePrice < chosenRoutePrice))
                     {
                         // If current destination and chosen destination
                         // have the same distance to nearest treasure city
@@ -1477,8 +1445,8 @@ public class ParanormalAI extends AI
                         isUpdateNeeded = true;
                         isBetterRoute = true;
                     }
-                    else if ((timeFromChosenDestinationToTreasureCity == timeFromCurrentDestinationToTreasureCity)
-                             && (currentRoutePrice == chosenRoutePrice))
+                    else if ((timeFromCurrentDestinationToTreasureCity == timeFromChosenDestinationToTreasureCity)
+                             && (completeRoutePrice == chosenRoutePrice))
                     {
                         // If current destination and chosen destination
                         // have the same distance to nearest treasure city
@@ -1505,7 +1473,7 @@ public class ParanormalAI extends AI
                         chosenRoute = currentRoute;
                         chosenTreasureCity = treasureCity;
                     }
-                    chosenRoutePrice = currentRoutePrice;
+                    chosenRoutePrice = completeRoutePrice;
                     timeFromChosenDestinationToTreasureCity = timeFromCurrentDestinationToTreasureCity;
                 }
             }
