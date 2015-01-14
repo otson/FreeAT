@@ -431,7 +431,7 @@ public class ParanormalAI extends AI
                     winConditionMessage = "w/valid horseshoe! ";
                 }
                 // Follow average-case scenario.
-                doLandSeaTravelTowards(targetMetropolID, winConditionMessage, meanTimeToTargetHashMap, meanTimePriceToTargetHashMap);
+                doLandSeaAirTravelTowards(targetMetropolID, winConditionMessage, meanTimeToTargetHashMap, meanTimePriceToTargetHashMap);
                 if (isThereExcessCash())
                 {
                     buyTokenIfItMayBeUseful();
@@ -1720,7 +1720,7 @@ public class ParanormalAI extends AI
                 nextDestinationOfAfricaTour = chooseFarthestCity(MAX_LAND_ROAD_PRICE, c.isUsingFreeSeaRoute());
             }
             boolean isInitialCheck = true;
-            doLandSeaTravelTowards(
+            doLandSeaAirTravelTowards(
                 nextDestinationOfAfricaTour,
                 MAX_LAND_ROAD_PRICE,
                 "I'm on Africa Tour en route to " + nextDestinationOfAfricaTour.getName() + ".",
@@ -1768,7 +1768,7 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(
+    private void doLandSeaAirTravelTowards(
         Node targetNode,
         int currentMaxTotalPrice,
         String messagePrefix,
@@ -1947,7 +1947,7 @@ public class ParanormalAI extends AI
                         c.decideToUseLandOrSeaRoute();
                     }
                     isInitialCheck = false;
-                    doLandSeaTravelTowards(targetNode, currentMaxTotalPrice, messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
+                    doLandSeaAirTravelTowards(targetNode, currentMaxTotalPrice, messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
                 }
                 else
                 {
@@ -1967,53 +1967,53 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(
+    private void doLandSeaAirTravelTowards(
         Node targetNode,
         int currentMaxTotalPrice,
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
         boolean isInitialCheck = true;
-        doLandSeaTravelTowards(targetNode, currentMaxTotalPrice, "", timeHashMap, priceHashMap, isInitialCheck);
+        doLandSeaAirTravelTowards(targetNode, currentMaxTotalPrice, "", timeHashMap, priceHashMap, isInitialCheck);
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(
+    private void doLandSeaAirTravelTowards(
         Node targetNode,
         String messagePrefix,
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
         boolean isInitialCheck = true;
-        doLandSeaTravelTowards(targetNode, getCash(), messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
+        doLandSeaAirTravelTowards(targetNode, getCash(), messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(
+    private void doLandSeaAirTravelTowards(
         Node targetNode,
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(targetNode, getCash(), timeHashMap, priceHashMap);
+        doLandSeaAirTravelTowards(targetNode, getCash(), timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(
+    private void doLandSeaAirTravelTowards(
         int targetNodeID,
         String messagePrefix,
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(c.getNode(targetNodeID), messagePrefix, timeHashMap, priceHashMap);
+        doLandSeaAirTravelTowards(c.getNode(targetNodeID), messagePrefix, timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
-    private void doLandSeaTravelTowards(
+    private void doLandSeaAirTravelTowards(
         int targetNodeID,
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        doLandSeaTravelTowards(targetNodeID, "", timeHashMap, priceHashMap);
+        doLandSeaAirTravelTowards(targetNodeID, "", timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
