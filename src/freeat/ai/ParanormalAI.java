@@ -1348,14 +1348,11 @@ public class ParanormalAI extends AI
         boolean isInitialCheck)
     {
         ArrayList<Route> routesArrayList;
-        int cashAvailableForRoute;
-
-        cashAvailableForRoute = getCash();
 
         if (isInitialCheck)
         {
             // Save treasure buying price if there's more cash available.
-            routesArrayList = c.getAllRoutes(c.getCurrentNode(), cashAvailableForRoute, (int) Math.ceil(Globals.MEAN_DICE_VALUE));
+            routesArrayList = c.getAllRoutes(c.getCurrentNode(), getCash(), (int) Math.ceil(Globals.MEAN_DICE_VALUE));
         }
         else
         {
@@ -1378,7 +1375,7 @@ public class ParanormalAI extends AI
         {
             for (Node treasureCity : treasureCitiesArrayList)
             {
-                int cashAvailableForTravel = cashAvailableForRoute - currentRoute.getPrice();
+                int cashAvailableForTravel = getCash() - currentRoute.getPrice();
 
                 int timeFromCurrentDestinationToTreasureCity = getTimeToTarget(currentRoute.getDestination(),
                     treasureCity,
