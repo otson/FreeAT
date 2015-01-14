@@ -1467,6 +1467,8 @@ public class ParanormalAI extends AI
                         }
                         chosenRoutesArrayList.add(currentRoute);
                         chosenTreasureCitiesArrayList.add(treasureCity);
+//                        System.out.println("I chose new route to " + currentRoute.getDestination().getName() + ".");
+//                        System.out.println("I chose new treasure city: " + treasureCity.getName() + ".");
                     }
                     else
                     {
@@ -1488,6 +1490,12 @@ public class ParanormalAI extends AI
                 int randomIndex = rand.nextInt(chosenRoutesArrayList.size());
                 chosenRoute = chosenRoutesArrayList.get(randomIndex);
                 chosenTreasureCity = chosenTreasureCitiesArrayList.get(randomIndex);
+            }
+            else
+            {
+                System.out.println("Bug in moveTowardsClosestTreasureInTime!");
+                System.out.println("chosenRoutesArrayList: " + chosenRoutesArrayList);
+                System.out.println("chosenTreasureCitiesArrayList: " + chosenTreasureCitiesArrayList);
             }
         }
         if ((chosenRoute == null) || (chosenTreasureCity == null))
