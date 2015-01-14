@@ -28,8 +28,8 @@ public class Globals
 
     public static final int DICE_COUNT = 1;
 
-    // Treasure counts 
-    
+    // Treasure counts
+
     // Currently not in use (except for the Star of Africa), use the percentages instead
     public static final int STAR_OF_AFRICA_COUNT = 1;
 //    public static final int RUBY_COUNT = 2;
