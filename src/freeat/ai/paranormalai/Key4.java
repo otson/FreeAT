@@ -36,11 +36,10 @@ public class Key4
 //        hash = (hash << nodeSpaceInBits) + this.targetNodeID;
 //        hash = (hash << cashSpaceInBits) + this.currentMaxTotalPrice;
 //        hash = (hash << booleanSpaceInBits) + (this.isOnFreeSearoute ? 1 : 0);
-        int hash = 7;
-        hash = 1009 * hash + this.originNodeID;
+        int hash = this.originNodeID;
         hash = 1009 * hash + this.targetNodeID;
-        hash = 1009 * hash + this.currentMaxTotalPrice;
-        hash = 1009 * hash + (this.isOnFreeSearoute ? 1 : 0);
+        hash = 101 * hash + this.currentMaxTotalPrice;
+        hash = 3 * hash + (this.isOnFreeSearoute ? 1 : 0);
         return hash;
     }
 
