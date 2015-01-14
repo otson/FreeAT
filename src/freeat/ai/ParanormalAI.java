@@ -2107,7 +2107,7 @@ public class ParanormalAI extends AI
                                  + " via " + route.getDestination().getName()
                                  + ". Remaining " + timeDestinationToTargetNode
                                  + " time units / " + timeUnitsInTurns + " turns, "
-                                 + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+                                 + freeSeaRouteString + "price " + route.getPrice() + " GBP)");
     }
 
     /*------------------------------------------------------------------------*/
@@ -2128,7 +2128,7 @@ public class ParanormalAI extends AI
                                          + " via " + route.getDestination().getName()
                                          + ". Remaining " + timeDestinationToTargetNode
                                          + " time units / " + timeUnitsInTurns + " turns, "
-                                         + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+                                         + freeSeaRouteString + "price " + route.getPrice() + " GBP)");
     }
 
     /*------------------------------------------------------------------------*/
@@ -2149,7 +2149,7 @@ public class ParanormalAI extends AI
                                  + " to " + targetNode.getName()
                                  + " is " + timeDestinationToTargetNode
                                  + " time units (" + timeUnitsInTurns + " turns, "
-                                 + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+                                 + freeSeaRouteString + "price " + route.getPrice() + " GBP)");
     }
 
     /*------------------------------------------------------------------------*/
@@ -2170,6 +2170,6 @@ public class ParanormalAI extends AI
                                          + " to " + targetNode.getName()
                                          + " is " + timeDestinationToTargetNode
                                          + " time units (" + timeUnitsInTurns + " turns, "
-                                         + freeSeaRouteString + "price : " + route.getPrice() + " GBP)");
+                                         + freeSeaRouteString + "price " + route.getPrice() + " GBP)");
     }
 }
