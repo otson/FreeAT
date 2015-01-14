@@ -1849,7 +1849,7 @@ public class ParanormalAI extends AI
                 }
                 else
                 {
-                    System.out.println("Bug in moveTowardsClosestTreasureInTime!");
+                    System.out.println("Bug in moveTowardsBestTreasure!");
                     System.out.println("chosenRoutesArrayList: " + chosenRoutesArrayList);
                 }
             }
