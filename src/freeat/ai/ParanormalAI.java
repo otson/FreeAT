@@ -1368,7 +1368,7 @@ public class ParanormalAI extends AI
 
         Route chosenRoute = null;
         Node chosenTreasureCity = null;
-        int timeFromChosenDestinationToTreasureCity = -1;
+        int chosenTimeToArriveAndGetTokenOpened = -1;
         int chosenRoutePrice = -1;
 
         for (Route currentRoute : routesArrayList)
@@ -1401,13 +1401,79 @@ public class ParanormalAI extends AI
 
                 int completeRoutePrice = currentRoute.getPrice() + priceFromCurrentDestinationToTreasureCity;
 
-                if (currentRoute.getDestination().isSahara())
+                int cashAfterCompleteRoute = getCash() - completeRoutePrice;
+
+                boolean isCapeTownRegularTreasureCity = (!(c.isCapeTownBonus()));
+
+                int timeToArriveAndGetTokenOpened;
+                if ((cashAfterCompleteRoute < Globals.TREASURE_BUYING_PRICE)
+                    && ((!(treasureCity.getName().equals("Cape Town")))
+                        || isCapeTownRegularTreasureCity))
                 {
-                    timeFromCurrentDestinationToTreasureCity += Globals.EXPECTED_TURNS_IN_SAHARA;
+                    // If I do not have enough cash upon arrival, I need to try
+                    // token and it tokes some turns.
+                    timeToArriveAndGetTokenOpened
+                    = timeFromCurrentDestinationToTreasureCity
+                      + Globals.EXPECTED_TURNS_FOR_TRYING_TOKEN * DICE_LCM;
                 }
-                else if (currentRoute.getDestination().isPirate())
+                else
                 {
-                    timeFromCurrentDestinationToTreasureCity += Globals.EXPECTED_TURNS_WITH_PIRATES;
+                    timeToArriveAndGetTokenOpened = timeFromCurrentDestinationToTreasureCity;
+                }
+
+                if ((cashAfterCompleteRoute < Globals.TREASURE_BUYING_PRICE)
+                    && (cashAvailableForTravel - Globals.TREASURE_BUYING_PRICE >= 0)
+                    && ((!(treasureCity.getName().equals("Cape Town")
+                           || isCapeTownRegularTreasureCity))))
+                {
+                    // Check if saving money on traveling helps to get token opened earlier.
+                    int timeFromCurrentDestinationToTreasureCityWithCashOnArrival = getTimeToTarget(currentRoute.getDestination(),
+                        treasureCity,
+                        cashAvailableForTravel - Globals.TREASURE_BUYING_PRICE,
+                        isFreeSearoute(currentRoute),
+                        timeHashMap);
+
+                    int priceFromCurrentDestinationToTreasureCityWithCashOnArrival = getPriceToTarget(currentRoute.getDestination(),
+                        treasureCity,
+                        cashAvailableForTravel - Globals.TREASURE_BUYING_PRICE,
+                        isFreeSearoute(currentRoute),
+                        priceHashMap);
+
+                    if ((timeFromCurrentDestinationToTreasureCityWithCashOnArrival >= 0)
+                        && (priceFromCurrentDestinationToTreasureCityWithCashOnArrival >= 0))
+                    {
+                        int completeRoutePriceWithCashOnArrival = currentRoute.getPrice() + priceFromCurrentDestinationToTreasureCityWithCashOnArrival;
+
+                        // OK, the cheaper route is valid.
+                        if (timeFromCurrentDestinationToTreasureCityWithCashOnArrival < timeToArriveAndGetTokenOpened)
+                        {
+                            timeToArriveAndGetTokenOpened = timeFromCurrentDestinationToTreasureCityWithCashOnArrival;
+                            completeRoutePrice = completeRoutePriceWithCashOnArrival;
+                        }
+                        else if ((timeFromCurrentDestinationToTreasureCityWithCashOnArrival == timeToArriveAndGetTokenOpened)
+                                 && (completeRoutePriceWithCashOnArrival < completeRoutePrice))
+                        {
+                            timeToArriveAndGetTokenOpened = timeFromCurrentDestinationToTreasureCityWithCashOnArrival;
+                            completeRoutePrice = completeRoutePriceWithCashOnArrival;
+                        }
+                    }
+
+                    if (currentRoute.getDestination().isSahara())
+                    {
+                        timeToArriveAndGetTokenOpened += Globals.EXPECTED_TURNS_IN_SAHARA * DICE_LCM;
+                    }
+                    else if (currentRoute.getDestination().isPirate())
+                    {
+                        timeToArriveAndGetTokenOpened += Globals.EXPECTED_TURNS_WITH_PIRATES * DICE_LCM;
+                    }
+                    else if (treasureCity.getName().equals("Slave Coast"))
+                    {
+                        // Slave Coast increases waiting time _after_ getting empty token.
+                        // However, the name of the variable timeToArriveAndGetTokenOpened is misleading...
+                        int slaveCoastWaitingTime = Globals.SLAVE_COAST_WAIT_TIME * DICE_LCM;
+                        timeToArriveAndGetTokenOpened += (int) Math.ceil(((double) c.emptyLeft() / c.unopenedLeft()) * slaveCoastWaitingTime);
+                    }
+
                 }
 
                 boolean isUpdateNeeded = false;
@@ -1415,42 +1481,39 @@ public class ParanormalAI extends AI
 
                 printCurrentRoutingDataToLog(currentRoute, treasureCity, timeFromCurrentDestinationToTreasureCity);
 
-                if ((timeFromCurrentDestinationToTreasureCity >= 0) && (completeRoutePrice >= 0))
+                if ((chosenTimeToArriveAndGetTokenOpened < 0) || (chosenRoutePrice < 0))
                 {
-                    if ((timeFromChosenDestinationToTreasureCity < 0) || (chosenRoutePrice < 0))
-                    {
-                        // If chosen route is not valid,
-                        // any valid route is better.
-                        isUpdateNeeded = true;
-                        isBetterRoute = true;
-                    }
-                    else if (timeFromCurrentDestinationToTreasureCity < timeFromChosenDestinationToTreasureCity)
-                    {
-                        // If current destination has shorter distance to
-                        // treasure city than chosen destination, current
-                        // route is better.
-                        isUpdateNeeded = true;
-                        isBetterRoute = true;
-                    }
-                    else if ((timeFromCurrentDestinationToTreasureCity == timeFromChosenDestinationToTreasureCity)
-                             && (completeRoutePrice < chosenRoutePrice))
-                    {
-                        // If current destination and chosen destination
-                        // have the same distance to nearest treasure city
-                        // and current currentRoute is cheaper than chosen currentRoute,
-                        // current currentRoute is better.
-                        isUpdateNeeded = true;
-                        isBetterRoute = true;
-                    }
-                    else if ((timeFromCurrentDestinationToTreasureCity == timeFromChosenDestinationToTreasureCity)
-                             && (completeRoutePrice == chosenRoutePrice))
-                    {
-                        // If current destination and chosen destination
-                        // have the same distance to nearest treasure city
-                        // and both have the same price, they are equally
-                        // good.
-                        isUpdateNeeded = true;
-                    }
+                    // If chosen route is not valid,
+                    // any valid route is better.
+                    isUpdateNeeded = true;
+                    isBetterRoute = true;
+                }
+                else if (timeToArriveAndGetTokenOpened < chosenTimeToArriveAndGetTokenOpened)
+                {
+                    // If current destination has shorter distance to
+                    // treasure city than chosen destination, current
+                    // route is better.
+                    isUpdateNeeded = true;
+                    isBetterRoute = true;
+                }
+                else if ((timeToArriveAndGetTokenOpened == chosenTimeToArriveAndGetTokenOpened)
+                         && (completeRoutePrice < chosenRoutePrice))
+                {
+                    // If current destination and chosen destination
+                    // have the same distance to nearest treasure city
+                    // and current currentRoute is cheaper than chosen currentRoute,
+                    // current currentRoute is better.
+                    isUpdateNeeded = true;
+                    isBetterRoute = true;
+                }
+                else if ((timeToArriveAndGetTokenOpened == chosenTimeToArriveAndGetTokenOpened)
+                         && (completeRoutePrice == chosenRoutePrice))
+                {
+                    // If current destination and chosen destination
+                    // have the same distance to nearest treasure city
+                    // and both have the same price, they are equally
+                    // good.
+                    isUpdateNeeded = true;
                 }
 
                 if (isUpdateNeeded)
@@ -1473,7 +1536,7 @@ public class ParanormalAI extends AI
                         chosenTreasureCity = treasureCity;
                     }
                     chosenRoutePrice = completeRoutePrice;
-                    timeFromChosenDestinationToTreasureCity = timeFromCurrentDestinationToTreasureCity;
+                    chosenTimeToArriveAndGetTokenOpened = timeToArriveAndGetTokenOpened;
                 }
             }
         }
@@ -1519,7 +1582,7 @@ public class ParanormalAI extends AI
             }
             else
             {
-                printChosenItineraryToLogAndDebug(chosenRoute, chosenTreasureCity, timeFromChosenDestinationToTreasureCity);
+                printChosenItineraryToLogAndDebug(chosenRoute, chosenTreasureCity, chosenTimeToArriveAndGetTokenOpened);
                 executeRoute(chosenRoute);
             }
         }
