@@ -1717,7 +1717,7 @@ public class ParanormalAI extends AI
         ConcurrentHashMap<Integer, Integer> priceHashMap,
         boolean isInitialCheck)
     {
-        boolean randomChoiceInUse = false;
+        boolean randomChoiceInUse = true;
 
         ArrayList<Route> chosenRoutesArrayList = new ArrayList<>();
 
