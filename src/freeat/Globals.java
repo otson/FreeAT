@@ -71,6 +71,9 @@ public class Globals
     public static final int EXPECTED_TURNS_IN_SAHARA = 3;
     public static final int EXPECTED_TURNS_WITH_PIRATES = 3;
 
+    // expected turns needed to get treasure by trying.
+    public static final int EXPECTED_TURNS_FOR_TRYING_TOKEN = 3;
+
     // Values based on set Global values, do not modify
     // Dice
     public static final int DICE_SIZE = SINGLE_DICE_MAX_VALUE - SINGLE_DICE_MIN_VALUE + 1;
