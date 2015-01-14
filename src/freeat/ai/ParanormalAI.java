@@ -450,7 +450,7 @@ public class ParanormalAI extends AI
                 else
                 {
                     // Follow average-case scenario.
-                    moveTowardsClosestTreasureInTime(
+                    moveTowardsBestTreasure(
                         "#2: " + c.horseShoesLeft() + " horseshoes left! ",
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
@@ -472,7 +472,7 @@ public class ParanormalAI extends AI
                 else
                 {
                     // Follow average-case scenario.
-                    moveTowardsClosestTreasureInTime(
+                    moveTowardsBestTreasure(
                         "#3: " + c.horseShoesLeft() + "horseshoes left! ",
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
@@ -491,7 +491,7 @@ public class ParanormalAI extends AI
                 else
                 {
                     // Follow average-case scenario.
-                    moveTowardsClosestTreasureInTime(
+                    moveTowardsBestTreasure(
                         "#4: " + c.robbersLeft() + " robbers left! ",
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
@@ -512,7 +512,7 @@ public class ParanormalAI extends AI
                 else
                 {
                     // Follow average-case scenario.
-                    moveTowardsClosestTreasureInTime(
+                    moveTowardsBestTreasure(
                         "#5: " + c.robbersLeft() + " robbers left! ",
                         meanTimeToTargetHashMap,
                         meanTimePriceToTargetHashMap);
@@ -1341,7 +1341,7 @@ public class ParanormalAI extends AI
      | Movement methods.                                                       |
      |                                                                         |
      \------------------------------------------------------------------------*/
-    private void moveTowardsClosestTreasureInTime(
+    private void moveTowardsBestTreasure(
         String messagePrefix,
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap,
@@ -1518,7 +1518,7 @@ public class ParanormalAI extends AI
                     c.decideToUseLandOrSeaRoute();
                 }
                 isInitialCheck = false;
-                moveTowardsClosestTreasureInTime(messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
+                moveTowardsBestTreasure(messagePrefix, timeHashMap, priceHashMap, isInitialCheck);
             }
             else
             {
@@ -1529,21 +1529,21 @@ public class ParanormalAI extends AI
     }
 
     /*------------------------------------------------------------------------*/
-    private void moveTowardsClosestTreasureInTime(
+    private void moveTowardsBestTreasure(
         String messagePrefix,
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
         boolean isInitialCheck = true;
-        moveTowardsClosestTreasureInTime("", timeHashMap, priceHashMap, isInitialCheck);
+        moveTowardsBestTreasure("", timeHashMap, priceHashMap, isInitialCheck);
     }
 
     /*------------------------------------------------------------------------*/
-    private void moveTowardsClosestTreasureInTime(
+    private void moveTowardsBestTreasure(
         ConcurrentHashMap<Integer, Integer> timeHashMap,
         ConcurrentHashMap<Integer, Integer> priceHashMap)
     {
-        moveTowardsClosestTreasureInTime("", timeHashMap, priceHashMap);
+        moveTowardsBestTreasure("", timeHashMap, priceHashMap);
     }
 
     /*------------------------------------------------------------------------*/
