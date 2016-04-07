@@ -155,13 +155,23 @@ public class Main
         long sinceUpdate = System.nanoTime();
 
         game.resetGame();
+        boolean paused = false;
 
         while (!Display.isCloseRequested())
         {
+            while (Keyboard.next()) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_P) {
+                paused = true;
+                }
+                if (Keyboard.getEventKey() == Keyboard.KEY_O) {
+                paused = false;
+                }
+            }
             start = System.nanoTime();
             
             //checkUserInput();
-            game.processTurn();
+            if(!paused)
+                game.processTurn();
 
             //if (System.nanoTime()- sinceUpdate > 1000000*17) {
             if (Globals.RENDER)
