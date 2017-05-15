@@ -1,34 +1,4 @@
-# Some Eclipse files.
-manifest.mf
-.classpath
-.project
-
-# Eclipse settings directory.
-.settings/
-
-# Eclipse build directory.
-bin/
-
-# Netbeans build directory.
-build/
-
-# Netbeans dist directory.
-dist/
-
-# Netbeans nbproject directory.
-nbproject/
-
-# All log files.
-*.log
-
-# All jar files.
-*.jar
-
-# All log files.
-*.log
-
-# All XML files.
-*.xml
-
-# Manifest file.
-manifest.mf
+/dist/
+/build/
+/nbproject/private/
+/ignore/
