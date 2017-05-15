@@ -8,6 +8,10 @@ import freeat.Node;
 import freeat.Controller;
 import static freeat.ai.ParanormalAI.*;
 
+/**
+ *
+ * @author antti
+ */
 public class ParanormalNode
 {
 

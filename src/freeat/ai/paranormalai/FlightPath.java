@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import freeat.Node;
-
+/**
+ *
+ * @author antti
+ */
 public class FlightPath
 {
 
