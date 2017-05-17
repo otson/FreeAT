@@ -78,11 +78,12 @@ public class Main
 {
 
     private static final String MAP_FILE = "mapsquare";
-    public static final String LOCATIONS_FILE = "src\\res\\coordinates\\coordinates.txt";
-    public static final String CONNECTIONS_FILE = "src\\res\\coordinates\\connections.txt";
-    public static final String PLANE_CONNECTIONS_FILE = "src\\res\\coordinates\\planeConnections.txt";
-    public static final String NODE_NAMES = "src\\res\\coordinates\\nodeNames.txt";
-    public static final String NODE_TYPES = "src\\res\\coordinates\\types.txt";
+    public static final String NEW_LOCATIONS_FILE = "coordinates.txt";
+    public static final String LOCATIONS_FILE = "coordinates.txt";
+    public static final String CONNECTIONS_FILE = "connections.txt";
+    public static final String PLANE_CONNECTIONS_FILE = "planeConnections.txt";
+    public static final String NODE_NAMES = "nodeNames.txt";
+    public static final String NODE_TYPES = "types.txt";
     static int vboHandle;
     static int texHandle;
     static int vertices = 4;

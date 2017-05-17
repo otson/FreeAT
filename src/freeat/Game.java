@@ -22,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -162,12 +164,14 @@ public class Game
         }
     }
 
-    private void getLocations()
+    private static void getLocations()
     {
         BufferedReader br = null;
         try
         {
-            br = new BufferedReader(new FileReader(Main.LOCATIONS_FILE));
+            String filepath = Main.class.getResource("/res/coordinates/"+Main.LOCATIONS_FILE).getPath();
+            br = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("res/coordinates/"+Main.LOCATIONS_FILE)));
+            //br = new BufferedReader(new FileReader(filepath));
             String line = br.readLine();
             while (line != null)
             {
@@ -183,9 +187,11 @@ public class Game
             }
         } catch (FileNotFoundException ex)
         {
+            System.out.println("file not found exception");
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex)
         {
+            System.out.println("io exception");
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         } finally
         {
@@ -205,7 +211,9 @@ public class Game
         BufferedReader br = null;
         try
         {
-            br = new BufferedReader(new FileReader(Main.NODE_NAMES));
+            String filepath = Main.class.getResource("/res/coordinates/"+Main.NODE_NAMES).getPath();
+            br = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("res/coordinates/"+Main.NODE_NAMES)));
+            //br = new BufferedReader(new FileReader(filepath));
             String line = br.readLine();
             while (line != null)
             {
@@ -240,7 +248,9 @@ public class Game
         BufferedReader br = null;
         try
         {
-            br = new BufferedReader(new FileReader(Main.NODE_TYPES));
+            String filepath = Main.class.getResource("/res/coordinates/"+Main.NODE_TYPES).getPath();
+            br = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("res/coordinates/"+Main.NODE_TYPES)));
+            //br = new BufferedReader(new FileReader(filepath));
             String line = br.readLine();
             while (line != null)
             {
@@ -276,7 +286,9 @@ public class Game
         BufferedReader br = null;
         try
         {
-            br = new BufferedReader(new FileReader(Main.CONNECTIONS_FILE)); // at 120
+            String filepath = Main.class.getResource("/res/coordinates/"+Main.CONNECTIONS_FILE).getPath();
+            br = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("res/coordinates/"+Main.CONNECTIONS_FILE)));
+            //br = new BufferedReader(new FileReader(filepath)); // at 120
             String line = br.readLine();
             while (line != null)
             {
@@ -325,7 +337,9 @@ public class Game
         BufferedReader br = null;
         try
         {
-            br = new BufferedReader(new FileReader(Main.PLANE_CONNECTIONS_FILE)); // at 120
+            String filepath = Main.class.getResource("/res/coordinates/"+Main.PLANE_CONNECTIONS_FILE).getPath();
+            br = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("res/coordinates/"+Main.PLANE_CONNECTIONS_FILE)));
+            //br = new BufferedReader(new FileReader(filepath)); // at 120
             String line = br.readLine();
             while (line != null)
             {
