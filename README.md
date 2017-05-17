@@ -9,5 +9,5 @@ FreeAT is an unofficial software version of the physical board game Afrikan Täh
 ## Usage ##
 * You can see the AI players in action by running the FreeAT.jar for the runnable folder. To change the various settings and to see the gameplay statistics in the console, open the project in your favorite IDE.
 
-Copyright (C) 2017 Otso Nuortimo
+Copyright (C) 2017 Otso Nuortimo  
 Released under GNU General Public License.
